@@ -6,12 +6,15 @@ import javax.swing.*;
 
 class AireDeDessin extends JComponent {
     Fenetre fenetre;
-    int tailleJeton=20;
-    int tailleSegment=50;
+    int tailleJeton;
+    int tailleSegment;
 
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
+        tailleSegment=f.frame.getWidth()*4/60;
+        System.out.println("taille: "+tailleSegment);
+        tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));     
     }
 
@@ -26,7 +29,7 @@ class AireDeDessin extends JComponent {
         drawable.setPaint(Color.black);
        
         dessinGrille(drawable);
-        //dessinGrilleJeton(drawable);
+        dessinGrilleJeton(drawable,Color.white,Color.black);
     }
     
 
@@ -60,8 +63,30 @@ class AireDeDessin extends JComponent {
     
     }
 
-    public void dessinGrilleJeton(Graphics2D drawable){
-    	dessinJeton(drawable,Color.white,50,50);
+    public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
+    	for(int i=0;i<=8;i++){
+    		for(int j=0;j<2;j++)
+    			dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+j*tailleSegment);
+    	}
+    	boolean b=true;
+    	for(int i=0;i<=8;i++){
+    		if(i!=(8/2)){
+	    		if(b){
+	    			dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+2*tailleSegment);
+	    			b=false;
+	    		}
+	    		else{
+	    			dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+2*tailleSegment);
+	    			b=true;
+	    		}
+    		}		
+    	}
+    	for(int i=0;i<=8;i++){
+    		for(int j=3;j<5;j++)
+    			dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+j*tailleSegment);
+    	}
+    	
+    	
     }
     
     public void dessinJeton(Graphics2D drawable,Color c,int x,int y){
