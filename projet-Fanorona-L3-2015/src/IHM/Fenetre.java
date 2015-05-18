@@ -24,9 +24,6 @@ public class Fenetre implements Runnable,Affichage {
 		monDessin = new AireDeDessin(this);
  		panelAccueil.add(monDessin);
 		
- 		//
- 		
- 		
  		//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
 		//menu1
@@ -47,43 +44,33 @@ public class Fenetre implements Runnable,Affichage {
 		partie.add(mi3);
 		partie.add(mi4);
 		partie.add(mi5);
-		
-		JMenu menu2 = new JMenu("Edition");
-		mi5=new JMenuItem("Annuler");
-		mi5.addActionListener(new EcouteurDeBouton(this,mi5.getText()));
-		mi5.setEnabled(false);
-		mi6=new JMenuItem("Retablir");
-		mi6.addActionListener(new EcouteurDeBouton(this,mi6.getText()));
-		mi6.setEnabled(false);
-		menu2.add(mi5);
-		menu2.add(mi6);
-		
-		JMenu menu3 = new JMenu("Option");
-		JRadioButtonMenuItem jrb1 = new JRadioButtonMenuItem("J1 vs J2");
-		jrb1.addActionListener(new EcouteurDeBouton(this,jrb1.getText()));
-		JRadioButtonMenuItem jrb2 = new JRadioButtonMenuItem("J1 vs PC1");
-		jrb2.addActionListener(new EcouteurDeBouton(this,jrb2.getText()));
-		JRadioButtonMenuItem jrb3 = new JRadioButtonMenuItem("PC1 vs PC2");
-		jrb3.addActionListener(new EcouteurDeBouton(this,jrb3.getText()));
-		if(e.partieCourante.J1.aiPlayer && e.partieCourante.J2.aiPlayer)
-			jrb3.setSelected(true);
-		else if(!e.partieCourante.J1.aiPlayer && !e.partieCourante.J2.aiPlayer)
-			jrb1.setSelected(true);
-		else 
-			jrb2.setSelected(true);
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(jrb1);
-		bg.add(jrb2);
-		bg.add(jrb3);
-		menu3.add(jrb1);
-		menu3.add(jrb2);
-		menu3.add(jrb3);
+		//menu2
+		JMenu options = new JMenu(" Options ");
+		JMenuItem mi1 = new JMenuItem(" Paramètres Partie ");
+		mi1.addActionListener(new EcouteurDeBouton(this,mi1.getText()));
+		JMenuItem mi2 = new JMenuItem(" Préférences ");	
+		mi2.addActionListener(new EcouteurDeBouton(this,mi2.getText()));
+		JMenuItem mi3 = new JMenuItem(" Historique Scores ");
+		mi3.addActionListener(new EcouteurDeBouton(this,mi3.getText()));
+		//ajout au menu2
+		options.add(mi1);
+		options.add(mi2);
+		options.add(mi3);
+		//menu3
+		JMenu aide = new JMenu(" Aide ");
+		JMenuItem mi1 = new JMenuItem(" Règles du Jeu ");
+		mi1.addActionListener(new EcouteurDeBouton(this,mi1.getText()));
+		JMenuItem mi2 = new JMenuItem(" A Propos ");	
+		mi2.addActionListener(new EcouteurDeBouton(this,mi2.getText()));
+		//ajout au menu3
+		aide.add(mi1);
+		aide.add(mi2);		
  		
- 		//ajouts
+ 		//ajouts 
+ 		menuBar.add(partie);
+		menuBar.add(options);
+		menuBar.add(aide);
  		frame.add(panelAccueil);  
- 		menuBar.add(menu1);
-		menuBar.add(menu2);
-		menuBar.add(menu3);
 		
  		//frame.pack();
 		frame.setVisible(true);
