@@ -1,11 +1,6 @@
 package engine;
 
-import java.awt.Point;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 import AI.*;
@@ -13,87 +8,194 @@ import IHM.Affichage;
 
 public class Engine {
 
-	public boolean gameInProgress;
-	public Game partieCourante;
-	public Affichage affichage;
+	public boolean			gameInProgress;
+	public Game				partieCourante;
+	public Affichage		affichage;
+	private UndoRedo<Game>	undoRedo;
 
-	public Engine() {
+	public Engine()
+	{
 		this.gameInProgress = false;
+		this.undoRedo = new UndoRedo<Game>();
 	}
 
-	public void setAffichage(Affichage f) {
+	public void setAffichage(Affichage f)
+	{
 		this.affichage = f;
 	}
 
-	public void begin() {
-
-		while (true) // On suppose que c'est l'IHM qui tue le thread
+	public void begin()
+	{
+		try
 		{
-			while (!gameInProgress)
-				try {
+			while (true) // On suppose que c'est l'IHM qui tue le thread
+			{
+				while (!gameInProgress)
 					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 
-			partieCourante.jouer();
-			if (!partieCourante.stopped && partieCourante.finish) {
-				System.out.println("victoire");
-				affichage.afficherVictoire();
-				gameInProgress = false;
+				partieCourante.jouer();
+				if (!partieCourante.stopped && partieCourante.finish)
+				{
+					System.out.println("victoire");
+					affichage.afficherVictoire();
+					gameInProgress = false;
+				}
 			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 
-	public void nouvellePartie(Player p1, Player p2, int largeur, int hauteur) {
+	public void nouvellePartie(Player p1, Player p2)
+	{
 
 		if (this.gameInProgress)
 			stopper();
-		this.partieCourante = new Game(this.affichage, largeur, hauteur, p1, p2);
+		this.partieCourante = new Game(this.affichage, p1, p2);
 		this.gameInProgress = true;
 	}
 
-	public void stopper() {
-		if (partieCourante != null) {
+	public void stopper()
+	{
+		if (partieCourante != null)
+		{
+			this.partieCourante.pause();
 			this.partieCourante.stopped = true;
-			if (this.partieCourante.joueurCourant instanceof HumanPlayer) {
-				((HumanPlayer) this.partieCourante.joueurCourant).setCaseJouee(new Point(0, 0));
+			if (this.partieCourante.joueurCourant instanceof HumanPlayer)
+			{
+				/*
+				 * ((HumanPlayer) this.partieCourante.joueurCourant)
+				 * .setCaseJouee(new Point(0, 0));
+				 */
 			}
 		}
 	}
 
-	public void sauvegarderPartie(String path) {
+	/**
+	 * Revient un demi-coup plus tot
+	 */
+	public void annuler()
+	{
 
-		File fichier = new File(path);
-		try {
-			FileWriter w = new FileWriter(fichier);
-			String str = partieCourante.J1.toString() + "#" + partieCourante.J1.getClass().getSimpleName() + "\n";
-			str += partieCourante.J2.toString() + "#" + partieCourante.J2.getClass().getSimpleName() + "\n";
+		if (gameInProgress)
+		{
 
-			if (partieCourante.joueurCourant == partieCourante.J1)
-				str += 1 + "\n";
-			else
-				str += 2 + "\n";
-
-			str += partieCourante.numberTurn + "\n";
-			str += partieCourante.map.largeur + "\n" + partieCourante.map.hauteur;
-			for (int i = 0; i < partieCourante.map.hauteur; i++) {
-				str += "\n";
-				for (int j = 0; j < partieCourante.map.largeur; j++)
-					str += partieCourante.map.grille[j][i] + " ";
+		} else
+		{
+			partieCourante = undoRedo.undo();
+			partieCourante.pause();
+			partieCourante.finish = false;
+			partieCourante.stopped = false;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.J1) ? partieCourante.J2
+					: partieCourante.J1;
+			partieCourante.reprendre();
+			try
+			{
+				partieCourante.jouer();
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
 			}
-			w.write(str);
-			w.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			gameInProgress = true;
 		}
-
 	}
 
-	public void chargerPartie(String path) {
+	/**
+	 * Refait le demi-coup annulé
+	 */
+	public void refaire()
+	{
+
+		if (gameInProgress)
+		{
+			partieCourante.pause(); // On arrete la partie courante qui se
+									// deroule dans le thread principal
+			partieCourante.stopped = true; //
+
+			/*
+			 * On récupere le coup d'avant (partie précédente) et parametre
+			 * correctement
+			 */
+			partieCourante = undoRedo.redo();
+			partieCourante.pause();
+			partieCourante.finish = false;
+			partieCourante.stopped = false;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.J1) ? partieCourante.J2
+					: partieCourante.J1;
+			partieCourante.reprendre();
+			gameInProgress = true;
+		} else
+		{
+			partieCourante = undoRedo.redo();
+			partieCourante.pause();
+			partieCourante.finish = false;
+			partieCourante.stopped = false;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.J1) ? partieCourante.J2
+					: partieCourante.J1;
+			partieCourante.reprendre();
+			try
+			{
+				partieCourante.jouer();
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			gameInProgress = true;
+		}
+	}
+
+	public boolean peutAnnuler()
+	{
+		return undoRedo.canUndo();
+	}
+
+	public boolean peutRefaire()
+	{
+		return undoRedo.canRedo();
+	}
+
+	/**
+	 * Sauvegarde la partie courante dans son état courant dans le fichier situé
+	 * dans path
+	 * 
+	 * @param path
+	 *            Chemin du fichier de sauvegarde
+	 */
+	public void sauvegarderPartie(String path)
+	{
+		/*
+		 * File fichier = new File(path); try { FileWriter w = new
+		 * FileWriter(fichier); String str = partieCourante.J1.toString() + "#"
+		 * + partieCourante.J1.getClass().getSimpleName() + "\n"; str +=
+		 * partieCourante.J2.toString() + "#" +
+		 * partieCourante.J2.getClass().getSimpleName() + "\n";
+		 * 
+		 * if (partieCourante.joueurCourant == partieCourante.J1) str += 1 +
+		 * "\n"; else str += 2 + "\n";
+		 * 
+		 * str += partieCourante.numberTurn + "\n"; str +=
+		 * partieCourante.map.largeur + "\n" + partieCourante.map.hauteur; for
+		 * (int i = 0; i < partieCourante.map.hauteur; i++) { str += "\n"; for
+		 * (int j = 0; j < partieCourante.map.largeur; j++) str +=
+		 * partieCourante.map.grille[j][i] + " "; } w.write(str); w.close(); }
+		 * catch (IOException e) { e.printStackTrace(); }
+		 */
+	}
+
+	/**
+	 * Charge une nouvelle partie stochée dans path, la nouvelle partie sera en
+	 * pause
+	 * 
+	 * @param path
+	 *            Le chemin vers le fichier qui contient la partie à charger
+	 */
+	public void chargerPartie(String path)
+	{
 
 		File fichier = new File(path);
-		try {
+		try
+		{
 			Scanner s = new Scanner(fichier);
 			String j1 = s.nextLine();
 			String j2 = s.nextLine();
@@ -102,11 +204,13 @@ public class Engine {
 			int largeur = Integer.parseInt(s.nextLine());
 			int hauteur = Integer.parseInt(s.nextLine());
 			int map[][] = new int[largeur][hauteur];
-			for (int i = 0; i < hauteur; i++) {
+			for (int i = 0; i < hauteur; i++)
+			{
 				String[] str = s.nextLine().split(" ");
 				System.out.println(str[0]);
 				System.out.println(str[1]);
-				for (int j = 0; j < largeur; j++) {
+				for (int j = 0; j < largeur; j++)
+				{
 					map[j][i] = Integer.parseInt(str[j]);
 				}
 			}
@@ -114,21 +218,24 @@ public class Engine {
 			Player p2 = parsePlayer(j2);
 			if (this.gameInProgress)
 				stopper();
-			Game g = new Game(affichage, largeur, hauteur, p1, p2);
-			g.joueurCourant = (jcour == 1) ? p1 : p2;
-			g.map.grille = map;
-			g.numberTurn = nbturn;
+			
+			Game g = new Game(affichage, p1, p2);
+			g.pause();
 			this.partieCourante = g;
+			this.gameInProgress = true;
 			affichage.afficherJeu();
+			this.partieCourante.reprendre();
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.err.println("Fichier corrompu");
 			e.printStackTrace();
 		}
 
 	}
 
-	private Player parsePlayer(String str) {
+	private Player parsePlayer(String str)
+	{
 		Player res = null;
 		String[] a = str.split("#");
 		if (a[2].equals("EasyAI"))
