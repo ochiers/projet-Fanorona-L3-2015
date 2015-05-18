@@ -5,6 +5,7 @@ Lundi 18 mai
 		pour le fonctionne général du jeu : qui commence, quelles règles de jeu seront retenues...
 		Début de code pour l'IHM.
 	Après-Midi :
-		Création d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface décidée à partir de
+		- Création d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface décidée à partir de
 		l'IHM faites après l'audit. Poursuite du code l'IHM (creation d'une IHM de base pour tests rapide,
 		création de l'IHM plus travaillée en cours).
+		- Réflexion autour de l'IA et des problématiques intrinsèques. Début de réalisation d'un algorithme alpha-beta adapté au Fanarano.
