@@ -6,11 +6,13 @@ import javax.swing.*;
 
 class AireDeDessin extends JComponent {
     Fenetre fenetre;
+    int tailleJeton=20;
+    int tailleSegment=50;
 
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
-        setPreferredSize(new Dimension(500,500));     
+        setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));     
     }
 
     public void paintComponent(Graphics g) {
@@ -24,7 +26,7 @@ class AireDeDessin extends JComponent {
         drawable.setPaint(Color.black);
        
         dessinGrille(drawable);
-
+        //dessinGrilleJeton(drawable);
     }
     
 
@@ -32,33 +34,42 @@ class AireDeDessin extends JComponent {
    
     
     public void dessinGrille(Graphics2D drawable){
-    	int taille=50;
     		//ligne verticale
     	for(int i=0;i<=8;i++){
-    		drawable.drawLine(10+i*taille, 10, 10+i*taille,10+4*taille);
+    		drawable.drawLine(tailleSegment+i*tailleSegment, tailleSegment, tailleSegment+i*tailleSegment,tailleSegment+4*tailleSegment);
     	}
     	
     		//ligne Horizontale
     	for(int i=0;i<=4;i++){
-    		drawable.drawLine(10, 10+i*taille, 10+8*taille, 10+i*taille);
+    		drawable.drawLine(tailleSegment, tailleSegment+i*tailleSegment, tailleSegment+8*tailleSegment, tailleSegment+i*tailleSegment);
     	}
     	
     		//diagonale decroissante
-    	drawable.drawLine(10,10+2*taille,10+2*taille,10+4*taille);
+    	drawable.drawLine(tailleSegment,tailleSegment+2*tailleSegment,tailleSegment+2*tailleSegment,tailleSegment+4*tailleSegment);
     	for(int i=0;i<3;i++){
-    		drawable.drawLine(10+(2*i*taille),10,10+(2*i*taille)+4*taille,10+4*taille);
+    		drawable.drawLine(tailleSegment+(2*i*tailleSegment),tailleSegment,tailleSegment+(2*i*tailleSegment)+4*tailleSegment,tailleSegment+4*tailleSegment);
     	}
-    	drawable.drawLine(10+6*taille,10,10+8*taille,10+2*taille);
+    	drawable.drawLine(tailleSegment+6*tailleSegment,tailleSegment,tailleSegment+8*tailleSegment,tailleSegment+2*tailleSegment);
     	
     		//diagonale croissante
-    	/*drawable.drawLine(10,10+2*taille,10+2*taille,10+4*taille);
+    	drawable.drawLine(tailleSegment,tailleSegment+2*tailleSegment,tailleSegment+2*tailleSegment,tailleSegment);
     	for(int i=0;i<3;i++){
-    		drawable.drawLine(10+(2*i*taille),10,10+(2*i*taille)+4*taille,10+4*taille);
+    		drawable.drawLine(tailleSegment+(2*i*tailleSegment),tailleSegment+4*tailleSegment,tailleSegment+(2*i*tailleSegment)+4*tailleSegment,tailleSegment);
     	}
-    	drawable.drawLine(10+6*taille,10,10+8*taille,10+2*taille);*/
+    	drawable.drawLine(tailleSegment+6*tailleSegment,tailleSegment+4*tailleSegment,tailleSegment+8*tailleSegment,tailleSegment+2*tailleSegment);
     
     }
+
+    public void dessinGrilleJeton(Graphics2D drawable){
+    	dessinJeton(drawable,Color.white,50,50);
+    }
     
+    public void dessinJeton(Graphics2D drawable,Color c,int x,int y){
+    	drawable.setPaint(c);
+    	drawable.fillOval(x, y, tailleJeton, tailleJeton);
+    	drawable.setPaint(Color.black);
+    	drawable.drawOval(x, y, tailleJeton, tailleJeton);
+    }
    
     
 }
