@@ -1,5 +1,9 @@
 Lundi 18 mai
-
-Matin : 
-	Création de l'IHM en version papier, puis debat a 9h45 avec les profs sur l'IHM
-	
+	Matin : 
+		Création de l'IHM en version papier, puis débat à 9h45 avec les professeurs sur l'IHM.
+		Conversation avec l'autre groupe prpgrammant un Fanorona. Décisions prises en commun (2 groupes)
+		pour le fonctionne général du jeu : qui commence, quelles règles de jeu seront retenues...
+		Début de code pour l'IHM.
+	Après-Midi :
+		Création d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface décidée à partir de
+		l'IHM faites après l'audit. Poursuite du code l'IHM.
