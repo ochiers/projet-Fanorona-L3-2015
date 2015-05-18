@@ -1,6 +1,5 @@
 package IHM;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -11,7 +10,6 @@ import javax.swing.SwingUtilities;
 
 import IHM.EcouteurDeBouton;
 
-
 public class Fenetre implements Runnable,Affichage {
 	JFrame frame = new JFrame(" -- Fanorona -- ");
 	AireDeDessin monDessin;
@@ -19,6 +17,9 @@ public class Fenetre implements Runnable,Affichage {
 	public void run(){
 		frame.setSize(500, 500);  
 		JPanel panelAccueil = new JPanel();
+		panelAccueil.setLayout(null);
+		/* setBounds(int x, int y, int width, int height)
+		Moves and resizes this component. */
 		
 		//grille
 		monDessin = new AireDeDessin(this);
@@ -70,9 +71,12 @@ public class Fenetre implements Runnable,Affichage {
  		menuBar.add(partie);
 		menuBar.add(options);
 		menuBar.add(aide);
+		frame.setJMenuBar(menuBar);
  		frame.add(panelAccueil);  
 		
- 		//frame.pack();
+ 		/* f ou p ??   .setBackground(Color.GREEN);
+		setResizable(boolean resizable)
+		Sets whether this frame is resizable by the user. */
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -84,7 +88,7 @@ public class Fenetre implements Runnable,Affichage {
 		
 	}
 	
-	public static void main(String argv[]) throws InterruptedException{
+	public static void main(String args[]) throws InterruptedException{
 		Fenetre f=new Fenetre();
 		SwingUtilities.invokeLater(f);
 	}
