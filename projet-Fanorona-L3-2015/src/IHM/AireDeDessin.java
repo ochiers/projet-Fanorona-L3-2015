@@ -8,6 +8,7 @@ class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
     int tailleSegment;
+    int matrice[][];
 
     
     public AireDeDessin(Fenetre f) {
@@ -15,7 +16,18 @@ class AireDeDessin extends JComponent {
         tailleSegment=f.frame.getWidth()*4/60;
         System.out.println("taille: "+tailleSegment);
         tailleJeton=tailleSegment/(int)2.5;
-        setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));     
+        setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
+        matrice=new int[5][9];
+        matrice[2][0]=1;
+        matrice[2][2]=1;
+        matrice[2][4]=2;
+        matrice[2][5]=1;
+        matrice[2][7]=1;
+        for(int i=3;i<5;i++){
+        	for(int j=0;j<9;j++){
+        		matrice[i][j]=1;
+        	}
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -64,7 +76,7 @@ class AireDeDessin extends JComponent {
     }
 
     public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
-    	for(int i=0;i<=8;i++){
+    	/*for(int i=0;i<=8;i++){
     		for(int j=0;j<2;j++)
     			dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+j*tailleSegment);
     	}
@@ -84,6 +96,19 @@ class AireDeDessin extends JComponent {
     	for(int i=0;i<=8;i++){
     		for(int j=3;j<5;j++)
     			dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+j*tailleSegment);
+    	}*/
+    	for(int i=0;i<matrice.length;i++){
+    		for(int j=0;j<matrice[0].length;j++){
+    			if(matrice[i][j]==0){
+    				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
+    			}
+    			else if(matrice[i][j]==1){
+    				dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
+    			}
+    			else{
+    				
+    			}
+    		}
     	}
     	
     	

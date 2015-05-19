@@ -9,11 +9,41 @@ import engine.*;
 import AI.*;
 
 public class EcouteurDeBouton implements ActionListener{
+	Fenetre fenetre;
+	String message;
 	
-	
+	public EcouteurDeBouton(Fenetre f,String s){
+		fenetre=f;
+		message=s;
+	}
 	
 	public void actionPerformed(ActionEvent e) {
-		
+		switch (message){
+		case " Nouvelle Partie ":
+			break;
+		case " Recommencer ":
+			break;
+		case " Sauvegarder ":
+			break;
+		case " Charger ":
+			break;
+		case " Quitter ":
+			System.exit(0);
+			break;
+		case " Paramètres Partie ":
+			break;
+		case " Préférences ":
+			break;
+		case " Historique Scores ":
+			break;
+		case " Règles du Jeu ":
+			break;
+		case " A Propos ":
+			break;
+		default:
+			System.out.println("Erreur bouton switch");
+			break;
+		}
 	}
 
 }
