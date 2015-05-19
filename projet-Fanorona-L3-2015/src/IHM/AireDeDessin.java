@@ -81,9 +81,10 @@ class AireDeDessin extends JComponent {
     }
 
     public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
+    	
     	for(int i=0;i<matrice.length;i++){
     		for(int j=0;j<matrice[0].length;j++){
-    			
+    			System.out.print(fenetre.engine.partieCourante.matricePlateau[j][i].pion+" ");
     			if(matrice[i][j]==0){
     				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			}
@@ -94,6 +95,7 @@ class AireDeDessin extends JComponent {
     				
     			}
     		}
+    		System.out.println();
     	}
     	
     	

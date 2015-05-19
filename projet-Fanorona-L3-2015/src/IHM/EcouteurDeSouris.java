@@ -53,9 +53,11 @@ public class EcouteurDeSouris implements MouseListener{
 					}
 				}
 				else{
-					pSave.x=pfinal.x;
-					pSave.y=pfinal.y;
-					aire.pionCliquer=true;
+					if(aire.matrice[pfinal.y][pfinal.x]!=2){
+						pSave.x=pfinal.x;
+						pSave.y=pfinal.y;
+						aire.pionCliquer=true;
+					}
 				}
 				aire.repaint();
 			}

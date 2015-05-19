@@ -103,6 +103,7 @@ public class Fenetre implements Runnable,Affichage {
 
 		JLabel idj1 = new JLabel("idj1");
 		JLabel idj2 = new JLabel("idj2");
+		
 		//JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
 		//JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
 		JLabel score = new JLabel(" Pions restants ");
