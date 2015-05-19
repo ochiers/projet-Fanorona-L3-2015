@@ -343,4 +343,47 @@ public class Game {
 		return res;
 	}
 
+	
+	public Direction determinerDirection(Case depart, Case arrivee)
+	{
+		int deplacementX = arrivee.position.x - depart.position.x;
+		int deplacementY = arrivee.position.y - depart.position.y;
+		switch(deplacementX)
+		{
+			case -1 :
+				switch(deplacementY)
+				{
+					case -1 :
+						return Direction.NordOuest;
+					case 0 :
+						return Direction.Ouest;
+					case 1 : 
+						return Direction.SudOuest;
+				}
+				break;
+			case 0 :
+				switch(deplacementY)
+				{
+					case -1 :
+						return Direction.Nord;
+					case 1 : 
+						return Direction.Sud;
+				}
+				break;
+			case 1 : 
+				switch(deplacementY)
+				{
+					case -1 :
+						return Direction.NordEst;
+					case 0 :
+						return Direction.Est;
+					case 1 : 
+						return Direction.SudEst;
+				}
+				break;
+		}
+		return null;
+	}
+	
+	
 }
