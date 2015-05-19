@@ -23,7 +23,7 @@ public class Fenetre implements Runnable,Affichage {
 	public void run(){
 		frame.setSize(800, 600);  
 		JPanel panelAccueil = new JPanel();
-//		panelAccueil.setLayout(null);
+		//panelAccueil.setLayout(null);
 		/* setBounds(int x, int y, int width, int height)
 		Moves and resizes this component. */
 		
@@ -51,7 +51,6 @@ public class Fenetre implements Runnable,Affichage {
 		partie.add(mi1b3);
 		partie.add(mi1b4);
 		partie.add(mi1b5);
-		
 			//menu2
 		JMenu options = new JMenu(" Options ");
 		JMenuItem mi2b1 = new JMenuItem(" Paramètres Partie ");
@@ -64,7 +63,6 @@ public class Fenetre implements Runnable,Affichage {
 		options.add(mi2b1);
 		options.add(mi2b2);
 		options.add(mi2b3);
-		
 			//menu3
 		JMenu aide = new JMenu(" Aide ");
 		JMenuItem mi3b1 = new JMenuItem(" Règles du Jeu ");
@@ -83,7 +81,7 @@ public class Fenetre implements Runnable,Affichage {
 		JButton stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
 		
-		//affichages joueurs
+			//affichages joueurs
 		/*
 		 noms
 		 SCORE
