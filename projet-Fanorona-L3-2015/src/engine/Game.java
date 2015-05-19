@@ -6,34 +6,96 @@ import java.util.Iterator;
 
 import IHM.Affichage;
 
+/**
+ * Classe representant une partie. Pour lancer le jeu il faut faire appel a la
+ * methode jouer()
+ * 
+ * @author soulierc
+ *
+ */
 public class Game {
 
+	/**
+	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer
+	 * la partie
+	 */
 	public boolean		stopped;
+	/**
+	 * Indique que la partie s'est terminee normalement avec un vainqueur, la
+	 * partie est arretée apres cela
+	 */
 	public boolean		finish;
+	/**
+	 * Indique si la partie est en pause
+	 */
 	private boolean		paused;
+	/**
+	 * Le joueur qui est en train de jouer
+	 */
 	public Player		joueurCourant;
+	/**
+	 * Le joueur qui les pions blancs
+	 */
 	public Player		joueurBlanc;
+	/**
+	 * Le joueur qui a les pions noirs
+	 */
 	public Player		joueurNoir;
+	/**
+	 * Le joueur qui a gagner, est renseigné uniquement quand la partie c'est
+	 * terminee normalement (this.finish == true)
+	 */
 	private Player		winner;
+	/**
+	 * Premiere case du plateau, permet d'acceder aux autres car elles sont
+	 * chainee
+	 */
 	public Case			plateau;
+	/**
+	 * Tableau de case representant tous le plateau
+	 */
 	public Case[][]		matricePlateau;
+	/**
+	 * Nombre de tour effectués
+	 */
 	public int			numberTurn;
+	/**
+	 * Nombre de pions blancs restants sur le plateau
+	 */
 	public int			nombrePionBlanc;
+	/**
+	 * Nombre de pions noirs restants sur le plateau
+	 */
 	public int			nombrePionNoir;
+	/**
+	 * Hauteur du plateau
+	 */
 	public int			hauteur;
+	/**
+	 * Largeur du plateau
+	 */
 	public int			largeur;
+	/**
+	 * Le module d'affichage
+	 */
 	public Affichage	display;
 
 	/**
-	 * Crée une nouvelle partie avec un module d'affichage et deux joueurs,
-	 * c'est p1 qui joue en premier
+	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc
+	 * et noirs et un plateu de largeur*hauteur
 	 * 
 	 * @param affichage
-	 *            Le module qui sert a afficher le jeu
+	 *            L'affichage du jeu
+	 * @param joueurQuiCommence
+	 *            0 -> Blanc qui commence, 1 -> Noir qui commence
 	 * @param p1
-	 *            Joueur qui commencer en premier
+	 *            Joueur Blanc
 	 * @param p2
-	 *            Joueur qui joue en deuxieme
+	 *            Joueur Noir
+	 * @param hauteur
+	 *            Hauteur du plateau (nombre de cases)
+	 * @param largeur
+	 *            Largeur du plateau (nombre de cases)
 	 */
 	public Game(Affichage affichage, int joueurQuiCommence, Player p1,
 			Player p2, int hauteur, int largeur)
@@ -116,7 +178,7 @@ public class Game {
 					{
 						if (i != 0 && i <= hauteur)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (i >= 0 && i != hauteur-1)
+						if (i >= 0 && i != hauteur - 1)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
 					}
 					if (j == 8)
@@ -241,6 +303,13 @@ public class Game {
 		return true;
 	}
 
+	/**
+	 * Methode permettant de retirer reelement les pions de la liste passee en
+	 * parametres du plateau du jeu
+	 * 
+	 * @param l
+	 *            La liste de case a liberer
+	 */
 	private void capturer(ArrayList<Case> l)
 	{
 		Iterator<Case> it = l.iterator();
@@ -254,6 +323,16 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Determine les pions qui seront capturer si le coup est reelement joue
+	 * 
+	 * @param d
+	 *            La direction dans la quelle capturer
+	 * @param depart
+	 *            La case de debut de la capture (cette case doit etre vide on
+	 *            commence la capture la case d'apres)
+	 * @return Une liste de case a liberer de leur pion
+	 */
 	private ArrayList<Case> determinerPionsACapturer(Direction d, Case depart)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
@@ -383,6 +462,15 @@ public class Game {
 		return res;
 	}
 
+	/**
+	 * Fonction determinant quelle direction le coup est joué
+	 * 
+	 * @param depart
+	 *            Position de départ
+	 * @param arrivee
+	 *            Position d'arrive
+	 * @return La direction du coup
+	 */
 	public static Direction determinerDirection(Point depart, Point arrivee)
 	{
 		int deplacementX = arrivee.x - depart.x;
