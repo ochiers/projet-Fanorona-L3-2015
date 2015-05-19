@@ -170,7 +170,8 @@ public class Game {
 				continue;
 			else
 			{
-				while (faireCoup(c))
+				while (!joueurCourant.isStopped() && !stopped && !paused
+						&& faireCoup(c))
 					c = this.joueurCourant.play();
 
 			}
@@ -197,8 +198,8 @@ public class Game {
 		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur
 				&& c.arrivee.y >= 0 && c.arrivee.y < hauteur && c.depart.x >= 0
 				&& c.depart.x < largeur && c.depart.y >= 0
-				&& c.depart.y < hauteur && this.matricePlateau[c.arrivee.y][c.arrivee.x]
-					.estVide() && c.depart!=c.arrivee);
+				&& c.depart.y < hauteur
+				&& this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
 	}
 
 	/**
@@ -211,17 +212,56 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		//ArrayList<Case> raprochement = capturerPions(, depart)
-		return finish;
+		ArrayList<Case> rapprochement = determinerPionsACapturer(
+				determinerDirection(c.depart, c.arrivee),
+				matricePlateau[c.arrivee.y][c.arrivee.x]);
+		ArrayList<Case> eloignement = determinerPionsACapturer(
+				determinerDirection(c.depart, c.arrivee),
+				matricePlateau[c.depart.y][c.depart.x]);
+		if (rapprochement.size() == 0 && eloignement.size() == 0)
+		{
+			return false;
+		} else if (rapprochement.size() != 0 && rapprochement.size() != 0)
+		{
+			capturer(determinerPionsACapturer(
+					joueurCourant.choisirDirectionAManger(null, null),
+					matricePlateau[c.arrivee.y][c.arrivee.x])); // risque de
+																// gros soucis
+																// ici
+		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
+		{
+			capturer(rapprochement);
+		} else if (eloignement.size() != 0 && rapprochement.size() == 0)
+		{
+			capturer(eloignement);
+		}
+		matricePlateau[c.arrivee.y][c.arrivee.x].pion = matricePlateau[c.depart.y][c.depart.x].pion;
+		matricePlateau[c.depart.y][c.depart.x].pion = null;
+		return true;
 	}
 
-	private ArrayList<Case> capturerPions(Direction d, Case depart){
+	private void capturer(ArrayList<Case> l)
+	{
+		Iterator<Case> it = l.iterator();
+		while (it.hasNext())
+		{
+			it.next().pion = null;
+			if (joueurCourant == joueurBlanc)
+				nombrePionNoir--;
+			else
+				nombrePionBlanc--;
+		}
+	}
+
+	private ArrayList<Case> determinerPionsACapturer(Direction d, Case depart)
+	{
 		ArrayList<Case> res = new ArrayList<Case>();
 		Case courante = depart;
 		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-		
-		while(courante != null){
-			
+
+		while (courante != null)
+		{
+
 			switch (d)
 			{
 				case Nord:
@@ -251,16 +291,15 @@ public class Game {
 				default:
 					break;
 			}
-			if(courante != null && !courante.estVide() & courante.pion != p)
+			if (courante != null && !courante.estVide() & courante.pion != p)
 				res.add(courante);
 			else
 				break;
 		}
-		
+
 		return res;
 	}
-	
-	
+
 	/**
 	 * FOnction determinant si un des joueur a capturer tous les pions de
 	 * l'autre
@@ -343,47 +382,45 @@ public class Game {
 		return res;
 	}
 
-	
-	public Direction determinerDirection(Case depart, Case arrivee)
+	public Direction determinerDirection(Point depart, Point arrivee)
 	{
-		int deplacementX = arrivee.position.x - depart.position.x;
-		int deplacementY = arrivee.position.y - depart.position.y;
-		switch(deplacementX)
+		int deplacementX = arrivee.x - depart.x;
+		int deplacementY = arrivee.y - depart.y;
+		switch (deplacementX)
 		{
-			case -1 :
-				switch(deplacementY)
+			case -1:
+				switch (deplacementY)
 				{
-					case -1 :
+					case -1:
 						return Direction.NordOuest;
-					case 0 :
+					case 0:
 						return Direction.Ouest;
-					case 1 : 
+					case 1:
 						return Direction.SudOuest;
 				}
 				break;
-			case 0 :
-				switch(deplacementY)
+			case 0:
+				switch (deplacementY)
 				{
-					case -1 :
+					case -1:
 						return Direction.Nord;
-					case 1 : 
+					case 1:
 						return Direction.Sud;
 				}
 				break;
-			case 1 : 
-				switch(deplacementY)
+			case 1:
+				switch (deplacementY)
 				{
-					case -1 :
+					case -1:
 						return Direction.NordEst;
-					case 0 :
+					case 0:
 						return Direction.Est;
-					case 1 : 
+					case 1:
 						return Direction.SudEst;
 				}
 				break;
 		}
 		return null;
 	}
-	
-	
+
 }
