@@ -199,7 +199,7 @@ public class Game {
 			for (int j = 0; j < largeur; j++)
 				tableau[i][j].pion = Pion.Blanc;
 
-		for (int j = 0; j < largeur; j++)
+		for (int j = 0; j < largeur/2; j++)
 			if (j % 2 == 0)
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
 			else
@@ -207,6 +207,11 @@ public class Game {
 		
 		tableau[hauteur/2][largeur/2].pion = null;
 		
+		for (int j = largeur/2+1; j < largeur; j++)
+			if (j % 2 == 0)
+				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
+			else
+				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
 		
 		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
