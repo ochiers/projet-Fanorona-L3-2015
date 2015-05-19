@@ -40,8 +40,13 @@ public class HumanPlayer extends Player {
 		this.coupJoue.arrivee = arrivee;
 		this.hasPlayed = true;
 	}
-
-	@Override
+	
+	public void setDirectionMultiPrise(Point choixDirection)
+	{
+		this.pointDirection = choixDirection;
+		this.hasPlayed = true;
+	}	
+	
 	public Direction choisirDirectionAManger()
 	{
 		hasPlayed = false;
