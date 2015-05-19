@@ -1,29 +1,24 @@
 package IHM;
 
-import java.awt.Dimension;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.SwingUtilities;
-
-import IHM.EcouteurDeBouton;
+import engine.*;
+import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
 	JFrame frame = new JFrame(" -- Fanorona -- ");
 	AireDeDessin monDessin;
+	Engine engine;
+	
+	public Fenetre(Engine e){
+		engine=e;
+	}
 	
 	public void run(){
 		frame.setSize(800, 600);  
 		JPanel panelAccueil = new JPanel();
-//		panelAccueil.setLayout(null);
+		//panelAccueil.setLayout(new GridBagLayout());
 		/* setBounds(int x, int y, int width, int height)
 		Moves and resizes this component. */
 		
@@ -96,6 +91,7 @@ public class Fenetre implements Runnable,Affichage {
 		menuBar.add(options);
 		menuBar.add(aide);
 		frame.setJMenuBar(menuBar);
+		
  		panelAccueil.add(monDessin);
  		panelAccueil.add(annuler);
  		panelAccueil.add(refaire);
@@ -116,11 +112,6 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	public void afficherVictoire(){
 		
-	}
-	
-	public static void main(String args[]) throws InterruptedException{
-		Fenetre f=new Fenetre();
-		SwingUtilities.invokeLater(f);
 	}
 	
 }
