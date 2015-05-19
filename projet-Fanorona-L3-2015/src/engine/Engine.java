@@ -47,12 +47,12 @@ public class Engine {
 		}
 	}
 
-	public void nouvellePartie(Player p1, Player p2, int hauteur, int largeur)
+	public void nouvellePartie(Player p1, Player p2,int premierJoueur, int hauteur, int largeur)
 	{
 
 		if (this.gameInProgress)
 			stopper();
-		this.partieCourante = new Game(this.affichage,0, p1, p2, hauteur, largeur);
+		this.partieCourante = new Game(this.affichage,premierJoueur, p1, p2, hauteur, largeur);
 		this.gameInProgress = true;
 	}
 
@@ -64,10 +64,7 @@ public class Engine {
 			this.partieCourante.stopped = true;
 			if (this.partieCourante.joueurCourant instanceof HumanPlayer)
 			{
-				/*
-				 * ((HumanPlayer) this.partieCourante.joueurCourant)
-				 * .setCaseJouee(new Point(0, 0));
-				 */
+				 ((HumanPlayer) this.partieCourante.joueurCourant).setStopped(true);
 			}
 		}
 	}

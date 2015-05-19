@@ -10,15 +10,15 @@ public class JeuFanorona {
 	public static void main(String argv[]) throws InterruptedException{
 		Engine e=new Engine();
 		
-		//Player p1=new HumanPlayer(e,false,"player1");
-		//Player p2=new HumanPlayer(e,false,"player2");
+		Player p1=new HumanPlayer(e,false,"player1");
+		Player p2=new HumanPlayer(e,false,"player2");
 
 		Fenetre f=new Fenetre(e);
-		//e.setAffichage(f);
+		e.setAffichage(f);
 		
-		//e.nouvellePartie(p1, p2, 4, 6);
+		e.nouvellePartie(p1, p2,0, 5,5);
 		SwingUtilities.invokeLater(f);
-		//Thread.sleep(200);
-	//	e.begin();
+		Thread.sleep(200);
+		e.begin();
 	}
 }

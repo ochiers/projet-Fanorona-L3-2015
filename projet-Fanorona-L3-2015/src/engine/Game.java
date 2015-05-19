@@ -24,7 +24,6 @@ public class Game {
 	public int			largeur;
 	public Affichage	display;
 
-
 	/**
 	 * Crée une nouvelle partie avec un module d'affichage et deux joueurs,
 	 * c'est p1 qui joue en premier
@@ -36,7 +35,8 @@ public class Game {
 	 * @param p2
 	 *            Joueur qui joue en deuxieme
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1,
+			Player p2, int hauteur, int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -82,7 +82,7 @@ public class Game {
 		{
 			for (int i = 0; i < hauteur - 1; i++)
 				tableau[i][j].sud = tableau[i + 1][j];
-			for (int i = 1; i <= hauteur; i++)
+			for (int i = 1; i < hauteur; i++)
 				tableau[i][j].nord = tableau[i - 1][j];
 		}
 
@@ -116,7 +116,7 @@ public class Game {
 					{
 						if (i != 0 && i <= hauteur)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (i >= 0 && i != hauteur)
+						if (i >= 0 && i != hauteur-1)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
 					}
 					if (j == 8)
@@ -124,7 +124,7 @@ public class Game {
 						if (i >= 0 && i != hauteur - 1)
 							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
 						if (i != 0 && i <= hauteur)
-							tableau[i][j].nordEst = tableau[i + 1][j + 1];
+							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
 					}
 				}
 			}
@@ -163,19 +163,21 @@ public class Game {
 			if (stopped)
 				return;
 			Coup c = null;
-			while(!stopped && !paused  && !this.coupValide(c))
+			while (!stopped && !paused && !this.coupValide(c))
 				c = this.joueurCourant.play();
-			
+
 			if (stopped || paused)
 				continue;
 			else
 			{
-				while (faireCoup(c))
+				while (!joueurCourant.isStopped() && !stopped && !paused
+						&& faireCoup(c))
 					c = this.joueurCourant.play();
 
 			}
 
 			finish = testVictoire();
+			this.display.afficherJeu();
 
 		}
 
@@ -186,15 +188,19 @@ public class Game {
 
 	/**
 	 * Teste si un coup est valide
-	 * @param c Le coup a verifier
+	 * 
+	 * @param c
+	 *            Le coup a verifier
 	 * @return True -> si coup est valide, False sinon
 	 */
 	private boolean coupValide(Coup c)
 	{
 
-		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur && c.arrivee.y >= 0
-				&& c.arrivee.y < hauteur && c.depart.x >= 0
-				&& c.depart.x < largeur && c.depart.y >= 0 && c.depart.y < hauteur);
+		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur
+				&& c.arrivee.y >= 0 && c.arrivee.y < hauteur && c.depart.x >= 0
+				&& c.depart.x < largeur && c.depart.y >= 0
+				&& c.depart.y < hauteur
+				&& this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
 	}
 
 	/**
@@ -207,8 +213,92 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		
-		return finish;
+		ArrayList<Case> rapprochement = determinerPionsACapturer(
+				determinerDirection(c.depart, c.arrivee),
+				matricePlateau[c.arrivee.y][c.arrivee.x]);
+		ArrayList<Case> eloignement = determinerPionsACapturer(
+				determinerDirection(c.depart, c.arrivee),
+				matricePlateau[c.depart.y][c.depart.x]);
+		if (rapprochement.size() == 0 && eloignement.size() == 0)
+		{
+			return false;
+		} else if (rapprochement.size() != 0 && rapprochement.size() != 0)
+		{
+			capturer(determinerPionsACapturer(
+					joueurCourant.choisirDirectionAManger(),
+					matricePlateau[c.arrivee.y][c.arrivee.x])); // risque de
+																// gros soucis
+																// ici
+		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
+		{
+			capturer(rapprochement);
+		} else if (eloignement.size() != 0 && rapprochement.size() == 0)
+		{
+			capturer(eloignement);
+		}
+		matricePlateau[c.arrivee.y][c.arrivee.x].pion = matricePlateau[c.depart.y][c.depart.x].pion;
+		matricePlateau[c.depart.y][c.depart.x].pion = null;
+		return true;
+	}
+
+	private void capturer(ArrayList<Case> l)
+	{
+		Iterator<Case> it = l.iterator();
+		while (it.hasNext())
+		{
+			it.next().pion = null;
+			if (joueurCourant == joueurBlanc)
+				nombrePionNoir--;
+			else
+				nombrePionBlanc--;
+		}
+	}
+
+	private ArrayList<Case> determinerPionsACapturer(Direction d, Case depart)
+	{
+		ArrayList<Case> res = new ArrayList<Case>();
+		Case courante = depart;
+		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+
+		while (courante != null)
+		{
+
+			switch (d)
+			{
+				case Nord:
+					courante = courante.nord;
+					break;
+				case NordEst:
+					courante = courante.nordEst;
+					break;
+				case Est:
+					courante = courante.est;
+					break;
+				case SudEst:
+					courante = courante.sudEst;
+					break;
+				case Sud:
+					courante = courante.sud;
+					break;
+				case SudOuest:
+					courante = courante.sudOuest;
+					break;
+				case Ouest:
+					courante = courante.ouest;
+					break;
+				case NordOuest:
+					courante = courante.nordOuest;
+					break;
+				default:
+					break;
+			}
+			if (courante != null && !courante.estVide() & courante.pion != p)
+				res.add(courante);
+			else
+				break;
+		}
+
+		return res;
 	}
 
 	/**
@@ -293,47 +383,45 @@ public class Game {
 		return res;
 	}
 
-	
-	public Direction determinerDirection(Case depart, Case arrivee)
+	public static Direction determinerDirection(Point depart, Point arrivee)
 	{
-		int deplacementX = arrivee.position.x - depart.position.x;
-		int deplacementY = arrivee.position.y - depart.position.y;
-		switch(deplacementX)
+		int deplacementX = arrivee.x - depart.x;
+		int deplacementY = arrivee.y - depart.y;
+		switch (deplacementX)
 		{
-			case -1 :
-				switch(deplacementY)
+			case -1:
+				switch (deplacementY)
 				{
-					case -1 :
+					case -1:
 						return Direction.NordOuest;
-					case 0 :
+					case 0:
 						return Direction.Ouest;
-					case 1 : 
+					case 1:
 						return Direction.SudOuest;
 				}
 				break;
-			case 0 :
-				switch(deplacementY)
+			case 0:
+				switch (deplacementY)
 				{
-					case -1 :
+					case -1:
 						return Direction.Nord;
-					case 1 : 
+					case 1:
 						return Direction.Sud;
 				}
 				break;
-			case 1 : 
-				switch(deplacementY)
+			case 1:
+				switch (deplacementY)
 				{
-					case -1 :
+					case -1:
 						return Direction.NordEst;
-					case 0 :
+					case 0:
 						return Direction.Est;
-					case 1 : 
+					case 1:
 						return Direction.SudEst;
 				}
 				break;
 		}
 		return null;
 	}
-	
-	
+
 }
