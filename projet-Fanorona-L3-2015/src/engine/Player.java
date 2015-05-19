@@ -53,12 +53,4 @@ public abstract class Player {
 	 * @return La direction choisie
 	 */
 	public abstract Direction choisirDirectionAManger();
-
-	/**
-	 * Fonction demandant au joueur s'il veut contiuer a enchainer des coups
-	 * 
-	 * @return Vrai faux
-	 */
-	public abstract boolean continuer();
-
 }

@@ -62,13 +62,5 @@ public class HumanPlayer extends Player {
 		}
 		
 		return Game.determinerDirection(coupJoue.arrivee, pointDirection);
-	}
-
-	@Override
-	public boolean continuer()
-	{
-		
-		return false;
-	}
-	
+	}	
 }
