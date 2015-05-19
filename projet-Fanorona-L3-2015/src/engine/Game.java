@@ -82,7 +82,7 @@ public class Game {
 		{
 			for (int i = 0; i < hauteur - 1; i++)
 				tableau[i][j].sud = tableau[i + 1][j];
-			for (int i = 1; i <= hauteur; i++)
+			for (int i = 1; i < hauteur; i++)
 				tableau[i][j].nord = tableau[i - 1][j];
 		}
 
@@ -116,7 +116,7 @@ public class Game {
 					{
 						if (i != 0 && i <= hauteur)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (i >= 0 && i != hauteur)
+						if (i >= 0 && i != hauteur-1)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
 					}
 					if (j == 8)
@@ -124,7 +124,7 @@ public class Game {
 						if (i >= 0 && i != hauteur - 1)
 							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
 						if (i != 0 && i <= hauteur)
-							tableau[i][j].nordEst = tableau[i + 1][j + 1];
+							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
 					}
 				}
 			}
@@ -177,6 +177,7 @@ public class Game {
 			}
 
 			finish = testVictoire();
+			this.display.afficherJeu();
 
 		}
 
