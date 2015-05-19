@@ -47,13 +47,15 @@ public class EcouteurDeSouris implements MouseListener{
 			if(pfinal.x!=-1 && pfinal.y!=-1){
 				if(aire.pionCliquer){
 					if(pfinal.x != pSave.x || pfinal.y != pSave.y){
-						aire.matrice[pfinal.y][pfinal.x]=aire.matrice[pSave.y][pSave.x];
-						aire.matrice[pSave.y][pSave.x]=2;
+						System.out.println("test");
+						aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x]=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x];
+						aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x]=null;
 						aire.pionCliquer=false;
 					}
 				}
 				else{
-					if(aire.matrice[pfinal.y][pfinal.x]!=2){
+					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x]!=null){
+						System.out.println("test2");
 						pSave.x=pfinal.x;
 						pSave.y=pfinal.y;
 						aire.pionCliquer=true;

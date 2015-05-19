@@ -10,7 +10,7 @@ class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
     int tailleSegment;
-    int matrice[][];
+   // int matrice[][];
     boolean pionCliquer=false;
     Point pCourant;
 
@@ -22,7 +22,7 @@ class AireDeDessin extends JComponent {
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
         pCourant=new Point();
-        matrice=new int[5][9];
+       /* matrice=new int[5][9];
         matrice[2][0]=1;
         matrice[2][2]=1;
         matrice[2][4]=2;
@@ -32,7 +32,7 @@ class AireDeDessin extends JComponent {
         	for(int j=0;j<9;j++){
         		matrice[i][j]=1;
         	}
-        }
+        }*/
     }
 
     public void paintComponent(Graphics g) {
@@ -46,7 +46,7 @@ class AireDeDessin extends JComponent {
         drawable.setPaint(Color.black);
        
         dessinGrille(drawable);
-        dessinGrilleJeton(drawable,Color.white,Color.black);
+        dessinGrilleJeton(drawable,Color.black,Color.white);
     }
     
 
@@ -82,20 +82,19 @@ class AireDeDessin extends JComponent {
 
     public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
     	
-    	for(int i=0;i<matrice.length;i++){
-    		for(int j=0;j<matrice[0].length;j++){
-    			System.out.print(fenetre.engine.partieCourante.matricePlateau[j][i].pion+" ");
-    			if(matrice[i][j]==0){
+    	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
+    		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
+    			//System.out.print(fenetre.engine.partieCourante.matricePlateau[i][j].pion+" ");
+    			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc){
     				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			}
-    			else if(matrice[i][j]==1){
+    			else if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Noir){
     				dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			}
     			else{
     				
     			}
     		}
-    		System.out.println();
     	}
     	
     	
