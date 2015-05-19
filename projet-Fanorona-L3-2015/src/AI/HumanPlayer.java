@@ -35,8 +35,7 @@ public class HumanPlayer extends Player {
 	
 	public void setCoup(Point depart, Point arrivee)
 	{
-		this.coupJoue.depart = depart;
-		this.coupJoue.arrivee = arrivee;
+		this.coupJoue = new Coup(depart, arrivee);
 		this.hasPlayed = true;
 	}
 	

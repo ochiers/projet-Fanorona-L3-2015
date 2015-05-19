@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import AI.HumanPlayer;
+
 
 public class EcouteurDeSouris implements MouseListener{
 	AireDeDessin aire;
@@ -47,15 +49,15 @@ public class EcouteurDeSouris implements MouseListener{
 			if(pfinal.x!=-1 && pfinal.y!=-1){
 				if(aire.pionCliquer){
 					if(pfinal.x != pSave.x || pfinal.y != pSave.y){
-						System.out.println("test");
-						aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x]=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x];
-						aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x]=null;
+						//aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion;
+					//	aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion=null;
+						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(pSave,pfinal);
 						aire.pionCliquer=false;
+						System.out.println("test2");
 					}
 				}
 				else{
-					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x]!=null){
-						System.out.println("test2");
+					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion!=null){
 						pSave.x=pfinal.x;
 						pSave.y=pfinal.y;
 						aire.pionCliquer=true;
