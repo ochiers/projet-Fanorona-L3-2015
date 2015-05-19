@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 import IHM.Affichage;
 
@@ -10,8 +11,8 @@ public class Game {
 	public boolean		finish;
 	private boolean		paused;
 	public Player		joueurCourant;
-	public Player		J1;
-	public Player		J2;
+	public Player		joueurBlanc;
+	public Player		joueurNoir;
 	private Player		winner;
 	public Case			plateau;
 	public Case[][]		matricePlateau;
@@ -31,15 +32,19 @@ public class Game {
 	 * @param p2
 	 *            Joueur qui joue en deuxieme
 	 */
-	public Game(Affichage affichage, Player p1, Player p2, int hauteur,
-			int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1,
+			Player p2, int hauteur, int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
 		this.paused = true;
-		this.J1 = p1;
-		this.J2 = p2;
-		this.joueurCourant = p1;
+		this.joueurBlanc = p1;
+		this.joueurNoir = p2;
+		if (joueurQuiCommence == 0)
+			this.joueurCourant = p1;
+		else
+			this.joueurCourant = p2;
+
 		this.numberTurn = 0;
 		this.display = affichage;
 		this.nombrePionBlanc = ((hauteur * largeur) - 1) / 2;
@@ -186,10 +191,24 @@ public class Game {
 		return finish;
 	}
 
+	/**
+	 * FOnction determinant si un des joueur a capturer tous les pions de
+	 * l'autre
+	 * 
+	 * @return
+	 */
 	private boolean testVictoire()
 	{
-
-		return false;
+		if (nombrePionBlanc == 0)
+		{
+			winner = joueurNoir;
+			return true;
+		} else if (nombrePionNoir == 0)
+		{
+			winner = joueurBlanc;
+			return true;
+		} else
+			return false;
 	}
 
 	/**
@@ -197,8 +216,8 @@ public class Game {
 	 */
 	public void pause()
 	{
-		this.J1.setStopped(true);
-		this.J2.setStopped(true);
+		this.joueurBlanc.setStopped(true);
+		this.joueurNoir.setStopped(true);
 		this.paused = true;
 	}
 
@@ -207,8 +226,8 @@ public class Game {
 	 */
 	public void reprendre()
 	{
-		this.J1.setStopped(false);
-		this.J2.setStopped(false);
+		this.joueurBlanc.setStopped(false);
+		this.joueurNoir.setStopped(false);
 		this.paused = false;
 	}
 
@@ -222,9 +241,23 @@ public class Game {
 		return this.paused;
 	}
 
+	/**
+	 * Donne le gagnant du jeu;
+	 * 
+	 * @return Un joueur qui est le gagnant
+	 */
 	public Player getWinner()
 	{
 		return winner;
 	}
 
+	/**
+	 * Donne les cases possibles pour un pion se trouvant sur la case c
+	 * @param c La case de depart du pion
+	 * @return Une liste de cases accessibles pour ce pion
+	 */
+	public ArrayList<Case> coupsPossiblesPourUnPion(Case c){
+		return null;
+	}
+	
 }
