@@ -16,16 +16,19 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void run(){
-		frame.setSize(800, 600);  
+		frame.setSize(1200, 720);  
 		JPanel panelAccueil = new JPanel();
-		//panelAccueil.setLayout(null);
-		//panelAccueil.setLayout(new GridBagLayout());
-		/* setBounds(int x, int y, int width, int height)
+		panelAccueil.setLayout(null);
+		/* .setBounds(int x, int y, int width, int height);
 		Moves and resizes this component. */
+		
+		int fw = frame.getWidth();
+		int fh = frame.getHeight();
 		
 			//grille
 		monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
+			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
 		
  			//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
@@ -70,14 +73,19 @@ public class Fenetre implements Runnable,Affichage {
 		aide.add(mi3b2);		
  		
 			//boutons commandes
+		int temp = (int)(0.8*fh/6)/2;
 		JButton annuler = new JButton(" Annuler Coup ");
 			annuler.addActionListener(new EcouteurDeBouton(this,annuler.getText()));
+			annuler.setBounds((int)((1.5*fw/6)-temp), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 		JButton refaire = new JButton(" Refaire Coup ");
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
+			refaire.setBounds((int)(((1.5*fw/6)-temp)+fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 		JButton stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
+			stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 		JButton valider = new JButton(" Fin du tour ");
 			valider.addActionListener(new EcouteurDeBouton(this,valider.getText()));
+			valider.setBounds((int)(((1.5*fw/6)-temp)+3*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 			
 			//affichages joueurs
 		/*
@@ -89,30 +97,44 @@ public class Fenetre implements Runnable,Affichage {
 		 */
 			//chaines caracteres
 		JLabel j1 = new JLabel(" # Joueur 1 ");
+
 		JLabel j2 = new JLabel(" # Joueur 2 ");
 		
-		JLabel idj1 = new JLabel(" # Joueur 1 ");
-		JLabel idj2 = new JLabel(" # Joueur 1 ");
-		//JLabel j1 = new JLabel(" # Joueur 1 ");
-		
+
+		JLabel idj1 = new JLabel("idj1");
+		JLabel idj2 = new JLabel("idj2");
+		//JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+		//JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
+		JLabel score = new JLabel(" Pions restants ");
+		JLabel tour = new JLabel(" A votre tour ! ");
+
 			//carré score
-		
+		//CarreScore carre = new CarreScore(this);
 		
  			//ajouts 
  		menuBar.add(partie);
 		menuBar.add(options);
 		menuBar.add(aide);
 		frame.setJMenuBar(menuBar);
-		
+		//panelAccueil.add(carre);
  		panelAccueil.add(monDessin);
  		panelAccueil.add(annuler);
  		panelAccueil.add(refaire);
  		panelAccueil.add(stopper);
- 
+ 		panelAccueil.add(valider);
+ 		panelAccueil.add(j1); 
+ 		panelAccueil.add(j2); 		 
+ 		panelAccueil.add(idj1);
+ 		panelAccueil.add(idj2);
+ 		//panelAccueil.add(scoreInt1);
+ 		//panelAccueil.add(scoreInt2);
+ 		panelAccueil.add(score); 		
+ 		panelAccueil.add(tour);
+ 		
+ 		
  		frame.add(panelAccueil);  
- 		/* f ou p ??   .setBackground(Color.GREEN);
-		setResizable(boolean resizable)
-		Sets whether this frame is resizable by the user. */
+ 		/* f ou p ??   .setBackground(Color.GREEN);*/
+		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
