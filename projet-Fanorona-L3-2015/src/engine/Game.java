@@ -19,6 +19,8 @@ public class Game {
 	public int			numberTurn;
 	public int			nombrePionBlanc;
 	public int			nombrePionNoir;
+	public int			hauteur;
+	public int			largeur;
 	public Affichage	display;
 
 	/**
@@ -49,6 +51,8 @@ public class Game {
 		this.display = affichage;
 		this.nombrePionBlanc = ((hauteur * largeur) - 1) / 2;
 		this.nombrePionNoir = this.nombrePionBlanc;
+		this.hauteur = hauteur;
+		this.largeur = largeur;
 		initialisation(hauteur, largeur);
 	}
 
@@ -157,8 +161,10 @@ public class Game {
 
 			if (stopped)
 				return;
-
-			Coup c = this.joueurCourant.play();
+			Coup c = null;
+			while(!stopped && !paused  && !this.coupValide(c))
+				c = this.joueurCourant.play();
+			
 			if (stopped || paused)
 				continue;
 			else
@@ -178,6 +184,19 @@ public class Game {
 	}
 
 	/**
+	 * Teste si un coup est valide
+	 * @param c Le coup a verifier
+	 * @return True -> si coup est valide, False sinon
+	 */
+	private boolean coupValide(Coup c)
+	{
+
+		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur && c.arrivee.y >= 0
+				&& c.arrivee.y < hauteur && c.depart.x >= 0
+				&& c.depart.x < largeur && c.depart.y >= 0 && c.depart.y < hauteur);
+	}
+
+	/**
 	 * Evalue le coup joué par le joueur
 	 * 
 	 * @param c
@@ -187,7 +206,7 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-
+		
 		return finish;
 	}
 
@@ -253,11 +272,14 @@ public class Game {
 
 	/**
 	 * Donne les cases possibles pour un pion se trouvant sur la case c
-	 * @param c La case de depart du pion
+	 * 
+	 * @param c
+	 *            La case de depart du pion
 	 * @return Une liste de cases accessibles pour ce pion
 	 */
-	public ArrayList<Case> coupsPossiblesPourUnPion(Case c){
+	public ArrayList<Case> coupsPossiblesPourUnPion(Case c)
+	{
 		return null;
 	}
-	
+
 }
