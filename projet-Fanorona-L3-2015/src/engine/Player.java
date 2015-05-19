@@ -1,7 +1,5 @@
 package engine;
 
-import java.awt.Point;
-
 public abstract class Player {
 
 	public boolean	aiPlayer;
@@ -53,4 +51,10 @@ public abstract class Player {
 	 * @return La direction choisie
 	 */
 	public abstract Direction choisirDirectionAManger();
+	
+	/**
+	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA Difficle)
+	 */
+	public abstract String getNiveau();
+	
 }

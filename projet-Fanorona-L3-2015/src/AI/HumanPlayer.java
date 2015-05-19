@@ -9,7 +9,6 @@ public class HumanPlayer extends Player {
 	private boolean hasPlayed;
 	private Coup coupJoue;
 	private Point pointDirection;
-	
 	public HumanPlayer(Engine leMoteur, boolean isAI, String name)
 	{
 		super(leMoteur, isAI, name);
@@ -62,5 +61,12 @@ public class HumanPlayer extends Player {
 		}
 		
 		return Game.determinerDirection(coupJoue.arrivee, pointDirection);
+	}
+
+	@Override
+	public String getNiveau()
+	{
+		return "Humain";
+		
 	}	
 }
