@@ -85,14 +85,19 @@ public class Fenetre implements Runnable,Affichage {
 		 ordi+niv ou humain
 		 Score dans carré
 		 Pions restants
-		 A voutre tour de jouer
+		 A votre tour de jouer
 		 */
-			//lettrages
-		/*JLabel j1 = new JLabel(" # Joueur 1 ");
+			//chaines caracteres
+		JLabel j1 = new JLabel(" # Joueur 1 ");
 		JLabel j2 = new JLabel(" # Joueur 2 ");
+		
+		
+		
 		JLabel idj1 = new JLabel(" # Joueur 1 ");
 		JLabel idj2 = new JLabel(" # Joueur 1 ");
-		JLabel j1 = new JLabel(" # Joueur 1 ");*/
+		JLabel j1 = new JLabel(" # Joueur 1 ");
+		
+		
 			//carré score
 		
 		
