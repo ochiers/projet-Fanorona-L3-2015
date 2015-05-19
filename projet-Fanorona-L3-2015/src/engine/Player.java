@@ -1,5 +1,7 @@
 package engine;
 
+import java.awt.Point;
+
 public abstract class Player {
 
 	public boolean	aiPlayer;
@@ -48,11 +50,9 @@ public abstract class Player {
 	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les
 	 * pions
 	 * 
-	 * @param d1
-	 * @param d2
 	 * @return La direction choisie
 	 */
-	public abstract Direction choisirDirectionAManger(Direction d1, Direction d2);
+	public abstract Direction choisirDirectionAManger();
 
 	/**
 	 * Fonction demandant au joueur s'il veut contiuer a enchainer des coups

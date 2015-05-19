@@ -6,17 +6,64 @@ import engine.*;
 
 public class HumanPlayer extends Player {
 
-	public HumanPlayer(Engine gaufre, boolean isAI, String name)
+	private boolean hasPlayed;
+	private Coup coupJoue;
+	private Point pointDirection;
+	
+	public HumanPlayer(Engine leMoteur, boolean isAI, String name)
 	{
-		super(gaufre, isAI, name);
+		super(leMoteur, isAI, name);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public Point play()
+	public Coup play()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		hasPlayed = false;
+		coupJoue = null;
+		pointDirection = null;
+		while(!hasPlayed && coupJoue == null)
+		{
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return coupJoue;
+	}
+	
+	public void setCoup(Point depart, Point arrivee)
+	{
+		this.coupJoue.depart = depart;
+		this.coupJoue.arrivee = arrivee;
+		this.hasPlayed = true;
 	}
 
+	@Override
+	public Direction choisirDirectionAManger()
+	{
+		hasPlayed = false;
+		pointDirection = null;
+		while(!hasPlayed && pointDirection == null)
+		{
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return Game.determinerDirection(coupJoue.arrivee, pointDirection);
+	}
+
+	@Override
+	public boolean continuer()
+	{
+		
+		return false;
+	}
+	
 }

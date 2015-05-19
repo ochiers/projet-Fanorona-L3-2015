@@ -224,7 +224,7 @@ public class Game {
 		} else if (rapprochement.size() != 0 && rapprochement.size() != 0)
 		{
 			capturer(determinerPionsACapturer(
-					joueurCourant.choisirDirectionAManger(null, null),
+					joueurCourant.choisirDirectionAManger(),
 					matricePlateau[c.arrivee.y][c.arrivee.x])); // risque de
 																// gros soucis
 																// ici
@@ -382,7 +382,7 @@ public class Game {
 		return res;
 	}
 
-	public Direction determinerDirection(Point depart, Point arrivee)
+	public static Direction determinerDirection(Point depart, Point arrivee)
 	{
 		int deplacementX = arrivee.x - depart.x;
 		int deplacementY = arrivee.y - depart.y;
