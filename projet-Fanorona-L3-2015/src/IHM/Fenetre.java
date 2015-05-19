@@ -100,9 +100,26 @@ public class Fenetre implements Runnable,Affichage {
 
 		JLabel j2 = new JLabel(" # Joueur 2 ");
 		
-
-		JLabel idj1 = new JLabel("idj1");
-		JLabel idj2 = new JLabel("idj2");
+		/*
+		String level = engine.partieCourante.joueurBlanc.getNiveau();
+		if (level.equals("Humain"))
+			JLabel idj1 = new JLabel(engine.partieCourante.joueurBlanc.name);
+		if (level.equals("IA Facile")){
+			JLabel idj1 = new JLabel(" Ordinateur ");
+			JLabel levelj1 = new JLabel(" Facile ");
+		}
+		if (level.equals("IA Moyenne")){
+			JLabel idj1 = new JLabel(" Ordinateur ");
+			JLabel levelj1 = new JLabel(" Moyen ");
+		}
+		if (level.equals("IA Difficle")){
+			JLabel idj1 = new JLabel(" Ordinateur ");
+			JLabel levelj1 = new JLabel(" Difficile ");
+		}
+		
+		//idem idj2
+		
+		*/
 		
 		//JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
 		//JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
@@ -132,7 +149,6 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(score); 		
  		panelAccueil.add(tour);
  		
- 		
  		frame.add(panelAccueil);  
  		/* f ou p ??   .setBackground(Color.GREEN);*/
 		frame.setResizable(false);
@@ -140,8 +156,7 @@ public class Fenetre implements Runnable,Affichage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
-	
-	
+
 	public void afficherJeu(){
 		
 	}
