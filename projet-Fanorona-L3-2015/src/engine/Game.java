@@ -13,8 +13,11 @@ public class Game {
 	public Player		J1;
 	public Player		J2;
 	private Player		winner;
-	private Case		plateau;
+	public Case			plateau;
+	public Case[][]		matricePlateau;
 	public int			numberTurn;
+	public int			nombrePionBlanc;
+	public int			nombrePionNoir;
 	public Affichage	display;
 
 	/**
@@ -28,7 +31,8 @@ public class Game {
 	 * @param p2
 	 *            Joueur qui joue en deuxieme
 	 */
-	public Game(Affichage affichage, Player p1, Player p2)
+	public Game(Affichage affichage, Player p1, Player p2, int hauteur,
+			int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -38,37 +42,46 @@ public class Game {
 		this.joueurCourant = p1;
 		this.numberTurn = 0;
 		this.display = affichage;
+		this.nombrePionBlanc = ((hauteur * largeur) - 1) / 2;
+		this.nombrePionNoir = this.nombrePionBlanc;
+		initialisation(hauteur, largeur);
 	}
 
-	public void initialisation()
+	/**
+	 * Initialise le plateau du jeu
+	 * 
+	 * @param hauteur
+	 * @param largeur
+	 */
+	public void initialisation(int hauteur, int largeur)
 	{
-		Case[][] tableau = new Case[5][9];
+		Case[][] tableau = new Case[hauteur][largeur];
 
-		for (int i = 0; i <= 4; i++)
-			for (int j = 0; j <= 8; j++)
+		for (int i = 0; i < hauteur; i++)
+			for (int j = 0; j < largeur; j++)
 				tableau[i][j] = new Case(new Point(i, j));
 
-		for (int i = 0; i <= 4; i++)
+		for (int i = 0; i < hauteur; i++)
 		{
-			for (int j = 0; j < 8; j++)
+			for (int j = 0; j < largeur - 1; j++)
 				tableau[i][j].est = tableau[i][j + 1];
-			for (int j = 1; j <= 8; j++)
+			for (int j = 1; j < largeur; j++)
 				tableau[i][j].ouest = tableau[i][j - 1];
 		}
-		for (int j = 0; j <= 8; j++)
+		for (int j = 0; j < largeur; j++)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < hauteur - 1; i++)
 				tableau[i][j].sud = tableau[i + 1][j];
-			for (int i = 1; i <= 4; i++)
+			for (int i = 1; i <= hauteur; i++)
 				tableau[i][j].nord = tableau[i - 1][j];
 		}
 
-		for (int i = 0; i <= 4; i++)
-			for (int j = 0; j <= 8; j++)
+		for (int i = 0; i < hauteur; i++)
+			for (int j = 0; j < largeur; j++)
 			{
 				if ((i % 2 == 0 && j % 2 == 0) || (i % 2 == 1 && j % 2 == 1))
 				{
-					if (i > 0 && i < 4 && j > 0 && j < 8)
+					if (i > 0 && i < hauteur - 1 && j > 0 && j < largeur - 1)
 					{
 						tableau[i][j].nordEst = tableau[i - 1][j + 1];
 						tableau[i][j].sudEst = tableau[i + 1][j + 1];
@@ -77,35 +90,51 @@ public class Game {
 					}
 					if (i == 0)
 					{
-						if (j >= 0 && j != 8)
+						if (j >= 0 && j != largeur - 1)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
-						if (j != 0 && j <= 8)
+						if (j != 0 && j < largeur)
 							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
 					}
-					if (i == 4)
+					if (i == hauteur - 1)
 					{
-						if (j >= 0 && j != 8)
+						if (j >= 0 && j != largeur - 1)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (j != 0 && j <= 8)
+						if (j != 0 && j < largeur)
 							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
 					}
 					if (j == 0)
 					{
-						if (i != 0 && i <= 4)
+						if (i != 0 && i <= hauteur)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (i >= 0 && i != 4)
+						if (i >= 0 && i != hauteur)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
 					}
 					if (j == 8)
 					{
-						if (i >= 0 && i != 4)
+						if (i >= 0 && i != hauteur - 1)
 							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
-						if (i != 0 && i <= 4)
+						if (i != 0 && i <= hauteur)
 							tableau[i][j].nordEst = tableau[i + 1][j + 1];
 					}
 				}
 			}
 
+		for (int i = 0; i < Math.floor((double) hauteur / 2.0); i++)
+			for (int j = 0; j < largeur; j++)
+				tableau[i][j].pion = Pion.Noir;
+
+		for (int i = (int) Math.floor((double) hauteur / 2.0) + 1; i < hauteur; i++)
+			for (int j = 0; j < largeur; j++)
+				tableau[i][j].pion = Pion.Blanc;
+
+		for (int j = 0; j < largeur; j++)
+			if (j % 2 == 0)
+				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
+			else
+				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
+
+		this.plateau = tableau[0][0];
+		this.matricePlateau = tableau;
 	}
 
 	/**
@@ -159,7 +188,7 @@ public class Game {
 
 	private boolean testVictoire()
 	{
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -180,7 +209,7 @@ public class Game {
 	{
 		this.J1.setStopped(false);
 		this.J2.setStopped(false);
-		this.paused = true;
+		this.paused = false;
 	}
 
 	/**

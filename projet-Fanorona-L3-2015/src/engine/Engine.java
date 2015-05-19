@@ -47,12 +47,12 @@ public class Engine {
 		}
 	}
 
-	public void nouvellePartie(Player p1, Player p2)
+	public void nouvellePartie(Player p1, Player p2, int hauteur, int largeur)
 	{
 
 		if (this.gameInProgress)
 			stopper();
-		this.partieCourante = new Game(this.affichage, p1, p2);
+		this.partieCourante = new Game(this.affichage, p1, p2, hauteur, largeur);
 		this.gameInProgress = true;
 	}
 
@@ -219,7 +219,7 @@ public class Engine {
 			if (this.gameInProgress)
 				stopper();
 			
-			Game g = new Game(affichage, p1, p2);
+			Game g = new Game(affichage, p1, p2, hauteur, largeur);
 			g.pause();
 			this.partieCourante = g;
 			this.gameInProgress = true;
