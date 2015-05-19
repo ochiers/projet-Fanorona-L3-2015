@@ -91,12 +91,9 @@ public class Fenetre implements Runnable,Affichage {
 		JLabel j1 = new JLabel(" # Joueur 1 ");
 		JLabel j2 = new JLabel(" # Joueur 2 ");
 		
-		
-		
 		JLabel idj1 = new JLabel(" # Joueur 1 ");
 		JLabel idj2 = new JLabel(" # Joueur 1 ");
 		JLabel j1 = new JLabel(" # Joueur 1 ");
-		
 		
 			//carré score
 		
