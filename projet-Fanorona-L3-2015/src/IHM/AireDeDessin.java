@@ -4,11 +4,15 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import engine.Pion;
+
 class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
     int tailleSegment;
     int matrice[][];
+    boolean pionCliquer=false;
+    Point pCourant;
 
     
     public AireDeDessin(Fenetre f) {
@@ -17,6 +21,7 @@ class AireDeDessin extends JComponent {
         System.out.println("taille: "+tailleSegment);
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
+        pCourant=new Point();
         matrice=new int[5][9];
         matrice[2][0]=1;
         matrice[2][2]=1;
@@ -76,29 +81,9 @@ class AireDeDessin extends JComponent {
     }
 
     public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
-    	/*for(int i=0;i<=8;i++){
-    		for(int j=0;j<2;j++)
-    			dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+j*tailleSegment);
-    	}
-    	boolean b=true;
-    	for(int i=0;i<=8;i++){
-    		if(i!=(8/2)){
-	    		if(b){
-	    			dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+2*tailleSegment);
-	    			b=false;
-	    		}
-	    		else{
-	    			dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+2*tailleSegment);
-	    			b=true;
-	    		}
-    		}		
-    	}
-    	for(int i=0;i<=8;i++){
-    		for(int j=3;j<5;j++)
-    			dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+i*tailleSegment,tailleSegment-(tailleJeton/2)+j*tailleSegment);
-    	}*/
     	for(int i=0;i<matrice.length;i++){
     		for(int j=0;j<matrice[0].length;j++){
+    			
     			if(matrice[i][j]==0){
     				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			}

@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 
 public class EcouteurDeSouris implements MouseListener{
 	AireDeDessin aire;
-	boolean pionCliquer=false;
 	Point pSave=new Point();
 	
 	public EcouteurDeSouris(AireDeDessin a){
@@ -46,25 +45,23 @@ public class EcouteurDeSouris implements MouseListener{
 				pfinal.y=nbCoteHauteur;
 			}
 			if(pfinal.x!=-1 && pfinal.y!=-1){
-				if(pionCliquer){
+				if(aire.pionCliquer){
 					if(pfinal.x != pSave.x || pfinal.y != pSave.y){
 						aire.matrice[pfinal.y][pfinal.x]=aire.matrice[pSave.y][pSave.x];
 						aire.matrice[pSave.y][pSave.x]=2;
-						pionCliquer=false;
-					}
-					else{
+						aire.pionCliquer=false;
 					}
 				}
 				else{
 					pSave.x=pfinal.x;
 					pSave.y=pfinal.y;
-					pionCliquer=true;
+					aire.pionCliquer=true;
 				}
 				aire.repaint();
 			}
 		} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfoncé
 		} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfoncé
-		    	pionCliquer=false;
+			aire.pionCliquer=false;
 	    }
 		
 		
