@@ -40,6 +40,12 @@ public class EcouteurDeBouton implements ActionListener{
 			break;
 		case " A Propos ":
 			break;
+		case " Annuler Coup ":
+			break;
+		case " Refaire Coup ":
+			break;
+		case " Pause ":
+			break;
 		default:
 			System.out.println("Erreur bouton switch");
 			break;

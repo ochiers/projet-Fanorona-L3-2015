@@ -1,29 +1,25 @@
 package IHM;
 
-import java.awt.Dimension;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.SwingUtilities;
-
-import IHM.EcouteurDeBouton;
+import engine.*;
+import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
 	JFrame frame = new JFrame(" -- Fanorona -- ");
 	AireDeDessin monDessin;
+	Engine engine;
+	
+	public Fenetre(Engine e){
+		engine=e;
+	}
 	
 	public void run(){
 		frame.setSize(800, 600);  
 		JPanel panelAccueil = new JPanel();
-//		panelAccueil.setLayout(null);
+		//panelAccueil.setLayout(null);
+		//panelAccueil.setLayout(new GridBagLayout());
 		/* setBounds(int x, int y, int width, int height)
 		Moves and resizes this component. */
 		
@@ -51,7 +47,6 @@ public class Fenetre implements Runnable,Affichage {
 		partie.add(mi1b3);
 		partie.add(mi1b4);
 		partie.add(mi1b5);
-		
 			//menu2
 		JMenu options = new JMenu(" Options ");
 		JMenuItem mi2b1 = new JMenuItem(" Paramètres Partie ");
@@ -64,7 +59,6 @@ public class Fenetre implements Runnable,Affichage {
 		options.add(mi2b1);
 		options.add(mi2b2);
 		options.add(mi2b3);
-		
 			//menu3
 		JMenu aide = new JMenu(" Aide ");
 		JMenuItem mi3b1 = new JMenuItem(" Règles du Jeu ");
@@ -82,20 +76,32 @@ public class Fenetre implements Runnable,Affichage {
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
 		JButton stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
-		
-		//affichages joueurs
+		JButton valider = new JButton(" Fin du tour ");
+			valider.addActionListener(new EcouteurDeBouton(this,valider.getText()));
+			
+			//affichages joueurs
 		/*
-		 noms
-		 SCORE
-		 score dans carré
+		 nom J1 ou J2
 		 ordi+niv ou humain
+		 Score dans carré
+		 Pions restants
+		 A voutre tour de jouer
 		 */
+			//lettrages
+		/*JLabel j1 = new JLabel(" # Joueur 1 ");
+		JLabel j2 = new JLabel(" # Joueur 2 ");
+		JLabel idj1 = new JLabel(" # Joueur 1 ");
+		JLabel idj2 = new JLabel(" # Joueur 1 ");
+		JLabel j1 = new JLabel(" # Joueur 1 ");*/
+			//carré score
+		
 		
  			//ajouts 
  		menuBar.add(partie);
 		menuBar.add(options);
 		menuBar.add(aide);
 		frame.setJMenuBar(menuBar);
+		
  		panelAccueil.add(monDessin);
  		panelAccueil.add(annuler);
  		panelAccueil.add(refaire);
@@ -116,11 +122,6 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	public void afficherVictoire(){
 		
-	}
-	
-	public static void main(String args[]) throws InterruptedException{
-		Fenetre f=new Fenetre();
-		SwingUtilities.invokeLater(f);
 	}
 	
 }

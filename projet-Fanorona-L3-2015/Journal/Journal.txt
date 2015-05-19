@@ -1,11 +1,19 @@
 Lundi 18 mai
 	Matin : 
-		Création de l'IHM en version papier, puis débat à 9h45 avec les professeurs sur l'IHM.
-		Conversation avec l'autre groupe prpgrammant un Fanorona. Décisions prises en commun (2 groupes)
-		pour le fonctionne général du jeu : qui commence, quelles règles de jeu seront retenues...
-		Début de code pour l'IHM.
+		- Création de l'IHM en version papier, puis débat à 9h45 avec les professeurs sur l'IHM.
+		Conversation avec l'autre groupe programmant un Fanorona. Décisions prises en commun (2 groupes)
+		pour le fonctionnement général du jeu : qui commence, quelles règles de jeu seront retenues...
+		- Début de code pour l'IHM.
 	Après-Midi :
 		- Création d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface décidée à partir de
 		l'IHM faites après l'audit. Poursuite du code l'IHM (creation d'une IHM de base pour tests rapide,
 		création de l'IHM plus travaillée en cours).
 		- Réflexion autour de l'IA et des problématiques intrinsèques. Début de réalisation d'un algorithme alpha-beta adapté au Fanorona.
+		
+Mardi 19 mai
+	Matin :
+		- CM réseau.
+		- Réflexion autour de l'IA, décision de réaliser une IA "de base" ne gérant pas les enchaînements de coups ni les choix.
+	Après-midi :
+		- Réalisation d'une première version  de l'IA "de base". En attente de certaines méthodes du moteur de jeu pour effectuer les tests.
+		- Réflexion sur le passage de l'IA à une version gérant les choix, puis à une version "finale" gérant également les enchaînements.
