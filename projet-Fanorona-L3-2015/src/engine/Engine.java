@@ -52,7 +52,7 @@ public class Engine {
 
 		if (this.gameInProgress)
 			stopper();
-		this.partieCourante = new Game(this.affichage, p1, p2, hauteur, largeur);
+		this.partieCourante = new Game(this.affichage,0, p1, p2, hauteur, largeur);
 		this.gameInProgress = true;
 	}
 
@@ -87,8 +87,8 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.J1) ? partieCourante.J2
-					: partieCourante.J1;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir
+					: partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			try
 			{
@@ -121,8 +121,8 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.J1) ? partieCourante.J2
-					: partieCourante.J1;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir
+					: partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			gameInProgress = true;
 		} else
@@ -131,8 +131,8 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.J1) ? partieCourante.J2
-					: partieCourante.J1;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir
+					: partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			try
 			{
@@ -219,7 +219,7 @@ public class Engine {
 			if (this.gameInProgress)
 				stopper();
 			
-			Game g = new Game(affichage, p1, p2, hauteur, largeur);
+			Game g = new Game(affichage,0, p1, p2, hauteur, largeur);
 			g.pause();
 			this.partieCourante = g;
 			this.gameInProgress = true;

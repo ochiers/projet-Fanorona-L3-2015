@@ -1,6 +1,8 @@
 package engine;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import IHM.Affichage;
 
@@ -10,15 +12,18 @@ public class Game {
 	public boolean		finish;
 	private boolean		paused;
 	public Player		joueurCourant;
-	public Player		J1;
-	public Player		J2;
+	public Player		joueurBlanc;
+	public Player		joueurNoir;
 	private Player		winner;
 	public Case			plateau;
 	public Case[][]		matricePlateau;
 	public int			numberTurn;
 	public int			nombrePionBlanc;
 	public int			nombrePionNoir;
+	public int			hauteur;
+	public int			largeur;
 	public Affichage	display;
+
 
 	/**
 	 * Crée une nouvelle partie avec un module d'affichage et deux joueurs,
@@ -31,19 +36,24 @@ public class Game {
 	 * @param p2
 	 *            Joueur qui joue en deuxieme
 	 */
-	public Game(Affichage affichage, Player p1, Player p2, int hauteur,
-			int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
 		this.paused = true;
-		this.J1 = p1;
-		this.J2 = p2;
-		this.joueurCourant = p1;
+		this.joueurBlanc = p1;
+		this.joueurNoir = p2;
+		if (joueurQuiCommence == 0)
+			this.joueurCourant = p1;
+		else
+			this.joueurCourant = p2;
+
 		this.numberTurn = 0;
 		this.display = affichage;
 		this.nombrePionBlanc = ((hauteur * largeur) - 1) / 2;
 		this.nombrePionNoir = this.nombrePionBlanc;
+		this.hauteur = hauteur;
+		this.largeur = largeur;
 		initialisation(hauteur, largeur);
 	}
 
@@ -152,8 +162,10 @@ public class Game {
 
 			if (stopped)
 				return;
-
-			Coup c = this.joueurCourant.play();
+			Coup c = null;
+			while(!stopped && !paused  && !this.coupValide(c))
+				c = this.joueurCourant.play();
+			
 			if (stopped || paused)
 				continue;
 			else
@@ -173,6 +185,19 @@ public class Game {
 	}
 
 	/**
+	 * Teste si un coup est valide
+	 * @param c Le coup a verifier
+	 * @return True -> si coup est valide, False sinon
+	 */
+	private boolean coupValide(Coup c)
+	{
+
+		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur && c.arrivee.y >= 0
+				&& c.arrivee.y < hauteur && c.depart.x >= 0
+				&& c.depart.x < largeur && c.depart.y >= 0 && c.depart.y < hauteur);
+	}
+
+	/**
 	 * Evalue le coup joué par le joueur
 	 * 
 	 * @param c
@@ -182,14 +207,28 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-
+		
 		return finish;
 	}
 
+	/**
+	 * FOnction determinant si un des joueur a capturer tous les pions de
+	 * l'autre
+	 * 
+	 * @return
+	 */
 	private boolean testVictoire()
 	{
-
-		return false;
+		if (nombrePionBlanc == 0)
+		{
+			winner = joueurNoir;
+			return true;
+		} else if (nombrePionNoir == 0)
+		{
+			winner = joueurBlanc;
+			return true;
+		} else
+			return false;
 	}
 
 	/**
@@ -197,8 +236,8 @@ public class Game {
 	 */
 	public void pause()
 	{
-		this.J1.setStopped(true);
-		this.J2.setStopped(true);
+		this.joueurBlanc.setStopped(true);
+		this.joueurNoir.setStopped(true);
 		this.paused = true;
 	}
 
@@ -207,8 +246,8 @@ public class Game {
 	 */
 	public void reprendre()
 	{
-		this.J1.setStopped(false);
-		this.J2.setStopped(false);
+		this.joueurBlanc.setStopped(false);
+		this.joueurNoir.setStopped(false);
 		this.paused = false;
 	}
 
@@ -222,9 +261,36 @@ public class Game {
 		return this.paused;
 	}
 
+	/**
+	 * Donne le gagnant du jeu;
+	 * 
+	 * @return Un joueur qui est le gagnant
+	 */
 	public Player getWinner()
 	{
 		return winner;
+	}
+
+	/**
+	 * Donne les cases possibles pour un pion se trouvant sur la case c
+	 * 
+	 * @param c
+	 *            La case de depart du pion
+	 * @return Une liste de cases accessibles pour ce pion
+	 */
+	public ArrayList<Case> coupsPossiblesPourUnPion(Case c)
+	{
+
+		ArrayList<Case> res = new ArrayList<Case>();
+		Iterator<Case> it = c.voisins().iterator();
+		Case cour;
+		while (it.hasNext())
+		{
+			cour = it.next();
+			if (cour.estVide())
+				res.add(cour);
+		}
+		return res;
 	}
 
 }
