@@ -80,14 +80,25 @@ public class Fenetre implements Runnable,Affichage {
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
 		JButton stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
-		
+		JButton valider = new JButton(" Fin du tour ");
+			valider.addActionListener(new EcouteurDeBouton(this,valider  .getText()));
+			
 			//affichages joueurs
 		/*
-		 noms
-		 SCORE
-		 score dans carré
+		 nom J1 ou J2
 		 ordi+niv ou humain
+		 Score dans carré
+		 Pions restants
+		 A voutre tour de jouer
 		 */
+			//lettrages
+		JLabel j1 = new JLabel(" # Joueur 1 ");
+		JLabel j2 = new JLabel(" # Joueur 2 ");
+		JLabel idj1 = new JLabel(" # Joueur 1 ");
+		JLabel idj2 = new JLabel(" # Joueur 1 ");
+		JLabel j1 = new JLabel(" # Joueur 1 ");
+			//carré score
+		
 		
  			//ajouts 
  		menuBar.add(partie);
