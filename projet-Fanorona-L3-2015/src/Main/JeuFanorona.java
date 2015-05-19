@@ -16,7 +16,7 @@ public class JeuFanorona {
 		Fenetre f=new Fenetre(e);
 		e.setAffichage(f);
 		
-		e.nouvellePartie(p1, p2,0, 5,5);
+		e.nouvellePartie(p1, p2,0, 5,9);
 		SwingUtilities.invokeLater(f);
 		Thread.sleep(200);
 		e.begin();

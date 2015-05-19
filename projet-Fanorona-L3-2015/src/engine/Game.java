@@ -204,7 +204,10 @@ public class Game {
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
 			else
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
-
+		
+		tableau[hauteur/2][largeur/2].pion = null;
+		
+		
 		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
 	}
