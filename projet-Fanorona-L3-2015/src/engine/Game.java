@@ -24,7 +24,6 @@ public class Game {
 	public int			largeur;
 	public Affichage	display;
 
-
 	/**
 	 * Crée une nouvelle partie avec un module d'affichage et deux joueurs,
 	 * c'est p1 qui joue en premier
@@ -36,7 +35,8 @@ public class Game {
 	 * @param p2
 	 *            Joueur qui joue en deuxieme
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1,
+			Player p2, int hauteur, int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -163,9 +163,9 @@ public class Game {
 			if (stopped)
 				return;
 			Coup c = null;
-			while(!stopped && !paused  && !this.coupValide(c))
+			while (!stopped && !paused && !this.coupValide(c))
 				c = this.joueurCourant.play();
-			
+
 			if (stopped || paused)
 				continue;
 			else
@@ -186,15 +186,19 @@ public class Game {
 
 	/**
 	 * Teste si un coup est valide
-	 * @param c Le coup a verifier
+	 * 
+	 * @param c
+	 *            Le coup a verifier
 	 * @return True -> si coup est valide, False sinon
 	 */
 	private boolean coupValide(Coup c)
 	{
 
-		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur && c.arrivee.y >= 0
-				&& c.arrivee.y < hauteur && c.depart.x >= 0
-				&& c.depart.x < largeur && c.depart.y >= 0 && c.depart.y < hauteur);
+		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur
+				&& c.arrivee.y >= 0 && c.arrivee.y < hauteur && c.depart.x >= 0
+				&& c.depart.x < largeur && c.depart.y >= 0
+				&& c.depart.y < hauteur && this.matricePlateau[c.arrivee.y][c.arrivee.x]
+					.estVide() && c.depart!=c.arrivee);
 	}
 
 	/**
@@ -207,10 +211,56 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		
+		//ArrayList<Case> raprochement = capturerPions(, depart)
 		return finish;
 	}
 
+	private ArrayList<Case> capturerPions(Direction d, Case depart){
+		ArrayList<Case> res = new ArrayList<Case>();
+		Case courante = depart;
+		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		
+		while(courante != null){
+			
+			switch (d)
+			{
+				case Nord:
+					courante = courante.nord;
+					break;
+				case NordEst:
+					courante = courante.nordEst;
+					break;
+				case Est:
+					courante = courante.est;
+					break;
+				case SudEst:
+					courante = courante.sudEst;
+					break;
+				case Sud:
+					courante = courante.sud;
+					break;
+				case SudOuest:
+					courante = courante.sudOuest;
+					break;
+				case Ouest:
+					courante = courante.ouest;
+					break;
+				case NordOuest:
+					courante = courante.nordOuest;
+					break;
+				default:
+					break;
+			}
+			if(courante != null && !courante.estVide() & courante.pion != p)
+				res.add(courante);
+			else
+				break;
+		}
+		
+		return res;
+	}
+	
+	
 	/**
 	 * FOnction determinant si un des joueur a capturer tous les pions de
 	 * l'autre
