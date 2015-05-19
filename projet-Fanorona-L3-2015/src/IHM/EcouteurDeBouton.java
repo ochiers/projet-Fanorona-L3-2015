@@ -46,6 +46,8 @@ public class EcouteurDeBouton implements ActionListener{
 			break;
 		case " Pause ":
 			break;
+		case " Fin du tour ":
+			break;
 		default:
 			System.out.println("Erreur bouton switch");
 			break;
