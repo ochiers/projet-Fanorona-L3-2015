@@ -13,7 +13,7 @@ Lundi 18 mai
 Mardi 19 mai
 	Matin :
 		- CM réseau.
-		- Réflexion autour de l'IA, décision de réaliser une IA "de base" ne gérant pas les enchaînements de coups ni les choix.
+		- Réflexion autour de l'IA, décision de réaliser une IA "de base" ne gérant pas les enchaînements de coups ni les choix, puis de l'améliorer progressivement.
 	Après-midi :
 		- Réalisation d'une première version  de l'IA "de base". En attente de certaines méthodes du moteur de jeu pour effectuer les tests.
 		- Réflexion sur le passage de l'IA à une version gérant les choix, puis à une version "finale" gérant également les enchaînements.
