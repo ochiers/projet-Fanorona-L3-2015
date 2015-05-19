@@ -2,24 +2,25 @@ package engine;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import IHM.Affichage;
 
 public class Game {
 
-	public boolean		stopped;
-	public boolean		finish;
-	private boolean		paused;
-	public Player		joueurCourant;
-	public Player		joueurBlanc;
-	public Player		joueurNoir;
-	private Player		winner;
-	public Case			plateau;
-	public Case[][]		matricePlateau;
-	public int			numberTurn;
-	public int			nombrePionBlanc;
-	public int			nombrePionNoir;
-	public Affichage	display;
+	public boolean stopped;
+	public boolean finish;
+	private boolean paused;
+	public Player joueurCourant;
+	public Player joueurBlanc;
+	public Player joueurNoir;
+	private Player winner;
+	public Case plateau;
+	public Case[][] matricePlateau;
+	public int numberTurn;
+	public int nombrePionBlanc;
+	public int nombrePionNoir;
+	public Affichage display;
 
 	/**
 	 * Crée une nouvelle partie avec un module d'affichage et deux joueurs,
@@ -32,8 +33,7 @@ public class Game {
 	 * @param p2
 	 *            Joueur qui joue en deuxieme
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1,
-			Player p2, int hauteur, int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -253,11 +253,24 @@ public class Game {
 
 	/**
 	 * Donne les cases possibles pour un pion se trouvant sur la case c
-	 * @param c La case de depart du pion
+	 * 
+	 * @param c
+	 *            La case de depart du pion
 	 * @return Une liste de cases accessibles pour ce pion
 	 */
-	public ArrayList<Case> coupsPossiblesPourUnPion(Case c){
-		return null;
+	public ArrayList<Case> coupsPossiblesPourUnPion(Case c)
+	{
+
+		ArrayList<Case> res = new ArrayList<Case>();
+		Iterator<Case> it = c.voisins().iterator();
+		Case cour;
+		while (it.hasNext())
+		{
+			cour = it.next();
+			if (cour.estVide())
+				res.add(cour);
+		}
+		return res;
 	}
-	
+
 }
