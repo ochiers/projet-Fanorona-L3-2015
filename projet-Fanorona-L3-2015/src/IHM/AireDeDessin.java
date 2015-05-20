@@ -44,8 +44,9 @@ class AireDeDessin extends JComponent {
         dessinGrilleJeton(drawable,Color.black,Color.white);
         if(pionCliquer){
         	jetonCliquer(drawable);
-        	positionPossible(drawable);
+        	
         }
+      //  positionPossible(drawable);
     }
     
 
@@ -67,12 +68,15 @@ class AireDeDessin extends JComponent {
 	   ArrayList<Case> listCase = fenetre.engine.partieCourante.lesPionsJouables();
 	   for(int i=0;i<listCase.size();i++){
 		   jetonHalo(drawable,listCase.get(i).position);
-		   System.out.println("--Point: "+listCase.get(i).position.y+" "+listCase.get(i).position.x);
+		  // System.out.println("--Point: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
 	   }
    }
    
    public void positionPossible(Graphics2D drawable){
-	   
+	   ArrayList<Case> listCase = fenetre.engine.partieCourante.matricePlateau[2][4].voisins();
+	   for(int i=0;i<listCase.size();i++){
+		   System.out.println("--Voisin: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
+	   }
    }
     
     public void dessinGrille(Graphics2D drawable){

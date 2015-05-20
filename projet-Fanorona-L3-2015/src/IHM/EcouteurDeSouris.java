@@ -24,6 +24,7 @@ public class EcouteurDeSouris implements MouseListener{
 			p.x=e.getY();
 			int nbCoteLargeur=p.y/aire.tailleSegment;
 			int nbCoteHauteur=p.x/aire.tailleSegment;
+		
 			Point p1=new Point(nbCoteHauteur*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);// haut gauche
 			Point p2=new Point(nbCoteHauteur*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//haut droit
 			Point p3=new Point((nbCoteHauteur+1)*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);//bas gauche
@@ -46,7 +47,8 @@ public class EcouteurDeSouris implements MouseListener{
 				pfinal.y=nbCoteLargeur;
 				pfinal.x=nbCoteHauteur;
 			}
-			if(pfinal.x!=-1 && pfinal.y!=-1){
+		//	System.out.println("pfinal: "+pfinal.x+" "+pfinal.y);
+			if(pfinal.y!=-1 && pfinal.x!=-1){
 				if(aire.pionCliquer){
 					if(pfinal.y != aire.pCourant.y|| pfinal.x != aire.pCourant.x){
 						//aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion;
@@ -58,11 +60,12 @@ public class EcouteurDeSouris implements MouseListener{
 					}
 				}
 				else{
-					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.x][pfinal.y].pion!=null){
+					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
+						System.out.println("---------OUI c'est jouable");
 						aire.pCourant.y=pfinal.y;
 						aire.pCourant.x=pfinal.x;
 						aire.pionCliquer=true;
-						System.out.println("Point: "+aire.pCourant.y+" "+aire.pCourant.x);
+						System.out.println("Point: "+aire.pCourant.x+" "+aire.pCourant.y);
 					}
 				}
 				aire.repaint();
