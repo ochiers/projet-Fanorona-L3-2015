@@ -19,7 +19,7 @@ public class Fenetre implements Runnable,Affichage {
 	
 	public void run(){
 		frame.setSize(1280, 720);
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/IHM/images/image1.jpg").getImage());
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage());
 		panelAccueil.setLayout(null);
 		
 		int fw = frame.getWidth();
@@ -177,7 +177,7 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherJeu(){
-		
+		monDessin.repaint();
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {

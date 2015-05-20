@@ -12,14 +12,15 @@ class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
     int tailleSegment;
-   // int matrice[][];
     boolean pionCliquer=false;
     Point pCourant;
+    Color halo;
 
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
         tailleSegment=f.frame.getWidth()*4/60;
+        halo=Color.green;
         System.out.println("taille: "+tailleSegment);
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
@@ -37,13 +38,13 @@ class AireDeDessin extends JComponent {
         drawable.setPaint(Color.black);
        
         dessinGrille(drawable);
+        if(!pionCliquer){
+        	pionJouable(drawable);
+        }
         dessinGrilleJeton(drawable,Color.black,Color.white);
         if(pionCliquer){
         	jetonCliquer(drawable);
         	positionPossible(drawable);
-        }
-        else{
-        	pionJouable(drawable);
         }
     }
     
@@ -56,8 +57,18 @@ class AireDeDessin extends JComponent {
 	   
    }
    
+   public void jetonHalo(Graphics2D drawable,Point p){
+	   drawable.setPaint(halo);
+       drawable.fillOval((int)(tailleSegment+p.x*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.y*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+       drawable.setPaint(Color.black);
+   }
+   
    public void pionJouable(Graphics2D drawable){
 	   ArrayList<Case> listCase = fenetre.engine.partieCourante.lesPionsJouables();
+	   for(int i=0;i<listCase.size();i++){
+		   jetonHalo(drawable,listCase.get(i).position);
+		   System.out.println("--Point: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
+	   }
    }
    
    public void positionPossible(Graphics2D drawable){
