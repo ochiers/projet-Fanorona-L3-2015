@@ -58,9 +58,10 @@ public class EcouteurDeSouris implements MouseListener{
 				}
 				else{
 					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion!=null){
-						pSave.x=pfinal.x;
-						pSave.y=pfinal.y;
+						aire.pCourant.x=pfinal.x;
+						aire.pCourant.y=pfinal.y;
 						aire.pionCliquer=true;
+						System.out.println("Point: "+aire.pCourant.x+" "+aire.pCourant.y);
 					}
 				}
 				aire.repaint();
@@ -68,6 +69,7 @@ public class EcouteurDeSouris implements MouseListener{
 		} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfoncé
 		} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfoncé
 			aire.pionCliquer=false;
+			aire.repaint();
 	    }
 		
 		
