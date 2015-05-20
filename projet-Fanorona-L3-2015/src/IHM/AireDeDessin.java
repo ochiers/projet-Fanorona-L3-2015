@@ -136,19 +136,21 @@ class ImagePanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
 	private Image img;
+	private int width;
+	private int height;
  
-	public ImagePanel(String img) {
-		this(new ImageIcon(img).getImage());
+	public ImagePanel(String img, int x, int y) {
+		this(new ImageIcon(img).getImage(), x, y);
 	}
  
-	public ImagePanel(Image img) {
+	public ImagePanel(Image img, int x, int y) {
 		this.img = img;
+		this.width = x;
+		this.height = y;
 	}
  
 	public void paintComponent(Graphics g) {
-		int fw = Fenetre.frame.getWidth();
-		int fh = Fenetre.frame.getHeight();
-		g.drawImage(img, 0, 0, fw, fh, this);
+		g.drawImage(img, 0, 0, width, height, this);
 	}
 }
 
