@@ -78,6 +78,8 @@ public class Game {
 	 * Le module d'affichage
 	 */
 	public Affichage	display;
+	
+	public ArrayList<Case>	combo;
 
 	/**
 	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc
@@ -230,31 +232,53 @@ public class Game {
 
 			if (stopped)
 				return;
-			display.afficherPionsPossibles(null);
+			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
+			if(pionsPossibles.size() == 0)
+				pionsPossibles = this.lesPionsJouables();
+			
+			
+			display.afficherPionsPossibles(pionsPossibles);
 			Coup c = this.joueurCourant.play();
-			while (!stopped && !paused && !this.coupValide(c))
+			while (!stopped && !paused && !this.coupValide(c,pionsPossibles))
 				c = this.joueurCourant.play();
 
 			if (stopped || paused)
 				continue;
 			else
 			{
-				while (!joueurCourant.isStopped() && !stopped && !paused && faireCoup(c))
-					c = this.joueurCourant.play();
-
+				boolean rejouer = faireCoup(c);
+				combo.add(matricePlateau[c.depart.y][c.depart.x]);
+				
+				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer){
+					Coup c2 = this.joueurCourant.play();
+					while(paused)
+						Thread.sleep(50);
+					
+					while(comboValide(c2))
+						rejouer = faireCoup(c);
+				}
 			}
 
 			finish = testVictoire();
 			this.display.afficherJeu();
+			combo.removeAll(combo);
 
 		}
 
 		if (finish && !stopped)
 		{
 			winner = joueurCourant;
-			display.afficherVictoire();
 		}
 
+	}
+	
+	private boolean comboValide(Coup c)
+	{
+		boolean res = true;
+		Case arrivee = matricePlateau[c.arrivee.y][c.arrivee.x];
+		Case depart =  matricePlateau[c.depart.y][c.depart.x];
+		res = res && !combo.contains(arrivee) && coupsPossiblesPourUnPion(depart).contains(arrivee);
+		return res;
 	}
 
 	/**
@@ -262,12 +286,13 @@ public class Game {
 	 * 
 	 * @param c
 	 *            Le coup a verifier
+	 * @param pionsPossibles 
 	 * @return True -> si coup est valide, False sinon
 	 */
-	private boolean coupValide(Coup c)
+	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles)
 	{
 
-		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur && c.arrivee.y >= 0 && c.arrivee.y < hauteur && c.depart.x >= 0 && c.depart.x < largeur && c.depart.y >= 0 && c.depart.y < hauteur && this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
+		return (c != null && pionsPossibles.contains(c.depart) && this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
 	}
 
 	/**
@@ -432,7 +457,7 @@ public class Game {
 	}
 
 	/**
-	 * Donne le gagnant du jeu;
+	 * Donne le gagnant du jeu s'il y en a un (vaut null sinon)
 	 * 
 	 * @return Un joueur qui est le gagnant
 	 */

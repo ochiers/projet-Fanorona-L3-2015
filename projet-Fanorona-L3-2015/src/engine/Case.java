@@ -65,4 +65,14 @@ public class Case {
 		
 	}
 	
+	public boolean equals(Object o)
+	{
+		if(o==null)
+			return false;
+		if(!(o instanceof Case))
+			return false;
+		Case c = (Case)o;
+		return c.position.x == this.position.x && this.position.y == c.position.y; 
+	}
+	
 }
