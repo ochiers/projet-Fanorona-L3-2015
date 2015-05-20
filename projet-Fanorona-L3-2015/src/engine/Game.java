@@ -239,9 +239,10 @@ public class Game {
 			
 			
 			display.afficherPionsPossibles(pionsPossibles);
-			Coup c = this.joueurCourant.play((Coup[]) pionsPossibles.toArray());
+			Case[] tmp = new Case[pionsPossibles.size()];
+			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			while (!stopped && !paused && !this.coupValide(c,pionsPossibles))
-				c = this.joueurCourant.play((Coup[]) pionsPossibles.toArray());
+				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			
 			while(paused)
 				Thread.sleep(50);
@@ -252,8 +253,9 @@ public class Game {
 				combo.add(matricePlateau[c.depart.y][c.depart.x]);
 				
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer){
-					ArrayList<Case> l = coupsPossiblesPourUnPion(matricePlateau[c.arrivee.y][c.arrivee.x]);
-					Coup c2 = this.joueurCourant.play((Coup[]) this.coupsPourPriseParUnPion(l, matricePlateau[c.arrivee.y][c.arrivee.x]).toArray());
+					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.y][c.arrivee.x]), matricePlateau[c.arrivee.y][c.arrivee.x]);
+					Case tmp2[] = new Case[l.size()];
+					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
 					while(paused)
 						Thread.sleep(50);
 					
@@ -607,7 +609,7 @@ public class Game {
 			 * différente et que la case dans la direction opposé fait
 			 * partie des coups possibles
 			 */
-			if (c.getCaseAt(d).pion == ennemi && coupsPossibles.contains(c.getCaseAt(Direction.oppose(d))))
+			if (c.getCaseAt(d) != null && c.getCaseAt(d).pion == ennemi && coupsPossibles.contains(c.getCaseAt(Direction.oppose(d))))
 				res.add(c);
 		}
 
@@ -619,7 +621,7 @@ public class Game {
 			 * différente et que la case dans la direction opposé fait
 			 * partie des coups possibles
 			 */
-			if (c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c);
 		}
 		

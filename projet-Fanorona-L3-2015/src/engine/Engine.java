@@ -33,6 +33,7 @@ public class Engine {
 				while (!gameInProgress)
 					Thread.sleep(50);
 
+				partieCourante.reprendre();
 				partieCourante.jouer();
 				if (!partieCourante.stopped && partieCourante.finish)
 				{

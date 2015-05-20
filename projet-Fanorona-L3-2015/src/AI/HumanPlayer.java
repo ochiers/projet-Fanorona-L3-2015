@@ -53,7 +53,7 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public Coup play(Coup[] listeCoups)
+	public Coup play(Case[] listeCoups)
 	{
 		hasPlayed = false;
 		coupJoue = null;
@@ -62,6 +62,7 @@ public class HumanPlayer extends Player {
 		{
 			try {
 				Thread.sleep(500);
+				System.out.println("J'attend");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
