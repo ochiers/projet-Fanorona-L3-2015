@@ -42,7 +42,7 @@ public abstract class Player {
 	 * 
 	 * @return
 	 */
-	public abstract Coup play();
+	public abstract Coup play(Coup[] listeCoups);
 
 	/**
 	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les
