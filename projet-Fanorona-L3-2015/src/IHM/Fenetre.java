@@ -184,7 +184,7 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherJeu(){
-		
+		monDessin.repaint();
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
