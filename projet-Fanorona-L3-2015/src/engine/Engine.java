@@ -37,7 +37,7 @@ public class Engine {
 				if (!partieCourante.stopped && partieCourante.finish)
 				{
 					System.out.println("victoire");
-					affichage.afficherVictoire();
+					affichage.afficherVictoire(partieCourante.getWinner());
 					gameInProgress = false;
 				}
 			}
