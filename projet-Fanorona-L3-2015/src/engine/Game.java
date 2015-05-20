@@ -635,12 +635,17 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Teste si une case est jouable
+	 * @param p La coordonnee de la case
+	 * @return Vrai si la case est vide, Faux sinon
+	 */
 	public boolean estJouable(Point p){
 		
 		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-		if (matricePlateau[p.y][p.x].pion == courant)
+		if (matricePlateau[p.x][p.y].pion == courant)
 		{
-			for (Case case1 : matricePlateau[p.y][p.x].voisins())
+			for (Case case1 : matricePlateau[p.x][p.y].voisins())
 			{
 				return case1.estVide();
 			}
@@ -648,6 +653,13 @@ public class Game {
 		return false;
 		
 	}
+	
+	/**
+	 * Teste si la case a la coordonee p est voisin de la case a la coordonnee q
+	 * @param p Une case
+	 * @param q Une case
+	 * @return Vrai si p appartien aux voisins de q
+	 */
 	public boolean estVoisin(Point p, Point q){
 		Case c1 = matricePlateau[p.y][p.x];
 		Case c2 = matricePlateau[q.y][q.x];
