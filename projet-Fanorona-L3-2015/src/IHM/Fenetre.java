@@ -20,7 +20,7 @@ public class Fenetre implements Runnable,Affichage {
 	public void run(){
 		frame.setSize(1280, 720);  
 		//JPanel panelAccueil = new JPanel();
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("images/image1.jpg").getImage());
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/IHM/images/image1.jpg").getImage());
 		panelAccueil.setLayout(null);
 		
 		int fw = frame.getWidth();
@@ -89,9 +89,6 @@ public class Fenetre implements Runnable,Affichage {
 			valider.setBounds((int)(((1.5*fw/6)-temp)+3*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 			
 			//affichages joueurs
-		/*
-		 Score dans carré
-		*/
 			//chaines caracteres
 		JLabel j1 = new JLabel(" # Joueur 1 ");
 			j1.setBounds((int)(0.45*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
@@ -150,7 +147,9 @@ public class Fenetre implements Runnable,Affichage {
 		//tour.setBounds(int x, int y, int width, int height);
 
 			//carré score
-
+		/*
+		 Score dans carré
+		*/
 		
  			//ajouts 
  		menuBar.add(partie);
@@ -174,8 +173,7 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(score); 		
  		panelAccueil.add(tour);
  		
- 		frame.add(panelAccueil);  
- 		//panelAccueil.setBackground(new Color(204, 255, 153));
+ 		frame.add(panelAccueil);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -185,13 +183,13 @@ public class Fenetre implements Runnable,Affichage {
 	public void afficherJeu(){
 		
 	}
-	public void afficherVictoire(){
-		
-	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
 		// TODO Auto-generated method stub
-		
+	}
+
+	public void afficherVictoire(Player p) {
+		// TODO Auto-generated method stub	
 	}
 	
 }
