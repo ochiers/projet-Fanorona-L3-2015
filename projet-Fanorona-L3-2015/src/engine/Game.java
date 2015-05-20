@@ -549,7 +549,7 @@ public class Game {
 	}
 
 	/**
-	 * Fonction renvoyant les pions du joueur courant qui peuvent ce deplacer
+	 * Fonction renvoyant les pions du joueur courant qui peuvent se deplacer
 	 * (en mangeant ou nom)
 	 * 
 	 * @return Une liste de pions
@@ -598,6 +598,12 @@ public class Game {
 		return res;
 	}
 	
+	/**
+	 * Donne les cases mangeables par un le pion sur la case c
+	 * @param coupsPossibles Tous les coups possibles de deplacement pour le pion sur case c
+	 * @param c La case sur laquelle ce trouve le pion qui va manger
+	 * @return
+	 */
 	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case c)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
