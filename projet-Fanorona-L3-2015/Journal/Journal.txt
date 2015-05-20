@@ -24,3 +24,4 @@ Mercredi 20 mai
 	Matin :
 		- Ajout gestion des choix à l'IA (si les deux types de capture sont possibles, choisir laquelle faire). 
 	Après-midi :
+		- Ajout commentaires à l'IA en vue de l'audit. En attente pour les tests.

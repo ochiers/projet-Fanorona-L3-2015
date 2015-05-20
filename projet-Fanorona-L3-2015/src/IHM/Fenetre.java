@@ -18,9 +18,7 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void run(){
-		frame.setSize(1280, 720);  
-		//JPanel panelAccueil = new JPanel();
-		System.out.println(""+System.getProperty("user.dir" ));
+		frame.setSize(1280, 720);
 		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/IHM/images/image1.jpg").getImage());
 		panelAccueil.setLayout(null);
 		
@@ -90,10 +88,6 @@ public class Fenetre implements Runnable,Affichage {
 			valider.setBounds((int)(((1.5*fw/6)-temp)+3*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 			
 			//affichages joueurs
-		/*
-		 Score dans carré
-		*/
-			//chaines caracteres
 		JLabel j1 = new JLabel(" # Joueur 1 ");
 			j1.setBounds((int)(0.45*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel idj1 = new JLabel(" Erreur ");
@@ -120,7 +114,7 @@ public class Fenetre implements Runnable,Affichage {
 			levelj1 = new JLabel(" Difficile ");
 		}
 		if (level.equals("Humain")){
-			idj2 = new JLabel(engine.partieCourante.joueurBlanc.name);
+			idj2 = new JLabel(engine.partieCourante.joueurNoir.name);
 			levelj2 = new JLabel(" Bonne Chance ! ");
 		}
 		if (level.equals("IA Facile")){
@@ -135,30 +129,28 @@ public class Fenetre implements Runnable,Affichage {
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Difficile ");
 		}
-		//idj1.setBounds(int x, int y, int width, int height);
-		//levelj1.setBounds(int x, int y, int width, int height);
-		//idj2.setBounds(int x, int y, int width, int height);
-		//levelj2.setBounds(int x, int y, int width, int height);
+			idj1.setBounds((int)(0.45*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			levelj1.setBounds((int)(0.45*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			idj2.setBounds((int)(5.15*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			levelj2.setBounds((int)(5.15*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
-		//scoreInt1.setBounds(int x, int y, int width, int height);
+			scoreInt1.setBounds((int)(0.45*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
-		//scoreInt2.setBounds(int x, int y, int width, int height);
-		JLabel score = new JLabel(" Pions restants ");
-		//score.setBounds(int x, int y, int width, int height);
-		//score.setBounds(int x, int y, int width, int height);
-		JLabel tour = new JLabel(" A votre tour ! ");
-		//tour.setBounds(int x, int y, int width, int height);
-		//tour.setBounds(int x, int y, int width, int height);
-
-			//carré score
-
+			scoreInt2.setBounds((int)(5.15*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		JLabel score1 = new JLabel(" Pions restants ");
+			score1.setBounds((int)(0.45*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		JLabel score2 = new JLabel(" Pions restants ");
+			score2.setBounds((int)(5.15*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		JLabel tour1 = new JLabel(" A votre tour ! ");
+			tour1.setBounds((int)(0.45*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		JLabel tour2 = new JLabel(" A votre tour ! ");
+			tour2.setBounds((int)(5.15*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		
  			//ajouts 
  		menuBar.add(partie);
 		menuBar.add(options);
 		menuBar.add(aide);
 		frame.setJMenuBar(menuBar);
-		//panelAccueil.add(carre);
  		panelAccueil.add(monDessin);
  		panelAccueil.add(annuler);
  		panelAccueil.add(refaire);
@@ -172,11 +164,12 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(levelj2);
  		panelAccueil.add(scoreInt1);
  		panelAccueil.add(scoreInt2);
- 		panelAccueil.add(score); 		
- 		panelAccueil.add(tour);
+ 		panelAccueil.add(score1); 
+ 		panelAccueil.add(score2); 		
+ 		panelAccueil.add(tour1);
+ 		panelAccueil.add(tour2);
  		
- 		frame.add(panelAccueil);  
- 		//panelAccueil.setBackground(new Color(204, 255, 153));
+ 		frame.add(panelAccueil);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -189,13 +182,10 @@ public class Fenetre implements Runnable,Affichage {
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
 		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
 	public void afficherVictoire(Player p) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 	
 }

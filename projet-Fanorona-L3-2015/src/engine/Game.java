@@ -94,9 +94,9 @@ public class Game {
 	 * @param p2
 	 *            Joueur Noir
 	 * @param hauteur
-	 *            Hauteur du plateau (nombre de cases)
+	 *            Hauteur du plateau (nombre de cases)(5)
 	 * @param largeur
-	 *            Largeur du plateau (nombre de cases)
+	 *            Largeur du plateau (nombre de cases)(9)
 	 */
 	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
 	{
@@ -110,6 +110,7 @@ public class Game {
 		else
 			this.joueurCourant = p2;
 
+		this.combo = new ArrayList<Case>();		
 		this.numberTurn = 0;
 		this.display = affichage;
 		this.nombrePionBlanc = ((hauteur * largeur) - 1) / 2;
@@ -122,8 +123,8 @@ public class Game {
 	/**
 	 * Initialise le plateau du jeu
 	 * 
-	 * @param hauteur
-	 * @param largeur
+	 * @param hauteur (5)
+	 * @param largeur (9 ou 5)
 	 */
 	public void initialisation(int hauteur, int largeur)
 	{
@@ -238,19 +239,21 @@ public class Game {
 			
 			
 			display.afficherPionsPossibles(pionsPossibles);
-			Coup c = this.joueurCourant.play();
+			Coup c = this.joueurCourant.play((Coup[]) pionsPossibles.toArray());
 			while (!stopped && !paused && !this.coupValide(c,pionsPossibles))
-				c = this.joueurCourant.play();
-
-			if (stopped || paused)
-				continue;
-			else
+				c = this.joueurCourant.play((Coup[]) pionsPossibles.toArray());
+			
+			while(paused)
+				Thread.sleep(50);
+			
+			if (!stopped && !paused)
 			{
 				boolean rejouer = faireCoup(c);
 				combo.add(matricePlateau[c.depart.y][c.depart.x]);
 				
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer){
-					Coup c2 = this.joueurCourant.play();
+					ArrayList<Case> l = coupsPossiblesPourUnPion(matricePlateau[c.arrivee.y][c.arrivee.x]);
+					Coup c2 = this.joueurCourant.play((Coup[]) this.coupsPourPriseParUnPion(l, matricePlateau[c.arrivee.y][c.arrivee.x]).toArray());
 					while(paused)
 						Thread.sleep(50);
 					
@@ -272,6 +275,11 @@ public class Game {
 
 	}
 	
+	/**
+	 * Teste si on peut effectuer un combo
+	 * @param c Le coup joué
+	 * @return Vrai -> si on peut faire le combo, Faux sinon
+	 */
 	private boolean comboValide(Coup c)
 	{
 		boolean res = true;
@@ -577,42 +585,45 @@ public class Game {
 		ArrayList<Case> temp = this.lesPionsJouables();
 		ArrayList<Case> res = new ArrayList<Case>();
 		ArrayList<Case> coupsPossibles;
-		Pion ennemi = (joueurCourant == joueurBlanc) ? Pion.Noir : Pion.Blanc;
 		Iterator<Case> it = temp.iterator();
 		while (it.hasNext())
 		{
 			Case tmp = it.next();
 			coupsPossibles = coupsPossiblesPourUnPion(tmp);
-
-			/* Aspiration - Eloignement */
-			for (Direction d : Direction.values())
-			{
-				/*
-				 * POur chaque dir, on test si la case est d'une couleur
-				 * différente et que la case dans la direction opposé fait
-				 * partie des coups possibles
-				 */
-				if (tmp.getCaseAt(d).pion == ennemi && coupsPossibles.contains(tmp.getCaseAt(Direction.oppose(d))))
-					res.add(tmp);
-			}
-
-			/* Percussion - Rapprochement */
-			for (Direction d : Direction.values())
-			{
-				/*
-				 * POur chaque dir, on test si la case est d'une couleur
-				 * différente et que la case dans la direction opposé fait
-				 * partie des coups possibles
-				 */
-				if (tmp.getCaseAt(d).estVide() && tmp.getCaseAt(d).getCaseAt(d).pion == ennemi)
-					res.add(tmp);
-			}
-			/*
-			 * Pour chaque coups possibles, il faut tester si la case suivante
-			 * est d'une couleur différente
-			 */
+			res.addAll(coupsPourPriseParUnPion(coupsPossibles, tmp));
 
 		}
 		return res;
+	}
+	
+	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case c)
+	{
+		ArrayList<Case> res = new ArrayList<Case>();
+		Pion ennemi = (joueurCourant == joueurBlanc) ? Pion.Noir : Pion.Blanc;
+		for (Direction d : Direction.values())
+		{
+			/*
+			 * POur chaque dir, on test si la case est d'une couleur
+			 * différente et que la case dans la direction opposé fait
+			 * partie des coups possibles
+			 */
+			if (c.getCaseAt(d).pion == ennemi && coupsPossibles.contains(c.getCaseAt(Direction.oppose(d))))
+				res.add(c);
+		}
+
+		/* Percussion - Rapprochement */
+		for (Direction d : Direction.values())
+		{
+			/*
+			 * POur chaque dir, on test si la case est d'une couleur
+			 * différente et que la case dans la direction opposé fait
+			 * partie des coups possibles
+			 */
+			if (c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+				res.add(c);
+		}
+		
+		return res;
+		
 	}
 }
