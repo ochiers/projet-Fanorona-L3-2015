@@ -208,10 +208,9 @@ public class EasyAI extends Player {
 	@Override
 	public Coup play(Coup[] listeCoups)
 	{
-		Case[][] plateau = leMoteur.partieCourante.matricePlateau;
 		Noeud n = new Noeud(leMoteur.partieCourante);
-		Coup meilleurCoup;
-		int meilleurRes;
+		Coup meilleurCoup = null;
+		int meilleurRes = 0;
 		int res = 0;
 		
 		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
@@ -250,6 +249,11 @@ public class EasyAI extends Player {
 			}
 		}
 		return meilleurCoup;
+	}
+
+	@Override
+	public String getNiveau() {
+		return "IA Facile";
 	}
 	
 }
