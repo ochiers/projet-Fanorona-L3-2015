@@ -19,8 +19,6 @@ public class Fenetre implements Runnable,Affichage {
 	
 	public void run(){
 		frame.setSize(1280, 720);
-		// Images Bug
-		System.out.println(""+System.getProperty("user.dir"));
 		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage());
 		panelAccueil.setLayout(null);
 		
