@@ -19,3 +19,8 @@ Mardi 19 mai
 		- Réalisation d'une première version  de l'IA "de base". En attente de certaines méthodes du moteur de jeu pour effectuer les tests.
 		- Réflexion sur le passage de l'IA à une version gérant les choix, puis à une version "finale" gérant également les enchaînements.
 		- Reflexion sur les regles du jeu et debut de la mises en place des regles et de fonction permettant la gestion du plateau et des coups joués.
+
+Mercredi 20 mai
+	Matin :
+		- Ajout gestion des choix à l'IA (si les deux types de capture sont possibles, choisir laquelle faire). 
+	Après-midi :

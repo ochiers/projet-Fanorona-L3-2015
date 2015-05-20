@@ -20,7 +20,8 @@ public class Fenetre implements Runnable,Affichage {
 	public void run(){
 		frame.setSize(1280, 720);  
 		//JPanel panelAccueil = new JPanel();
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("images/image1.jpg").getImage());
+		System.out.println(""+System.getProperty("user.dir" ));
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/IHM/images/image1.jpg").getImage());
 		panelAccueil.setLayout(null);
 		
 		int fw = frame.getWidth();
@@ -185,11 +186,14 @@ public class Fenetre implements Runnable,Affichage {
 	public void afficherJeu(){
 		
 	}
-	public void afficherVictoire(){
+
+	public void afficherPionsPossibles(ArrayList<Case> l) {
+		// TODO Auto-generated method stub
 		
 	}
 
-	public void afficherPionsPossibles(ArrayList<Case> l) {
+	@Override
+	public void afficherVictoire(Player p) {
 		// TODO Auto-generated method stub
 		
 	}
