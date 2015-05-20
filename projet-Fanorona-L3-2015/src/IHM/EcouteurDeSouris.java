@@ -20,49 +20,49 @@ public class EcouteurDeSouris implements MouseListener{
 		int buttonDown = e.getButton();
 		if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfoncé
 			Point p=new Point();	
-			p.x=e.getX();
-			p.y=e.getY();
-			int nbCoteLargeur=p.x/aire.tailleSegment;
-			int nbCoteHauteur=p.y/aire.tailleSegment;
-			Point p1=new Point(nbCoteLargeur*aire.tailleSegment,nbCoteHauteur*aire.tailleSegment);// haut gauche
-			Point p2=new Point((nbCoteLargeur+1)*aire.tailleSegment,nbCoteHauteur*aire.tailleSegment);//haut droit
-			Point p3=new Point(nbCoteLargeur*aire.tailleSegment,(nbCoteHauteur+1)*aire.tailleSegment);//bas gauche
-			Point p4=new Point((nbCoteLargeur+1)*aire.tailleSegment,(nbCoteHauteur+1)*aire.tailleSegment);//bas droit
+			p.y=e.getX();
+			p.x=e.getY();
+			int nbCoteLargeur=p.y/aire.tailleSegment;
+			int nbCoteHauteur=p.x/aire.tailleSegment;
+			Point p1=new Point(nbCoteHauteur*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);// haut gauche
+			Point p2=new Point(nbCoteHauteur*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//haut droit
+			Point p3=new Point((nbCoteHauteur+1)*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);//bas gauche
+			Point p4=new Point((nbCoteHauteur+1)*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//bas droit
 			Point pfinal=new Point(-1,-1);
 			
 			if(distance(p,p1)<=(aire.tailleJeton/2)){
-				pfinal.x=nbCoteLargeur-1;
-				pfinal.y=nbCoteHauteur-1;
+				pfinal.y=nbCoteLargeur-1;
+				pfinal.x=nbCoteHauteur-1;
 			}
 			else if(distance(p,p2)<=(aire.tailleJeton/2)){
-				pfinal.x=nbCoteLargeur;
-				pfinal.y=nbCoteHauteur-1;
+				pfinal.y=nbCoteLargeur;
+				pfinal.x=nbCoteHauteur-1;
 			}
 			else if(distance(p,p3)<=(aire.tailleJeton/2)){
-				pfinal.x=nbCoteLargeur-1;
-				pfinal.y=nbCoteHauteur;		
+				pfinal.y=nbCoteLargeur-1;
+				pfinal.x=nbCoteHauteur;		
 			}
 			else if(distance(p,p4)<=(aire.tailleJeton/2)){
-				pfinal.x=nbCoteLargeur;
-				pfinal.y=nbCoteHauteur;
+				pfinal.y=nbCoteLargeur;
+				pfinal.x=nbCoteHauteur;
 			}
 			if(pfinal.x!=-1 && pfinal.y!=-1){
 				if(aire.pionCliquer){
-					if(pfinal.x != aire.pCourant.x || pfinal.y != aire.pCourant.y){
+					if(pfinal.y != aire.pCourant.y|| pfinal.x != aire.pCourant.x){
 						//aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion;
 					//	aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion=null;
 						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
-						System.out.println("Jouer: "+aire.pCourant.x+" "+aire.pCourant.y+" en "+pfinal.x+" "+pfinal.y);
+						System.out.println("Jouer: "+aire.pCourant.y+" "+aire.pCourant.x+" en "+pfinal.y+" "+pfinal.x);
 						aire.pionCliquer=false;
 						System.out.println("test2");
 					}
 				}
 				else{
-					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion!=null){
-						aire.pCourant.x=pfinal.x;
+					if(aire.fenetre.engine.partieCourante.matricePlateau[pfinal.x][pfinal.y].pion!=null){
 						aire.pCourant.y=pfinal.y;
+						aire.pCourant.x=pfinal.x;
 						aire.pionCliquer=true;
-						System.out.println("Point: "+aire.pCourant.x+" "+aire.pCourant.y);
+						System.out.println("Point: "+aire.pCourant.y+" "+aire.pCourant.x);
 					}
 				}
 				aire.repaint();
