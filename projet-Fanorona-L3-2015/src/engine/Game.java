@@ -97,8 +97,7 @@ public class Game {
 	 * @param largeur
 	 *            Largeur du plateau (nombre de cases)
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1,
-			Player p2, int hauteur, int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -199,20 +198,20 @@ public class Game {
 			for (int j = 0; j < largeur; j++)
 				tableau[i][j].pion = Pion.Blanc;
 
-		for (int j = 0; j < largeur/2; j++)
+		for (int j = 0; j < largeur / 2; j++)
 			if (j % 2 == 0)
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
 			else
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
-		
-		tableau[hauteur/2][largeur/2].pion = null;
-		
-		for (int j = largeur/2+1; j < largeur; j++)
+
+		tableau[hauteur / 2][largeur / 2].pion = null;
+
+		for (int j = largeur / 2 + 1; j < largeur; j++)
 			if (j % 2 == 0)
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
 			else
 				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
-		
+
 		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
 	}
@@ -232,7 +231,8 @@ public class Game {
 
 			if (stopped)
 				return;
-			Coup c = null;
+			display.afficherPionsPossibles(null);
+			Coup c = this.joueurCourant.play();
 			while (!stopped && !paused && !this.coupValide(c))
 				c = this.joueurCourant.play();
 
@@ -240,8 +240,7 @@ public class Game {
 				continue;
 			else
 			{
-				while (!joueurCourant.isStopped() && !stopped && !paused
-						&& faireCoup(c))
+				while (!joueurCourant.isStopped() && !stopped && !paused && faireCoup(c))
 					c = this.joueurCourant.play();
 
 			}
@@ -252,7 +251,10 @@ public class Game {
 		}
 
 		if (finish && !stopped)
+		{
 			winner = joueurCourant;
+			display.afficherVictoire();
+		}
 
 	}
 
@@ -266,11 +268,7 @@ public class Game {
 	private boolean coupValide(Coup c)
 	{
 
-		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur
-				&& c.arrivee.y >= 0 && c.arrivee.y < hauteur && c.depart.x >= 0
-				&& c.depart.x < largeur && c.depart.y >= 0
-				&& c.depart.y < hauteur
-				&& this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
+		return (c != null && c.arrivee.x >= 0 && c.arrivee.x < largeur && c.arrivee.y >= 0 && c.arrivee.y < hauteur && c.depart.x >= 0 && c.depart.x < largeur && c.depart.y >= 0 && c.depart.y < hauteur && this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
 	}
 
 	/**
@@ -283,22 +281,18 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		ArrayList<Case> rapprochement = determinerPionsACapturer(
-				determinerDirection(c.depart, c.arrivee),
-				matricePlateau[c.arrivee.y][c.arrivee.x]);
-		ArrayList<Case> eloignement = determinerPionsACapturer(
-				determinerDirection(c.depart, c.arrivee),
-				matricePlateau[c.depart.y][c.depart.x]);
+		ArrayList<Case> rapprochement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.arrivee.y][c.arrivee.x]);
+		ArrayList<Case> eloignement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.depart.y][c.depart.x]);
 		if (rapprochement.size() == 0 && eloignement.size() == 0)
 		{
 			return false;
 		} else if (rapprochement.size() != 0 && rapprochement.size() != 0)
 		{
-			capturer(determinerPionsACapturer(
-					joueurCourant.choisirDirectionAManger(),
-					matricePlateau[c.arrivee.y][c.arrivee.x])); // risque de
-																// gros soucis
-																// ici
+			capturer(determinerPionsACapturer(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.y][c.arrivee.x])); // risque
+																																	// de
+																																	// gros
+																																	// soucis
+																																	// ici
 		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 		{
 			capturer(rapprochement);
@@ -520,4 +514,83 @@ public class Game {
 		return null;
 	}
 
+	/**
+	 * Fonction renvoyant les pions du joueur courant qui peuvent ce deplacer
+	 * (en mangeant ou nom)
+	 * 
+	 * @return Une liste de pions
+	 */
+	public ArrayList<Case> lesPionsJouables()
+	{
+		ArrayList<Case> res = new ArrayList<Case>();
+		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		for (int i = 0; i < hauteur; i++)
+			for (int j = 0; j < largeur; j++)
+			{
+				if (matricePlateau[i][j].pion == courant)
+				{
+					for (Case case1 : matricePlateau[i][j].voisins())
+					{
+						if (case1.estVide())
+						{
+							res.add(matricePlateau[i][j]);
+							break;
+						}
+					}
+				}
+			}
+		return res;
+	}
+
+	/**
+	 * Fonction donnant les pions du joueur courant qui peuvent manger ce coup
+	 * ci
+	 * 
+	 * @return Une liste de pions
+	 */
+	public ArrayList<Case> lesPionsQuiPeuventManger()
+	{
+		ArrayList<Case> temp = this.lesPionsJouables();
+		ArrayList<Case> res = new ArrayList<Case>();
+		ArrayList<Case> coupsPossibles;
+		Pion ennemi = (joueurCourant == joueurBlanc) ? Pion.Noir : Pion.Blanc;
+		Iterator<Case> it = temp.iterator();
+		while (it.hasNext())
+		{
+			Case tmp = it.next();
+			coupsPossibles = coupsPossiblesPourUnPion(tmp);
+
+			/* Aspiration - Eloignement */
+			for (Direction d : Direction.values())
+			{
+				/*
+				 * POur chaque dir, on test si la case est d'une couleur
+				 * différente et que la case dans la direction opposé fait
+				 * partie des coups possibles
+				 */
+				if (tmp.getCaseAt(d).pion == ennemi && coupsPossibles.contains(tmp.getCaseAt(Direction.oppose(d))))
+					res.add(tmp);
+			}
+			
+			
+			
+			/* Percussion - Rapprochement */
+			for (Direction d : Direction.values())
+			{
+				/*
+				 * POur chaque dir, on test si la case est d'une couleur
+				 * différente et que la case dans la direction opposé fait
+				 * partie des coups possibles
+				 */
+				if (tmp.getCaseAt(d).estVide() && tmp.getCaseAt(d).getCaseAt(d).pion == ennemi)
+					res.add(tmp);
+			}
+			/*
+			 * Pour chaque coups possibles, il faut tester si la case suivante
+			 * est d'une couleur différente
+			 */
+			
+		}
+		return res;
+	}
 }
