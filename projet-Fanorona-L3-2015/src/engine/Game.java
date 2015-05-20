@@ -3,7 +3,6 @@ package engine;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import IHM.Affichage;
 
 /**
@@ -219,8 +218,8 @@ public class Game {
 	}
 
 	/**
-	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a été
-	 * arretée
+	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a
+	 * été arretée
 	 * 
 	 * @throws InterruptedException
 	 */
@@ -596,9 +595,7 @@ public class Game {
 				if (tmp.getCaseAt(d).pion == ennemi && coupsPossibles.contains(tmp.getCaseAt(Direction.oppose(d))))
 					res.add(tmp);
 			}
-			
-			
-			
+
 			/* Percussion - Rapprochement */
 			for (Direction d : Direction.values())
 			{
@@ -614,7 +611,7 @@ public class Game {
 			 * Pour chaque coups possibles, il faut tester si la case suivante
 			 * est d'une couleur différente
 			 */
-			
+
 		}
 		return res;
 	}
