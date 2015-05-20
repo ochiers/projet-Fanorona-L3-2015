@@ -20,33 +20,46 @@ public class EcouteurDeBouton implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		switch (message){
 		case " Nouvelle Partie ":
+			//TODO
 			break;
 		case " Recommencer ":
+			//TODO
 			break;
 		case " Sauvegarder ":
+			//TODO
 			break;
 		case " Charger ":
+			//TODO
 			break;
 		case " Quitter ":
 			System.exit(0);
 			break;
 		case " Paramètres Partie ":
+			//TODO
 			break;
 		case " Préférences ":
+			//TODO
 			break;
 		case " Historique Scores ":
+			//TODO
 			break;
 		case " Règles du Jeu ":
+			//TODO
 			break;
 		case " A Propos ":
+			//TODO
 			break;
 		case " Annuler Coup ":
+			//TODO
 			break;
 		case " Refaire Coup ":
+			//TODO
 			break;
 		case " Pause ":
+			//TODO
 			break;
 		case " Fin du tour ":
+			//TODO
 			break;
 		default:
 			System.out.println("Erreur bouton switch");

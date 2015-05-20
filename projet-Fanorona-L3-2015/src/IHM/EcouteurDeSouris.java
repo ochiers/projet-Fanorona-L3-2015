@@ -50,12 +50,11 @@ public class EcouteurDeSouris implements MouseListener{
 		//	System.out.println("pfinal: "+pfinal.x+" "+pfinal.y);
 			if(pfinal.y!=-1 && pfinal.x!=-1){
 				if(aire.pionCliquer){
-					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
+					
 						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
 						System.out.println("Jouer: "+aire.pCourant.x+" "+aire.pCourant.y+" en "+pfinal.x+" "+pfinal.y);
 						aire.pionCliquer=false;
 						System.out.println("test2");
-					}
 				}
 				else{
 					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){

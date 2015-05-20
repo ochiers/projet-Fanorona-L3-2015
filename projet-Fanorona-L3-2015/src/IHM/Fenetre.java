@@ -17,19 +17,23 @@ public class Fenetre implements Runnable,Affichage {
 		engine=e;
 	}
 	
-	public void run(){
+	public void run(){		
+
 		frame.setSize(1280, 720);
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage());
-		panelAccueil.setLayout(null);
-		
 		int fw = frame.getWidth();
 		int fh = frame.getHeight();
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/image6.jpg").getImage(), fw, fh);
+		panelAccueil.setLayout(null);
 		
 			//grille
-		monDessin = new AireDeDessin(this);
+		/*monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
-			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
-		
+			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);*/
+		JPanel panelPlateau = new ImagePanel(new ImageIcon("src/images/plateau9x5.jpg").getImage(), 4*fw/6, 4*fh/6);
+			panelPlateau.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
+		JPanel panelGrille = new ImagePanel(new ImageIcon("src/images/Fanorona.png").getImage(), (int)(3.4*fw/6), (int)(2.8*fh/6));
+			panelGrille.setBounds((int)(1.3*fw/6), (int)(0.9*fh/6), (int)(3.4*fw/6), (int)(2.8*fh/6));
+			
  			//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
 			//menu1
@@ -89,7 +93,7 @@ public class Fenetre implements Runnable,Affichage {
 			
 			//affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ");
-			j1.setBounds((int)(0.45*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			j1.setBounds((int)(0.25*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel idj1 = new JLabel(" Erreur ");
 		JLabel levelj1 = new JLabel(" Erreur ");
 		JLabel j2 = new JLabel(" # Joueur 2 ");
@@ -129,20 +133,20 @@ public class Fenetre implements Runnable,Affichage {
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Difficile ");
 		}
-			idj1.setBounds((int)(0.45*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-			levelj1.setBounds((int)(0.45*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			idj1.setBounds((int)(0.25*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			levelj1.setBounds((int)(0.25*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			idj2.setBounds((int)(5.15*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			levelj2.setBounds((int)(5.15*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
-			scoreInt1.setBounds((int)(0.45*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			scoreInt1.setBounds((int)(0.25*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
 			scoreInt2.setBounds((int)(5.15*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel score1 = new JLabel(" Pions restants ");
-			score1.setBounds((int)(0.45*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			score1.setBounds((int)(0.25*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel score2 = new JLabel(" Pions restants ");
 			score2.setBounds((int)(5.15*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel tour1 = new JLabel(" A votre tour ! ");
-			tour1.setBounds((int)(0.45*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			tour1.setBounds((int)(0.25*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel tour2 = new JLabel(" A votre tour ! ");
 			tour2.setBounds((int)(5.15*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		
@@ -151,7 +155,8 @@ public class Fenetre implements Runnable,Affichage {
 		menuBar.add(options);
 		menuBar.add(aide);
 		frame.setJMenuBar(menuBar);
- 		panelAccueil.add(monDessin);
+ 		//panelPlateau.add(panelGrille);
+ 		//panelAccueil.add(monDessin);
  		panelAccueil.add(annuler);
  		panelAccueil.add(refaire);
  		panelAccueil.add(stopper);
@@ -168,6 +173,9 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(score2); 		
  		panelAccueil.add(tour1);
  		panelAccueil.add(tour2);
+ 		panelAccueil.add(panelPlateau);
+ 		//panelAccueil.add(panelGrille);
+ 		panelPlateau.add(panelGrille);
  		
  		frame.add(panelAccueil);
 		frame.setResizable(false);

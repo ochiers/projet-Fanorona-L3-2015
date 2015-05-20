@@ -19,9 +19,27 @@ Mardi 19 mai
 		- Réalisation d'une première version  de l'IA "de base". En attente de certaines méthodes du moteur de jeu pour effectuer les tests.
 		- Réflexion sur le passage de l'IA à une version gérant les choix, puis à une version "finale" gérant également les enchaînements.
 		- Reflexion sur les regles du jeu et debut de la mises en place des regles et de fonction permettant la gestion du plateau et des coups joués.
+		- Mise en place de l'interface pour les tests. Non terminée. 
 
 Mercredi 20 mai
 	Matin :
-		- Ajout gestion des choix à l'IA (si les deux types de capture sont possibles, choisir laquelle faire). 
+		- Ajout gestion des choix à l'IA (si les deux types de capture sont possibles, choisir laquelle faire).
+		- Discussion avec l'autre groupe pour les règles de jeu. Notamment sur le fait d'obliger un coup ou non.
 	Après-midi :
 		- Ajout commentaires à l'IA en vue de l'audit. En attente pour les tests.
+		- L'IHM est visuellement fonctionnelle pour les tests, reste à débugguer le mouvement des pions.
+		- Mise en place du fond de la fenetre pour le jeu, celui-ci sera modifiable dans les préférences.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
