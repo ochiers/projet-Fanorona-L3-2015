@@ -50,17 +50,15 @@ public class EcouteurDeSouris implements MouseListener{
 		//	System.out.println("pfinal: "+pfinal.x+" "+pfinal.y);
 			if(pfinal.y!=-1 && pfinal.x!=-1){
 				if(aire.pionCliquer){
-					if(pfinal.y != aire.pCourant.y|| pfinal.x != aire.pCourant.x){
-						//aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion;
-					//	aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion=null;
+					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
 						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
-						System.out.println("Jouer: "+aire.pCourant.y+" "+aire.pCourant.x+" en "+pfinal.y+" "+pfinal.x);
+						System.out.println("Jouer: "+aire.pCourant.x+" "+aire.pCourant.y+" en "+pfinal.x+" "+pfinal.y);
 						aire.pionCliquer=false;
 						System.out.println("test2");
 					}
 				}
 				else{
-					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
+					if(aire.fenetre.engine.partieCourante.estCliquable(pfinal)){
 						System.out.println("---------OUI c'est jouable");
 						aire.pCourant.y=pfinal.y;
 						aire.pCourant.x=pfinal.x;
