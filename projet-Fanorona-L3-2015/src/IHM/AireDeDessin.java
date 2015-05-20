@@ -22,17 +22,6 @@ class AireDeDessin extends JComponent {
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
         pCourant=new Point();
-       /* matrice=new int[5][9];
-        matrice[2][0]=1;
-        matrice[2][2]=1;
-        matrice[2][4]=2;
-        matrice[2][5]=1;
-        matrice[2][7]=1;
-        for(int i=3;i<5;i++){
-        	for(int j=0;j<9;j++){
-        		matrice[i][j]=1;
-        	}
-        }*/
     }
 
     public void paintComponent(Graphics g) {
@@ -41,8 +30,8 @@ class AireDeDessin extends JComponent {
         int width = getSize().width;
         int height = getSize().height;
 
-        drawable.setPaint(Color.white);
-        drawable.fillRect(0, 0, width, height);
+        //drawable.setPaint(Color.white);
+        //drawable.fillRect(0, 0, width, height);
         drawable.setPaint(Color.black);
        
         dessinGrille(drawable);
@@ -109,51 +98,17 @@ class AireDeDessin extends JComponent {
    
 }
 
-/*
-class CarreScore extends JComponent {
-    Fenetre fenetre;
-    
-    public CarreScore(Fenetre f){
-    	fenetre=f;
-    	 setPreferredSize(new Dimension(100,100));
-    }
-    
-    public void paintComponent(Graphics g) {
-    	Graphics2D drawable = (Graphics2D) g;
 
-        int width = getSize().width;
-        int height = getSize().height;
-
-        drawable.setPaint(Color.white);
-        drawable.fillRect(0, 0, width, height);
-        drawable.setPaint(Color.black);
-       
-        carre(drawable,Color.blue);
-        System.out.println("test");
-    }
-    
-    public void carre(Graphics2D drawable,Color c){
-    	
-    	drawable.setPaint(c);
-    	int wcarre = fenetre.frame.getWidth()/6;
-    	System.out.println(wcarre);
-    	drawable.fillRect((int)(0.25*wcarre), ((fenetre.frame.getHeight()/2)-(wcarre/2)), wcarre, wcarre);
-    	drawable.setPaint(Color.black);
-    }
-    
-}*/
-
-/*
-class TestImagePanel extends JPanel {
+class ImagePanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
 	private Image img;
  
-	public TestImagePanel(String img) {
+	public ImagePanel(String img) {
 		this(new ImageIcon(img).getImage());
 	}
  
-	public TestImagePanel(Image img) {
+	public ImagePanel(Image img) {
 		this.img = img;
 	}
  
@@ -162,5 +117,5 @@ class TestImagePanel extends JPanel {
 		int fh = Fenetre.frame.getHeight();
 		g.drawImage(img, 0, 0, fw, fh, this);
 	}
-}*/
+}
 

@@ -1,6 +1,8 @@
 package IHM;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import engine.*;
@@ -16,12 +18,10 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void run(){
-		frame.setSize(1200, 720);  
-		JPanel panelAccueil = new JPanel();
-		//JPanel panelAccueil = new TestImagePanel(new ImageIcon("/home/c/crouziej/Bureau/images projet/surface_wood_pattern_texture_background_50454_602x339.jpg").getImage());
+		frame.setSize(1280, 720);  
+		//JPanel panelAccueil = new JPanel();
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("images/light-gradient-4-1600x900.jpg").getImage());
 		panelAccueil.setLayout(null);
-		/* .setBounds(int x, int y, int width, int height);
-		Moves and resizes this component. */
 		
 		int fw = frame.getWidth();
 		int fh = frame.getHeight();
@@ -94,11 +94,11 @@ public class Fenetre implements Runnable,Affichage {
 		*/
 			//chaines caracteres
 		JLabel j1 = new JLabel(" # Joueur 1 ");
-		//j1.setBounds(int x, int y, int width, int height);
+			j1.setBounds((int)(0.45*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel idj1 = new JLabel(" Erreur ");
 		JLabel levelj1 = new JLabel(" Erreur ");
 		JLabel j2 = new JLabel(" # Joueur 2 ");
-		//j2.setBounds(int x, int y, int width, int height);
+			j2.setBounds((int)(5.15*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel idj2 = new JLabel(" Erreur ");
 		JLabel levelj2 = new JLabel(" Erreur ");
 		String level = engine.partieCourante.joueurBlanc.getNiveau();
@@ -150,7 +150,7 @@ public class Fenetre implements Runnable,Affichage {
 		//tour.setBounds(int x, int y, int width, int height);
 
 			//carré score
-		//CarreScore carre = new CarreScore(this);
+
 		
  			//ajouts 
  		menuBar.add(partie);
@@ -163,7 +163,7 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(refaire);
  		panelAccueil.add(stopper);
  		panelAccueil.add(valider);
- 		panelAccueil.add(j1); 
+ 		panelAccueil.add(j1);
  		panelAccueil.add(j2); 		 
  		panelAccueil.add(idj1);
  		panelAccueil.add(idj2);
@@ -175,7 +175,7 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(tour);
  		
  		frame.add(panelAccueil);  
- 		panelAccueil.setBackground(new Color(204, 255, 153));
+ 		//panelAccueil.setBackground(new Color(204, 255, 153));
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,6 +186,11 @@ public class Fenetre implements Runnable,Affichage {
 		
 	}
 	public void afficherVictoire(){
+		
+	}
+
+	public void afficherPionsPossibles(ArrayList<Case> l) {
+		// TODO Auto-generated method stub
 		
 	}
 	
