@@ -648,4 +648,11 @@ public class Game {
 		return false;
 		
 	}
+	public boolean estVoisin(Point p, Point q){
+		Case c1 = matricePlateau[p.y][p.x];
+		Case c2 = matricePlateau[q.y][q.x];
+		
+		return c1.voisins().contains(c2);
+		
+	}
 }
