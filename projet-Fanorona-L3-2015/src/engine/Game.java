@@ -239,9 +239,10 @@ public class Game {
 			
 			
 			display.afficherPionsPossibles(pionsPossibles);
-			Coup c = this.joueurCourant.play((Coup[]) pionsPossibles.toArray());
+			Case[] tmp = new Case[pionsPossibles.size()];
+			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			while (!stopped && !paused && !this.coupValide(c,pionsPossibles))
-				c = this.joueurCourant.play((Coup[]) pionsPossibles.toArray());
+				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			
 			while(paused)
 				Thread.sleep(50);
@@ -252,8 +253,9 @@ public class Game {
 				combo.add(matricePlateau[c.depart.y][c.depart.x]);
 				
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer){
-					ArrayList<Case> l = coupsPossiblesPourUnPion(matricePlateau[c.arrivee.y][c.arrivee.x]);
-					Coup c2 = this.joueurCourant.play((Coup[]) this.coupsPourPriseParUnPion(l, matricePlateau[c.arrivee.y][c.arrivee.x]).toArray());
+					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.y][c.arrivee.x]), matricePlateau[c.arrivee.y][c.arrivee.x]);
+					Case tmp2[] = new Case[l.size()];
+					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
 					while(paused)
 						Thread.sleep(50);
 					
@@ -547,7 +549,7 @@ public class Game {
 	}
 
 	/**
-	 * Fonction renvoyant les pions du joueur courant qui peuvent ce deplacer
+	 * Fonction renvoyant les pions du joueur courant qui peuvent se deplacer
 	 * (en mangeant ou nom)
 	 * 
 	 * @return Une liste de pions
@@ -596,6 +598,12 @@ public class Game {
 		return res;
 	}
 	
+	/**
+	 * Donne les cases mangeables par un le pion sur la case c
+	 * @param coupsPossibles Tous les coups possibles de deplacement pour le pion sur case c
+	 * @param c La case sur laquelle ce trouve le pion qui va manger
+	 * @return
+	 */
 	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case c)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
@@ -607,7 +615,7 @@ public class Game {
 			 * différente et que la case dans la direction opposé fait
 			 * partie des coups possibles
 			 */
-			if (c.getCaseAt(d).pion == ennemi && coupsPossibles.contains(c.getCaseAt(Direction.oppose(d))))
+			if (c.getCaseAt(d) != null && c.getCaseAt(d).pion == ennemi && coupsPossibles.contains(c.getCaseAt(Direction.oppose(d))))
 				res.add(c);
 		}
 
@@ -619,11 +627,47 @@ public class Game {
 			 * différente et que la case dans la direction opposé fait
 			 * partie des coups possibles
 			 */
-			if (c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c);
 		}
 		
 		return res;
 		
 	}
+	
+	/**
+	 * Teste si une case est jouable
+	 * @param p La coordonnee de la case
+	 * @return Vrai si la case est vide, Faux sinon
+	 */
+	public boolean estJouable(Point p){
+		
+		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		boolean res = false;
+		if (matricePlateau[p.x][p.y].pion == courant)
+		{
+			for (Case case1 : matricePlateau[p.x][p.y].voisins())
+			{
+				res = res || case1.estVide();
+			}
+		}
+		return res;
+		
+	}
+	
+	/**
+	 * Teste si la case a la coordonee p est voisin de la case a la coordonnee q
+	 * @param p Une case
+	 * @param q Une case
+	 * @return Vrai si p appartien aux voisins de q
+	 */
+	public boolean estVoisin(Point p, Point q){
+		Case c1 = matricePlateau[p.y][p.x];
+		Case c2 = matricePlateau[q.y][q.x];
+		
+		return c1.voisins().contains(c2);
+		
+	}
+	
+	
 }

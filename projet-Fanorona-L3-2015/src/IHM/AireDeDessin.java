@@ -44,22 +44,23 @@ class AireDeDessin extends JComponent {
         dessinGrilleJeton(drawable,Color.black,Color.white);
         if(pionCliquer){
         	jetonCliquer(drawable);
-        	positionPossible(drawable);
+        	
         }
+      //  positionPossible(drawable);
     }
     
 
 
    public void jetonCliquer(Graphics2D drawable){
 	   drawable.setPaint(Color.cyan);
-       drawable.fillOval(tailleSegment+pCourant.x*tailleSegment-tailleJeton/4, tailleSegment+pCourant.y*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+       drawable.fillOval(tailleSegment+pCourant.y*tailleSegment-tailleJeton/4, tailleSegment+pCourant.x*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
        drawable.setPaint(Color.black);
 	   
    }
    
    public void jetonHalo(Graphics2D drawable,Point p){
 	   drawable.setPaint(halo);
-       drawable.fillOval((int)(tailleSegment+p.x*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.y*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+       drawable.fillOval((int)(tailleSegment+p.y*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.x*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
        drawable.setPaint(Color.black);
    }
    
@@ -67,12 +68,15 @@ class AireDeDessin extends JComponent {
 	   ArrayList<Case> listCase = fenetre.engine.partieCourante.lesPionsJouables();
 	   for(int i=0;i<listCase.size();i++){
 		   jetonHalo(drawable,listCase.get(i).position);
-		   System.out.println("--Point: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
+		  // System.out.println("--Point: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
 	   }
    }
    
    public void positionPossible(Graphics2D drawable){
-	   
+	   ArrayList<Case> listCase = fenetre.engine.partieCourante.matricePlateau[2][4].voisins();
+	   for(int i=0;i<listCase.size();i++){
+		   System.out.println("--Voisin: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
+	   }
    }
     
     public void dessinGrille(Graphics2D drawable){
