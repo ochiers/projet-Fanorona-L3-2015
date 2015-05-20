@@ -3,6 +3,7 @@ package engine;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import IHM.Affichage;
 
 /**
@@ -241,8 +242,10 @@ public class Game {
 			display.afficherPionsPossibles(pionsPossibles);
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
-			while (!stopped && !paused && !this.coupValide(c,pionsPossibles))
+			while (!stopped && !paused && !this.coupValide(c,pionsPossibles)){
+				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : "+ c.arrivee);
 				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
+			}
 			
 			while(paused)
 				Thread.sleep(50);
@@ -301,7 +304,11 @@ public class Game {
 	 */
 	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles)
 	{
-
+		for(int i = 0; i<pionsPossibles.size();i++)
+			System.err.println(pionsPossibles.get(i).position);
+		System.err.print("\n" + new Point(3, 4) + " " + pionsPossibles.contains(new Case(new Point(3,4))) + "\n");
+		//System.err.print(this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() +"\n");
+		
 		return (c != null && pionsPossibles.contains(c.depart) && this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
 	}
 
