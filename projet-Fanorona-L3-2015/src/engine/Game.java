@@ -668,4 +668,6 @@ public class Game {
 		return c1.voisins().contains(c2);
 		
 	}
+	
+	
 }
