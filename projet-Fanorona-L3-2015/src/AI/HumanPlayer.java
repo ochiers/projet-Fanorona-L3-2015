@@ -18,7 +18,8 @@ public class HumanPlayer extends Player {
 
 	public void setCoup(Point depart, Point arrivee)
 	{
-		this.coupJoue = new Coup(depart, arrivee);
+		
+		this.coupJoue = new Coup(new Point(depart.y,depart.x), new Point(arrivee.y,arrivee.x));
 		this.hasPlayed = true;
 	}
 	
@@ -53,7 +54,7 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public Coup play(Coup[] listeCoups)
+	public Coup play(Case[] listeCoups)
 	{
 		hasPlayed = false;
 		coupJoue = null;
@@ -62,6 +63,7 @@ public class HumanPlayer extends Player {
 		{
 			try {
 				Thread.sleep(500);
+				System.out.println("J'attend");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
