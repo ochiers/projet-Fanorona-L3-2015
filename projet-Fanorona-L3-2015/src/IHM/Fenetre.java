@@ -7,7 +7,7 @@ import engine.*;
 import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
-	JFrame frame = new JFrame(" -- Fanorona -- ");
+	static JFrame frame = new JFrame(" -- Fanorona -- ");
 	AireDeDessin monDessin;
 	Engine engine;
 	
@@ -18,6 +18,7 @@ public class Fenetre implements Runnable,Affichage {
 	public void run(){
 		frame.setSize(1200, 720);  
 		JPanel panelAccueil = new JPanel();
+		//JPanel panelAccueil = new TestImagePanel(new ImageIcon("/home/c/crouziej/Bureau/images projet/surface_wood_pattern_texture_background_50454_602x339.jpg").getImage());
 		panelAccueil.setLayout(null);
 		/* .setBounds(int x, int y, int width, int height);
 		Moves and resizes this component. */
@@ -89,42 +90,64 @@ public class Fenetre implements Runnable,Affichage {
 			
 			//affichages joueurs
 		/*
-		 nom J1 ou J2
-		 ordi+niv ou humain
 		 Score dans carré
-		 Pions restants
-		 A votre tour de jouer
-		 */
+		*/
 			//chaines caracteres
 		JLabel j1 = new JLabel(" # Joueur 1 ");
-
+		//j1.setBounds(int x, int y, int width, int height);
+		JLabel idj1 = new JLabel(" Erreur ");
+		JLabel levelj1 = new JLabel(" Erreur ");
 		JLabel j2 = new JLabel(" # Joueur 2 ");
-		
-		/*
+		//j2.setBounds(int x, int y, int width, int height);
+		JLabel idj2 = new JLabel(" Erreur ");
+		JLabel levelj2 = new JLabel(" Erreur ");
 		String level = engine.partieCourante.joueurBlanc.getNiveau();
-		if (level.equals("Humain"))
-			JLabel idj1 = new JLabel(engine.partieCourante.joueurBlanc.name);
+		if (level.equals("Humain")){
+			idj1 = new JLabel(engine.partieCourante.joueurBlanc.name);
+			levelj1 = new JLabel(" Bonne Chance ! ");
+		}
 		if (level.equals("IA Facile")){
-			JLabel idj1 = new JLabel(" Ordinateur ");
-			JLabel levelj1 = new JLabel(" Facile ");
+			idj1 = new JLabel(" Ordinateur ");
+			levelj1 = new JLabel(" Facile ");
 		}
 		if (level.equals("IA Moyenne")){
-			JLabel idj1 = new JLabel(" Ordinateur ");
-			JLabel levelj1 = new JLabel(" Moyen ");
+			idj1 = new JLabel(" Ordinateur ");
+			levelj1 = new JLabel(" Moyen ");
 		}
 		if (level.equals("IA Difficle")){
-			JLabel idj1 = new JLabel(" Ordinateur ");
-			JLabel levelj1 = new JLabel(" Difficile ");
+			idj1 = new JLabel(" Ordinateur ");
+			levelj1 = new JLabel(" Difficile ");
 		}
-		
-		//idem idj2
-		
-		*/
-		
-		//JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
-		//JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
+		if (level.equals("Humain")){
+			idj2 = new JLabel(engine.partieCourante.joueurBlanc.name);
+			levelj2 = new JLabel(" Bonne Chance ! ");
+		}
+		if (level.equals("IA Facile")){
+			idj2 = new JLabel(" Ordinateur ");
+			levelj2 = new JLabel(" Facile ");
+		}
+		if (level.equals("IA Moyenne")){
+			idj2 = new JLabel(" Ordinateur ");
+			levelj2 = new JLabel(" Moyen ");
+		}
+		if (level.equals("IA Difficle")){
+			idj2 = new JLabel(" Ordinateur ");
+			levelj2 = new JLabel(" Difficile ");
+		}
+		//idj1.setBounds(int x, int y, int width, int height);
+		//levelj1.setBounds(int x, int y, int width, int height);
+		//idj2.setBounds(int x, int y, int width, int height);
+		//levelj2.setBounds(int x, int y, int width, int height);
+		JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+		//scoreInt1.setBounds(int x, int y, int width, int height);
+		JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
+		//scoreInt2.setBounds(int x, int y, int width, int height);
 		JLabel score = new JLabel(" Pions restants ");
+		//score.setBounds(int x, int y, int width, int height);
+		//score.setBounds(int x, int y, int width, int height);
 		JLabel tour = new JLabel(" A votre tour ! ");
+		//tour.setBounds(int x, int y, int width, int height);
+		//tour.setBounds(int x, int y, int width, int height);
 
 			//carré score
 		//CarreScore carre = new CarreScore(this);
@@ -144,13 +167,15 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(j2); 		 
  		panelAccueil.add(idj1);
  		panelAccueil.add(idj2);
- 		//panelAccueil.add(scoreInt1);
- 		//panelAccueil.add(scoreInt2);
+ 		panelAccueil.add(levelj1);
+ 		panelAccueil.add(levelj2);
+ 		panelAccueil.add(scoreInt1);
+ 		panelAccueil.add(scoreInt2);
  		panelAccueil.add(score); 		
  		panelAccueil.add(tour);
  		
  		frame.add(panelAccueil);  
- 		/* f ou p ??   .setBackground(Color.GREEN);*/
+ 		panelAccueil.setBackground(new Color(204, 255, 153));
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

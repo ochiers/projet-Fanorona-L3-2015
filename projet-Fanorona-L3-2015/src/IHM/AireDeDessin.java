@@ -142,3 +142,25 @@ class CarreScore extends JComponent {
     }
     
 }*/
+
+/*
+class TestImagePanel extends JPanel {
+	 
+	private static final long serialVersionUID = 1L;
+	private Image img;
+ 
+	public TestImagePanel(String img) {
+		this(new ImageIcon(img).getImage());
+	}
+ 
+	public TestImagePanel(Image img) {
+		this.img = img;
+	}
+ 
+	public void paintComponent(Graphics g) {
+		int fw = Fenetre.frame.getWidth();
+		int fh = Fenetre.frame.getHeight();
+		g.drawImage(img, 0, 0, fw, fh, this);
+	}
+}*/
+
