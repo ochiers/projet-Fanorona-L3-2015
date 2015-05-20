@@ -645,7 +645,7 @@ public class Game {
 				return case1.estVide();
 			}
 		}
-		return finish;
+		return false;
 		
 	}
 }
