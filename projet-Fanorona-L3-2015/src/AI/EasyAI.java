@@ -15,34 +15,35 @@ public class EasyAI extends Player {
 		choix = null;
 	}
 	
-	public int alphaBeta(Noeud n, Case c, int alpha, int beta, boolean noeudMin, int profondeur){
+	public int alphaBeta(Noeud n, Case c, int alpha, int beta, boolean noeudMin, int profondeur) {
 		int val = 0;
 		ArrayList<Case> voisins = c.voisins();
-		if(profondeur == 0 || n.nbPionsAdversaire == 0 || n.nbPionsJoueur == 0){
-			return n.nbPionsJoueur;
+		if(profondeur == 0 || n.nbPionsAdversaire == 0 || n.nbPionsJoueur == 0){ /* Si on est sur une feuille ou qu'on a atteint la profondeur maximale */
+			return n.nbPionsJoueur; /* OU différence entre nbPionsAdversaire et nbPionsJoueur */
 		}
-		else if (noeudMin) { /* tour de l'IA */
+		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
-			for(int i  = 0; i < voisins.size(); i++){
+			for(int i  = 0; i < voisins.size(); i++){ /* Pour chaque voisin de la case c, on va jouer le coup c -> voisin */
 				Noeud n2 = new Noeud(n);
 				Noeud n3 = new Noeud(n);
-				
-				/* En cas de choix, on fait deux appels récursifs, un pour chaque choix possible, et on prend le meilleur des deux */	
 				Coup c1 = new Coup(c.position, voisins.get(i).position);
-				Direction d2 = determinerDirection(c1.depart, c1.arrivee);
-				Direction d3 = Direction.oppose(d2);
-				int capt1 = capturer(determinerPionsACapturer(d2, n2.plateau[c1.arrivee.y][c1.arrivee.x]));
-				int capt2 = capturer(determinerPionsACapturer(d3, n3.plateau[c1.depart.y][c1.depart.x]));
-				n2.nbPionsAdversaire -= capt1;
-				n3.nbPionsAdversaire -= capt2;
-				if(capt1 > 0 && capt2 > 0){
+				/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
+				Direction d2 = determinerDirection(c1.depart, c1.arrivee);	/* d2 = direction correspondant à la capture par percussion */
+				Direction d3 = Direction.oppose(d2);						/* d3 = direction correspondant à la capture par absorption */
+				int nbCapturésPercussion = capturer(determinerPionsACapturer(d2, n2.plateau[c1.arrivee.y][c1.arrivee.x])); 	/* nbCapturésPercussion = nb pions capturés par percussion */
+				int nbCapturésAbsorption = capturer(determinerPionsACapturer(d3, n3.plateau[c1.depart.y][c1.depart.x]));	/* nbCapturésAbsorption = nb pions capturés par absorption */
+				n2.nbPionsJoueur -= nbCapturésPercussion;
+				n3.nbPionsJoueur -= nbCapturésAbsorption;
+				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
+				 * des deux captures est la meilleure */
+				if(nbCapturésPercussion > 0 && nbCapturésAbsorption > 0){
 					int res1 = alphaBeta(n2, voisins.get(i), alpha, beta, !noeudMin, profondeur-1);
 					int res2 = alphaBeta(n3, voisins.get(i), alpha, beta, !noeudMin, profondeur-1);
-					val = java.lang.Math.min(val, java.lang.Math.max(res1, res2));
+					val = java.lang.Math.min(val, java.lang.Math.min(res1, res2));
 				}
-				/* Si il n'y a pas de choix à faire, on fait l'appel récursif classique avec la direction pour laquelle on capture */
+				/* Sinon, on fait la seule capture réellement possible */
 				else {
-					if(capt1 > capt2)
+					if(nbCapturésPercussion > nbCapturésAbsorption)
 						val = java.lang.Math.min(val, alphaBeta(n2, voisins.get(i), alpha, beta, !noeudMin, profondeur-1));
 					else val = java.lang.Math.min(val, alphaBeta(n3, voisins.get(i), alpha, beta, !noeudMin, profondeur-1));
 				}
@@ -50,41 +51,34 @@ public class EasyAI extends Player {
 				beta = java.lang.Math.min(beta, val);
 			}
 		}
-		else { /* tour de l'adversaire */
+		else { /* tour de l'IA */
 			val = Integer.MIN_VALUE;
-			for(int i  = 0; i < voisins.size(); i++){
+			for(int i  = 0; i < voisins.size(); i++){ /* Pour chaque voisin de la case c, on va jouer le coup c -> voisin */
 				Noeud n2 = new Noeud(n);
 				Noeud n3 = new Noeud(n);
-				
-				/* En cas de choix, on fait deux appels récursifs, un pour chaque choix possible, et on prend le meilleur des deux */	
 				Coup c1 = new Coup(c.position, voisins.get(i).position);
-				Direction d2 = determinerDirection(c1.depart, c1.arrivee);
-				Direction d3 = Direction.oppose(d2);
-				int capt1 = capturer(determinerPionsACapturer(d2, n2.plateau[c1.arrivee.y][c1.arrivee.x]));
-				int capt2 = capturer(determinerPionsACapturer(d3, n3.plateau[c1.depart.y][c1.depart.x]));
-				n2.nbPionsJoueur -= capt1;
-				n3.nbPionsJoueur -= capt2;
-				if(capt1 > 0 && capt2 > 0){
+				/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
+				Direction d2 = determinerDirection(c1.depart, c1.arrivee); 	/* d2 = direction correspondant à la capture par percussion */
+				Direction d3 = Direction.oppose(d2);						/* d3 = direction correspondant à la capture par absorption */
+				int nbCapturésPercussion = capturer(determinerPionsACapturer(d2, n2.plateau[c1.arrivee.y][c1.arrivee.x]));	/* nbCapturésPercussion = nb pions capturés par percussion */
+				int nbCapturésAbsorption = capturer(determinerPionsACapturer(d3, n3.plateau[c1.depart.y][c1.depart.x]));	/* nbCapturésAbsorption = nb pions capturés par absorption */
+				n2.nbPionsAdversaire -= nbCapturésPercussion;
+				n3.nbPionsAdversaire -= nbCapturésAbsorption;
+				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
+				 * des deux captures est la meilleure */
+				if(nbCapturésPercussion > 0 && nbCapturésAbsorption > 0){
 					int res1 = alphaBeta(n2, voisins.get(i), alpha, beta, !noeudMin, profondeur-1);
 					int res2 = alphaBeta(n3, voisins.get(i), alpha, beta, !noeudMin, profondeur-1);
 					val = java.lang.Math.max(val, java.lang.Math.max(res1, res2));
 				}
-				/* Si il n'y a pas de choix à faire, on fait l'appel récursif classique avec la direction pour laquelle on capture */
+				/* Sinon, on fait la seule capture réellement possible */
 				else {
-					if(capt1 > capt2)
+					if(nbCapturésPercussion > nbCapturésAbsorption)
 						val = java.lang.Math.max(val, alphaBeta(n2, voisins.get(i), alpha, beta, !noeudMin, profondeur-1));
 					else val = java.lang.Math.max(val, alphaBeta(n3, voisins.get(i), alpha, beta, !noeudMin, profondeur-1));
 				}
 				if(val >= beta) return val;
 				alpha = java.lang.Math.max(alpha, val);
-			
-			/*for(int i  = 0; i < voisins.size(); i++){
-				Case[][] plateau2 = copiePlateau(plateau);
-				/* copier la méthode qui joue concrètement le coup (équivalent de mangerGaufre) dans ce fichier et l'appeler ici sur listeCoups[i]
-				val = java.lang.Math.max(val, alphaBeta(plateau2, voisins.get(i), alpha, beta, !noeudMin, profondeur-1));
-				if(val >= beta) return val;
-				alpha = java.lang.Math.max(alpha, val);
-			}*/
 			}
 		}
 		return val;
@@ -219,30 +213,34 @@ public class EasyAI extends Player {
 		Coup meilleurCoup;
 		int meilleurRes;
 		int res = 0;
+		
 		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}		
+		}	
+		
 		for(int i = 0; i < listeCoups.length; i++){				
 			Noeud n2 = new Noeud(n);
 			Noeud n3 = new Noeud(n);
-			
-			/* En cas de choix, on fait deux appels récursifs, un pour chaque choix possible, et on prend le meilleur des deux */	
+			/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 			Direction d2 = determinerDirection(listeCoups[i].depart, listeCoups[i].arrivee);
 			Direction d3 = Direction.oppose(d2);
-			int capt1 = capturer(determinerPionsACapturer(d2, n2.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x]));
-			int capt2 = capturer(determinerPionsACapturer(d3, n3.plateau[listeCoups[i].depart.y][listeCoups[i].depart.x]));
+			int nbCapturésPercussion = capturer(determinerPionsACapturer(d2, n2.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x]));
+			int nbCapturésAbsorption = capturer(determinerPionsACapturer(d3, n3.plateau[listeCoups[i].depart.y][listeCoups[i].depart.x]));
 			Case c2 = n2.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x];
 			Case c3 = n3.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x];
-			if(capt1 > 0 && capt2 > 0){
+			
+			/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
+			 * des deux captures est la meilleure */
+			if(nbCapturésPercussion > 0 && nbCapturésAbsorption > 0){
 				int res1 = alphaBeta(n2, c2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, 5);
 				int res2 = alphaBeta(n3, c3, Integer.MIN_VALUE, Integer.MAX_VALUE, false, 5);
 				res = java.lang.Math.max(res1, res2);
 			}
-			/* Si il n'y a pas de choix à faire, on fait l'appel récursif classique avec la direction pour laquelle on capture */
+			/* Sinon, on fait la seule capture réellement possible */
 			else {
-				if(capt1 > capt2)
+				if(nbCapturésPercussion > nbCapturésAbsorption)
 					res = alphaBeta(n2, c2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, 5);
 				else res = alphaBeta(n3, c3, Integer.MIN_VALUE, Integer.MAX_VALUE, false, 5);
 			}
