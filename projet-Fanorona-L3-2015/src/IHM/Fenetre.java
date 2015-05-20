@@ -20,7 +20,7 @@ public class Fenetre implements Runnable,Affichage {
 	public void run(){
 		frame.setSize(1280, 720);  
 		//JPanel panelAccueil = new JPanel();
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("images/light-gradient-4-1600x900.jpg").getImage());
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("images/image1.jpg").getImage());
 		panelAccueil.setLayout(null);
 		
 		int fw = frame.getWidth();
