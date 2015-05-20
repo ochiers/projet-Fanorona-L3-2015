@@ -69,10 +69,15 @@ public class Case {
 	{
 		if(o==null)
 			return false;
-		if(!(o instanceof Case))
-			return false;
+		if(o instanceof Case){
 		Case c = (Case)o;
-		return c.position.x == this.position.x && this.position.y == c.position.y; 
+		return c.position.x == this.position.x && this.position.y == c.position.y;
+		} 
+		if(o instanceof Point){
+			Point c = (Point)o;
+			return c.x == this.position.x && this.position.y == c.y;
+		}
+		return false;
 	}
 	
 }

@@ -58,7 +58,7 @@ public class EcouteurDeSouris implements MouseListener{
 					}
 				}
 				else{
-					if(aire.fenetre.engine.partieCourante.estCliquable(pfinal)){
+					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
 						System.out.println("---------OUI c'est jouable");
 						aire.pCourant.y=pfinal.y;
 						aire.pCourant.x=pfinal.x;

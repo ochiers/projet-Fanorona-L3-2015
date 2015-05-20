@@ -69,6 +69,7 @@ public class HumanPlayer extends Player {
 				e.printStackTrace();
 			}
 		}
+		System.out.println(name + " a fait un coup");
 		return coupJoue;
 	}	
 }
