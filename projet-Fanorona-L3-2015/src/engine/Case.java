@@ -47,4 +47,22 @@ public class Case {
 		return pion == null;
 	}
 	
+	public Case getCaseAt(Direction d){
+		
+		switch(d){
+			
+			case Nord : return this.nord;
+			case NordEst : return this.nordEst;
+			case Est : return this.est;
+			case SudEst : return this.sudEst;
+			case Sud : return this.sud;
+			case SudOuest : return this.sudOuest;
+			case Ouest : return this.ouest;
+			case NordOuest : return this.nordOuest;
+			default : return null;
+		}
+		
+		
+	}
+	
 }
