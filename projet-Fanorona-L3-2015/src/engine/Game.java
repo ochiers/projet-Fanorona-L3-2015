@@ -640,7 +640,7 @@ public class Game {
 	 * @param p La coordonnee de la case
 	 * @return Vrai si la case est vide, Faux sinon
 	 */
-	public boolean estCliquable(Point p){
+	public boolean estJouable(Point p){
 		
 		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		boolean res = false;
