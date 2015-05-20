@@ -638,9 +638,9 @@ public class Game {
 	public boolean estJouable(Point p){
 		
 		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-		if (matricePlateau[p.y][p.x].pion == courant)
+		if (matricePlateau[p.x][p.y].pion == courant)
 		{
-			for (Case case1 : matricePlateau[p.y][p.x].voisins())
+			for (Case case1 : matricePlateau[p.x][p.y].voisins())
 			{
 				return case1.estVide();
 			}
