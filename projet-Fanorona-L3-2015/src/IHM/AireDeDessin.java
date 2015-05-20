@@ -1,9 +1,11 @@
 package IHM;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import engine.Case;
 import engine.Pion;
 
 class AireDeDessin extends JComponent {
@@ -36,11 +38,31 @@ class AireDeDessin extends JComponent {
        
         dessinGrille(drawable);
         dessinGrilleJeton(drawable,Color.black,Color.white);
+        if(pionCliquer){
+        	jetonCliquer(drawable);
+        	positionPossible(drawable);
+        }
+        else{
+        	pionJouable(drawable);
+        }
     }
     
 
 
+   public void jetonCliquer(Graphics2D drawable){
+	   drawable.setPaint(Color.cyan);
+       drawable.fillOval(tailleSegment+pCourant.x*tailleSegment-tailleJeton/4, tailleSegment+pCourant.y*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+       drawable.setPaint(Color.black);
+	   
+   }
    
+   public void pionJouable(Graphics2D drawable){
+	   ArrayList<Case> listCase = fenetre.engine.partieCourante.lesPionsJouables();
+   }
+   
+   public void positionPossible(Graphics2D drawable){
+	   
+   }
     
     public void dessinGrille(Graphics2D drawable){
     		//ligne verticale
