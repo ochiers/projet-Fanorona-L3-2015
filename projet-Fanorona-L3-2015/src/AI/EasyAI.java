@@ -206,29 +206,36 @@ public class EasyAI extends Player {
 	/* Fin méthodes récupérées dans Game */
 	
 	@Override
-	public Coup play(Coup[] listeCoups)
+	public Coup play(Case[] listeCases)
 	{
+		ArrayList<Coup> listeCoups = new ArrayList<Coup>();
 		Noeud n = new Noeud(leMoteur.partieCourante);
 		Coup meilleurCoup = null;
 		int meilleurRes = 0;
 		int res = 0;
-		
+		/* Construction de la liste des coups possibles */
+		for(int i =0; i<listeCases.length; i++){
+			ArrayList<Case> voisins = listeCases[i].voisins();
+			for(int j = 0; j<voisins.size(); j++){
+				listeCoups.add(new Coup(new Point(listeCases[i].position), voisins.get(j).position));
+			}
+		}
 		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}	
 		
-		for(int i = 0; i < listeCoups.length; i++){				
+		for(int i = 0; i < listeCoups.size(); i++){				
 			Noeud n2 = new Noeud(n);
 			Noeud n3 = new Noeud(n);
 			/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
-			Direction d2 = determinerDirection(listeCoups[i].depart, listeCoups[i].arrivee);
+			Direction d2 = determinerDirection(listeCoups.get(i).depart, listeCoups.get(i).arrivee);
 			Direction d3 = Direction.oppose(d2);
-			int nbCapturésPercussion = capturer(determinerPionsACapturer(d2, n2.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x]));
-			int nbCapturésAbsorption = capturer(determinerPionsACapturer(d3, n3.plateau[listeCoups[i].depart.y][listeCoups[i].depart.x]));
-			Case c2 = n2.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x];
-			Case c3 = n3.plateau[listeCoups[i].arrivee.y][listeCoups[i].arrivee.x];
+			int nbCapturésPercussion = capturer(determinerPionsACapturer(d2, n2.plateau[listeCoups.get(i).arrivee.y][listeCoups.get(i).arrivee.x]));
+			int nbCapturésAbsorption = capturer(determinerPionsACapturer(d3, n3.plateau[listeCoups.get(i).depart.y][listeCoups.get(i).depart.x]));
+			Case c2 = n2.plateau[listeCoups.get(i).arrivee.y][listeCoups.get(i).arrivee.x];
+			Case c3 = n3.plateau[listeCoups.get(i).arrivee.y][listeCoups.get(i).arrivee.x];
 			
 			/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 			 * des deux captures est la meilleure */
@@ -245,7 +252,7 @@ public class EasyAI extends Player {
 			}
 			if(res > meilleurRes){
 				meilleurRes = res;
-				meilleurCoup = listeCoups[i];
+				meilleurCoup = listeCoups.get(i);
 			}
 		}
 		return meilleurCoup;

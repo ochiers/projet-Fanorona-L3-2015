@@ -10,7 +10,7 @@ import AI.HumanPlayer;
 
 public class EcouteurDeSouris implements MouseListener{
 	AireDeDessin aire;
-	Point pSave=new Point();
+	//Point pSave=new Point();
 	
 	public EcouteurDeSouris(AireDeDessin a){
 		aire=a;
@@ -48,10 +48,11 @@ public class EcouteurDeSouris implements MouseListener{
 			}
 			if(pfinal.x!=-1 && pfinal.y!=-1){
 				if(aire.pionCliquer){
-					if(pfinal.x != pSave.x || pfinal.y != pSave.y){
+					if(pfinal.x != aire.pCourant.x || pfinal.y != aire.pCourant.y){
 						//aire.fenetre.engine.partieCourante.matricePlateau[pfinal.y][pfinal.x].pion=aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion;
 					//	aire.fenetre.engine.partieCourante.matricePlateau[pSave.y][pSave.x].pion=null;
-						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(pSave,pfinal);
+						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
+						System.out.println("Jouer: "+aire.pCourant.x+" "+aire.pCourant.y+" en "+pfinal.x+" "+pfinal.y);
 						aire.pionCliquer=false;
 						System.out.println("test2");
 					}
