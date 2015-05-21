@@ -33,8 +33,10 @@ Mercredi 20 mai
 		
 Jeudi 21 mai
 	Matin :
-		-Mouvement des pions pour l'IHM
-		-Donne le choix au joueur lorsqu'un pion peu manger 2 differentes lignes	
+		- Mouvement des pions pour l'IHM
+		- Donne le choix au joueur lorsqu'un pion peu manger 2 differentes lignes
+	Après-midi :
+		- Modifs IA et début tests.
 		
 		
 		
