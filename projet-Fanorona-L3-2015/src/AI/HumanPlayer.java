@@ -8,7 +8,7 @@ public class HumanPlayer extends Player {
 
 	private boolean hasPlayed;
 	private Coup coupJoue;
-	private Point pointDirection;
+	private Coordonnee pointDirection;
 	public HumanPlayer(Engine leMoteur, boolean isAI, String name)
 	{
 		super(leMoteur, isAI, name);
@@ -16,14 +16,14 @@ public class HumanPlayer extends Player {
 	}
 
 
-	public void setCoup(Point depart, Point arrivee)
+	public void setCoup(Coordonnee depart, Coordonnee arrivee)
 	{
 		
 		this.coupJoue = new Coup(depart,arrivee);
 		this.hasPlayed = true;
 	}
 	
-	public void setDirectionMultiPrise(Point choixDirection)
+	public void setDirectionMultiPrise(Coordonnee choixDirection)
 	{
 		this.pointDirection = choixDirection;
 		this.hasPlayed = true;

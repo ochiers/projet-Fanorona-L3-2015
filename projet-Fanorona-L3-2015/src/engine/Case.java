@@ -14,10 +14,10 @@ public class Case {
 	public Case sudOuest;
 	public Case ouest;
 	public Case nordOuest;
-	public Point position;
+	public Coordonnee position;
 	public Pion pion;
 	
-	public Case(Point position){
+	public Case(Coordonnee position){
 		this.position = position;
 	}
 	
@@ -71,11 +71,11 @@ public class Case {
 			return false;
 		if(o instanceof Case){
 		Case c = (Case)o;
-		return c.position.x == this.position.x && this.position.y == c.position.y;
+		return c.position.colonne == this.position.colonne && this.position.ligne == c.position.ligne;
 		} 
 		if(o instanceof Point){
-			Point c = (Point)o;
-			return c.x == this.position.x && this.position.y == c.y;
+			Coordonnee c = (Coordonnee)o;
+			return c.colonne == this.position.colonne && this.position.ligne == c.ligne;
 		}
 		return false;
 	}
