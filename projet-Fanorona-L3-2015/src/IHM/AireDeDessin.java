@@ -15,10 +15,12 @@ public class AireDeDessin extends JComponent {
     Coordonnee pCourant;
     Color halo;
     Color haloChoix;
+    Color comboColor;
     boolean doitChoisir=false;
     ArrayList<Case> l1;
     ArrayList<Case> l2;
     ArrayList<Case> pionPossible;
+    ArrayList<Case> combo;
 
     
     public AireDeDessin(Fenetre f) {
@@ -26,6 +28,7 @@ public class AireDeDessin extends JComponent {
         tailleSegment=f.frame.getWidth()*4/60;
         halo=Color.green;
         haloChoix=Color.blue;
+        comboColor=Color.orange;
         System.out.println("taille: "+tailleSegment);
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
@@ -65,6 +68,7 @@ public class AireDeDessin extends JComponent {
         	jetonCliquer(drawable);
         	
         }
+        cheminCombo(drawable);
       //  positionPossible(drawable);
     }
     
@@ -101,15 +105,26 @@ public class AireDeDessin extends JComponent {
 	   if(pionPossible!=null){
 		   for(int i=0;i<pionPossible.size();i++){
 			   jetonHalo(drawable,pionPossible.get(i).position);
-			   System.out.println("--Point: "+pionPossible.get(i).position.ligne+" "+pionPossible.get(i).position.colonne);
+			   //System.out.println("--Point: "+pionPossible.get(i).position.ligne+" "+pionPossible.get(i).position.colonne);
 		   }
 	   }
+   }
+   
+   public void cheminCombo(Graphics2D drawable){
+	   drawable.setPaint(comboColor);
+	   if(combo!=null){
+		   for(int i=0;i<combo.size();i++){
+			   drawable.fillOval(tailleSegment+combo.get(i).position.colonne*tailleSegment-tailleJeton/4, tailleSegment+combo.get(i).position.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+			   //System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
+		   }
+	   }
+       drawable.setPaint(Color.black);
    }
    
    public void positionPossible(Graphics2D drawable){
 	   ArrayList<Case> listCase = fenetre.engine.partieCourante.matricePlateau[2][4].voisins();
 	   for(int i=0;i<listCase.size();i++){
-		   System.out.println("--Voisin: "+listCase.get(i).position.ligne+" "+listCase.get(i).position.colonne);
+		   //System.out.println("--Voisin: "+listCase.get(i).position.ligne+" "+listCase.get(i).position.colonne);
 	   }
    }
     

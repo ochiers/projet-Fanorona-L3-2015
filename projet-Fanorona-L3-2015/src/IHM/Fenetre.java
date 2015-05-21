@@ -498,9 +498,10 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	@Override
-	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
-	{
-		// TODO Auto-generated method stub
+	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
+		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		monDessin.combo=combo;
+		monDessin.repaint();
 		
 	}
 	
