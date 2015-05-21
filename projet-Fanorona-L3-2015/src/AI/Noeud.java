@@ -9,10 +9,10 @@ public class Noeud {
 	public int nbPionsAdversaire;
 	
 	public Noeud(Noeud n){
-		this.plateau = new Case[n.plateau[0].length][n.plateau.length];
+		this.plateau = new Case[n.plateau.length][n.plateau[0].length];
 		for(int i = 0; i < n.plateau[0].length; i++){
 			for (int j = 0; j < n.plateau.length; j++){
-				this.plateau [i][j] = n.plateau[i][j];
+				this.plateau [j][i] = n.plateau[j][i];
 			}
 		}
 		this.nbPionsJoueur = n.nbPionsJoueur;
@@ -20,10 +20,11 @@ public class Noeud {
 	}
 	
 	public Noeud(Game g) {
-		this.plateau = new Case[g.matricePlateau[0].length][g.matricePlateau.length];
-		for(int i = 0; i < g.matricePlateau[0].length; i++){
+		/* ATTENTION : INVERSION i ET j */
+		this.plateau = new Case[g.matricePlateau.length][g.matricePlateau[0].length];
+		for(int i = 0; i < g.matricePlateau[0].length; i++) {
 			for (int j = 0; j < g.matricePlateau.length; j++){
-				this.plateau [i][j] = g.matricePlateau[i][j];
+				this.plateau [j][i] = g.matricePlateau[j][i];
 			}
 		}
 		if(g.joueurCourant == g.joueurBlanc) {
