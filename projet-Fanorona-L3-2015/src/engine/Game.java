@@ -662,7 +662,8 @@ public class Game {
 		{
 			Case tmp = it.next();
 			coupsPossibles = coupsPossiblesPourUnPion(tmp);
-			res.addAll(coupsPourPriseParUnPion(coupsPossibles, tmp));
+			if(coupsPourPriseParUnPion(coupsPossibles, tmp).size()>0)
+			res.add(tmp);
 		}
 		for (int i = 0; i < res.size(); i++)
 			System.out.print(res.get(i));
@@ -671,7 +672,7 @@ public class Game {
 	}
 
 	/**
-	 * Donne les cases mangeables par un le pion sur la case c
+	 * Donne les cases que si on y va dessus on mange
 	 * 
 	 * @param coupsPossibles
 	 *            Tous les coups possibles de deplacement pour le pion sur case
@@ -692,7 +693,7 @@ public class Game {
 			 * un coup possibles, et que la case opposée soit un pion ennemi
 			 */
 			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
-				res.add(c);
+				res.add(c.getCaseAt(d));
 
 			/* Percussion - Rapprochement */
 			/*
@@ -701,7 +702,7 @@ public class Game {
 			 * même direction soit un pion ennemi
 			 */
 			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
-				res.add(c);
+				res.add(c.getCaseAt(d));
 		}
 
 		// afficherList(res, "MACHIN");
