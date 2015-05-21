@@ -80,4 +80,9 @@ public class Case {
 		return false;
 	}
 	
+	public String toString(){
+		
+		return "Case (" + position.ligne+", "+position.colonne+") : " + pion.name();  
+	}
+	
 }

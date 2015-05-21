@@ -267,7 +267,13 @@ public class Game {
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
 				{
 					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+					l.removeAll(combo);
+					l.remove(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					Case tmp2[] = new Case[l.size()];
+					
+					if(l.size() <= 0)
+						break;
+						
 					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
 					while (paused)
 						Thread.sleep(50);
@@ -276,7 +282,7 @@ public class Game {
 						rejouer = faireCoup(c);
 				}
 			}
-
+			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
 			this.display.afficherJeu();
 			combo.removeAll(combo);
@@ -569,6 +575,7 @@ public class Game {
 				}
 				break;
 		}
+		System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart+", arrivee : "+ arrivee);
 		return null;
 	}
 
@@ -655,7 +662,7 @@ public class Game {
 			 * et que la case dans la direction opposé fait partie des coups
 			 * possibles
 			 */
-			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c);
 		}
 

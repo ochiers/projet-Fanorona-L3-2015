@@ -57,4 +57,9 @@ public class Coordonnee {
 		
 	}
 	
+	public String toString()
+	{
+		return "[Ligne = "+this.ligne+", Colonne = "+ this.colonne+"]";
+	}
+	
 }
