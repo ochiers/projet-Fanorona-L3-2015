@@ -29,6 +29,8 @@ public class Game {
 	 * Indique si la partie est en pause
 	 */
 	private boolean			paused;
+
+	public boolean			enCombo;
 	/**
 	 * Le joueur qui est en train de jouer
 	 */
@@ -107,6 +109,7 @@ public class Game {
 	{
 		this.stopped = false;
 		this.finish = false;
+		this.enCombo = false;
 		this.paused = true;
 		this.joueurBlanc = p1;
 		this.joueurNoir = p2;
@@ -266,6 +269,7 @@ public class Game {
 
 				// System.out.println("Maj matrice ..... ");
 				boolean rejouer = faireCoup(c);
+				enCombo = rejouer;
 				// System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
 				combo = new ArrayList<Case>();
 				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
@@ -278,8 +282,8 @@ public class Game {
 					System.out.println("\t\t\t" + pionJoue.pion);
 					System.out.println("\t\t\t" + matricePlateau[c.depart.ligne][c.depart.colonne]);
 					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
-					//afficherList(l, "Case");
-					//afficherList(combo, "Combo");
+					// afficherList(l, "Case");
+					// afficherList(combo, "Combo");
 					l.removeAll(combo);
 					if (l.size() == 1 && l.contains(pionJoue))
 						l.remove(pionJoue);
@@ -301,8 +305,10 @@ public class Game {
 
 					combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
 					rejouer = faireCoup(c2);
+					enCombo = rejouer;
 				}
 			}
+			enCombo = false;
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
 			this.display.afficherJeu();
@@ -662,8 +668,8 @@ public class Game {
 		{
 			Case tmp = it.next();
 			coupsPossibles = coupsPossiblesPourUnPion(tmp);
-			if(coupsPourPriseParUnPion(coupsPossibles, tmp).size()>0)
-			res.add(tmp);
+			if (coupsPourPriseParUnPion(coupsPossibles, tmp).size() > 0)
+				res.add(tmp);
 		}
 		for (int i = 0; i < res.size(); i++)
 			System.out.print(res.get(i));
