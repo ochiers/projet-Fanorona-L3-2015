@@ -241,8 +241,11 @@ public class Game {
 			if (stopped)
 				return;
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
-			if (pionsPossibles.size() == 0)
+			if (pionsPossibles.size() == 0){
+				System.err.println("Aucun pion ne peut manger");
 				pionsPossibles = this.lesPionsJouables();
+			}
+			//TODO : FAIRE FONCTION D'ELIMINATION DOUBLON DE LA LISTE piosPossibles	
 
 			display.afficherPionsPossibles(pionsPossibles);
 			Case[] tmp = new Case[pionsPossibles.size()];
@@ -263,18 +266,22 @@ public class Game {
 				boolean rejouer = faireCoup(c);
 				System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
 				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
-
+				System.out.println(c);
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
 				{
+
 					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					l.removeAll(combo);
 					l.remove(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					Case tmp2[] = new Case[l.size()];
-					
-					if(l.size() <= 0)
+					if (l.size() <= 0)
+					{
+						System.out.println("Plus de possibilites");
 						break;
-						
+					}
+
 					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
+					System.out.println(c2);
 					while (paused)
 						Thread.sleep(50);
 
@@ -325,7 +332,7 @@ public class Game {
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
 		for (int i = 0; i < pionsPossibles.size(); i++)
 			l.add(pionsPossibles.get(i).position);
-	
+
 		return (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
 	}
 
@@ -340,21 +347,22 @@ public class Game {
 	private boolean faireCoup(Coup c)
 	{
 		System.out.println("Determination du raprochemeent ...");
-		ArrayList<Case> rapprochement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
-		System.out.println("....Fini. Determination de l'eloignement ...");
-		ArrayList<Case> eloignement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.depart.ligne][c.depart.colonne]);
-		System.out.println("..... Fini");
+		ArrayList<Case> rapprochement = determinerPionsACapturerRaprochement(determinerDirection(c.depart, c.arrivee), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+		System.out.println("..." + rapprochement.size() + "...Fini. Determination de l'eloignement ...");
+		ArrayList<Case> eloignement = determinerPionsACapturerEloignement(determinerDirection(c.depart, c.arrivee), matricePlateau[c.depart.ligne][c.depart.colonne]);
+		System.out.println("..." + eloignement.size() + "... Fini");
 		if (rapprochement.size() == 0 && eloignement.size() == 0)
 		{
+			this.display.afficherJeu();
 			return false;
 		} else if (rapprochement.size() != 0 && eloignement.size() != 0)
 		{
-			System.out.println("Deux prises possibles ("+rapprochement.size()+", "+eloignement.size() +" , faite votre choix ....");
-			capturer(determinerPionsACapturer(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]));
+			System.out.println("Deux prises possibles (" + rapprochement.size() + ", " + eloignement.size() + " , faite votre choix ....");
+			capturer(determinerPionsACapturerEloignement(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]));
 			System.out.println(".... Choix fait.");
 		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 		{
-			System.out.println("Capture avec raprochement ....");
+			System.out.println("Capture avec rapprochement ....");
 			capturer(rapprochement);
 			System.out.println("....Fini");
 		} else if (eloignement.size() != 0 && rapprochement.size() == 0)
@@ -399,44 +407,17 @@ public class Game {
 	 *            commence la capture la case d'apres)
 	 * @return Une liste de case a liberer de leur pion
 	 */
-	private ArrayList<Case> determinerPionsACapturer(Direction d, Case depart)
+	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction d, Case depart)
 	{
+		System.out.println("\n Direction :" + d.name() + ", " + depart + "\n");
+
 		ArrayList<Case> res = new ArrayList<Case>();
 		Case courante = depart;
 		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
 		while (courante != null)
 		{
-
-			switch (d)
-			{
-				case Nord:
-					courante = courante.nord;
-					break;
-				case NordEst:
-					courante = courante.nordEst;
-					break;
-				case Est:
-					courante = courante.est;
-					break;
-				case SudEst:
-					courante = courante.sudEst;
-					break;
-				case Sud:
-					courante = courante.sud;
-					break;
-				case SudOuest:
-					courante = courante.sudOuest;
-					break;
-				case Ouest:
-					courante = courante.ouest;
-					break;
-				case NordOuest:
-					courante = courante.nordOuest;
-					break;
-				default:
-					break;
-			}
+			courante = courante.getCaseAt(d);
 			if (courante != null && !courante.estVide() & courante.pion != p)
 				res.add(courante);
 			else
@@ -445,6 +426,33 @@ public class Game {
 
 		return res;
 	}
+	
+	
+	private ArrayList<Case> determinerPionsACapturerEloignement(Direction d, Case depart)
+	{
+		System.out.println("\n Direction :" + d.name() + ", " + depart + "\n");
+
+		ArrayList<Case> res = new ArrayList<Case>();
+		Case courante = depart;
+		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		
+		if(courante.getCaseAt(d).estVide())
+		{
+			while (courante != null)
+			{
+	
+				courante = courante.getCaseAt(Direction.oppose(d));
+				
+				if (courante != null && !courante.estVide() & courante.pion != p)
+					res.add(courante);
+				else
+					break;
+			}
+		}
+		return res;
+	}
+	
+	
 
 	/**
 	 * FOnction determinant si un des joueur a capturer tous les pions de
@@ -507,7 +515,7 @@ public class Game {
 	}
 
 	/**
-	 * Donne les cases possibles pour un pion se trouvant sur la case c
+	 * Donne les cases possibles (etant vides) pour un pion se trouvant sur la case c
 	 * 
 	 * @param c
 	 *            La case de depart du pion
@@ -575,7 +583,7 @@ public class Game {
 				}
 				break;
 		}
-		System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart+", arrivee : "+ arrivee);
+		System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart + ", arrivee : " + arrivee);
 		return null;
 	}
 
@@ -624,8 +632,10 @@ public class Game {
 			Case tmp = it.next();
 			coupsPossibles = coupsPossiblesPourUnPion(tmp);
 			res.addAll(coupsPourPriseParUnPion(coupsPossibles, tmp));
-
 		}
+		for(int i = 0;i<res.size();i++)
+			System.out.print(res.get(i));
+		
 		return res;
 	}
 

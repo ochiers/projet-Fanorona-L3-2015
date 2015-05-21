@@ -15,5 +15,10 @@ public class Coup {
 		this.depart = depart;
 		this.arrivee = arrivee;
 	}
+	
+	public String toString()
+	{
+		return "Coup " + depart + ", " + arrivee;
+	}
 
 }

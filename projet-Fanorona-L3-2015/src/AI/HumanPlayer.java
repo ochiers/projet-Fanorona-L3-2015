@@ -63,7 +63,7 @@ public class HumanPlayer extends Player {
 		{
 			try {
 				Thread.sleep(500);
-				System.out.println(name + " attend");
+				//System.out.println(name + " attend");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

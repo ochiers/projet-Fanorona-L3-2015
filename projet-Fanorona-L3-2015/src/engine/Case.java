@@ -82,7 +82,7 @@ public class Case {
 	
 	public String toString(){
 		
-		return "Case (" + position.ligne+", "+position.colonne+") : " + pion.name();  
+		return "Case (" + position.ligne+", "+position.colonne+") : " + pion;  
 	}
 	
 }
