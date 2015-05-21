@@ -255,10 +255,13 @@ public class Game {
 
 			while (paused)
 				Thread.sleep(50);
-
+			System.out.println("Coup valide");
 			if (!stopped && !paused)
 			{
+
+				System.out.println("Maj matrice ..... ");
 				boolean rejouer = faireCoup(c);
+				System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
 				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
 
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
@@ -316,11 +319,7 @@ public class Game {
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
 		for (int i = 0; i < pionsPossibles.size(); i++)
 			l.add(pionsPossibles.get(i).position);
-		System.err.print("\n" + new Point(3, 4) + " " + pionsPossibles.contains(new Case(new Coordonnee(3, 4))) + "\n");
-		// System.err.print(this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide()
-		// +"\n");
-		
-		
+	
 		return (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
 	}
 
@@ -334,27 +333,33 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
+		System.out.println("Determination du raprochemeent ...");
 		ArrayList<Case> rapprochement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+		System.out.println("....Fini. Determination de l'eloignement ...");
 		ArrayList<Case> eloignement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.depart.ligne][c.depart.colonne]);
+		System.out.println("..... Fini");
 		if (rapprochement.size() == 0 && eloignement.size() == 0)
 		{
 			return false;
-		} else if (rapprochement.size() != 0 && rapprochement.size() != 0)
+		} else if (rapprochement.size() != 0 && eloignement.size() != 0)
 		{
-			capturer(determinerPionsACapturer(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.ligne][c.arrivee.colonne])); // risque
-			// de
-			// gros
-			// soucis
-			// ici
+			System.out.println("Deux prises possibles ("+rapprochement.size()+", "+eloignement.size() +" , faite votre choix ....");
+			capturer(determinerPionsACapturer(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]));
+			System.out.println(".... Choix fait.");
 		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 		{
+			System.out.println("Capture avec raprochement ....");
 			capturer(rapprochement);
+			System.out.println("....Fini");
 		} else if (eloignement.size() != 0 && rapprochement.size() == 0)
 		{
+			System.out.println("Capture avec eloignement ....");
 			capturer(eloignement);
+			System.out.println("....Fini");
 		}
 		matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
 		matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
+		this.display.afficherJeu();
 		return true;
 	}
 
