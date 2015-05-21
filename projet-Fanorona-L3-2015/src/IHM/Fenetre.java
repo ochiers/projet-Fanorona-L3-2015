@@ -23,6 +23,8 @@ public class Fenetre implements Runnable,Affichage {
 	JButton annuler;
 	JButton refaire;
 	JButton stopper;
+	JLabel tour1;
+	JLabel tour2;
 	
 	public Fenetre(Engine e){
 		engine=e;
@@ -154,9 +156,9 @@ public class Fenetre implements Runnable,Affichage {
 			score1.setBounds((int)(0.25*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel score2 = new JLabel(" Pions restants ");
 			score2.setBounds((int)(5.15*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel tour1 = new JLabel(" A votre tour ! ");
+		tour1 = new JLabel(" A votre tour ! ");
 			tour1.setBounds((int)(0.25*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel tour2 = new JLabel(" A votre tour ! ");
+		tour2 = new JLabel(" A votre tour ! ");
 			tour2.setBounds((int)(5.15*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		
  			//ajouts 
@@ -339,7 +341,7 @@ public class Fenetre implements Runnable,Affichage {
 		frame2.setResizable(false);
 		frame2.setVisible(false);
 		
-		/* NE FONCTIONNE PAS, NE PAS DECOMMENTER !!!!!
+		/* NE FONCTIONNE PAS, NE PAS DECOMMENTER !!!!! OKAY !!
 			//fenetre preferences
 		frame3.setSize(500, 500);
 		int fw3 = frame3.getWidth();
