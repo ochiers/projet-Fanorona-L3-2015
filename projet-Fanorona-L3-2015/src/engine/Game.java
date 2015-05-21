@@ -692,7 +692,7 @@ public class Game {
 			 * Pour chaque direction, on test si la case est vide, qu'elle est
 			 * un coup possibles, et que la case opposée soit un pion ennemi
 			 */
-			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
+			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)) != null && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
 				res.add(c.getCaseAt(d));
 
 			/* Percussion - Rapprochement */
@@ -701,7 +701,7 @@ public class Game {
 			 * qu'elle soit un coup possible et que la case suivante dans la
 			 * même direction soit un pion ennemi
 			 */
-			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c.getCaseAt(d));
 		}
 
