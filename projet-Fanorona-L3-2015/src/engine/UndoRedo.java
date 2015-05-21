@@ -32,7 +32,7 @@ public class UndoRedo<T> {
 
 	public void addItem(T t) {
 		annuler.add(t);
-		refaire.rem
+		refaire.removeAll(refaire);
 	}
 
 	public boolean canRedo() {
@@ -42,6 +42,11 @@ public class UndoRedo<T> {
 
 	public boolean canUndo() {
 		return !annuler.isEmpty() && annuler.size() >= 2;
+	}
+	
+	public void vider(){
+		this.refaire.removeAll(refaire);
+		this.annuler.removeAll(annuler);
 	}
 
 }

@@ -313,13 +313,15 @@ public class Game {
 	 */
 	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles)
 	{
+		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
 		for (int i = 0; i < pionsPossibles.size(); i++)
-			System.err.println(pionsPossibles.get(i).position);
+			l.add(pionsPossibles.get(i).position);
 		System.err.print("\n" + new Point(3, 4) + " " + pionsPossibles.contains(new Case(new Coordonnee(3, 4))) + "\n");
 		// System.err.print(this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide()
 		// +"\n");
-
-		return (c != null && pionsPossibles.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
+		
+		
+		return (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
 	}
 
 	/**

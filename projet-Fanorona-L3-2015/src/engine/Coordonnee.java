@@ -46,4 +46,15 @@ public class Coordonnee {
 		return this.colonne;
 	}
 
+	public boolean equals(Object o){
+		
+		if(o != null && o instanceof Coordonnee)
+		{
+			Coordonnee c = (Coordonnee) o;
+			return c.ligne == this.ligne && c.colonne == this.colonne;
+		}
+		return false;
+		
+	}
+	
 }
