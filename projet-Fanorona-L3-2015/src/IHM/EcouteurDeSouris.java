@@ -58,14 +58,10 @@ public class EcouteurDeSouris implements MouseListener{
 				else{
 					if(aire.doitChoisir){
 						if(aire.estUnChoix(pfinal)){
-							System.out.println("----------------c'est un choix");
 							((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setDirectionMultiPrise(pfinal);
 							aire.doitChoisir=false;
 						}
-						else{
-							System.out.println("----------------non ce n'est pas un choix");
-						}
-						System.out.println("test");
+					
 						
 					}
 					else{

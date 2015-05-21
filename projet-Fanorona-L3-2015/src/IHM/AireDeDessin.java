@@ -41,6 +41,15 @@ public class AireDeDessin extends JComponent {
         	//MAJ du score
         fenetre.scoreInt1.setText(""+fenetre.engine.partieCourante.nombrePionBlanc);
         fenetre.scoreInt2.setText(""+fenetre.engine.partieCourante.nombrePionNoir);
+        if(fenetre.engine.peutAnnuler())
+        	fenetre.annuler.setEnabled(true);
+        else
+        	fenetre.annuler.setEnabled(false);
+        if(fenetre.engine.peutRefaire())
+        	fenetre.refaire.setEnabled(true);
+        else
+        	fenetre.refaire.setEnabled(false);
+       
         
         dessinGrille(drawable);
         if(!pionCliquer && !doitChoisir){
