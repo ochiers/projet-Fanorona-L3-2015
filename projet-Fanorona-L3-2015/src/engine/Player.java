@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.ArrayList;
+
 public abstract class Player {
 
 	public boolean	aiPlayer;
@@ -47,10 +49,12 @@ public abstract class Player {
 	/**
 	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les
 	 * pions
+	 * @param eloignement 
+	 * @param rapprochement 
 	 * 
 	 * @return La direction choisie
 	 */
-	public abstract Direction choisirDirectionAManger();
+	public abstract Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement);
 	
 	/**
 	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA Difficle)
