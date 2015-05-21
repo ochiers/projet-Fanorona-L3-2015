@@ -19,67 +19,71 @@ public class Game {
 	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer
 	 * la partie
 	 */
-	public boolean		stopped;
+	public boolean			stopped;
 	/**
 	 * Indique que la partie s'est terminee normalement avec un vainqueur, la
 	 * partie est arretée apres cela
 	 */
-	public boolean		finish;
+	public boolean			finish;
 	/**
 	 * Indique si la partie est en pause
 	 */
-	private boolean		paused;
+	private boolean			paused;
 	/**
 	 * Le joueur qui est en train de jouer
 	 */
-	public Player		joueurCourant;
+	public Player			joueurCourant;
 	/**
 	 * Le joueur qui les pions blancs
 	 */
-	public Player		joueurBlanc;
+	public Player			joueurBlanc;
 	/**
 	 * Le joueur qui a les pions noirs
 	 */
-	public Player		joueurNoir;
+	public Player			joueurNoir;
 	/**
 	 * Le joueur qui a gagner, est renseigné uniquement quand la partie c'est
 	 * terminee normalement (this.finish == true)
 	 */
-	private Player		winner;
+	private Player			winner;
 	/**
 	 * Premiere case du plateau, permet d'acceder aux autres car elles sont
 	 * chainee
 	 */
-	public Case			plateau;
+	public Case				plateau;
 	/**
 	 * Tableau de case representant tous le plateau
 	 */
-	public Case[][]		matricePlateau;
+	public Case[][]			matricePlateau;
 	/**
 	 * Nombre de tour effectués
 	 */
-	public int			numberTurn;
+	public int				numberTurn;
 	/**
 	 * Nombre de pions blancs restants sur le plateau
 	 */
-	public int			nombrePionBlanc;
+	public int				nombrePionBlanc;
 	/**
 	 * Nombre de pions noirs restants sur le plateau
 	 */
-	public int			nombrePionNoir;
+	public int				nombrePionNoir;
 	/**
 	 * Hauteur du plateau
 	 */
-	public int			hauteur;
+	public int				nbLignes;
 	/**
 	 * Largeur du plateau
 	 */
-	public int			largeur;
+	public int				nbColonnes;
 	/**
 	 * Le module d'affichage
 	 */
-	public Affichage	display;
-	
+	public Affichage		display;
+
+	/**
+	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on
+	 * ne peut pas revenir sur une case deja jouee
+	 */
 	public ArrayList<Case>	combo;
 
 	/**
@@ -94,12 +98,12 @@ public class Game {
 	 *            Joueur Blanc
 	 * @param p2
 	 *            Joueur Noir
-	 * @param hauteur
+	 * @param nbLignes
 	 *            Hauteur du plateau (nombre de cases)(5)
-	 * @param largeur
-	 *            Largeur du plateau (nombre de cases)(9)
+	 * @param nbColonnes
+	 *            Largeur du plateau (nombre de cases)(9 ou 5)
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int hauteur, int largeur)
+	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int nbLignes, int nbColonnes)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -111,51 +115,53 @@ public class Game {
 		else
 			this.joueurCourant = p2;
 
-		this.combo = new ArrayList<Case>();		
+		this.combo = new ArrayList<Case>();
 		this.numberTurn = 0;
 		this.display = affichage;
-		this.nombrePionBlanc = ((hauteur * largeur) - 1) / 2;
+		this.nombrePionBlanc = ((nbLignes * nbColonnes) - 1) / 2;
 		this.nombrePionNoir = this.nombrePionBlanc;
-		this.hauteur = hauteur;
-		this.largeur = largeur;
-		initialisation(hauteur, largeur);
+		this.nbLignes = nbLignes;
+		this.nbColonnes = nbColonnes;
+		initialisation(nbLignes, nbColonnes);
 	}
 
 	/**
 	 * Initialise le plateau du jeu
 	 * 
-	 * @param hauteur (5)
-	 * @param largeur (9 ou 5)
+	 * @param nbLignes
+	 *            (5)
+	 * @param nbColonne
+	 *            (9 ou 5)
 	 */
-	public void initialisation(int hauteur, int largeur)
+	public void initialisation(int nbLignes, int nbColonne)
 	{
-		Case[][] tableau = new Case[hauteur][largeur];
+		Case[][] tableau = new Case[nbLignes][nbColonne];
 
-		for (int i = 0; i < hauteur; i++)
-			for (int j = 0; j < largeur; j++)
-				tableau[i][j] = new Case(new Point(i, j));
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonne; j++)
+				tableau[i][j] = new Case(new Coordonnee(i, j));
 
-		for (int i = 0; i < hauteur; i++)
+		for (int i = 0; i < nbLignes; i++)
 		{
-			for (int j = 0; j < largeur - 1; j++)
+			for (int j = 0; j < nbColonne - 1; j++)
 				tableau[i][j].est = tableau[i][j + 1];
-			for (int j = 1; j < largeur; j++)
+			for (int j = 1; j < nbColonne; j++)
 				tableau[i][j].ouest = tableau[i][j - 1];
 		}
-		for (int j = 0; j < largeur; j++)
+		for (int j = 0; j < nbColonne; j++)
 		{
-			for (int i = 0; i < hauteur - 1; i++)
+			for (int i = 0; i < nbLignes - 1; i++)
 				tableau[i][j].sud = tableau[i + 1][j];
-			for (int i = 1; i < hauteur; i++)
+			for (int i = 1; i < nbLignes; i++)
 				tableau[i][j].nord = tableau[i - 1][j];
 		}
 
-		for (int i = 0; i < hauteur; i++)
-			for (int j = 0; j < largeur; j++)
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonne; j++)
 			{
 				if ((i % 2 == 0 && j % 2 == 0) || (i % 2 == 1 && j % 2 == 1))
 				{
-					if (i > 0 && i < hauteur - 1 && j > 0 && j < largeur - 1)
+					if (i > 0 && i < nbLignes - 1 && j > 0 && j < nbColonne - 1)
 					{
 						tableau[i][j].nordEst = tableau[i - 1][j + 1];
 						tableau[i][j].sudEst = tableau[i + 1][j + 1];
@@ -164,64 +170,64 @@ public class Game {
 					}
 					if (i == 0)
 					{
-						if (j >= 0 && j != largeur - 1)
+						if (j >= 0 && j != nbColonne - 1)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
-						if (j != 0 && j < largeur)
+						if (j != 0 && j < nbColonne)
 							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
 					}
-					if (i == hauteur - 1)
+					if (i == nbLignes - 1)
 					{
-						if (j >= 0 && j != largeur - 1)
+						if (j >= 0 && j != nbColonne - 1)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (j != 0 && j < largeur)
+						if (j != 0 && j < nbColonne)
 							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
 					}
 					if (j == 0)
 					{
-						if (i != 0 && i <= hauteur)
+						if (i != 0 && i <= nbLignes)
 							tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						if (i >= 0 && i != hauteur - 1)
+						if (i >= 0 && i != nbLignes - 1)
 							tableau[i][j].sudEst = tableau[i + 1][j + 1];
 					}
 					if (j == 8)
 					{
-						if (i >= 0 && i != hauteur - 1)
+						if (i >= 0 && i != nbLignes - 1)
 							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
-						if (i != 0 && i <= hauteur)
+						if (i != 0 && i <= nbLignes)
 							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
 					}
 				}
 			}
 
-		for (int i = 0; i < Math.floor((double) hauteur / 2.0); i++)
-			for (int j = 0; j < largeur; j++)
+		for (int i = 0; i < Math.floor((double) nbLignes / 2.0); i++)
+			for (int j = 0; j < nbColonne; j++)
 				tableau[i][j].pion = Pion.Noir;
 
-		for (int i = (int) Math.floor((double) hauteur / 2.0) + 1; i < hauteur; i++)
-			for (int j = 0; j < largeur; j++)
+		for (int i = (int) Math.floor((double) nbLignes / 2.0) + 1; i < nbLignes; i++)
+			for (int j = 0; j < nbColonne; j++)
 				tableau[i][j].pion = Pion.Blanc;
 
-		for (int j = 0; j < largeur / 2; j++)
+		for (int j = 0; j < nbColonne / 2; j++)
 			if (j % 2 == 0)
-				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
+				tableau[(int) Math.floor((double) nbLignes / 2.0)][j].pion = Pion.Blanc;
 			else
-				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
+				tableau[(int) Math.floor((double) nbLignes / 2.0)][j].pion = Pion.Noir;
 
-		tableau[hauteur / 2][largeur / 2].pion = null;
+		tableau[nbLignes / 2][nbColonne / 2].pion = null;
 
-		for (int j = largeur / 2 + 1; j < largeur; j++)
+		for (int j = nbColonne / 2 + 1; j < nbColonne; j++)
 			if (j % 2 == 0)
-				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Noir;
+				tableau[(int) Math.floor((double) nbLignes / 2.0)][j].pion = Pion.Noir;
 			else
-				tableau[(int) Math.floor((double) hauteur / 2.0)][j].pion = Pion.Blanc;
+				tableau[(int) Math.floor((double) nbLignes / 2.0)][j].pion = Pion.Blanc;
 
 		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
 	}
 
 	/**
-	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a
-	 * été arretée
+	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a été
+	 * arretée
 	 * 
 	 * @throws InterruptedException
 	 */
@@ -235,34 +241,35 @@ public class Game {
 			if (stopped)
 				return;
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
-			if(pionsPossibles.size() == 0)
+			if (pionsPossibles.size() == 0)
 				pionsPossibles = this.lesPionsJouables();
-			
-			
+
 			display.afficherPionsPossibles(pionsPossibles);
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
-			while (!stopped && !paused && !this.coupValide(c,pionsPossibles)){
-				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : "+ c.arrivee);
+			while (!stopped && !paused && !this.coupValide(c, pionsPossibles))
+			{
+				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : " + c.arrivee);
 				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			}
-			
-			while(paused)
+
+			while (paused)
 				Thread.sleep(50);
-			
+
 			if (!stopped && !paused)
 			{
 				boolean rejouer = faireCoup(c);
-				combo.add(matricePlateau[c.depart.y][c.depart.x]);
-				
-				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer){
-					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.y][c.arrivee.x]), matricePlateau[c.arrivee.y][c.arrivee.x]);
+				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
+
+				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
+				{
+					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					Case tmp2[] = new Case[l.size()];
 					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
-					while(paused)
+					while (paused)
 						Thread.sleep(50);
-					
-					while(comboValide(c2))
+
+					while (comboValide(c2))
 						rejouer = faireCoup(c);
 				}
 			}
@@ -279,17 +286,19 @@ public class Game {
 		}
 
 	}
-	
+
 	/**
 	 * Teste si on peut effectuer un combo
-	 * @param c Le coup joué
+	 * 
+	 * @param c
+	 *            Le coup joué
 	 * @return Vrai -> si on peut faire le combo, Faux sinon
 	 */
 	private boolean comboValide(Coup c)
 	{
 		boolean res = true;
-		Case arrivee = matricePlateau[c.arrivee.y][c.arrivee.x];
-		Case depart =  matricePlateau[c.depart.y][c.depart.x];
+		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
+		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
 		res = res && !combo.contains(arrivee) && coupsPossiblesPourUnPion(depart).contains(arrivee);
 		return res;
 	}
@@ -299,17 +308,18 @@ public class Game {
 	 * 
 	 * @param c
 	 *            Le coup a verifier
-	 * @param pionsPossibles 
+	 * @param pionsPossibles
 	 * @return True -> si coup est valide, False sinon
 	 */
 	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles)
 	{
-		for(int i = 0; i<pionsPossibles.size();i++)
+		for (int i = 0; i < pionsPossibles.size(); i++)
 			System.err.println(pionsPossibles.get(i).position);
-		System.err.print("\n" + new Point(3, 4) + " " + pionsPossibles.contains(new Case(new Point(3,4))) + "\n");
-		//System.err.print(this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() +"\n");
-		
-		return (c != null && pionsPossibles.contains(c.depart) && this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide() && c.depart != c.arrivee);
+		System.err.print("\n" + new Point(3, 4) + " " + pionsPossibles.contains(new Case(new Coordonnee(3, 4))) + "\n");
+		// System.err.print(this.matricePlateau[c.arrivee.y][c.arrivee.x].estVide()
+		// +"\n");
+
+		return (c != null && pionsPossibles.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
 	}
 
 	/**
@@ -322,18 +332,18 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		ArrayList<Case> rapprochement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.arrivee.y][c.arrivee.x]);
-		ArrayList<Case> eloignement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.depart.y][c.depart.x]);
+		ArrayList<Case> rapprochement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+		ArrayList<Case> eloignement = determinerPionsACapturer(determinerDirection(c.depart, c.arrivee), matricePlateau[c.depart.ligne][c.depart.colonne]);
 		if (rapprochement.size() == 0 && eloignement.size() == 0)
 		{
 			return false;
 		} else if (rapprochement.size() != 0 && rapprochement.size() != 0)
 		{
-			capturer(determinerPionsACapturer(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.y][c.arrivee.x])); // risque
-																																	// de
-																																	// gros
-																																	// soucis
-																																	// ici
+			capturer(determinerPionsACapturer(joueurCourant.choisirDirectionAManger(), matricePlateau[c.arrivee.ligne][c.arrivee.colonne])); // risque
+			// de
+			// gros
+			// soucis
+			// ici
 		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 		{
 			capturer(rapprochement);
@@ -341,8 +351,8 @@ public class Game {
 		{
 			capturer(eloignement);
 		}
-		matricePlateau[c.arrivee.y][c.arrivee.x].pion = matricePlateau[c.depart.y][c.depart.x].pion;
-		matricePlateau[c.depart.y][c.depart.x].pion = null;
+		matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
+		matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
 		return true;
 	}
 
@@ -514,14 +524,14 @@ public class Game {
 	 *            Position d'arrive
 	 * @return La direction du coup
 	 */
-	public static Direction determinerDirection(Point depart, Point arrivee)
+	public static Direction determinerDirection(Coordonnee depart, Coordonnee arrivee)
 	{
-		int deplacementX = arrivee.x - depart.x;
-		int deplacementY = arrivee.y - depart.y;
-		switch (deplacementX)
+		int deplacementColonne = arrivee.colonne - depart.colonne;
+		int deplacementLigne = arrivee.ligne - depart.ligne;
+		switch (deplacementColonne)
 		{
 			case -1:
-				switch (deplacementY)
+				switch (deplacementLigne)
 				{
 					case -1:
 						return Direction.NordOuest;
@@ -532,7 +542,7 @@ public class Game {
 				}
 				break;
 			case 0:
-				switch (deplacementY)
+				switch (deplacementLigne)
 				{
 					case -1:
 						return Direction.Nord;
@@ -541,7 +551,7 @@ public class Game {
 				}
 				break;
 			case 1:
-				switch (deplacementY)
+				switch (deplacementLigne)
 				{
 					case -1:
 						return Direction.NordEst;
@@ -565,8 +575,8 @@ public class Game {
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
 		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-		for (int i = 0; i < hauteur; i++)
-			for (int j = 0; j < largeur; j++)
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonnes; j++)
 			{
 				if (matricePlateau[i][j].pion == courant)
 				{
@@ -604,11 +614,15 @@ public class Game {
 		}
 		return res;
 	}
-	
+
 	/**
 	 * Donne les cases mangeables par un le pion sur la case c
-	 * @param coupsPossibles Tous les coups possibles de deplacement pour le pion sur case c
-	 * @param c La case sur laquelle ce trouve le pion qui va manger
+	 * 
+	 * @param coupsPossibles
+	 *            Tous les coups possibles de deplacement pour le pion sur case
+	 *            c
+	 * @param c
+	 *            La case sur laquelle ce trouve le pion qui va manger
 	 * @return
 	 */
 	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case c)
@@ -618,9 +632,9 @@ public class Game {
 		for (Direction d : Direction.values())
 		{
 			/*
-			 * POur chaque dir, on test si la case est d'une couleur
-			 * différente et que la case dans la direction opposé fait
-			 * partie des coups possibles
+			 * POur chaque dir, on test si la case est d'une couleur différente
+			 * et que la case dans la direction opposé fait partie des coups
+			 * possibles
 			 */
 			if (c.getCaseAt(d) != null && c.getCaseAt(d).pion == ennemi && coupsPossibles.contains(c.getCaseAt(Direction.oppose(d))))
 				res.add(c);
@@ -630,51 +644,57 @@ public class Game {
 		for (Direction d : Direction.values())
 		{
 			/*
-			 * POur chaque dir, on test si la case est d'une couleur
-			 * différente et que la case dans la direction opposé fait
-			 * partie des coups possibles
+			 * POur chaque dir, on test si la case est d'une couleur différente
+			 * et que la case dans la direction opposé fait partie des coups
+			 * possibles
 			 */
 			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c);
 		}
-		
+
 		return res;
-		
+
 	}
-	
+
 	/**
 	 * Teste si une case est jouable
-	 * @param p La coordonnee de la case
+	 * 
+	 * @param p
+	 *            La coordonnee de la case
 	 * @return Vrai si la case est vide, Faux sinon
 	 */
-	public boolean estJouable(Point p){
-		
+	public boolean estJouable(Coordonnee p)
+	{
+
 		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		boolean res = false;
-		if (matricePlateau[p.x][p.y].pion == courant)
+		if (matricePlateau[p.ligne][p.colonne].pion == courant)
 		{
-			for (Case case1 : matricePlateau[p.x][p.y].voisins())
+			for (Case case1 : matricePlateau[p.ligne][p.colonne].voisins())
 			{
 				res = res || case1.estVide();
 			}
 		}
 		return res;
-		
+
 	}
-	
+
 	/**
 	 * Teste si la case a la coordonee p est voisin de la case a la coordonnee q
-	 * @param p Une case
-	 * @param q Une case
+	 * 
+	 * @param p
+	 *            Une case
+	 * @param q
+	 *            Une case
 	 * @return Vrai si p appartien aux voisins de q
 	 */
-	public boolean estVoisin(Point p, Point q){
-		Case c1 = matricePlateau[p.y][p.x];
-		Case c2 = matricePlateau[q.y][q.x];
-		
+	public boolean estVoisin(Coordonnee p, Coordonnee q)
+	{
+		Case c1 = matricePlateau[p.ligne][p.colonne];
+		Case c2 = matricePlateau[q.ligne][q.colonne];
+
 		return c1.voisins().contains(c2);
-		
+
 	}
-	
-	
+
 }
