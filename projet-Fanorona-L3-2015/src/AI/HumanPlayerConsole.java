@@ -1,7 +1,5 @@
 package AI;
 
-import java.awt.Point;
-
 import engine.*;
 
 public class HumanPlayerConsole extends Player {
@@ -13,10 +11,24 @@ public class HumanPlayerConsole extends Player {
 	}
 
 	@Override
-	public Point play()
+	public Coup play(Case[] listeCoups)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Direction choisirDirectionAManger()
+	{
+		
+		return null;
+	}
+
+	@Override
+	public String getNiveau()
+	{
+		return "Humain Console";
+	}
+
 
 }

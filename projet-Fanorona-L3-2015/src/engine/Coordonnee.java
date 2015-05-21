@@ -8,8 +8,8 @@ package engine;
  */
 public class Coordonnee {
 
-	public final int	ligne;
-	public final int	colonne;
+	public int	ligne;
+	public int	colonne;
 
 	/**
 	 * Cree une coordonnee [ligne][colonne]

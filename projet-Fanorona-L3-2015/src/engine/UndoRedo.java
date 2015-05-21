@@ -32,6 +32,7 @@ public class UndoRedo<T> {
 
 	public void addItem(T t) {
 		annuler.add(t);
+		refaire.rem
 	}
 
 	public boolean canRedo() {
