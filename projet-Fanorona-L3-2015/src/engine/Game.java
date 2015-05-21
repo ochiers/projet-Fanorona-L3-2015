@@ -278,8 +278,8 @@ public class Game {
 					System.out.println("\t\t\t" + pionJoue.pion);
 					System.out.println("\t\t\t" + matricePlateau[c.depart.ligne][c.depart.colonne]);
 					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
-					afficherList(l, "Case");
-					afficherList(combo, "Combo");
+					//afficherList(l, "Case");
+					//afficherList(combo, "Combo");
 					l.removeAll(combo);
 					if (l.size() == 1 && l.contains(pionJoue))
 						l.remove(pionJoue);
@@ -700,7 +700,7 @@ public class Game {
 			 * qu'elle soit un coup possible et que la case suivante dans la
 			 * même direction soit un pion ennemi
 			 */
-			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c);
 		}
 
