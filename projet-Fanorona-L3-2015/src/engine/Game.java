@@ -371,6 +371,8 @@ public class Game {
 		if (rapprochement.size() == 0 && eloignement.size() == 0)
 		{
 			this.display.afficherJeu();
+			matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
+			matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
 			return false;
 		} else if (rapprochement.size() != 0 && eloignement.size() != 0)
 		{
