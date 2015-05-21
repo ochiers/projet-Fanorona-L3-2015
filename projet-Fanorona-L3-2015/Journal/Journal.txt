@@ -31,7 +31,10 @@ Mercredi 20 mai
 		- Mise en place du fond de la fenetre pour le jeu, celui-ci sera modifiable dans les préférences.
 		
 		
-		
+Jeudi 21 mai
+	Matin :
+		-Mouvement des pions pour l'IHM
+		-Donne le choix au joueur lorsqu'un pion peu manger 2 differentes lignes	
 		
 		
 		
