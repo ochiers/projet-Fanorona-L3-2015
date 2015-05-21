@@ -19,6 +19,9 @@ public class Fenetre implements Runnable,Affichage {
 	int mode;
 	JLabel scoreInt1;
 	JLabel scoreInt2;
+	JButton annuler;
+	JButton refaire;
+	JButton stopper;
 	
 	public Fenetre(Engine e){
 		engine=e;
@@ -85,13 +88,13 @@ public class Fenetre implements Runnable,Affichage {
  		
 			//boutons commandes
 		int temp = (int)(0.8*fh/6)/2;
-		JButton annuler = new JButton(" Annuler Coup ");
+		annuler = new JButton(" Annuler Coup ");
 			annuler.addActionListener(new EcouteurDeBouton(this,annuler.getText()));
 			annuler.setBounds((int)((1.5*fw/6)-temp), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton refaire = new JButton(" Refaire Coup ");
+		refaire = new JButton(" Refaire Coup ");
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
 			refaire.setBounds((int)(((1.5*fw/6)-temp)+fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton stopper = new JButton(" Pause ");
+		stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
 			stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 		JButton valider = new JButton(" Fin du tour ");

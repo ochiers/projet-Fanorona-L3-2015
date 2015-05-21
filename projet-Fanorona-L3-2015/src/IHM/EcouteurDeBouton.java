@@ -20,9 +20,11 @@ public class EcouteurDeBouton implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		switch (message){
 		case " Nouvelle Partie ":
-			//TODO
+			fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,"player1"), new HumanPlayer(fenetre.engine,false,"player2"),0, 5,9);
+			System.out.println("new partie");
 			break;
 		case " Recommencer ":
+			
 			//TODO
 			break;
 		case " Sauvegarder ":
@@ -51,13 +53,24 @@ public class EcouteurDeBouton implements ActionListener{
 			//TODO
 			break;
 		case " Annuler Coup ":
+			fenetre.engine.annuler();
 			//TODO
 			break;
 		case " Refaire Coup ":
+			fenetre.engine.refaire();
 			//TODO
 			break;
 		case " Pause ":
-			//TODO
+			if(fenetre.engine.partieCourante.isPaused()){
+				fenetre.engine.partieCourante.reprendre();
+				fenetre.stopper.setText(" Pause ");
+				System.out.println("reprise");
+			}
+			else{
+				fenetre.engine.partieCourante.pause();
+				fenetre.stopper.setText(" Reprendre ");
+				System.out.println("en pause");
+			}
 			break;
 		case " Fin du tour ":
 			//TODO
