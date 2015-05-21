@@ -475,7 +475,8 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
-		// TODO Auto-generated method stub
+		monDessin.pionPossible=l;
+		monDessin.repaint();
 	}
 
 	public void afficherVictoire(Player p) {
@@ -497,9 +498,10 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	@Override
-	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
-	{
-		// TODO Auto-generated method stub
+	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
+		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		monDessin.combo=combo;
+		monDessin.repaint();
 		
 	}
 	
