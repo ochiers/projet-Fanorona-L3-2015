@@ -368,5 +368,12 @@ public class Fenetre implements Runnable,Affichage {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

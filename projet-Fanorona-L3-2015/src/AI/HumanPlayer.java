@@ -65,7 +65,7 @@ public class HumanPlayer extends Player {
 		pointDirection = null;
 		while(!hasPlayed){
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 				//System.out.println(name + " attend");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

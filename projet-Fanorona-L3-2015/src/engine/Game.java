@@ -264,36 +264,41 @@ public class Game {
 			if (!stopped && !paused)
 			{
 
-				System.out.println("Maj matrice ..... ");
+				// System.out.println("Maj matrice ..... ");
 				boolean rejouer = faireCoup(c);
-				System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
-				combo.removeAll(combo);
+				// System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
+				combo = new ArrayList<Case>();
 				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
-				System.out.println(c);
+				// System.out.println("Premier coup " +c);
 				Case pionJoue = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
 				{
 
+					System.out.println("\t\t\t" + matricePlateau[2][4].pion);
+					System.out.println("\t\t\t" + pionJoue.pion);
+					System.out.println("\t\t\t" + matricePlateau[c.depart.ligne][c.depart.colonne]);
 					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
 					afficherList(l, "Case");
 					afficherList(combo, "Combo");
 					l.removeAll(combo);
+					if (l.size() == 1 && l.contains(pionJoue))
+						l.remove(pionJoue);
 					Case tmp2[] = new Case[l.size()];
 					if (l.size() <= 0)
 					{
 						System.out.println("Plus de possibilites");
 						break;
 					}
-					// display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+					display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
 					while (!joueurCourant.isStopped() && !comboValide(c2))
 						c2 = this.joueurCourant.play(l.toArray(tmp2));
 
 					pionJoue = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
-					System.out.println(c2);
+					// System.out.println("Nouveau point du combo " + c2);
 					while (paused)
 						Thread.sleep(50);
-					
+
 					combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
 					rejouer = faireCoup(c2);
 				}
@@ -355,13 +360,14 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		System.out.println("Determination du raprochemeent ...");
+		// System.out.println("Determination du raprochemeent ...");
 		Direction d = determinerDirection(c.depart, c.arrivee);
-		
+
 		ArrayList<Case> rapprochement = determinerPionsACapturerRaprochement(d, matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
-		System.out.println("..." + rapprochement.size() + "...Fini. Determination de l'eloignement ...");
+		// System.out.println("..." + rapprochement.size() +
+		// "...Fini. Determination de l'eloignement ...");
 		ArrayList<Case> eloignement = determinerPionsACapturerEloignement(d, matricePlateau[c.depart.ligne][c.depart.colonne]);
-		System.out.println("..." + eloignement.size() + "... Fini");
+		// System.out.println("..." + eloignement.size() + "... Fini");
 		if (rapprochement.size() == 0 && eloignement.size() == 0)
 		{
 			this.display.afficherJeu();
@@ -371,25 +377,25 @@ public class Game {
 			System.out.println("Deux prises possibles (" + rapprochement.size() + ", " + eloignement.size() + " , faite votre choix ....");
 			display.afficherMultiDirections(eloignement, rapprochement);
 			Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-			while(!rapprochement.contains(choix) && !eloignement.contains(choix))
+			while (!rapprochement.contains(choix) && !eloignement.contains(choix))
 				choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-			
-			if(rapprochement.contains(choix))
+
+			if (rapprochement.contains(choix))
 				capturer(rapprochement);
 			else if (eloignement.contains(choix))
 				capturer(eloignement);
-			
+
 			System.out.println(".... Choix fait.");
 		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 		{
-			System.out.println("Capture avec rapprochement ....");
+			// System.out.println("Capture avec rapprochement ....");
 			capturer(rapprochement);
-			System.out.println("....Fini");
+			// System.out.println("....Fini");
 		} else if (eloignement.size() != 0 && rapprochement.size() == 0)
 		{
-			System.out.println("Capture avec eloignement ....");
+			// System.out.println("Capture avec eloignement ....");
 			capturer(eloignement);
-			System.out.println("....Fini");
+			// System.out.println("....Fini");
 		}
 		matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
 		matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
@@ -429,7 +435,8 @@ public class Game {
 	 */
 	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction d, Case depart)
 	{
-		System.out.println("\n Direction :" + d.name() + ", " + depart + "\n");
+		// System.out.println("\n Direction :" + d.name() + ", " + depart +
+		// "\n");
 
 		ArrayList<Case> res = new ArrayList<Case>();
 		Case courante = depart;
@@ -693,7 +700,7 @@ public class Game {
 			if (c.getCaseAt(d) != null && c.getCaseAt(d).estVide() && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 				res.add(c);
 		}
-
+		afficherList(res, "MACHIN");
 		return res;
 
 	}
