@@ -1,6 +1,7 @@
 package AI;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 import engine.*;
 
@@ -29,23 +30,6 @@ public class HumanPlayer extends Player {
 		this.hasPlayed = true;
 	}	
 	
-	public Direction choisirDirectionAManger()
-	{
-		hasPlayed = false;
-		pointDirection = null;
-		while(!hasPlayed && pointDirection == null)
-		{
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		return Game.determinerDirection(coupJoue.arrivee, pointDirection);
-	}
-
 	@Override
 	public String getNiveau()
 	{
@@ -71,5 +55,24 @@ public class HumanPlayer extends Player {
 		}
 		System.out.println(name + " a fait un coup");
 		return coupJoue;
+	}
+
+
+	@Override
+	public Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement)
+	{
+		hasPlayed = false;
+		pointDirection = null;
+		while(!hasPlayed){
+			try {
+				Thread.sleep(50);
+				//System.out.println(name + " attend");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return leMoteur.partieCourante.matricePlateau[this.pointDirection.ligne][this.pointDirection.colonne];
 	}	
 }

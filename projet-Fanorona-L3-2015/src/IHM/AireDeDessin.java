@@ -38,6 +38,18 @@ public class AireDeDessin extends JComponent {
         //int height = getSize().height;
 
         drawable.setPaint(Color.black);
+        	//MAJ du score
+        fenetre.scoreInt1.setText(""+fenetre.engine.partieCourante.nombrePionBlanc);
+        fenetre.scoreInt2.setText(""+fenetre.engine.partieCourante.nombrePionNoir);
+        if(fenetre.engine.peutAnnuler())
+        	fenetre.annuler.setEnabled(true);
+        else
+        	fenetre.annuler.setEnabled(false);
+        if(fenetre.engine.peutRefaire())
+        	fenetre.refaire.setEnabled(true);
+        else
+        	fenetre.refaire.setEnabled(false);
+       
         
         dessinGrille(drawable);
         if(!pionCliquer && !doitChoisir){
@@ -159,10 +171,13 @@ public class AireDeDessin extends JComponent {
     	while(i<l1.size() && !choix){
     		if(l1.get(i).position.ligne==c.ligne && l1.get(i).position.colonne==c.colonne)
   		  		choix=true;
+    		i++;
      	}
+    	i=0;
     	while(i<l2.size() && !choix){
     		if(l2.get(i).position.ligne==c.ligne && l2.get(i).position.colonne==c.colonne)
   		  		choix=true;
+    		i++;
      	}
     	return choix;
     }

@@ -18,6 +18,11 @@ public class Fenetre implements Runnable,Affichage {
 	int lvlPC1;
 	int lvlPC2;
 	int mode;
+	JLabel scoreInt1;
+	JLabel scoreInt2;
+	JButton annuler;
+	JButton refaire;
+	JButton stopper;
 	
 	public Fenetre(Engine e){
 		engine=e;
@@ -84,13 +89,13 @@ public class Fenetre implements Runnable,Affichage {
  		
 			//boutons commandes
 		int temp = (int)(0.8*fh/6)/2;
-		JButton annuler = new JButton(" Annuler Coup ");
+		annuler = new JButton(" Annuler Coup ");
 			annuler.addActionListener(new EcouteurDeBouton(this,annuler.getText()));
 			annuler.setBounds((int)((1.5*fw/6)-temp), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton refaire = new JButton(" Refaire Coup ");
+		refaire = new JButton(" Refaire Coup ");
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
 			refaire.setBounds((int)(((1.5*fw/6)-temp)+fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton stopper = new JButton(" Pause ");
+		stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
 			stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 		JButton valider = new JButton(" Fin du tour ");
@@ -143,9 +148,9 @@ public class Fenetre implements Runnable,Affichage {
 			levelj1.setBounds((int)(0.25*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			idj2.setBounds((int)(5.15*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			levelj2.setBounds((int)(5.15*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+		scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
 			scoreInt1.setBounds((int)(0.25*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
+		scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
 			scoreInt2.setBounds((int)(5.15*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel score1 = new JLabel(" Pions restants ");
 			score1.setBounds((int)(0.25*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
@@ -339,38 +344,6 @@ public class Fenetre implements Runnable,Affichage {
 		frame2.setResizable(false);
 		frame2.setVisible(false);
 		
-	/*	JPanel panel = new JPanel(new GridLayout(0,1));
-		Border border = BorderFactory.createTitledBorder("Sélection");
-		panel.setBorder(border);
-		ButtonGroup group = new ButtonGroup();
-		JRadioButton radio1 = new JRadioButton("Choix 1", true);
-		JRadioButton radio2 = new JRadioButton("Choix 2");
-		JRadioButton radio3 = new JRadioButton("Choix 3");
-		group.add(radio1);
-		panel.add(radio1);
-		group.add(radio2);
-		panel.add(radio2);
-		group.add(radio3);
-		panel.add(radio3);
-		
-		Border border2 = BorderFactory.createTitledBorder("Sélection2");
-		panel.setBorder(border2);
-		ButtonGroup group2 = new ButtonGroup();
-		JRadioButton radio4 = new JRadioButton("Choix 4", true);
-		JRadioButton radio5 = new JRadioButton("Choix 5");
-		JRadioButton radio6 = new JRadioButton("Choix 6");
-		group2.add(radio4);
-		panel.add(radio4);
-		group2.add(radio5);
-		panel.add(radio5);
-		group2.add(radio6);
-		panel.add(radio6);
-		
-		Container contentPane = frame2.getContentPane();
-		contentPane.add(panel, BorderLayout.CENTER);
-		frame2.setSize(300, 150);
-		frame2.setVisible(true);*/
-		
 		/* NE FONCTIONNE PAS, NE PAS DECOMMENTER !!!!!
 			//fenetre preferences
 		frame3.setSize(500, 500);
@@ -500,7 +473,6 @@ public class Fenetre implements Runnable,Affichage {
 		frame3.setResizable(false);
 		frame3.setVisible(false);
 		 */
-		
 	}
 
 	public void afficherJeu(){
@@ -520,10 +492,18 @@ public class Fenetre implements Runnable,Affichage {
 		monDessin.doitChoisir=true;
 		monDessin.l1=l1;
 		monDessin.l2=l2;
+		monDessin.repaint();
 	}
 
 	@Override
 	public void afficherPionDuCombo(Case pionCourant) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
+	{
 		// TODO Auto-generated method stub
 		
 	}
