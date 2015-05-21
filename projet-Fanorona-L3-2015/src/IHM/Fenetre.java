@@ -40,10 +40,8 @@ public class Fenetre implements Runnable,Affichage {
 		monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
 			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
-	/*	JPanel panelPlateau = new ImagePanel(new ImageIcon("src/images/plateau9x5.jpg").getImage(), 4*fw/6, 4*fh/6);
-			panelPlateau.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
-		JPanel panelGrille = new ImagePanel(new ImageIcon("src/images/Fanorona.png").getImage(), (int)(3.4*fw/6), (int)(2.8*fh/6));
-			panelGrille.setBounds((int)(1.3*fw/6), (int)(0.9*fh/6), (int)(3.4*fw/6), (int)(2.8*fh/6));
+	/*	JPanel panelFano = new ImagePanel(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 4*fw/6, 4*fh/6);
+			panelFano.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
 	*/		
  			//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
@@ -166,7 +164,6 @@ public class Fenetre implements Runnable,Affichage {
 		menuBar.add(options);
 		menuBar.add(aide);
 		frame.setJMenuBar(menuBar);
- 		//panelPlateau.add(panelGrille);
  		panelAccueil.add(monDessin);
  		panelAccueil.add(annuler);
  		panelAccueil.add(refaire);
@@ -184,9 +181,7 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(score2); 		
  		panelAccueil.add(tour1);
  		panelAccueil.add(tour2);
- 		//panelAccueil.add(panelPlateau);
- 		//panelAccueil.add(panelGrille);
- 		//panelPlateau.add(panelGrille);
+ 		//panelAccueil.add(panelFano);
  		
  		frame.add(panelAccueil);
 		frame.setResizable(false);
