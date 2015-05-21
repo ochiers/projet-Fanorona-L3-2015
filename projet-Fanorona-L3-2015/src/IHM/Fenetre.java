@@ -11,7 +11,8 @@ import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
 	static JFrame frame = new JFrame(" -- Fanorona -- ");
-	static JFrame frame2 = new JFrame(" -- Parametre -- ");
+	static JFrame frame2 = new JFrame(" -- Paramètres -- ");
+	static JFrame frame3 = new JFrame(" -- Préférences -- ");
 	AireDeDessin monDessin;
 	Engine engine;
 	int lvlPC1;
@@ -27,7 +28,7 @@ public class Fenetre implements Runnable,Affichage {
 		frame.setSize(1280, 720);
 		int fw = frame.getWidth();
 		int fh = frame.getHeight();
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/image6.jpg").getImage(), fw, fh);
+		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);
 		panelAccueil.setLayout(null);
 		
 			//grille
@@ -369,6 +370,137 @@ public class Fenetre implements Runnable,Affichage {
 		contentPane.add(panel, BorderLayout.CENTER);
 		frame2.setSize(300, 150);
 		frame2.setVisible(true);*/
+		
+		/* NE FONCTIONNE PAS, NE PAS DECOMMENTER !!!!!
+			//fenetre preferences
+		frame3.setSize(500, 500);
+		int fw3 = frame3.getWidth();
+		int fh3 = frame3.getHeight();
+		JPanel panelAccueil3 = new JPanel();
+		panelAccueil3.setLayout(null);
+		
+			// FOND
+		JLabel fond = new JLabel(" Choix du fond d'écran ");
+		panelAccueil3.add(fond);
+		ButtonGroup bg1 = new ButtonGroup();
+		//JRadioButton(String text, (Icon)(new ImageIcon("src/images/imageX")), boolean selected);
+		JRadioButton r1b1 = new JRadioButton(" image1.jpg ");
+		JRadioButton r1b2 = new JRadioButton(" image2.jpg ");
+		JRadioButton r1b3 = new JRadioButton(" image3.jpg ");
+		JRadioButton r1b4 = new JRadioButton(" image4.jpg ");
+		JRadioButton r1b5 = new JRadioButton(" image5.jpg ");
+		JRadioButton r1b6 = new JRadioButton(" image6.jpg ");
+		JRadioButton r1b7 = new JRadioButton(" image7.jpg ");
+		if(r1b1.selected == true)
+			panelAccueil = new ImagePanel(r1b1.icon.getImage(), fw, fh);
+		if(r1b2.selected == true)
+			panelAccueil = new ImagePanel(r1b2.icon.getImage(), fw, fh);
+		if(r1b3.selected == true)
+			panelAccueil = new ImagePanel(r1b3.icon.getImage(), fw, fh);
+		if(r1b4.selected == true)
+			panelAccueil = new ImagePanel(r1b4.icon.getImage(), fw, fh);
+		if(r1b5.selected == true)
+			panelAccueil = new ImagePanel(r1b5.icon.getImage(), fw, fh);
+		if(r1b6.selected == true)
+			panelAccueil = new ImagePanel(r1b6.icon.getImage(), fw, fh);
+		if(r1b7.selected == true)
+			panelAccueil = new ImagePanel(r1b7.icon.getImage(), fw, fh);
+		else
+			panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);	
+		// ajout des boutons radio dans le groupe bg
+		bg1.add(r1b1);
+		bg1.add(r1b2);
+		bg1.add(r1b3);
+		bg1.add(r1b4);
+		bg1.add(r1b5);
+		bg1.add(r1b6);
+		bg1.add(r1b7);
+		//ajout de bg au panel
+		panelAccueil3.add(bg1);
+		
+			// NOMS
+		JLabel nom = new JLabel(" Choix du nom des joueurs humains ");
+		panelAccueil3.add(nom);
+		String nameJ1 = engine.partieCourante.joueurBlanc.getNiveau();
+		if (nameJ1.equals("Humain")){
+					// ajout boite de dialogue
+			JTextField name1 = new JTextField(" Humain 1 ");
+			engine.partieCourante.joueurBlanc.name = name1.text;
+			idj1 = new JLabel((String)(name1.text));
+			levelj1 = new JLabel(" Bonne Chance ! ");
+		}
+		String nameJ2 = engine.partieCourante.joueurNoir.getNiveau();
+		if (nameJ2.equals("Humain")){
+			JTextField name2 = new JTextField(" Humain 2 ");
+			engine.partieCourante.joueurNoir.name = name2.text;
+			idj2 = new JLabel((String)(name2.text));
+			levelj2 = new JLabel(" Bonne Chance ! ");
+		}
+		else{
+			// verifier parametres par defaut !!!!!!!!!!!!!!! 
+			idj1 = new JLabel(" Humain ");
+			levelj1 = new JLabel(" Bonne Chance ! ");
+			idj2 = new JLabel(" Ordinateur ");
+			levelj2 = new JLabel(" Moyen ");
+		}
+		
+		// ajout des boites de dialogue
+		panelAccueil3.add(nameJ1);
+		panelAccueil3.add(nameJ2);
+
+			// COULEUR PIONS
+		JLabel pion = new JLabel(" Choix de la couleur des pions ");
+		panelAccueil3.add(pion);
+		ButtonGroup bg2 = new ButtonGroup();
+		//JRadioButton(String text, (Icon)(new ImageIcon("src/images/imageX")), boolean selected);
+		JRadioButton rb1 = new JRadioButton(" Noir ");
+		JRadioButton rb2 = new JRadioButton(" Blanc ");
+		JRadioButton rb3 = new JRadioButton(" Bleu ");
+		JRadioButton rb4 = new JRadioButton(" Rouge ");
+		JRadioButton rb5 = new JRadioButton(" Vert ");
+		JRadioButton rb6 = new JRadioButton(" Jaune ");
+		JRadioButton rb7 = new JRadioButton(" Multicolor ");
+		if(rb1.selected == true){
+			
+		}
+		if(rb2.selected == true){
+			
+		}
+		if(rb3.selected == true){
+			
+		}
+		if(rb4.selected == true){
+			
+		}
+		if(rb5.selected == true){
+			
+		}
+		if(rb6.selected == true){
+			
+		}
+		if(rb7.selected == true){
+			
+		}
+		else{
+			
+		}
+		
+		// ajout des boutons radio dans le groupe bg
+		bg.add(rb1);
+		bg.add(rb2);
+		bg.add(rb3);
+		bg.add(rb4);
+		bg.add(rb5);
+		bg.add(rb6);
+		bg.add(rb7);
+		//ajout de bg au panel
+		panelAccueil3.add(bg);
+		
+		frame3.add(panelAccueil3);
+		frame3.setResizable(false);
+		frame3.setVisible(false);
+		 */
+		
 	}
 
 	public void afficherJeu(){
