@@ -35,6 +35,7 @@ public class EcouteurDeBouton implements ActionListener{
 			System.exit(0);
 			break;
 		case " Paramètres Partie ":
+			fenetre.frame2.setVisible(true);
 			//TODO
 			break;
 		case " Préférences ":
