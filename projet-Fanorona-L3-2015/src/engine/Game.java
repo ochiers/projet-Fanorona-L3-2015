@@ -265,34 +265,41 @@ public class Game {
 				System.out.println("Maj matrice ..... ");
 				boolean rejouer = faireCoup(c);
 				System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
+				combo.removeAll(combo);
 				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
 				System.out.println(c);
 				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
 				{
 
 					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]), matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+					afficherList(l,"Case");
+					afficherList(combo,"Combo");
 					l.removeAll(combo);
-					l.remove(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					Case tmp2[] = new Case[l.size()];
 					if (l.size() <= 0)
 					{
 						System.out.println("Plus de possibilites");
 						break;
 					}
-
+					//display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
+					while(!joueurCourant.isStopped() && !comboValide(c2))
+						c2 = this.joueurCourant.play(l.toArray(tmp2));
+					
 					System.out.println(c2);
 					while (paused)
 						Thread.sleep(50);
 
-					while (comboValide(c2))
-						rejouer = faireCoup(c);
+					if (comboValide(c2)){
+						combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
+						rejouer = faireCoup(c2);
+						
+					}
 				}
 			}
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
 			this.display.afficherJeu();
-			combo.removeAll(combo);
 
 		}
 
@@ -316,6 +323,7 @@ public class Game {
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
 		res = res && !combo.contains(arrivee) && coupsPossiblesPourUnPion(depart).contains(arrivee);
+		System.out.println("Combo valide ? :" + res);
 		return res;
 	}
 
@@ -721,4 +729,12 @@ public class Game {
 
 	}
 
+	public void afficherList(ArrayList<Case> l, String str)
+	{
+		System.out.println("------------Affichage"+str+"-------------");
+		Iterator<Case> it = l.iterator();
+		while(it.hasNext())
+			System.out.println(it.next());
+		System.out.println("------------ Fin Affichage-------------");
+	}
 }

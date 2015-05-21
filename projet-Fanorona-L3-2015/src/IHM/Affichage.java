@@ -23,4 +23,8 @@ public interface Affichage {
 	 * @param l
 	 */
 	void afficherPionsPossibles(ArrayList<Case> l);
+	
+	void afficherPionDuCombo(Case pionCourant);
+	
+	void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2);
 }
