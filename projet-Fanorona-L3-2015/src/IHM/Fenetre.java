@@ -4,12 +4,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import engine.*;
 import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
 	static JFrame frame = new JFrame(" -- Fanorona -- ");
+	static JFrame frame2 = new JFrame(" -- Parametre -- ");
 	AireDeDessin monDessin;
 	Engine engine;
 	
@@ -182,6 +184,92 @@ public class Fenetre implements Runnable,Affichage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+			//fenetre parametre
+		frame2.setSize(500, 500);
+		int fw2 = frame.getWidth();
+		int fh2 = frame.getHeight();
+		JPanel panelAccueil2 = new JPanel(new GridLayout(0,1));
+		
+		JLabel label1= new JLabel("Mode de jeu");
+		panelAccueil2.add(label1);
+		ButtonGroup bg1 = new ButtonGroup();
+		JRadioButton r1b1 = new JRadioButton("Joueur 1 vs Joueur 2");
+			r1b1.setSelected(true);
+		JRadioButton r1b2 = new JRadioButton("Joueur 1 vs Ordi 1");
+		JRadioButton r1b3 = new JRadioButton("Ordi 1 vs Ordi 2");
+		// ajout des boutons radio dans le groupe bg
+		bg1.add(r1b1);
+		bg1.add(r1b2);
+		bg1.add(r1b3);
+		panelAccueil2.add(r1b1);
+		panelAccueil2.add(r1b2);
+		panelAccueil2.add(r1b3);
+		
+		JLabel label2= new JLabel("Difficulte Ordi 1");
+		panelAccueil2.add(label2);
+		ButtonGroup bg2 = new ButtonGroup();
+		JRadioButton r2b1 = new JRadioButton("Facile");
+		JRadioButton r2b2 = new JRadioButton("Moyen");
+			r2b2.setSelected(true);
+		JRadioButton r2b3 = new JRadioButton("Difficile");
+		// ajout des boutons radio dans le groupe bg
+		bg2.add(r2b1);
+		bg2.add(r2b2);
+		bg2.add(r2b3);
+		panelAccueil2.add(r2b1);
+		panelAccueil2.add(r2b2);
+		panelAccueil2.add(r2b3);
+		
+		JLabel label3= new JLabel("Difficulte Ordi 2");
+		panelAccueil2.add(label3);
+		ButtonGroup bg3 = new ButtonGroup();
+		JRadioButton r3b1 = new JRadioButton("Facile");
+		JRadioButton r3b2 = new JRadioButton("Moyen");
+			r3b2.setSelected(true);
+		JRadioButton r3b3 = new JRadioButton("Difficile");
+		// ajout des boutons radio dans le groupe bg
+		bg3.add(r3b1);
+		bg3.add(r3b2);
+		bg3.add(r3b3);
+		panelAccueil2.add(r3b1);
+		panelAccueil2.add(r3b2);
+		panelAccueil2.add(r3b3);
+		
+		frame2.add(panelAccueil2);
+		frame2.setResizable(false);
+		frame2.setVisible(true);
+		
+	/*	JPanel panel = new JPanel(new GridLayout(0,1));
+		Border border = BorderFactory.createTitledBorder("Sélection");
+		panel.setBorder(border);
+		ButtonGroup group = new ButtonGroup();
+		JRadioButton radio1 = new JRadioButton("Choix 1", true);
+		JRadioButton radio2 = new JRadioButton("Choix 2");
+		JRadioButton radio3 = new JRadioButton("Choix 3");
+		group.add(radio1);
+		panel.add(radio1);
+		group.add(radio2);
+		panel.add(radio2);
+		group.add(radio3);
+		panel.add(radio3);
+		
+		Border border2 = BorderFactory.createTitledBorder("Sélection2");
+		panel.setBorder(border2);
+		ButtonGroup group2 = new ButtonGroup();
+		JRadioButton radio4 = new JRadioButton("Choix 4", true);
+		JRadioButton radio5 = new JRadioButton("Choix 5");
+		JRadioButton radio6 = new JRadioButton("Choix 6");
+		group2.add(radio4);
+		panel.add(radio4);
+		group2.add(radio5);
+		panel.add(radio5);
+		group2.add(radio6);
+		panel.add(radio6);
+		
+		Container contentPane = frame2.getContentPane();
+		contentPane.add(panel, BorderLayout.CENTER);
+		frame2.setSize(300, 150);
+		frame2.setVisible(true);*/
 	}
 
 	public void afficherJeu(){
