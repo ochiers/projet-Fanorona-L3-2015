@@ -18,6 +18,7 @@ public class AireDeDessin extends JComponent {
     boolean doitChoisir=false;
     ArrayList<Case> l1;
     ArrayList<Case> l2;
+    ArrayList<Case> pionPossible;
 
     
     public AireDeDessin(Fenetre f) {
@@ -41,6 +42,7 @@ public class AireDeDessin extends JComponent {
         	//MAJ du score
         fenetre.scoreInt1.setText(""+fenetre.engine.partieCourante.nombrePionBlanc);
         fenetre.scoreInt2.setText(""+fenetre.engine.partieCourante.nombrePionNoir);
+        System.out.println("boolean: "+fenetre.engine.peutAnnuler()+" "+fenetre.engine.peutRefaire());
         if(fenetre.engine.peutAnnuler())
         	fenetre.annuler.setEnabled(true);
         else
@@ -87,11 +89,20 @@ public class AireDeDessin extends JComponent {
        drawable.setPaint(Color.black);
    }
    
-   public void pionJouable(Graphics2D drawable){
+ /*  public void pionJouable(Graphics2D drawable){
 	   ArrayList<Case> listCase = fenetre.engine.partieCourante.lesPionsJouables();
 	   for(int i=0;i<listCase.size();i++){
 		   jetonHalo(drawable,listCase.get(i).position);
 		  // System.out.println("--Point: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
+	   }
+   }*/
+   
+   public void pionJouable(Graphics2D drawable){
+	   if(pionPossible!=null){
+		   for(int i=0;i<pionPossible.size();i++){
+			   jetonHalo(drawable,pionPossible.get(i).position);
+			   System.out.println("--Point: "+pionPossible.get(i).position.ligne+" "+pionPossible.get(i).position.colonne);
+		   }
 	   }
    }
    

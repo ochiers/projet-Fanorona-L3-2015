@@ -351,7 +351,8 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
-		// TODO Auto-generated method stub
+		monDessin.pionPossible=l;
+		monDessin.repaint();
 	}
 
 	public void afficherVictoire(Player p) {
