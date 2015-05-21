@@ -5,15 +5,14 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import engine.Case;
-import engine.Pion;
+import engine.*;
 
 class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
     int tailleSegment;
     boolean pionCliquer=false;
-    Point pCourant;
+    Coordonnee pCourant;
     Color halo;
 
     
@@ -24,7 +23,7 @@ class AireDeDessin extends JComponent {
         System.out.println("taille: "+tailleSegment);
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
-        pCourant=new Point();
+        pCourant=new Coordonnee(-1,-1);
     }
 
     public void paintComponent(Graphics g) {
@@ -53,14 +52,14 @@ class AireDeDessin extends JComponent {
 
    public void jetonCliquer(Graphics2D drawable){
 	   drawable.setPaint(Color.cyan);
-       drawable.fillOval(tailleSegment+pCourant.y*tailleSegment-tailleJeton/4, tailleSegment+pCourant.x*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+       drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
        drawable.setPaint(Color.black);
 	   
    }
    
-   public void jetonHalo(Graphics2D drawable,Point p){
+   public void jetonHalo(Graphics2D drawable,Coordonnee p){
 	   drawable.setPaint(halo);
-       drawable.fillOval((int)(tailleSegment+p.y*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.x*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+       drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
        drawable.setPaint(Color.black);
    }
    
@@ -75,7 +74,7 @@ class AireDeDessin extends JComponent {
    public void positionPossible(Graphics2D drawable){
 	   ArrayList<Case> listCase = fenetre.engine.partieCourante.matricePlateau[2][4].voisins();
 	   for(int i=0;i<listCase.size();i++){
-		   System.out.println("--Voisin: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
+		   System.out.println("--Voisin: "+listCase.get(i).position.ligne+" "+listCase.get(i).position.colonne);
 	   }
    }
     
