@@ -14,6 +14,9 @@ public class Fenetre implements Runnable,Affichage {
 	static JFrame frame2 = new JFrame(" -- Parametre -- ");
 	AireDeDessin monDessin;
 	Engine engine;
+	int lvlPC1;
+	int lvlPC2;
+	int mode;
 	
 	public Fenetre(Engine e){
 		engine=e;
@@ -194,9 +197,22 @@ public class Fenetre implements Runnable,Affichage {
 		panelAccueil2.add(label1);
 		ButtonGroup bg1 = new ButtonGroup();
 		JRadioButton r1b1 = new JRadioButton("Joueur 1 vs Joueur 2");
-			r1b1.setSelected(true);
 		JRadioButton r1b2 = new JRadioButton("Joueur 1 vs Ordi 1");
 		JRadioButton r1b3 = new JRadioButton("Ordi 1 vs Ordi 2");
+		if(engine.partieCourante.joueurBlanc.aiPlayer || engine.partieCourante.joueurNoir.aiPlayer){
+			if(engine.partieCourante.joueurBlanc.aiPlayer && engine.partieCourante.joueurNoir.aiPlayer){
+				r1b3.setSelected(true);
+				mode=3;
+			}
+			else{
+				r1b2.setSelected(true);
+				mode=2;
+			}
+		}
+		else{
+			r1b1.setSelected(true);
+			mode=1;
+		}
 		// ajout des boutons radio dans le groupe bg
 		bg1.add(r1b1);
 		bg1.add(r1b2);
@@ -210,8 +226,8 @@ public class Fenetre implements Runnable,Affichage {
 		ButtonGroup bg2 = new ButtonGroup();
 		JRadioButton r2b1 = new JRadioButton("Facile");
 		JRadioButton r2b2 = new JRadioButton("Moyen");
-			r2b2.setSelected(true);
 		JRadioButton r2b3 = new JRadioButton("Difficile");
+		
 		// ajout des boutons radio dans le groupe bg
 		bg2.add(r2b1);
 		bg2.add(r2b2);
@@ -225,8 +241,91 @@ public class Fenetre implements Runnable,Affichage {
 		ButtonGroup bg3 = new ButtonGroup();
 		JRadioButton r3b1 = new JRadioButton("Facile");
 		JRadioButton r3b2 = new JRadioButton("Moyen");
-			r3b2.setSelected(true);
 		JRadioButton r3b3 = new JRadioButton("Difficile");
+		
+		if(engine.partieCourante.joueurBlanc.aiPlayer || engine.partieCourante.joueurNoir.aiPlayer)
+			if(engine.partieCourante.joueurBlanc.aiPlayer && engine.partieCourante.joueurNoir.aiPlayer){
+				switch(engine.partieCourante.joueurBlanc.getNiveau()){
+					case "IA Facile":
+						r2b1.setSelected(true);
+						lvlPC1=1;
+						break;
+					case "IA Moyen":
+						r2b2.setSelected(true);
+						lvlPC1=2;
+						break;
+					case "IA Difficile":
+						r2b3.setSelected(true);
+						lvlPC1=3;
+						break;
+					default:
+						System.out.println("Niveau IA blanc inconnu");
+						break;
+				}
+				switch(engine.partieCourante.joueurNoir.getNiveau()){
+					case "IA Facile":
+						r3b1.setSelected(true);
+						lvlPC2=1;
+						break;
+					case "IA Moyen":
+						r3b2.setSelected(true);
+						lvlPC2=2;
+						break;
+					case "IA Difficile":
+						r3b3.setSelected(true);
+						lvlPC2=3;
+						break;
+					default:
+						System.out.println("Niveau IA noir inconnu");
+						break;
+				}
+			}
+			else{
+				if(engine.partieCourante.joueurBlanc.aiPlayer){
+					switch(engine.partieCourante.joueurBlanc.getNiveau()){
+						case "IA Facile":
+							r2b1.setSelected(true);
+							lvlPC1=1;
+							break;
+						case "IA Moyen":
+							r2b2.setSelected(true);
+							lvlPC1=2;
+							break;
+						case "IA Difficile":
+							r2b3.setSelected(true);
+							lvlPC1=3;
+							break;
+						default:
+							System.out.println("Niveau IA blanc inconnu");
+							break;
+					}
+				}
+				else{
+					switch(engine.partieCourante.joueurNoir.getNiveau()){
+						case "IA Facile":
+							r2b1.setSelected(true);
+							lvlPC1=1;
+							break;
+						case "IA Moyen":
+							r2b2.setSelected(true);
+							lvlPC1=2;
+							break;
+						case "IA Difficile":
+							r2b3.setSelected(true);
+							lvlPC1=3;
+							break;
+						default:
+							System.out.println("Niveau IA noir inconnu");
+							break;
+					}
+				}
+			}
+		else{
+			r2b2.setSelected(true);
+			r3b2.setSelected(true);
+			lvlPC1=2;
+			lvlPC2=2;
+		}
 		// ajout des boutons radio dans le groupe bg
 		bg3.add(r3b1);
 		bg3.add(r3b2);
@@ -282,6 +381,19 @@ public class Fenetre implements Runnable,Affichage {
 
 	public void afficherVictoire(Player p) {
 		// TODO Auto-generated method stub	
+	}
+	
+	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2){
+		System.out.println("------------MULTI DIRECTION------------------");
+		monDessin.doitChoisir=true;
+		monDessin.l1=l1;
+		monDessin.l2=l2;
+	}
+
+	@Override
+	public void afficherPionDuCombo(Case pionCourant) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

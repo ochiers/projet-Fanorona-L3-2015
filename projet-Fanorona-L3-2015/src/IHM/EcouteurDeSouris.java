@@ -56,13 +56,22 @@ public class EcouteurDeSouris implements MouseListener{
 						//System.out.println("test2");
 				}
 				else{
-					
-					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
-						System.out.println("---------OUI c'est jouable");
-						aire.pCourant.colonne=pfinal.colonne;
-						aire.pCourant.ligne=pfinal.ligne;
-						aire.pionCliquer=true;
-						System.out.println("Point: "+aire.pCourant.ligne+" "+aire.pCourant.colonne);
+					if(aire.doitChoisir){
+						if(aire.estUnChoix(pfinal)){
+							System.out.println("----------------c'est un choix");
+						}
+						else{
+							System.out.println("----------------non ce n'est pas un choix");
+						}
+					}
+					else{
+						if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
+							System.out.println("---------OUI c'est jouable");
+							aire.pCourant.colonne=pfinal.colonne;
+							aire.pCourant.ligne=pfinal.ligne;
+							aire.pionCliquer=true;
+							System.out.println("Point: "+aire.pCourant.ligne+" "+aire.pCourant.colonne);
+						}
 					}
 				}
 				aire.repaint();

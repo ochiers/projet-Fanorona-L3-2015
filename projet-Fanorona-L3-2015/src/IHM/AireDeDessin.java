@@ -7,19 +7,24 @@ import javax.swing.*;
 
 import engine.*;
 
-class AireDeDessin extends JComponent {
+public class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
     int tailleSegment;
     boolean pionCliquer=false;
     Coordonnee pCourant;
     Color halo;
+    Color haloChoix;
+    boolean doitChoisir=false;
+    ArrayList<Case> l1;
+    ArrayList<Case> l2;
 
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
         tailleSegment=f.frame.getWidth()*4/60;
         halo=Color.green;
+        haloChoix=Color.blue;
         System.out.println("taille: "+tailleSegment);
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
@@ -29,16 +34,17 @@ class AireDeDessin extends JComponent {
     public void paintComponent(Graphics g) {
     	Graphics2D drawable = (Graphics2D) g;
 
-        int width = getSize().width;
-        int height = getSize().height;
+        //int width = getSize().width;
+        //int height = getSize().height;
 
-        //drawable.setPaint(Color.white);
-        //drawable.fillRect(0, 0, width, height);
         drawable.setPaint(Color.black);
-       
+        
         dessinGrille(drawable);
-        if(!pionCliquer){
+        if(!pionCliquer && !doitChoisir){
         	pionJouable(drawable);
+        }
+        if(!pionCliquer && doitChoisir){
+        	choixManger(drawable);
         }
         dessinGrilleJeton(drawable,Color.black,Color.white);
         if(pionCliquer){
@@ -59,6 +65,12 @@ class AireDeDessin extends JComponent {
    
    public void jetonHalo(Graphics2D drawable,Coordonnee p){
 	   drawable.setPaint(halo);
+       drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+       drawable.setPaint(Color.black);
+   }
+   
+   public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){
+	   drawable.setPaint(haloChoix);
        drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
        drawable.setPaint(Color.black);
    }
@@ -131,11 +143,33 @@ class AireDeDessin extends JComponent {
     	drawable.setPaint(Color.black);
     	drawable.drawOval(x, y, tailleJeton, tailleJeton);
     }
+    
+    public void choixManger(Graphics2D drawable){
+    	for(int i=0;i<l1.size();i++){
+ 		   jetonHaloChoix(drawable,l1.get(i).position);
+    	}
+    	for(int i=0;i<l2.size();i++){
+  		   jetonHaloChoix(drawable,l2.get(i).position);
+     	}
+    }
+    
+    public boolean estUnChoix(Coordonnee c){
+    	boolean choix = false;
+    	int i=0;
+    	while(i<l1.size() && !choix){
+    		if(l1.get(i).position.ligne==c.ligne && l1.get(i).position.colonne==c.colonne)
+  		  		choix=true;
+     	}
+    	while(i<l2.size() && !choix){
+    		if(l2.get(i).position.ligne==c.ligne && l2.get(i).position.colonne==c.colonne)
+  		  		choix=true;
+     	}
+    	return choix;
+    }
    
 }
 
-
-class ImagePanel extends JPanel {
+ class ImagePanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
 	private Image img;
