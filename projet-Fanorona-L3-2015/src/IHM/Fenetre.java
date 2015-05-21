@@ -237,7 +237,7 @@ public class Fenetre implements Runnable,Affichage {
 		
 		frame2.add(panelAccueil2);
 		frame2.setResizable(false);
-		frame2.setVisible(true);
+		frame2.setVisible(false);
 		
 	/*	JPanel panel = new JPanel(new GridLayout(0,1));
 		Border border = BorderFactory.createTitledBorder("Sélection");
