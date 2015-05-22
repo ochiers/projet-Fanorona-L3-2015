@@ -281,9 +281,10 @@ public class Game {
 	 */
 	public void jouer() throws InterruptedException
 	{
+		annulerRefaire.addItem(new Game(this));
 		while (!finish && !stopped)
 		{
-			annulerRefaire.addItem(new Game(this));
+			
 			while (paused)
 				Thread.sleep(50);
 
@@ -358,7 +359,7 @@ public class Game {
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
 			this.display.afficherJeu();
-
+			annulerRefaire.addItem(new Game(this));
 		}
 
 		if (finish && !stopped)

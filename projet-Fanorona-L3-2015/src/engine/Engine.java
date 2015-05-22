@@ -90,7 +90,7 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
+			//partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			gameInProgress = true;
 		} else
@@ -99,7 +99,7 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
+			//partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			try
 			{
