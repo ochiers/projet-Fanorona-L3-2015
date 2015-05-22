@@ -127,22 +127,9 @@ public class Game {
 		initialisation(nbLignes, nbColonnes);
 	}
 
-	/**
-	 * Initialise le plateau du jeu
-	 * 
-	 * @param nbLignes
-	 *            (5)
-	 * @param nbColonne
-	 *            (9 ou 5)
-	 */
-	public void initialisation(int nbLignes, int nbColonne)
-	{
-		Case[][] tableau = new Case[nbLignes][nbColonne];
-
-		for (int i = 0; i < nbLignes; i++)
-			for (int j = 0; j < nbColonne; j++)
-				tableau[i][j] = new Case(new Coordonnee(i, j));
-
+	
+	private Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau){
+		
 		for (int i = 0; i < nbLignes; i++)
 		{
 			for (int j = 0; j < nbColonne - 1; j++)
@@ -200,6 +187,38 @@ public class Game {
 					}
 				}
 			}
+		return tableau;
+		
+	}
+	
+	public Case[][] copyMatrice(){
+		Case[][] tableau = new Case[nbLignes][nbColonnes];
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonnes; j++)
+				tableau[i][j] = matricePlateau[i][j].clone();
+		
+		
+		return chainage(nbLignes, nbColonnes, tableau);
+	}
+	
+	
+	/**
+	 * Initialise le plateau du jeu
+	 * 
+	 * @param nbLignes
+	 *            (5)
+	 * @param nbColonne
+	 *            (9 ou 5)
+	 */
+	public void initialisation(int nbLignes, int nbColonne)
+	{
+		Case[][] tableau = new Case[nbLignes][nbColonne];
+
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonne; j++)
+				tableau[i][j] = new Case(new Coordonnee(i, j));
+
+		tableau = chainage(nbLignes, nbColonne, tableau);
 
 		for (int i = 0; i < Math.floor((double) nbLignes / 2.0); i++)
 			for (int j = 0; j < nbColonne; j++)
@@ -225,6 +244,9 @@ public class Game {
 
 		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
+		
+		/*Case x = this.plateau.clone(new ArrayList<Case>());
+		x.estVide();*/
 	}
 
 	/**
