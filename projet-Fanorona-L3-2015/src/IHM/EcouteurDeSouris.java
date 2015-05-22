@@ -89,6 +89,10 @@ public class EcouteurDeSouris implements MouseListener{
 	public void mouseExited(MouseEvent e) {
 	}
 	public void mousePressed(MouseEvent e) {
+		/*
+		 	System.out.println(e.getX());
+		 	System.out.println(e.getY());
+		 */
 	}
 	public void mouseReleased(MouseEvent e) {
 	}
