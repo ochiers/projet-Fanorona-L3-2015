@@ -478,7 +478,7 @@ public class Game {
 		while (courante != null)
 		{
 			courante = courante.getCaseAt(d);
-			if (courante != null && !courante.estVide() & courante.pion != p)
+			if (courante != null && !courante.estVide() && courante.pion != p)
 				res.add(courante);
 			else
 				break;
@@ -502,7 +502,7 @@ public class Game {
 
 				courante = courante.getCaseAt(Direction.oppose(d));
 
-				if (courante != null && !courante.estVide() & courante.pion != p)
+				if (courante != null && !courante.estVide() && courante.pion != p)
 					res.add(courante);
 				else
 					break;
