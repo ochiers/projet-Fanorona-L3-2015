@@ -427,8 +427,8 @@ public class Fenetre implements Runnable,Affichage {
 		JRadioButton rb4 = new JRadioButton(" Rouge ");
 		JRadioButton rb5 = new JRadioButton(" Vert ");
 		JRadioButton rb6 = new JRadioButton(" Jaune ");
-		JRadioButton rb7 = new JRadioButton(" Multicolor ");
-		if(rb1.selected == true){
+		JRadioButton rb7 = new JRadioButton(" Multicolor ");*/
+		/*if(rb1.selected == true){
 			
 		}
 		if(rb2.selected == true){
