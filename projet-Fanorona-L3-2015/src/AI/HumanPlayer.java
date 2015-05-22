@@ -43,8 +43,9 @@ public class HumanPlayer extends Player {
 		hasPlayed = false;
 		coupJoue = null;
 		pointDirection = null;
-		while(!hasPlayed && coupJoue == null)
+		while(!isStopped() && !hasPlayed && coupJoue == null)
 		{
+			System.out.println(name + " attend " + this);
 			try {
 				Thread.sleep(500);
 				//System.out.println(name + " attend");

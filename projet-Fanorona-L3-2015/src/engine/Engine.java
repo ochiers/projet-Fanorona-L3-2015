@@ -48,12 +48,12 @@ public class Engine {
 		}
 	}
 
-	public void nouvellePartie(Player p1, Player p2,int premierJoueur, int hauteur, int largeur)
+	public void nouvellePartie(Player p1, Player p2, int premierJoueur, int hauteur, int largeur)
 	{
 
 		if (this.gameInProgress)
 			stopper();
-		this.partieCourante = new Game(this.affichage,premierJoueur, p1, p2, hauteur, largeur);
+		this.partieCourante = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, hauteur, largeur);
 		this.gameInProgress = true;
 	}
 
@@ -65,7 +65,7 @@ public class Engine {
 			this.partieCourante.stopped = true;
 			if (this.partieCourante.joueurCourant instanceof HumanPlayer)
 			{
-				 ((HumanPlayer) this.partieCourante.joueurCourant).setStopped(true);
+				((HumanPlayer) this.partieCourante.joueurCourant).setStopped(true);
 			}
 		}
 	}
@@ -75,18 +75,31 @@ public class Engine {
 	 */
 	public void annuler()
 	{
-
+		System.out.println("Annuler ");
 		if (gameInProgress)
 		{
+			partieCourante.pause(); // On arrete la partie courante qui se
+			// deroule dans le thread principal
+			partieCourante.stopped = true; //
 
+			/*
+			 * On récupere le coup d'avant (partie précédente) et parametre
+			 * correctement
+			 */
+			partieCourante = undoRedo.undo();
+			partieCourante.pause();
+			partieCourante.finish = false;
+			partieCourante.stopped = false;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
+			partieCourante.reprendre();
+			gameInProgress = true;
 		} else
 		{
 			partieCourante = undoRedo.undo();
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir
-					: partieCourante.joueurBlanc;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			try
 			{
@@ -97,6 +110,7 @@ public class Engine {
 			}
 			gameInProgress = true;
 		}
+		affichage.afficherJeu();
 	}
 
 	/**
@@ -119,8 +133,7 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir
-					: partieCourante.joueurBlanc;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			gameInProgress = true;
 		} else
@@ -129,8 +142,7 @@ public class Engine {
 			partieCourante.pause();
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir
-					: partieCourante.joueurBlanc;
+			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
 			partieCourante.reprendre();
 			try
 			{
@@ -216,8 +228,8 @@ public class Engine {
 			Player p2 = parsePlayer(j2);
 			if (this.gameInProgress)
 				stopper();
-			
-			Game g = new Game(affichage,0, p1, p2, hauteur, largeur);
+
+			Game g = new Game(affichage, this.undoRedo, 0, p1, p2, hauteur, largeur);
 			g.pause();
 			this.partieCourante = g;
 			this.gameInProgress = true;

@@ -47,11 +47,7 @@ public class Game {
 	 * terminee normalement (this.finish == true)
 	 */
 	private Player			winner;
-	/**
-	 * Premiere case du plateau, permet d'acceder aux autres car elles sont
-	 * chainee
-	 */
-	public Case				plateau;
+
 	/**
 	 * Tableau de case representant tous le plateau
 	 */
@@ -87,6 +83,12 @@ public class Game {
 	 */
 	public ArrayList<Case>	combo;
 
+	
+	/**
+	 * Module d'annuler refaire
+	 */
+	public UndoRedo<Game> annulerRefaire;
+	
 	/**
 	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc
 	 * et noirs et un plateu de largeur*hauteur
@@ -104,7 +106,7 @@ public class Game {
 	 * @param nbColonnes
 	 *            Largeur du plateau (nombre de cases)(9 ou 5)
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int nbLignes, int nbColonnes)
+	public Game(Affichage affichage,UndoRedo<Game> u, int joueurQuiCommence, Player p1, Player p2, int nbLignes, int nbColonnes)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -124,25 +126,35 @@ public class Game {
 		this.nombrePionNoir = this.nombrePionBlanc;
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
+		this.annulerRefaire = u;
 		initialisation(nbLignes, nbColonnes);
 	}
 
-	/**
-	 * Initialise le plateau du jeu
-	 * 
-	 * @param nbLignes
-	 *            (5)
-	 * @param nbColonne
-	 *            (9 ou 5)
-	 */
-	public void initialisation(int nbLignes, int nbColonne)
+	
+	public Game(Game game)
 	{
-		Case[][] tableau = new Case[nbLignes][nbColonne];
+		this.annulerRefaire =game.annulerRefaire;
+		this.combo = new ArrayList<Case>();
+		this.display = game.display;
+		this.enCombo = false;
+		this.finish = game.finish;
+		this.joueurBlanc = game.joueurBlanc;
+		this.joueurNoir = game.joueurNoir;
+		this.joueurCourant = game.joueurCourant;
+		this.matricePlateau = copyMatrice(game.matricePlateau);
+		this.nbColonnes = game.nbColonnes;
+		this.nbLignes = game.nbLignes;
+		this.nombrePionBlanc = game.nombrePionBlanc;
+		this.nombrePionNoir = game.nombrePionNoir;
+		this.numberTurn = game.numberTurn;
+		this.paused = game.paused;
+		this.stopped = game.stopped;
+		this.winner = game.winner;
+	}
 
-		for (int i = 0; i < nbLignes; i++)
-			for (int j = 0; j < nbColonne; j++)
-				tableau[i][j] = new Case(new Coordonnee(i, j));
 
+	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau){
+		
 		for (int i = 0; i < nbLignes; i++)
 		{
 			for (int j = 0; j < nbColonne - 1; j++)
@@ -200,6 +212,38 @@ public class Game {
 					}
 				}
 			}
+		return tableau;
+		
+	}
+	
+	public static Case[][] copyMatrice(Case[][] courant){
+		Case[][] tableau = new Case[courant.length][courant[0].length];
+		for (int i = 0; i < courant.length; i++)
+			for (int j = 0; j < courant[0].length; j++)
+				tableau[i][j] = courant[i][j].clone();
+		
+		
+		return chainage(courant.length, courant[0].length, tableau);
+	}
+	
+	
+	/**
+	 * Initialise le plateau du jeu
+	 * 
+	 * @param nbLignes
+	 *            (5)
+	 * @param nbColonne
+	 *            (9 ou 5)
+	 */
+	public void initialisation(int nbLignes, int nbColonne)
+	{
+		Case[][] tableau = new Case[nbLignes][nbColonne];
+
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonne; j++)
+				tableau[i][j] = new Case(new Coordonnee(i, j));
+
+		tableau = chainage(nbLignes, nbColonne, tableau);
 
 		for (int i = 0; i < Math.floor((double) nbLignes / 2.0); i++)
 			for (int j = 0; j < nbColonne; j++)
@@ -223,8 +267,10 @@ public class Game {
 			else
 				tableau[(int) Math.floor((double) nbLignes / 2.0)][j].pion = Pion.Blanc;
 
-		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
+		
+		/*Case x = this.plateau.clone(new ArrayList<Case>());
+		x.estVide();*/
 	}
 
 	/**
@@ -237,6 +283,7 @@ public class Game {
 	{
 		while (!finish && !stopped)
 		{
+			annulerRefaire.addItem(new Game(this));
 			while (paused)
 				Thread.sleep(50);
 
@@ -456,7 +503,7 @@ public class Game {
 		while (courante != null)
 		{
 			courante = courante.getCaseAt(d);
-			if (courante != null && !courante.estVide() & courante.pion != p)
+			if (courante != null && !courante.estVide() && courante.pion != p)
 				res.add(courante);
 			else
 				break;
@@ -478,7 +525,7 @@ public class Game {
 			while (courante != null)
 			{
 				courante = courante.getCaseAt(Direction.oppose(d));
-				if (courante != null && !courante.estVide() & courante.pion != p)
+				if (courante != null && !courante.estVide() && courante.pion != p)
 					res.add(courante);
 				else
 					break;
