@@ -104,7 +104,12 @@ public class Case {
 	{
 		Case c = new Case(new Coordonnee(this.position.ligne, this.position.colonne));
 		c.nbVoisins = this.nbVoisins;
-		c.pion = (this.pion == Pion.Blanc) ? Pion.Blanc : Pion.Noir;
+		if (this.pion == Pion.Blanc)
+			c.pion = Pion.Blanc;
+		else if (this.pion == Pion.Noir)
+			c.pion = Pion.Noir;
+		else
+			c.pion = null;
 		return c;
 
 	}
