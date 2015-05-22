@@ -525,9 +525,7 @@ public class Game {
 		{
 			while (courante != null)
 			{
-
 				courante = courante.getCaseAt(Direction.oppose(d));
-
 				if (courante != null && !courante.estVide() && courante.pion != p)
 					res.add(courante);
 				else

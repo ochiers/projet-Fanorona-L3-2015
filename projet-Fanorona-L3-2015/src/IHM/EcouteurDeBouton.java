@@ -41,6 +41,7 @@ public class EcouteurDeBouton implements ActionListener{
 			//TODO
 			break;
 		case " Préférences ":
+			fenetre.frame3.setVisible(true);
 			//TODO
 			break;
 		case " Historique Scores ":
