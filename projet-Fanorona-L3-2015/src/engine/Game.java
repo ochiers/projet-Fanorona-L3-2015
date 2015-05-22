@@ -128,7 +128,7 @@ public class Game {
 	}
 
 	
-	private Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau){
+	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau){
 		
 		for (int i = 0; i < nbLignes; i++)
 		{
@@ -191,14 +191,14 @@ public class Game {
 		
 	}
 	
-	public Case[][] copyMatrice(){
-		Case[][] tableau = new Case[nbLignes][nbColonnes];
-		for (int i = 0; i < nbLignes; i++)
-			for (int j = 0; j < nbColonnes; j++)
-				tableau[i][j] = matricePlateau[i][j].clone();
+	public static Case[][] copyMatrice(Case[][] courant){
+		Case[][] tableau = new Case[courant.length][courant[0].length];
+		for (int i = 0; i < courant.length; i++)
+			for (int j = 0; j < courant[0].length; j++)
+				tableau[i][j] = courant[i][j].clone();
 		
 		
-		return chainage(nbLignes, nbColonnes, tableau);
+		return chainage(courant.length, courant[0].length, tableau);
 	}
 	
 	
