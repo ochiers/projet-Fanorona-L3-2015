@@ -30,14 +30,13 @@ Mercredi 20 mai
 		- L'IHM est visuellement fonctionnelle pour les tests, reste à débugguer le mouvement des pions.
 		- Mise en place du fond de la fenetre pour le jeu, celui-ci sera modifiable dans les préférences.
 		
-		
 Jeudi 21 mai
 	Matin :
 		- Mouvement des pions pour l'IHM
 		- Donne le choix au joueur lorsqu'un pion peu manger 2 differentes lignes
 	Après-midi :
 		- Modifs IA et début tests.
-		
+		- Ajout de la fenetre Préférences (pour le moment non fonctionnelle.
 		
 		
 		
