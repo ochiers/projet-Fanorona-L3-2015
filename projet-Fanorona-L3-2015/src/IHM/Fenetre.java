@@ -4,10 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import engine.*;
-import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
 	static JFrame frame = new JFrame(" -- Fanorona -- ");
@@ -339,39 +336,29 @@ public class Fenetre implements Runnable,Affichage {
 		
 		//NE FONCTIONNE PAS, NE PAS DECOMMENTER !!!!!
 			//fenetre preferences
-		frame3.setSize(1200, 500);
-		int fw3 = frame3.getWidth();
-		int fh3 = frame3.getHeight();
-		JPanel panelAccueil3 = new JPanel(new GridLayout(1,3));
+		frame3.setSize(500, 500);
+		JPanel panelAccueil3 = new JPanel(new GridLayout(0,1));
 		
 			// FOND
 		JLabel fond = new JLabel(" Choix fond d'écran ");
 		panelAccueil3.add(fond);
 		ButtonGroup groupe1 = new ButtonGroup();
-		//JRadioButton(String text, (Icon)(new ImageIcon("src/images/imageX")), boolean selected);
-		JRadioButton rb1 = new JRadioButton(" image1.jpg ", (Icon)(new ImageIcon("src/images/image1")), true);
-		JRadioButton rb2 = new JRadioButton(" image2.jpg ", (Icon)(new ImageIcon("src/images/image2")), true);
-		JRadioButton rb3 = new JRadioButton(" image3.jpg ", (Icon)(new ImageIcon("src/images/image3")), true);
-		JRadioButton rb4 = new JRadioButton(" image4.jpg ", (Icon)(new ImageIcon("src/images/image4")), true);
-		JRadioButton rb5 = new JRadioButton(" image5.jpg ", (Icon)(new ImageIcon("src/images/image5")), true);
-		JRadioButton rb6 = new JRadioButton(" image6.jpg ", (Icon)(new ImageIcon("src/images/image6")), true);
-		JRadioButton rb7 = new JRadioButton(" image7.jpg ", (Icon)(new ImageIcon("src/images/image7")), true);
-		if(rb1.isSelected() == true)
-			panelAccueil = new ImagePanel(rb1.getIcon(), fw, fh);
-		if(rb2.isSelected() == true)
-			panelAccueil = new ImagePanel(rb2.getIcon(), fw, fh);
-		if(rb3.isSelected() == true)
-			panelAccueil = new ImagePanel(rb3.getIcon(), fw, fh);
-		if(rb4.isSelected() == true)
-			panelAccueil = new ImagePanel(rb4.getIcon(), fw, fh);
-		if(rb5.isSelected() == true)
-			panelAccueil = new ImagePanel(rb5.getIcon(), fw, fh);
-		if(rb6.isSelected() == true)
-			panelAccueil = new ImagePanel(rb6.getIcon(), fw, fh);
-		if(rb7.isSelected() == true)
-			panelAccueil = new ImagePanel(rb7.getIcon(), fw, fh);
-		else
-			panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);	
+		JRadioButtonMenuItem rb1 = new JRadioButtonMenuItem(" image1 ", new ImageIcon("src/images/image1"), false);
+		JRadioButtonMenuItem rb2 = new JRadioButtonMenuItem(" image2 ", new ImageIcon("src/images/image2"), false);
+		JRadioButtonMenuItem rb3 = new JRadioButtonMenuItem(" image3 ", new ImageIcon("src/images/image3"), false);
+		JRadioButtonMenuItem rb4 = new JRadioButtonMenuItem(" image4 ", new ImageIcon("src/images/image4"), false);
+		JRadioButtonMenuItem rb5 = new JRadioButtonMenuItem(" image5 ", new ImageIcon("src/images/image5"), false);
+		JRadioButtonMenuItem rb6 = new JRadioButtonMenuItem(" image6 ", new ImageIcon("src/images/image6"), false);
+		JRadioButtonMenuItem rb7 = new JRadioButtonMenuItem(" image7 ", new ImageIcon("src/images/image7"), false);
+		JRadioButtonMenuItem rb8 = new JRadioButtonMenuItem(" fond par défaut ", new ImageIcon("src/images/imageDefault"), true);
+		if(rb1.isSelected() == true) panelAccueil = new ImagePanel(rb1.getIcon(), fw, fh);
+		if(rb2.isSelected() == true) panelAccueil = new ImagePanel(rb2.getIcon(), fw, fh);
+		if(rb3.isSelected() == true) panelAccueil = new ImagePanel(rb3.getIcon(), fw, fh);
+		if(rb4.isSelected() == true) panelAccueil = new ImagePanel(rb4.getIcon(), fw, fh);
+		if(rb5.isSelected() == true) panelAccueil = new ImagePanel(rb5.getIcon(), fw, fh);
+		if(rb6.isSelected() == true) panelAccueil = new ImagePanel(rb6.getIcon(), fw, fh);
+		if(rb7.isSelected() == true) panelAccueil = new ImagePanel(rb7.getIcon(), fw, fh);
+		else panelAccueil = new ImagePanel(rb8.getIcon(), fw, fh);
 		// ajout des boutons radio dans le groupe bg
 		groupe1.add(rb1);
 		groupe1.add(rb2);
@@ -380,6 +367,7 @@ public class Fenetre implements Runnable,Affichage {
 		groupe1.add(rb5);
 		groupe1.add(rb6);
 		groupe1.add(rb7);
+		groupe1.add(rb8);
 		//ajout de bg au panel
 		panelAccueil3.add(rb1);
 		panelAccueil3.add(rb2);
@@ -388,10 +376,10 @@ public class Fenetre implements Runnable,Affichage {
 		panelAccueil3.add(rb5);
 		panelAccueil3.add(rb6);
 		panelAccueil3.add(rb7);
+		panelAccueil3.add(rb8);
 		
-		/*	// NOMS
+			// NOMS
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
-		nom.setBounds(((3*fw3)/6), ((3*fh3)/6), (fw3/6), (fh3/6));
 		panelAccueil3.add(nom);
 		String nameJ1 = engine.partieCourante.joueurBlanc.getNiveau();
 		JTextField name1 = new JTextField(" Humain 1 ");
@@ -418,14 +406,12 @@ public class Fenetre implements Runnable,Affichage {
 		
 		// ajout des boites de dialogue
 		panelAccueil3.add(name1);
-		panelAccueil3.add(name2);*/
+		panelAccueil3.add(name2);
 
-		/*	// COULEUR PIONS
+			// COULEUR PIONS
 		JLabel pion = new JLabel(" Choix couleur pions ");
-		pion.setBounds(((5*fw3)/6), ((5*fh3)/6), (fw3/6), (fh3/6));
 		panelAccueil3.add(pion);
 		ButtonGroup groupe2 = new ButtonGroup();
-		//JRadioButton(String text, (Icon)(new ImageIcon("src/images/imageX")), boolean selected);
 		JRadioButton rb10 = new JRadioButton(" Noir ");
 		JRadioButton rb20 = new JRadioButton(" Blanc ");
 		JRadioButton rb30 = new JRadioButton(" Bleu ");
@@ -473,7 +459,7 @@ public class Fenetre implements Runnable,Affichage {
 		panelAccueil3.add(rb40);
 		panelAccueil3.add(rb50);
 		panelAccueil3.add(rb60);
-		panelAccueil3.add(rb70);*/
+		panelAccueil3.add(rb70);
 		
 		frame3.add(panelAccueil3);
 		frame3.setResizable(false);

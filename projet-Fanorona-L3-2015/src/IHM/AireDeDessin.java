@@ -64,7 +64,7 @@ public class AireDeDessin extends JComponent {
         if(!pionCliquer && doitChoisir){
         	choixManger(drawable);
         }
-        dessinGrilleJeton(drawable,Color.black,Color.white);
+        dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
         if(pionCliquer){
         	jetonCliquer(drawable);
         	
@@ -160,7 +160,6 @@ public class AireDeDessin extends JComponent {
     	
     	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
     		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
-    			//System.out.print(fenetre.engine.partieCourante.matricePlateau[i][j].pion+" ");
     			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc){
     				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			}
@@ -236,14 +235,14 @@ public class AireDeDessin extends JComponent {
 		this.img = iconToImage(icon);
 	}
 
+	//fonction récupéré sur Internet
 	public static Image iconToImage(Icon icon) {
         if (icon instanceof ImageIcon) {
             return ((ImageIcon)icon).getImage();
         } else {
             int w = icon.getIconWidth();
             int h = icon.getIconHeight();
-            GraphicsEnvironment ge =
-              GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice gd = ge.getDefaultScreenDevice();
             GraphicsConfiguration gc = gd.getDefaultConfiguration();
             BufferedImage image = gc.createCompatibleImage(w, h);
