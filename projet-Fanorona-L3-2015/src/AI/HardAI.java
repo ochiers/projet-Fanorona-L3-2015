@@ -1,7 +1,5 @@
 package AI;
 
-import java.awt.Point;
-
 import engine.*;
 
 public class HardAI extends Player {
@@ -13,8 +11,19 @@ public class HardAI extends Player {
 	}
 
 	@Override
-	public Point play()
-	{
+	public Coup play(Case[] listeCoups) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Direction choisirDirectionAManger() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNiveau() {
 		// TODO Auto-generated method stub
 		return null;
 	}

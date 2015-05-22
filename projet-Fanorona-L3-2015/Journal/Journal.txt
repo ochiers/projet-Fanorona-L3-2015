@@ -38,6 +38,13 @@ Jeudi 21 mai
 		- Modifs IA et début tests.
 		- Ajout de la fenetre Préférences (pour le moment non fonctionnelle.
 		
+Vendredi 22 mai
+	Matin : 
+		- Debug IA.
+	Après-midi : 
+		- Modification de la gestion du choix du type de capture de l'IA.
+	
+		
 		
 		
 		
