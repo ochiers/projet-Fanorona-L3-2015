@@ -1,5 +1,7 @@
 package AI;
 
+import java.util.ArrayList;
+
 import engine.*;
 
 public class HumanPlayerConsole extends Player {
@@ -17,17 +19,18 @@ public class HumanPlayerConsole extends Player {
 		return null;
 	}
 
-	@Override
-	public Direction choisirDirectionAManger()
-	{
-		
-		return null;
-	}
 
 	@Override
 	public String getNiveau()
 	{
 		return "Humain Console";
+	}
+
+	@Override
+	public Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

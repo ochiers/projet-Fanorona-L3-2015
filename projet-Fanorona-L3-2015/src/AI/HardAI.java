@@ -1,5 +1,7 @@
 package AI;
 
+import java.util.ArrayList;
+
 import engine.*;
 
 public class HardAI extends Player {
@@ -16,14 +18,16 @@ public class HardAI extends Player {
 		return null;
 	}
 
+
 	@Override
-	public Direction choisirDirectionAManger() {
+	public String getNiveau() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getNiveau() {
+	public Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement)
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
