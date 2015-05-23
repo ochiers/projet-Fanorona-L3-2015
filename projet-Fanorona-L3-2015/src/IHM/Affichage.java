@@ -7,10 +7,6 @@ import engine.Player;
 
 public interface Affichage {
 
-	
-	
-	
-	
 	/**
 	 * Affiche l'etat courant du jeu
 	 */
