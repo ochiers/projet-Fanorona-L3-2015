@@ -36,17 +36,17 @@ public class EcouteurDeBouton implements ActionListener{
 		case " Quitter ":
 			System.exit(0);
 			break;
-		case " Paramètres Partie ":
+		case " Parametres Partie ":
 			Fenetre.frame2.setVisible(true);
 			//TODO
 			break;
-		case " Préférences ":
+		case " Preferences ":
 			Fenetre.frame3.setVisible(true);
 			break;
 		case " Historique Scores ":
 			//TODO
 			break;
-		case " Règles du Jeu ":
+		case " Regles du Jeu ":
 			//TODO
 			break;
 		case " A Propos ":

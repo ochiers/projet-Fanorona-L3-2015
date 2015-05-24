@@ -39,6 +39,9 @@ public class Fenetre implements Runnable,Affichage {
 			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
 	/*	JPanel panelFano = new ImagePanel(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 4*fw/6, 4*fh/6);
 			panelFano.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
+			// dans ecouteurSours panel et non aireDeDessin faire 
+			// //System.out.println(" ( " + e.getX() + " , " + e.getY() + " ) ");
+			// pour calculer les ouvelles positions des pions
 	*/		
  			//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
@@ -62,9 +65,9 @@ public class Fenetre implements Runnable,Affichage {
 		partie.add(mi1b5);
 			//menu2
 		JMenu options = new JMenu(" Options ");
-		JMenuItem mi2b1 = new JMenuItem(" Paramètres Partie ");
+		JMenuItem mi2b1 = new JMenuItem(" Parametres Partie ");
 			mi2b1.addActionListener(new EcouteurDeBouton(this,mi2b1.getText()));
-		JMenuItem mi2b2 = new JMenuItem(" Préférences ");	
+		JMenuItem mi2b2 = new JMenuItem(" Preferences ");	
 			mi2b2.addActionListener(new EcouteurDeBouton(this,mi2b2.getText()));
 		JMenuItem mi2b3 = new JMenuItem(" Historique Scores ");
 			mi2b3.addActionListener(new EcouteurDeBouton(this,mi2b3.getText()));
@@ -74,7 +77,7 @@ public class Fenetre implements Runnable,Affichage {
 		options.add(mi2b3);
 			//menu3
 		JMenu aide = new JMenu(" Aide ");
-		JMenuItem mi3b1 = new JMenuItem(" Règles du Jeu ");
+		JMenuItem mi3b1 = new JMenuItem(" Regles du Jeu ");
 			mi3b1.addActionListener(new EcouteurDeBouton(this,mi3b1.getText()));
 		JMenuItem mi3b2 = new JMenuItem(" A Propos ");	
 			mi3b2.addActionListener(new EcouteurDeBouton(this,mi3b2.getText()));
