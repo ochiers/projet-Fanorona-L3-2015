@@ -6,7 +6,8 @@ import java.util.Scanner;
 import AI.*;
 import IHM.Affichage;
 
-public class Engine {
+public class Engine
+{
 
 	public boolean			gameInProgress;
 	public Game				partieCourante;
@@ -29,22 +30,90 @@ public class Engine {
 		try
 		{
 			while (true) // On suppose que c'est l'IHM qui tue le thread
+							// principal
 			{
 				while (!gameInProgress)
-					Thread.sleep(50);
-
-				partieCourante.reprendre();
-				partieCourante.jouer();
-				if (!partieCourante.stopped && partieCourante.finish)
 				{
-					System.out.println("victoire");
-					affichage.afficherVictoire(partieCourante.getWinner());
-					gameInProgress = false;
+					System.out.print("Attente d'une partie");
+					Thread.sleep(50);
 				}
+				partieCourante.reprendre();
+				partieCourante.commencer();
+				if (partieCourante.finish)
+					gameInProgress = false;
+
 			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	private void changerPartieCourante(Game g, Pion jCourant)
+	{
+		if (partieCourante != null)
+		{
+			gameInProgress = false;
+			partieCourante.finir(); // On arrete la partie courante qui se
+									// deroule
+									// dans le thread principal
+			Player pB = partieCourante.joueurBlanc;
+			Player pN = partieCourante.joueurNoir;
+
+			/*
+			 * On récupere le coup d'avant (partie précédente) et parametre
+			 * correctement
+			 */
+			partieCourante = g;
+			switch (pB.getNiveau())
+			{
+				case "Humain":
+					partieCourante.joueurBlanc = new HumanPlayer(pB);
+					break;
+				case "IA Facile":
+					partieCourante.joueurBlanc = new EasyAI(this, true, partieCourante.joueurBlanc.name);
+					break;
+				case "IA Moyenne":
+					partieCourante.joueurBlanc = new MediumAI(this, true, partieCourante.joueurBlanc.name);
+					break;
+				case "IA Difficile":
+					partieCourante.joueurBlanc = new HardAI(this, true, partieCourante.joueurBlanc.name);
+					break;
+			}
+			switch (pN.getNiveau())
+			{
+				case "Humain":
+					partieCourante.joueurNoir = new HumanPlayer(pN);
+					break;
+				case "IA Facile":
+					partieCourante.joueurNoir = new EasyAI(this, true, partieCourante.joueurBlanc.name);
+					break;
+				case "IA Moyenne":
+					partieCourante.joueurNoir = new MediumAI(this, true, partieCourante.joueurBlanc.name);
+					break;
+				case "IA Difficile":
+					partieCourante.joueurNoir = new HardAI(this, true, partieCourante.joueurBlanc.name);
+					break;
+			}
+			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
+
+			partieCourante.finish = false;
+			partieCourante.stopped = false;
+			partieCourante.pause();
+			try
+			{
+				Thread.sleep(500);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			gameInProgress = true;
+			affichage.afficherJeu();
+		} 
+		else
+		{
+
 		}
 	}
 
@@ -55,18 +124,14 @@ public class Engine {
 			stopper();
 		this.partieCourante = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, hauteur, largeur);
 		this.gameInProgress = true;
+		this.undoRedo.vider();
 	}
 
 	public void stopper()
 	{
 		if (partieCourante != null)
 		{
-			this.partieCourante.pause();
-			this.partieCourante.stopped = true;
-			if (this.partieCourante.joueurCourant instanceof HumanPlayer)
-			{
-				((HumanPlayer) this.partieCourante.joueurCourant).setStopped(true);
-			}
+			this.partieCourante.finir();
 		}
 	}
 
@@ -75,84 +140,17 @@ public class Engine {
 	 */
 	public void annuler()
 	{
-		System.out.println("Annuler ");
-		if (gameInProgress)
-		{
-			partieCourante.pause(); // On arrete la partie courante qui se
-			// deroule dans le thread principal
-			partieCourante.stopped = true; //
-
-			/*
-			 * On récupere le coup d'avant (partie précédente) et parametre
-			 * correctement
-			 */
-			partieCourante = undoRedo.undo();
-			partieCourante.pause();
-			partieCourante.finish = false;
-			partieCourante.stopped = false;
-			//partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
-			partieCourante.reprendre();
-			gameInProgress = true;
-		} else
-		{
-			partieCourante = undoRedo.undo();
-			partieCourante.pause();
-			partieCourante.finish = false;
-			partieCourante.stopped = false;
-			//partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
-			partieCourante.reprendre();
-			try
-			{
-				partieCourante.jouer();
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-			gameInProgress = true;
-		}
-		affichage.afficherJeu();
+		System.err.println("Annuler");
+		changerPartieCourante(this.undoRedo.undo(), (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 	}
 
 	/**
-	 * Refait le demi-coup annulé
+	 * Refait le demi-coup annul�
 	 */
 	public void refaire()
 	{
-
-		if (gameInProgress)
-		{
-			partieCourante.pause(); // On arrete la partie courante qui se
-									// deroule dans le thread principal
-			partieCourante.stopped = true; //
-
-			/*
-			 * On récupere le coup d'avant (partie précédente) et parametre
-			 * correctement
-			 */
-			partieCourante = undoRedo.redo();
-			partieCourante.pause();
-			partieCourante.finish = false;
-			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
-			partieCourante.reprendre();
-			gameInProgress = true;
-		} else
-		{
-			partieCourante = undoRedo.redo();
-			partieCourante.pause();
-			partieCourante.finish = false;
-			partieCourante.stopped = false;
-			partieCourante.joueurCourant = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? partieCourante.joueurNoir : partieCourante.joueurBlanc;
-			partieCourante.reprendre();
-			try
-			{
-				partieCourante.jouer();
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-			gameInProgress = true;
-		}
+		System.err.println("Refaire");
+		changerPartieCourante(this.undoRedo.redo(), (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 	}
 
 	public boolean peutAnnuler()
@@ -166,8 +164,8 @@ public class Engine {
 	}
 
 	/**
-	 * Sauvegarde la partie courante dans son état courant dans le fichier situé
-	 * dans path
+	 * Sauvegarde la partie courante dans son état courant dans le fichier
+	 * situé dans path
 	 * 
 	 * @param path
 	 *            Chemin du fichier de sauvegarde
