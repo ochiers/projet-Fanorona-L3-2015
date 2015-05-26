@@ -17,6 +17,11 @@ public class EcouteurPreferences implements ActionListener{
 		int fw = pref.fenetre.fw;
 		int fh = pref.fenetre.fh;
 		String message;
+		String humain1;
+		String humain2;
+		
+		boolean j1 = pref.nameJ1.equals("Humain");
+		boolean j2 = pref.nameJ1.equals("Humain");
 
 		public EcouteurPreferences(Preferences p){
 			pref = p;
@@ -28,7 +33,14 @@ public class EcouteurPreferences implements ActionListener{
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-					
+			
+			if (j1 == true) humain1 = " Humain1 ";
+			if (j2 == true) humain2 = " Humain2 ";
+			else {
+				humain1 = "";
+				humain2 = "";
+			}
+			
 			if(pref.rb1.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb1.getIcon(), fw, fh);
 			if(pref.rb2.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb2.getIcon(), fw, fh);
 			if(pref.rb3.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb3.getIcon(), fw, fh);
@@ -57,15 +69,13 @@ public class EcouteurPreferences implements ActionListener{
 			else{}
 			*/
 			switch (message){
-				boolean j1 = pref.nameJ1.equals("Humain");
-				boolean j2 = pref.nameJ2.equals("Humain");
-				case ( j1 == true):
+				case " Humain1 ":
 					pref.fenetre.engine.partieCourante.joueurBlanc.name = pref.name1.getText();
 					pref.fenetre.idj1 = new JLabel((String)(pref.name1.getText()));
 					pref.fenetre.levelj1 = new JLabel(" Bonne Chance ! ");
 					break;
-				case (j2 == true):
-					pref.fenetre.engine.partieCourante.joueurNoir.name = name2.getText();
+				case " Humain2 ":
+					pref.fenetre.engine.partieCourante.joueurNoir.name = pref.name2.getText();
 					pref.fenetre.idj2 = new JLabel((String)(pref.name2.getText()));
 					pref.fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
 					break;
@@ -79,7 +89,7 @@ public class EcouteurPreferences implements ActionListener{
 					break;
 				default:
 					System.out.println("Erreur bouton switch");
-				break;
+					break;
 			}
 		}
 
