@@ -79,13 +79,13 @@ public class Engine {
 					partieCourante.joueurBlanc = new HumanPlayer(pB);
 					break;
 				case "IA Facile":
-					partieCourante.joueurBlanc = new EasyAI(this, true, partieCourante.joueurBlanc.name);
+					partieCourante.joueurBlanc = new EasyAI(this, true, pB.name);
 					break;
 				case "IA Moyenne":
-					partieCourante.joueurBlanc = new MediumAI(this, true, partieCourante.joueurBlanc.name);
+					partieCourante.joueurBlanc = new MediumAI(this, true, pB.name);
 					break;
 				case "IA Difficile":
-					partieCourante.joueurBlanc = new HardAI(this, true, partieCourante.joueurBlanc.name);
+					partieCourante.joueurBlanc = new HardAI(this, true, pB.name);
 					break;
 			}
 			switch (pN.getNiveau())
@@ -94,13 +94,13 @@ public class Engine {
 					partieCourante.joueurNoir = new HumanPlayer(pN);
 					break;
 				case "IA Facile":
-					partieCourante.joueurNoir = new EasyAI(this, true, partieCourante.joueurNoir.name);
+					partieCourante.joueurNoir = new EasyAI(this, true, pN.name);
 					break;
 				case "IA Moyenne":
-					partieCourante.joueurNoir = new MediumAI(this, true, partieCourante.joueurNoir.name);
+					partieCourante.joueurNoir = new MediumAI(this, true, pN.name);
 					break;
 				case "IA Difficile":
-					partieCourante.joueurNoir = new HardAI(this, true, partieCourante.joueurNoir.name);
+					partieCourante.joueurNoir = new HardAI(this, true, pN.name);
 					break;
 			}
 			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
@@ -117,7 +117,8 @@ public class Engine {
 			}
 			gameInProgress = true;
 			affichage.afficherJeu();
-		} else
+		}
+		else
 		{
 			partieCourante = g;
 		}

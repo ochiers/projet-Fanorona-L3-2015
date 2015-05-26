@@ -259,7 +259,6 @@ public class Game implements Serializable {
 
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles))
 			{
-				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : " + c.arrivee);
 				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			}
 
