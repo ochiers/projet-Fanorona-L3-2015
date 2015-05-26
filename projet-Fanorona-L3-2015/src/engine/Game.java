@@ -1,5 +1,6 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,8 +12,13 @@ import IHM.Affichage;
  * @author soulierc
  *
  */
-public class Game {
+public class Game implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -1634914624217639082L;
+	
 	/**
 	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer la partie
 	 */
@@ -71,12 +77,12 @@ public class Game {
 	/**
 	 * Le module d'affichage
 	 */
-	public Affichage		display;
+	public transient Affichage		display;
 
 	/**
 	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on ne peut pas revenir sur une case deja jouee
 	 */
-	public ArrayList<Case>	combo;
+	public transient ArrayList<Case>	combo;
 
 	/**
 	 * Module d'annuler refaire
@@ -301,7 +307,7 @@ public class Game {
 					return;
 				}
 				pionJoue = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
-
+				System.out.println("PION JOUE " + pionJoue);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
 				rejouer = faireCoup(c2);
 				enCombo = rejouer;
@@ -333,7 +339,6 @@ public class Game {
 	public void commencer() throws InterruptedException
 	{
 		System.err.println("Debut de la partie");
-		this.pause();
 		joueurBlanc.setStopped(false);
 		joueurNoir.setStopped(false);
 		joueurBlanc.start();
