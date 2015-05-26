@@ -351,9 +351,11 @@ public class Game
 					break;
 				}
 				display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
-				Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
+				Case t[] = new Case[1];
+				t[0] = pionJoue;
+				Coup c2 = this.joueurCourant.play(t);
 				while (!joueurCourant.isStopped() && !comboValide(c2, combo))
-					c2 = this.joueurCourant.play(l.toArray(tmp2));
+					c2 = this.joueurCourant.play(t);
 
 				/*Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
 				while (!stopped && paused)
@@ -838,6 +840,8 @@ public class Game
 	{
 		this.joueurBlanc.setStopped(true);
 		this.joueurNoir.setStopped(true);
+		this.joueurBlanc.stop();
+		this.joueurNoir.stop();
 		this.stopped = true;
 	}
 }
