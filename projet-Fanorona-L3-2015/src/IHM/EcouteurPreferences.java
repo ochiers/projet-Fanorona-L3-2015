@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JRadioButtonMenuItem;
 
 import AI.HumanPlayer;
@@ -56,17 +57,29 @@ public class EcouteurPreferences implements ActionListener{
 			else{}
 			*/
 			switch (message){
-			case " Accepter ":
-				Fenetre.frame.repaint();
-				System.exit(0);
+				boolean j1 = pref.nameJ1.equals("Humain");
+				boolean j2 = pref.nameJ2.equals("Humain");
+				case ( j1 == true):
+					pref.fenetre.engine.partieCourante.joueurBlanc.name = pref.name1.getText();
+					pref.fenetre.idj1 = new JLabel((String)(pref.name1.getText()));
+					pref.fenetre.levelj1 = new JLabel(" Bonne Chance ! ");
+					break;
+				case (j2 == true):
+					pref.fenetre.engine.partieCourante.joueurNoir.name = name2.getText();
+					pref.fenetre.idj2 = new JLabel((String)(pref.name2.getText()));
+					pref.fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
+					break;
+				case " Accepter ":
+					Fenetre.frame.repaint();
+					System.exit(0);
+					break;
+				case " Annuler ":
+					System.out.println(" Pas de modifications ");
+					System.exit(0);
+					break;
+				default:
+					System.out.println("Erreur bouton switch");
 				break;
-			case " Annuler ":
-				System.out.println(" Pas de modifications ");
-				System.exit(0);
-				break;
-			default:
-				System.out.println("Erreur bouton switch");
-			break;
 			}
 		}
 

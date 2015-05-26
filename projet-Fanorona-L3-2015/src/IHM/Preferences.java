@@ -22,6 +22,27 @@ public class Preferences {
 	JRadioButtonMenuItem rb7;
 	JRadioButtonMenuItem rb8;
 	
+	JRadioButton rb10;
+	JRadioButton rb20;
+	JRadioButton rb30;
+	JRadioButton rb40;
+	JRadioButton rb50;
+	JRadioButton rb60;
+	JRadioButton rb70;
+
+	JRadioButton rb11;
+	JRadioButton rb21;
+	JRadioButton rb31;
+	JRadioButton rb41;
+	JRadioButton rb51;
+	JRadioButton rb61;
+	JRadioButton rb71;
+	
+	JTextField name1;
+	JTextField name2;
+	String nameJ1;
+	String nameJ2;
+	
 	public Fenetre fenetre;
 	
 	public Preferences(Fenetre f){
@@ -85,27 +106,12 @@ public class Preferences {
 			// PANEL NOMS
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
 		panelJoueurs.add(nom);
-		String nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
-		JTextField name1 = new JTextField(" Humain 1 ");
-		if (nameJ1.equals("Humain")){
-			fenetre.engine.partieCourante.joueurBlanc.name = name1.getText();
-			fenetre.idj1 = new JLabel((String)(name1.getText()));
-			fenetre.levelj1 = new JLabel(" Bonne Chance ! ");
-		}
-		String nameJ2 = fenetre.engine.partieCourante.joueurNoir.getNiveau();
-		JTextField name2 = new JTextField(" Humain 2 ");
-		if (nameJ2.equals("Humain")){
-			fenetre.engine.partieCourante.joueurNoir.name = name2.getText();
-			fenetre.idj2 = new JLabel((String)(name2.getText()));
-			fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
-		}
-		else{
-			// verifier parametres par defaut !!!!!!!!!!!!!!! 
-			fenetre.idj1 = new JLabel(" Humain ");
-			fenetre.levelj1 = new JLabel(" Bonne Chance ! ");
-			fenetre.idj2 = new JLabel(" Humain ");
-			fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
-		}
+		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
+		name1 = new JTextField(" Humain 1 ");
+			//name1.addActionListener(new EcouteurPreferences(this, nameJ1));
+		nameJ2 = fenetre.engine.partieCourante.joueurNoir.getNiveau();
+		name2 = new JTextField(" Humain 2 ");
+			//name2.addActionListener(new EcouteurPreferences(this, nameJ2));
 		// ajout des boites de dialogue
 		panelJoueurs.add(name1);
 		panelJoueurs.add(name2);
@@ -114,19 +120,19 @@ public class Preferences {
 		JLabel pion1 = new JLabel(" Choix couleur pions J1 ");
 		panelPions1.add(pion1);
 		ButtonGroup groupe2 = new ButtonGroup();
-		JRadioButton rb10 = new JRadioButton(" Pion noir ");
+		rb10 = new JRadioButton(" Pion noir ");
 			//rb10.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb20 = new JRadioButton(" Pion blanc ");
+		rb20 = new JRadioButton(" Pion blanc ");
 			//rb20.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb30 = new JRadioButton(" Pion bleu ");
+		rb30 = new JRadioButton(" Pion bleu ");
 			//rb30.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb40 = new JRadioButton(" Pion rouge ");
+		rb40 = new JRadioButton(" Pion rouge ");
 			//rb40.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb50 = new JRadioButton(" Pion vert ");
+		rb50 = new JRadioButton(" Pion vert ");
 			//rb50.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb60 = new JRadioButton(" Pion jaune ");
+		rb60 = new JRadioButton(" Pion jaune ");
 			//rb60.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb70 = new JRadioButton(" Pion multicolore ");
+		rb70 = new JRadioButton(" Pion multicolore ");
 			//rb70.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe2.add(rb10);
@@ -148,19 +154,19 @@ public class Preferences {
 		JLabel pion2 = new JLabel(" Choix couleur pions J2 ");
 		panelPions2.add(pion2);
 		ButtonGroup groupe3 = new ButtonGroup();
-		JRadioButton rb11 = new JRadioButton(" Pion noir ");
+		rb11 = new JRadioButton(" Pion noir ");
 			//rb11.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb21 = new JRadioButton(" Pion blanc ");
+		rb21 = new JRadioButton(" Pion blanc ");
 			//rb21.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb31 = new JRadioButton(" Pion bleu ");
+		rb31 = new JRadioButton(" Pion bleu ");
 			//rb31.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb41 = new JRadioButton(" Pion rouge ");
+		rb41 = new JRadioButton(" Pion rouge ");
 			//rb41.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb51 = new JRadioButton(" Pion vert ");
+		rb51 = new JRadioButton(" Pion vert ");
 			//rb51.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb61 = new JRadioButton(" Pion jaune ");
+		rb61 = new JRadioButton(" Pion jaune ");
 			//rb61.addActionListener(new EcouteurPreferences(this));
-		JRadioButton rb71 = new JRadioButton(" Pion multicolore ");
+		rb71 = new JRadioButton(" Pion multicolore ");
 			//rb71.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe3.add(rb11);
