@@ -201,8 +201,10 @@ public class Fenetre implements Runnable,Affichage {
 			
 		parametre = new Parametres(this);
 		parametre.majParam();
+		//frame.repaint();
 		Preferences p = new Preferences(this);
 		p.majPref();
+		//frame.repaint();
 	}
 
 	public void afficherJeu(){

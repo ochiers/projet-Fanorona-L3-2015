@@ -51,7 +51,7 @@ public class Preferences {
 			
 	public void majPref(){
 		
-		Fenetre.frame3.setSize(500, 500);
+		fenetre.frame3.setSize(500, 500);
 		JPanel panelAccueil3 = new JPanel(new GridLayout(3,2));
 		JPanel panelFond = new JPanel(new GridLayout(0,1));
 		JPanel panelJoueurs = new JPanel(new GridLayout(0,1));
@@ -71,19 +71,19 @@ public class Preferences {
 		rb1 = new JRadioButtonMenuItem(" Fond multicolore ", new ImageIcon("src/images/image1"), false);
 			rb1.addActionListener(new EcouteurPreferences(this));
 		rb2 = new JRadioButtonMenuItem(" Fond bleu ", new ImageIcon("src/images/image2"), false);
-			//rb2.addActionListener(new EcouteurPreferences(this));
+			rb2.addActionListener(new EcouteurPreferences(this));
 		rb3 = new JRadioButtonMenuItem(" Fond vert ", new ImageIcon("src/images/image3"), false);
-			//rb3.addActionListener(new EcouteurPreferences(this));
+			rb3.addActionListener(new EcouteurPreferences(this));
 		rb4 = new JRadioButtonMenuItem(" Fond rose ", new ImageIcon("src/images/image4"), false);
-			//rb4.addActionListener(new EcouteurPreferences(this));
+			rb4.addActionListener(new EcouteurPreferences(this));
 		rb5 = new JRadioButtonMenuItem(" Fond bleu clair ", new ImageIcon("src/images/image5"), false);
-			//rb5.addActionListener(new EcouteurPreferences(this));
+			rb5.addActionListener(new EcouteurPreferences(this));
 		rb6 = new JRadioButtonMenuItem(" Fond gris blanc ", new ImageIcon("src/images/image6"), false);
-			//rb6.addActionListener(new EcouteurPreferences(this));
+			rb6.addActionListener(new EcouteurPreferences(this));
 		rb7 = new JRadioButtonMenuItem(" Fond noir ", new ImageIcon("src/images/image7"), false);
-			//rb7.addActionListener(new EcouteurPreferences(this));
+			rb7.addActionListener(new EcouteurPreferences(this));
 		rb8 = new JRadioButtonMenuItem(" Fond par defaut ", new ImageIcon("src/images/imageDefault"), true);
-			//rb8.addActionListener(new EcouteurPreferences(this));
+			rb8.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe1.add(rb1);
 		groupe1.add(rb2);
@@ -108,32 +108,32 @@ public class Preferences {
 		panelJoueurs.add(nom);
 		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
 		name1 = new JTextField(" Humain 1 ");
-			//name1.addActionListener(new EcouteurPreferences(this, nameJ1));
+			name1.addActionListener(new EcouteurPreferences(this, nameJ1));
 		nameJ2 = fenetre.engine.partieCourante.joueurNoir.getNiveau();
 		name2 = new JTextField(" Humain 2 ");
-			//name2.addActionListener(new EcouteurPreferences(this, nameJ2));
+			name2.addActionListener(new EcouteurPreferences(this, nameJ2));
 		// ajout des boites de dialogue
 		panelJoueurs.add(name1);
 		panelJoueurs.add(name2);
 		
-			// PANEL COULEUR PIONS
+		/*	// PANEL COULEUR PIONS
 		JLabel pion1 = new JLabel(" Choix couleur pions J1 ");
 		panelPions1.add(pion1);
 		ButtonGroup groupe2 = new ButtonGroup();
 		rb10 = new JRadioButton(" Pion noir ");
-			//rb10.addActionListener(new EcouteurPreferences(this));
+			rb10.addActionListener(new EcouteurPreferences(this));
 		rb20 = new JRadioButton(" Pion blanc ");
-			//rb20.addActionListener(new EcouteurPreferences(this));
+			rb20.addActionListener(new EcouteurPreferences(this));
 		rb30 = new JRadioButton(" Pion bleu ");
-			//rb30.addActionListener(new EcouteurPreferences(this));
+			rb30.addActionListener(new EcouteurPreferences(this));
 		rb40 = new JRadioButton(" Pion rouge ");
-			//rb40.addActionListener(new EcouteurPreferences(this));
+			rb40.addActionListener(new EcouteurPreferences(this));
 		rb50 = new JRadioButton(" Pion vert ");
-			//rb50.addActionListener(new EcouteurPreferences(this));
+			rb50.addActionListener(new EcouteurPreferences(this));
 		rb60 = new JRadioButton(" Pion jaune ");
-			//rb60.addActionListener(new EcouteurPreferences(this));
+			rb60.addActionListener(new EcouteurPreferences(this));
 		rb70 = new JRadioButton(" Pion multicolore ");
-			//rb70.addActionListener(new EcouteurPreferences(this));
+			rb70.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe2.add(rb10);
 		groupe2.add(rb20);
@@ -155,19 +155,19 @@ public class Preferences {
 		panelPions2.add(pion2);
 		ButtonGroup groupe3 = new ButtonGroup();
 		rb11 = new JRadioButton(" Pion noir ");
-			//rb11.addActionListener(new EcouteurPreferences(this));
+			rb11.addActionListener(new EcouteurPreferences(this));
 		rb21 = new JRadioButton(" Pion blanc ");
-			//rb21.addActionListener(new EcouteurPreferences(this));
+			rb21.addActionListener(new EcouteurPreferences(this));
 		rb31 = new JRadioButton(" Pion bleu ");
-			//rb31.addActionListener(new EcouteurPreferences(this));
+			rb31.addActionListener(new EcouteurPreferences(this));
 		rb41 = new JRadioButton(" Pion rouge ");
-			//rb41.addActionListener(new EcouteurPreferences(this));
+			rb41.addActionListener(new EcouteurPreferences(this));
 		rb51 = new JRadioButton(" Pion vert ");
-			//rb51.addActionListener(new EcouteurPreferences(this));
+			rb51.addActionListener(new EcouteurPreferences(this));
 		rb61 = new JRadioButton(" Pion jaune ");
-			//rb61.addActionListener(new EcouteurPreferences(this));
+			rb61.addActionListener(new EcouteurPreferences(this));
 		rb71 = new JRadioButton(" Pion multicolore ");
-			//rb71.addActionListener(new EcouteurPreferences(this));
+			rb71.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe3.add(rb11);
 		groupe3.add(rb21);
@@ -183,19 +183,19 @@ public class Preferences {
 		panelPions2.add(rb41);
 		panelPions2.add(rb51);
 		panelPions2.add(rb61);
-		panelPions2.add(rb71);
+		panelPions2.add(rb71);*/
 		
 			// PANEL BOUTONS
 		JButton accept= new JButton("Accepter");
-			//accept.addActionListener(new EcouteurPreferences(this, accept.getText()));
+			accept.addActionListener(new EcouteurPreferences(this, accept.getText()));
 		JButton annuler= new JButton("Annuler");
-			//annuler.addActionListener(new EcouteurPreferences(this, annuler.getText()));
+			annuler.addActionListener(new EcouteurPreferences(this, annuler.getText()));
 		panelBoutons.add(accept);
 		panelBoutons.add(annuler);
 		
-		Fenetre.frame3.add(panelAccueil3);
-		Fenetre.frame3.setResizable(false);
-		Fenetre.frame3.setVisible(false);
+		fenetre.frame3.add(panelAccueil3);
+		fenetre.frame3.setResizable(false);
+		fenetre.frame3.setVisible(false);
 	}
 	
 }

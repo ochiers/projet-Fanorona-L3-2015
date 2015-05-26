@@ -33,5 +33,12 @@ public class HumanPlayerConsole extends Player {
 		return null;
 	}
 
+	@Override
+	public void run()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
