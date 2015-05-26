@@ -211,7 +211,7 @@ public class Game
 					}
 				}
 			}
-		System.out.println("Temps mis " + (System.nanoTime() - x) +" nano sec");
+		//System.out.println("Temps mis " + (System.nanoTime() - x) +" nano sec");
 		return tableau;
 
 	}
@@ -290,7 +290,7 @@ public class Game
 		
 		if (!finish && !stopped)
 		{
-			System.err.println(nameJoueur + " debloqué");
+			System.err.println(nameJoueur + " debloquï¿½");
 						
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
 			if (pionsPossibles.size() == 0)
