@@ -54,7 +54,7 @@ public class Preferences {
 			
 	public void majPref(){
 		
-		fenetre.frame3.setSize(500, 500);
+		Fenetre.frame3.setSize(500, 500);
 		JPanel panelAccueil3 = new JPanel(new GridLayout(3,2));
 		JPanel panelFond = new JPanel(new GridLayout(0,1));
 		JPanel panelJoueurs = new JPanel(new GridLayout(0,1));
@@ -130,8 +130,8 @@ public class Preferences {
 			rb50.addActionListener(new EcouteurPreferences(this));
 		rb60 = new JRadioButton(" Pion jaune ");
 			rb60.addActionListener(new EcouteurPreferences(this));
-		rb70 = new JRadioButton(" Pion multicolore ");
-			rb70.addActionListener(new EcouteurPreferences(this));
+		/*rb70 = new JRadioButton(" Pion multicolore ");
+			rb70.addActionListener(new EcouteurPreferences(this));*/
 		// ajout des boutons radio dans le groupe bg
 		groupe2.add(rb10);
 		groupe2.add(rb20);
@@ -139,7 +139,7 @@ public class Preferences {
 		groupe2.add(rb40);
 		groupe2.add(rb50);
 		groupe2.add(rb60);
-		groupe2.add(rb70);
+		//groupe2.add(rb70);
 		//ajout de bg au panel
 		panelPions1.add(rb10);
 		panelPions1.add(rb20);
@@ -147,7 +147,7 @@ public class Preferences {
 		panelPions1.add(rb40);
 		panelPions1.add(rb50);
 		panelPions1.add(rb60);
-		panelPions1.add(rb70);
+		//panelPions1.add(rb70);
 		
 		JLabel pion2 = new JLabel(" Choix couleur pions J2 ");
 		panelPions2.add(pion2);
@@ -164,8 +164,8 @@ public class Preferences {
 			rb51.addActionListener(new EcouteurPreferences(this));
 		rb61 = new JRadioButton(" Pion jaune ");
 			rb61.addActionListener(new EcouteurPreferences(this));
-		rb71 = new JRadioButton(" Pion multicolore ");
-			rb71.addActionListener(new EcouteurPreferences(this));
+		/*rb71 = new JRadioButton(" Pion multicolore ");
+			rb71.addActionListener(new EcouteurPreferences(this));*/
 		// ajout des boutons radio dans le groupe bg
 		groupe3.add(rb11);
 		groupe3.add(rb21);
@@ -173,7 +173,7 @@ public class Preferences {
 		groupe3.add(rb41);
 		groupe3.add(rb51);
 		groupe3.add(rb61);
-		groupe3.add(rb71);
+		//groupe3.add(rb71);
 		//ajout de bg au panel
 		panelPions2.add(rb11);
 		panelPions2.add(rb21);
@@ -181,7 +181,7 @@ public class Preferences {
 		panelPions2.add(rb41);
 		panelPions2.add(rb51);
 		panelPions2.add(rb61);
-		panelPions2.add(rb71);
+		//panelPions2.add(rb71);
 		
 			// PANEL BOUTONS
 		accept = new JButton("Accepter");
@@ -197,9 +197,9 @@ public class Preferences {
 		panelAccueil3.add(panelPions2);
 		panelAccueil3.add(panelBoutons);
 		
-		fenetre.frame3.add(panelAccueil3);
-		fenetre.frame3.setResizable(false);
-		fenetre.frame3.setVisible(false);
+		Fenetre.frame3.add(panelAccueil3);
+		Fenetre.frame3.setResizable(false);
+		Fenetre.frame3.setVisible(false);
 	}
 	
 }
