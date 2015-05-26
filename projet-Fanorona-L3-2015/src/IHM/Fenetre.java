@@ -10,6 +10,7 @@ public class Fenetre implements Runnable,Affichage {
 	static JFrame frame = new JFrame(" -- Fanorona -- ");
 	static JFrame frame2 = new JFrame(" -- Parametres -- ");
 	static JFrame frame3 = new JFrame(" -- Preferences -- ");
+	Parametres parametre;
 	AireDeDessin monDessin;
 	Engine engine;
 	int lvlPC1;
@@ -29,13 +30,9 @@ public class Fenetre implements Runnable,Affichage {
 	JLabel idj2;
 	JLabel levelj2;
 	Color pion1, pion2;
-	boolean fenetreParamON;
-	boolean fenetrePrefON;
 	
 	public Fenetre(Engine e){
 		engine=e;
-		fenetreParamON=false;
-		fenetrePrefON=false;
 	}
 	
 	public void run(){		
@@ -202,8 +199,8 @@ public class Fenetre implements Runnable,Affichage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 			
-		Parametres param = new Parametres(this);
-		param.majParam();
+		parametre = new Parametres(this);
+		parametre.majParam();
 		Preferences p = new Preferences(this);
 		p.majPref();
 	}
