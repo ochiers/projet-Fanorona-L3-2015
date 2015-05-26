@@ -28,7 +28,7 @@ public class EcouteurPreferences implements ActionListener{
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-					
+			/*		
 			if(pref.rb1.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb1.getIcon(), fw, fh);
 			if(pref.rb2.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb2.getIcon(), fw, fh);
 			if(pref.rb3.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb3.getIcon(), fw, fh);
@@ -37,7 +37,7 @@ public class EcouteurPreferences implements ActionListener{
 			if(pref.rb6.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb6.getIcon(), fw, fh);
 			if(pref.rb7.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb7.getIcon(), fw, fh);
 			else pref.fenetre.panelAccueil = new ImagePanel(pref.rb8.getIcon(), fw, fh);
-			/*
+			
 			if(rb10.isSelected() == true){}
 			if(rb20.isSelected() == true){}
 			if(rb30.isSelected() == true){}
@@ -55,7 +55,7 @@ public class EcouteurPreferences implements ActionListener{
 			if(rb61.isSelected() == true){}
 			if(rb71.isSelected() == true){}
 			else{}
-			*/
+			
 			switch (message){
 				boolean j1 = pref.nameJ1.equals("Humain");
 				boolean j2 = pref.nameJ2.equals("Humain");
@@ -80,7 +80,7 @@ public class EcouteurPreferences implements ActionListener{
 				default:
 					System.out.println("Erreur bouton switch");
 				break;
-			}
+			}*/
 		}
 
 }

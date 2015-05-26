@@ -32,7 +32,6 @@ public class Parametres {
 	}
 			
 	public void majParam(){
-		System.out.println("AAAAAAAAAA");
 		//fenetre parametre
 		fenetre.frame2.setSize(500, 500);
 		JPanel panelAccueil2 = new JPanel(new GridLayout(0,1));
