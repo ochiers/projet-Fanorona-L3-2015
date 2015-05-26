@@ -18,7 +18,7 @@ public class EcouteurPreferences implements ActionListener{
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-		/*			
+					
 			if(pref.rb1.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb1.getIcon(), fw, fh);
 			if(pref.rb2.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb2.getIcon(), fw, fh);
 			if(pref.rb3.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb3.getIcon(), fw, fh);
@@ -27,33 +27,17 @@ public class EcouteurPreferences implements ActionListener{
 			if(pref.rb6.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb6.getIcon(), fw, fh);
 			if(pref.rb7.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb7.getIcon(), fw, fh);
 			else pref.fenetre.panelAccueil = new ImagePanel(pref.rb8.getIcon(), fw, fh);
-			
-					if(rb10.isSelected() == true){
-			
-		}
-		if(rb20.isSelected() == true){
-			
-		}
-		if(rb30.isSelected() == true){
-			
-		}
-		if(rb40.isSelected() == true){
-			
-		}
-		if(rb50.isSelected() == true){
-			
-		}
-		if(rb60.isSelected() == true){
-			
-		}
-		if(rb70.isSelected() == true){
-			
-		}
-		else{
-			
-		}
-			
-			pref.fenetre.frame.repaint();*/
-		}
+			/*
+			if(rb10.isSelected() == true){}
+			if(rb20.isSelected() == true){}
+			if(rb30.isSelected() == true){}
+			if(rb40.isSelected() == true){}
+			if(rb50.isSelected() == true){}
+			if(rb60.isSelected() == true){}
+			if(rb70.isSelected() == true){}
+			else{}
+			*/
+				Fenetre.frame.repaint();
+			}
 
 }

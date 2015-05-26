@@ -35,23 +35,23 @@ public class Preferences {
 			// FOND
 		JLabel fond = new JLabel(" Choix fond d'ecran ");
 		panelAccueil3.add(fond);
-		/*ButtonGroup groupe1 = new ButtonGroup();
+		ButtonGroup groupe1 = new ButtonGroup();
 		rb1 = new JRadioButtonMenuItem(" multicolore ", new ImageIcon("src/images/image1"), false);
-			rb1.addActionListener(new EcouteurPreferences(this));
+			//rb1.addActionListener(new EcouteurPreferences(this));
 		rb2 = new JRadioButtonMenuItem(" bleu ", new ImageIcon("src/images/image2"), false);
-			rb2.addActionListener(new EcouteurPreferences(this));
+			//rb2.addActionListener(new EcouteurPreferences(this));
 		rb3 = new JRadioButtonMenuItem(" vert ", new ImageIcon("src/images/image3"), false);
-			rb3.addActionListener(new EcouteurPreferences(this));
+			//rb3.addActionListener(new EcouteurPreferences(this));
 		rb4 = new JRadioButtonMenuItem(" rose ", new ImageIcon("src/images/image4"), false);
-			rb4.addActionListener(new EcouteurPreferences(this));
+			//rb4.addActionListener(new EcouteurPreferences(this));
 		rb5 = new JRadioButtonMenuItem(" bleu clair ", new ImageIcon("src/images/image5"), false);
-			rb5.addActionListener(new EcouteurPreferences(this));
+			//rb5.addActionListener(new EcouteurPreferences(this));
 		rb6 = new JRadioButtonMenuItem(" gris blanc ", new ImageIcon("src/images/image6"), false);
-			rb6.addActionListener(new EcouteurPreferences(this));
+			//rb6.addActionListener(new EcouteurPreferences(this));
 		rb7 = new JRadioButtonMenuItem(" noir ", new ImageIcon("src/images/image7"), false);
-			rb7.addActionListener(new EcouteurPreferences(this));
+			//rb7.addActionListener(new EcouteurPreferences(this));
 		rb8 = new JRadioButtonMenuItem(" fond par defaut ", new ImageIcon("src/images/imageDefault"), true);
-			rb8.addActionListener(new EcouteurPreferences(this));
+			//rb8.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe1.add(rb1);
 		groupe1.add(rb2);
@@ -125,7 +125,7 @@ public class Preferences {
 		panelAccueil3.add(rb40);
 		panelAccueil3.add(rb50);
 		panelAccueil3.add(rb60);
-		panelAccueil3.add(rb70);*/
+		panelAccueil3.add(rb70);
 		
 		Fenetre.frame3.add(panelAccueil3);
 		Fenetre.frame3.setResizable(false);
