@@ -69,7 +69,7 @@ public class Preferences {
 		panelFond.add(fond);
 		ButtonGroup groupe1 = new ButtonGroup();
 		rb1 = new JRadioButtonMenuItem(" Fond multicolore ", new ImageIcon("src/images/image1"), false);
-			//rb1.addActionListener(new EcouteurPreferences(this));
+			rb1.addActionListener(new EcouteurPreferences(this));
 		rb2 = new JRadioButtonMenuItem(" Fond bleu ", new ImageIcon("src/images/image2"), false);
 			//rb2.addActionListener(new EcouteurPreferences(this));
 		rb3 = new JRadioButtonMenuItem(" Fond vert ", new ImageIcon("src/images/image3"), false);

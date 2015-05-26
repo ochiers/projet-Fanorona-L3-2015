@@ -206,10 +206,13 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherJeu(){
+		System.out.println("11111111");
 		monDessin.repaint();
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
+		System.out.println("22222222");
+
 		monDessin.pionPossible=l;
 		monDessin.repaint();
 	}
@@ -228,6 +231,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherPionDuCombo(Case pionCourant) {
+		System.out.println("33333333333333");
 		monDessin.estEnCombo=true;
 		monDessin.pionComboCouleur=pionCourant.pion;
 		monDessin.pionCombo=pionCourant;
