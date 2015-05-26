@@ -1,12 +1,17 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Player extends Thread {
+public abstract class Player extends Thread implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -745601135784423811L;
 	public boolean	aiPlayer;
 	public String	name;
-	public Engine	leMoteur;
+	public transient Engine	leMoteur;
 	private boolean	stopped;
 
 	public Player(Engine leMoteur, boolean isAI, String name)

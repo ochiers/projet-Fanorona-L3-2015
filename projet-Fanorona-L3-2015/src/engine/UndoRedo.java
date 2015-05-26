@@ -1,5 +1,6 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.Stack;
 
 /**
@@ -8,8 +9,12 @@ import java.util.Stack;
  *
  * @param <T> Type générique représentant les objets à manipuler.
  */
-public class UndoRedo<T> {
+public class UndoRedo<T> implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -8483769241045172642L;
 	private Stack<T> annuler;
 	private Stack<T> refaire;
 

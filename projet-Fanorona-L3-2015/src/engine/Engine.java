@@ -1,6 +1,9 @@
 package engine;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import AI.*;
@@ -173,11 +176,19 @@ public class Engine {
 	 */
 	public void sauvegarderPartie(String path)
 	{
-		/*
-		 * File fichier = new File(path); try { FileWriter w = new FileWriter(fichier); String str = partieCourante.J1.toString() + "#" + partieCourante.J1.getClass().getSimpleName() + "\n"; str += partieCourante.J2.toString() + "#" + partieCourante.J2.getClass().getSimpleName() + "\n"; if
-		 * (partieCourante.joueurCourant == partieCourante.J1) str += 1 + "\n"; else str += 2 + "\n"; str += partieCourante.numberTurn + "\n"; str += partieCourante.map.largeur + "\n" + partieCourante.map.hauteur; for (int i = 0; i < partieCourante.map.hauteur; i++) { str += "\n"; for (int j = 0; j
-		 * < partieCourante.map.largeur; j++) str += partieCourante.map.grille[j][i] + " "; } w.write(str); w.close(); } catch (IOException e) { e.printStackTrace(); }
-		 */
+		File f = new File(path);
+		try
+		{
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+			
+			out.writeObject(partieCourante);
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -188,46 +199,8 @@ public class Engine {
 	 */
 	public void chargerPartie(String path)
 	{
-
-		File fichier = new File(path);
-		try
-		{
-			Scanner s = new Scanner(fichier);
-			String j1 = s.nextLine();
-			String j2 = s.nextLine();
-			int jcour = Integer.parseInt(s.nextLine());
-			int nbturn = Integer.parseInt(s.nextLine());
-			int largeur = Integer.parseInt(s.nextLine());
-			int hauteur = Integer.parseInt(s.nextLine());
-			int map[][] = new int[largeur][hauteur];
-			for (int i = 0; i < hauteur; i++)
-			{
-				String[] str = s.nextLine().split(" ");
-				System.out.println(str[0]);
-				System.out.println(str[1]);
-				for (int j = 0; j < largeur; j++)
-				{
-					map[j][i] = Integer.parseInt(str[j]);
-				}
-			}
-			Player p1 = parsePlayer(j1);
-			Player p2 = parsePlayer(j2);
-			if (this.gameInProgress)
-				stopper();
-
-			Game g = new Game(affichage, this.undoRedo, 0, p1, p2, hauteur, largeur);
-			g.pause();
-			this.partieCourante = g;
-			this.gameInProgress = true;
-			affichage.afficherJeu();
-			this.partieCourante.reprendre();
-
-		} catch (Exception e)
-		{
-			System.err.println("Fichier corrompu");
-			e.printStackTrace();
-		}
-
+		
+		
 	}
 
 	private Player parsePlayer(String str)

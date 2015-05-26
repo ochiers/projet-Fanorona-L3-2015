@@ -1,10 +1,15 @@
 package engine;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Case {
+public class Case implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -438749539936809334L;
 	public int			nbVoisins;
 	public Case			nord;
 	public Case			nordEst;
