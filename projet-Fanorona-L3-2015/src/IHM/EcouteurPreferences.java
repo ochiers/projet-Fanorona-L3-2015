@@ -19,9 +19,6 @@ public class EcouteurPreferences implements ActionListener{
 		String message;
 		String humain1;
 		String humain2;
-		
-		boolean j1 = pref.nameJ1.equals("Humain");
-		boolean j2 = pref.nameJ1.equals("Humain");
 
 		public EcouteurPreferences(Preferences p){
 			pref = p;
@@ -33,7 +30,10 @@ public class EcouteurPreferences implements ActionListener{
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			
+			/*
+			boolean j1 = pref.nameJ1.equals("Humain");
+			boolean j2 = pref.nameJ1.equals("Humain");
+		
 			if (j1 == true) humain1 = " Humain1 ";
 			if (j2 == true) humain2 = " Humain2 ";
 			else {
@@ -49,7 +49,7 @@ public class EcouteurPreferences implements ActionListener{
 			if(pref.rb6.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb6.getIcon(), fw, fh);
 			if(pref.rb7.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb7.getIcon(), fw, fh);
 			else pref.fenetre.panelAccueil = new ImagePanel(pref.rb8.getIcon(), fw, fh);
-			/*
+			
 			if(rb10.isSelected() == true){}
 			if(rb20.isSelected() == true){}
 			if(rb30.isSelected() == true){}
@@ -67,7 +67,7 @@ public class EcouteurPreferences implements ActionListener{
 			if(rb61.isSelected() == true){}
 			if(rb71.isSelected() == true){}
 			else{}
-			*/
+			
 			switch (message){
 				case " Humain1 ":
 					pref.fenetre.engine.partieCourante.joueurBlanc.name = pref.name1.getText();
@@ -90,7 +90,7 @@ public class EcouteurPreferences implements ActionListener{
 				default:
 					System.out.println("Erreur bouton switch");
 					break;
-			}
+			}*/
 		}
 
 }

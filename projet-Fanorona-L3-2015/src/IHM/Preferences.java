@@ -69,20 +69,20 @@ public class Preferences {
 		panelFond.add(fond);
 		ButtonGroup groupe1 = new ButtonGroup();
 		rb1 = new JRadioButtonMenuItem(" Fond multicolore ", new ImageIcon("src/images/image1"), false);
-			//rb1.addActionListener(new EcouteurPreferences(this));
 		rb2 = new JRadioButtonMenuItem(" Fond bleu ", new ImageIcon("src/images/image2"), false);
-			//rb2.addActionListener(new EcouteurPreferences(this));
 		rb3 = new JRadioButtonMenuItem(" Fond vert ", new ImageIcon("src/images/image3"), false);
-			//rb3.addActionListener(new EcouteurPreferences(this));
 		rb4 = new JRadioButtonMenuItem(" Fond rose ", new ImageIcon("src/images/image4"), false);
-			//rb4.addActionListener(new EcouteurPreferences(this));
 		rb5 = new JRadioButtonMenuItem(" Fond bleu clair ", new ImageIcon("src/images/image5"), false);
-			//rb5.addActionListener(new EcouteurPreferences(this));
 		rb6 = new JRadioButtonMenuItem(" Fond gris blanc ", new ImageIcon("src/images/image6"), false);
-			//rb6.addActionListener(new EcouteurPreferences(this));
 		rb7 = new JRadioButtonMenuItem(" Fond noir ", new ImageIcon("src/images/image7"), false);
-			//rb7.addActionListener(new EcouteurPreferences(this));
 		rb8 = new JRadioButtonMenuItem(" Fond par defaut ", new ImageIcon("src/images/imageDefault"), true);
+			//rb1.addActionListener(new EcouteurPreferences(this));
+			//rb2.addActionListener(new EcouteurPreferences(this));
+			//rb3.addActionListener(new EcouteurPreferences(this));
+			//rb4.addActionListener(new EcouteurPreferences(this));
+			//rb5.addActionListener(new EcouteurPreferences(this));
+			//rb6.addActionListener(new EcouteurPreferences(this));
+			//rb7.addActionListener(new EcouteurPreferences(this));s
 			//rb8.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe1.add(rb1);
@@ -103,7 +103,7 @@ public class Preferences {
 		panelFond.add(rb7);
 		panelFond.add(rb8);
 		
-			// PANEL NOMS
+	/*		// PANEL NOMS
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
 		panelJoueurs.add(nom);
 		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
@@ -191,7 +191,7 @@ public class Preferences {
 		JButton annuler= new JButton("Annuler");
 			//annuler.addActionListener(new EcouteurPreferences(this, annuler.getText()));
 		panelBoutons.add(accept);
-		panelBoutons.add(annuler);
+		panelBoutons.add(annuler);*/
 		
 		Fenetre.frame3.add(panelAccueil3);
 		Fenetre.frame3.setResizable(false);
