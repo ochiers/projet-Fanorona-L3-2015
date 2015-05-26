@@ -31,6 +31,7 @@ public class UndoRedo<T> {
 	}
 
 	public void addItem(T t) {
+		System.out.println("ajout dans le undo");
 		annuler.add(t);
 		refaire.removeAll(refaire);
 	}
