@@ -18,7 +18,7 @@ public class JeuFanorona {
 
 		Fenetre f=new Fenetre(e);
 		e.setAffichage(f);
-		
+		//System.err.close();
 		e.nouvellePartie(p1, p2,0, 5,9);
 		// ajouté pour test ia
 //		ArrayList<Case> pionsPossibles = e.partieCourante.lesPionsQuiPeuventManger();
