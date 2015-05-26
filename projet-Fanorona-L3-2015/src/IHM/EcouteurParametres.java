@@ -9,11 +9,11 @@ import engine.*;
 import AI.*;
 
 public class EcouteurParametres implements ActionListener{
-	Fenetre fenetre;
+	Parametres parametre;
 	String message;
 	
-	public EcouteurParametres(Fenetre f,String s){
-		fenetre=f;
+	public EcouteurParametres(Parametres p,String s){
+		parametre=p;
 		message=s;
 	}
 	

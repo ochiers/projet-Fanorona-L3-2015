@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EcouteurPreferences implements ActionListener{
-		Fenetre fenetre;
+		Preferences pref;
 		String message;
 		
-		public EcouteurPreferences(Fenetre f,String s){
-			fenetre=f;
+		public EcouteurPreferences(Preferences p,String s){
+			pref=p;
 			message=s;
 		}
 		

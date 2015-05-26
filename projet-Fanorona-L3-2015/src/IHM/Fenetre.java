@@ -29,9 +29,13 @@ public class Fenetre implements Runnable,Affichage {
 	JLabel idj2;
 	JLabel levelj2;
 	Color pion1, pion2;
+	boolean fenetreParamON;
+	boolean fenetrePrefON;
 	
 	public Fenetre(Engine e){
 		engine=e;
+		fenetreParamON=false;
+		fenetrePrefON=false;
 	}
 	
 	public void run(){		
@@ -197,155 +201,9 @@ public class Fenetre implements Runnable,Affichage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-			//fenetre parametre
-		frame2.setSize(500, 500);
-		JPanel panelAccueil2 = new JPanel(new GridLayout(0,1));
-		
-		JLabel label1= new JLabel("Mode de jeu");
-		panelAccueil2.add(label1);
-		ButtonGroup bg1 = new ButtonGroup();
-		JRadioButton r1b1 = new JRadioButton("Joueur 1 vs Joueur 2");
-		JRadioButton r1b2 = new JRadioButton("Joueur 1 vs Ordi 1");
-		JRadioButton r1b3 = new JRadioButton("Ordi 1 vs Ordi 2");
-		if(engine.partieCourante.joueurBlanc.aiPlayer || engine.partieCourante.joueurNoir.aiPlayer){
-			if(engine.partieCourante.joueurBlanc.aiPlayer && engine.partieCourante.joueurNoir.aiPlayer){
-				r1b3.setSelected(true);
-				mode=3;
-			}
-			else{
-				r1b2.setSelected(true);
-				mode=2;
-			}
-		}
-		else{
-			r1b1.setSelected(true);
-			mode=1;
-		}
-		// ajout des boutons radio dans le groupe bg
-		bg1.add(r1b1);
-		bg1.add(r1b2);
-		bg1.add(r1b3);
-		panelAccueil2.add(r1b1);
-		panelAccueil2.add(r1b2);
-		panelAccueil2.add(r1b3);
-		
-		JLabel label2= new JLabel("Difficulte Ordi 1");
-		panelAccueil2.add(label2);
-		ButtonGroup bg2 = new ButtonGroup();
-		JRadioButton r2b1 = new JRadioButton("Facile");
-		JRadioButton r2b2 = new JRadioButton("Moyen");
-		JRadioButton r2b3 = new JRadioButton("Difficile");
-		
-		// ajout des boutons radio dans le groupe bg
-		bg2.add(r2b1);
-		bg2.add(r2b2);
-		bg2.add(r2b3);
-		panelAccueil2.add(r2b1);
-		panelAccueil2.add(r2b2);
-		panelAccueil2.add(r2b3);
-		
-		JLabel label3= new JLabel("Difficulte Ordi 2");
-		panelAccueil2.add(label3);
-		ButtonGroup bg3 = new ButtonGroup();
-		JRadioButton r3b1 = new JRadioButton("Facile");
-		JRadioButton r3b2 = new JRadioButton("Moyen");
-		JRadioButton r3b3 = new JRadioButton("Difficile");
-		
-		if(engine.partieCourante.joueurBlanc.aiPlayer || engine.partieCourante.joueurNoir.aiPlayer)
-			if(engine.partieCourante.joueurBlanc.aiPlayer && engine.partieCourante.joueurNoir.aiPlayer){
-				switch(engine.partieCourante.joueurBlanc.getNiveau()){
-					case "IA Facile":
-						r2b1.setSelected(true);
-						lvlPC1=1;
-						break;
-					case "IA Moyen":
-						r2b2.setSelected(true);
-						lvlPC1=2;
-						break;
-					case "IA Difficile":
-						r2b3.setSelected(true);
-						lvlPC1=3;
-						break;
-					default:
-						System.out.println("Niveau IA blanc inconnu");
-						break;
-				}
-				switch(engine.partieCourante.joueurNoir.getNiveau()){
-					case "IA Facile":
-						r3b1.setSelected(true);
-						lvlPC2=1;
-						break;
-					case "IA Moyen":
-						r3b2.setSelected(true);
-						lvlPC2=2;
-						break;
-					case "IA Difficile":
-						r3b3.setSelected(true);
-						lvlPC2=3;
-						break;
-					default:
-						System.out.println("Niveau IA noir inconnu");
-						break;
-				}
-			}
-			else{
-				if(engine.partieCourante.joueurBlanc.aiPlayer){
-					switch(engine.partieCourante.joueurBlanc.getNiveau()){
-						case "IA Facile":
-							r2b1.setSelected(true);
-							lvlPC1=1;
-							break;
-						case "IA Moyen":
-							r2b2.setSelected(true);
-							lvlPC1=2;
-							break;
-						case "IA Difficile":
-							r2b3.setSelected(true);
-							lvlPC1=3;
-							break;
-						default:
-							System.out.println("Niveau IA blanc inconnu");
-							break;
-					}
-				}
-				else{
-					switch(engine.partieCourante.joueurNoir.getNiveau()){
-						case "IA Facile":
-							r2b1.setSelected(true);
-							lvlPC1=1;
-							break;
-						case "IA Moyen":
-							r2b2.setSelected(true);
-							lvlPC1=2;
-							break;
-						case "IA Difficile":
-							r2b3.setSelected(true);
-							lvlPC1=3;
-							break;
-						default:
-							System.out.println("Niveau IA noir inconnu");
-							break;
-					}
-				}
-			}
-		else{
-			r2b2.setSelected(true);
-			r3b2.setSelected(true);
-			lvlPC1=2;
-			lvlPC2=2;
-		}
-		// ajout des boutons radio dans le groupe bg
-		bg3.add(r3b1);
-		bg3.add(r3b2);
-		bg3.add(r3b3);
-		panelAccueil2.add(r3b1);
-		panelAccueil2.add(r3b2);
-		panelAccueil2.add(r3b3);
-		
-		frame2.add(panelAccueil2);
-		frame2.setResizable(false);
-		frame2.setVisible(false);
-		
+			
+		Parametres param = new Parametres(this);
+		param.majParam();
 		Preferences p = new Preferences(this);
 		p.majPref();
 	}
