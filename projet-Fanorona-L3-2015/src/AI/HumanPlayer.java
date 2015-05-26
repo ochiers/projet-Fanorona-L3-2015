@@ -82,21 +82,7 @@ public class HumanPlayer extends Player {
 		return leMoteur.partieCourante.matricePlateau[this.pointDirection.ligne][this.pointDirection.colonne];
 	}
 	
-	@Override
-	public void run()
-	{
-		while(!isStopped())
-		{
-			try {
-				leMoteur.partieCourante.jouer(name);
-				System.out.println(name + " ********************************************");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		System.out.println(name + "////////////////////////////////////////");
-	}
+
 
 
 	@Override

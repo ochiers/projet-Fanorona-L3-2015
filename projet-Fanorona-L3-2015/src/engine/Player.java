@@ -70,4 +70,21 @@ public abstract class Player extends Thread {
 	public abstract String getNiveau();
 	
 	public abstract Player clone();
+	
+	@Override
+	public void run()
+	{
+		while(!isStopped())
+		{
+			try {
+				leMoteur.partieCourante.jouer(name);
+				System.out.println(name + " ********************************************");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(name + "////////////////////////////////////////");
+	}
+	
 }

@@ -348,5 +348,12 @@ public class EasyAI extends Player {
 			ArrayList<Case> eloignement) {
 		return choix;
 	}
+
+	@Override
+	public Player clone()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
