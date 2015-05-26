@@ -243,10 +243,12 @@ public class Game implements Serializable {
 			System.err.println(nameJoueur + " debloqu�");
 
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
+			boolean doitManger = true;
 			if (pionsPossibles.size() == 0)
 			{
 				System.err.println("Aucun pion ne peut manger");
 				pionsPossibles = this.lesPionsJouables();
+				doitManger = false;
 			}
 			// TODO : FAIRE FONCTION D'ELIMINATION DOUBLON DE LA LISTE
 			// pionPossibles
@@ -257,9 +259,8 @@ public class Game implements Serializable {
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 
-			while (!stopped && !paused && !this.coupValide(c, pionsPossibles))
+			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
-				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : " + c.arrivee);
 				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			}
 
@@ -388,9 +389,10 @@ public class Game implements Serializable {
 	 * @param c
 	 *            Le coup a verifier
 	 * @param pionsPossibles
+	 * @param doitManger 
 	 * @return True -> si coup est valide, False sinon
 	 */
-	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles)
+	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles, boolean doitManger)
 	{
 		if (c == null || c.arrivee == null || c.depart == null)
 			return false;
@@ -402,7 +404,10 @@ public class Game implements Serializable {
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
 		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
-		res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
+		if(!doitManger)
+			return res;
+		else
+			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;
 	}
 
