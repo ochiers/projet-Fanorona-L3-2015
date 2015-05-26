@@ -6,8 +6,7 @@ import java.util.Scanner;
 import AI.*;
 import IHM.Affichage;
 
-public class Engine
-{
+public class Engine {
 
 	public boolean			gameInProgress;
 	public Game				partieCourante;
@@ -37,7 +36,7 @@ public class Engine
 					System.out.print("Attente d'une partie");
 					Thread.sleep(50);
 				}
-				partieCourante.reprendre();
+				// partieCourante.reprendre();
 				partieCourante.commencer();
 				if (partieCourante.finish)
 					gameInProgress = false;
@@ -59,10 +58,8 @@ public class Engine
 									// dans le thread principal
 			Player pB = partieCourante.joueurBlanc;
 			Player pN = partieCourante.joueurNoir;
-
 			/*
-			 * On récupere le coup d'avant (partie précédente) et parametre
-			 * correctement
+			 * On récupere le coup d'avant (partie précédente) et parametre correctement
 			 */
 			partieCourante = g;
 			switch (pB.getNiveau())
@@ -86,17 +83,16 @@ public class Engine
 					partieCourante.joueurNoir = new HumanPlayer(pN);
 					break;
 				case "IA Facile":
-					partieCourante.joueurNoir = new EasyAI(this, true, partieCourante.joueurBlanc.name);
+					partieCourante.joueurNoir = new EasyAI(this, true, partieCourante.joueurNoir.name);
 					break;
 				case "IA Moyenne":
-					partieCourante.joueurNoir = new MediumAI(this, true, partieCourante.joueurBlanc.name);
+					partieCourante.joueurNoir = new MediumAI(this, true, partieCourante.joueurNoir.name);
 					break;
 				case "IA Difficile":
-					partieCourante.joueurNoir = new HardAI(this, true, partieCourante.joueurBlanc.name);
+					partieCourante.joueurNoir = new HardAI(this, true, partieCourante.joueurNoir.name);
 					break;
 			}
 			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
-
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
 			partieCourante.pause();
@@ -110,8 +106,7 @@ public class Engine
 			}
 			gameInProgress = true;
 			affichage.afficherJeu();
-		} 
-		else
+		} else
 		{
 
 		}
@@ -123,8 +118,9 @@ public class Engine
 		if (this.gameInProgress)
 			stopper();
 		this.partieCourante = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, hauteur, largeur);
-		this.gameInProgress = true;
 		this.undoRedo.vider();
+		this.undoRedo.addItem(new Game(partieCourante));
+		this.gameInProgress = true;
 	}
 
 	public void stopper()
@@ -140,17 +136,23 @@ public class Engine
 	 */
 	public void annuler()
 	{
-		System.err.println("Annuler");
-		changerPartieCourante(this.undoRedo.undo(), (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
+		if (undoRedo.canUndo())
+		{
+			System.err.println("Annuler");
+			changerPartieCourante(this.undoRedo.undo(), (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
+		}
 	}
 
 	/**
-	 * Refait le demi-coup annul�
+	 * Refait le demi-coup annul�
 	 */
 	public void refaire()
 	{
-		System.err.println("Refaire");
-		changerPartieCourante(this.undoRedo.redo(), (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
+		if (undoRedo.canRedo())
+		{
+			System.err.println("Refaire");
+			changerPartieCourante(this.undoRedo.redo(), (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
+		}
 	}
 
 	public boolean peutAnnuler()
@@ -164,8 +166,7 @@ public class Engine
 	}
 
 	/**
-	 * Sauvegarde la partie courante dans son état courant dans le fichier
-	 * situé dans path
+	 * Sauvegarde la partie courante dans son état courant dans le fichier situé dans path
 	 * 
 	 * @param path
 	 *            Chemin du fichier de sauvegarde
@@ -173,27 +174,14 @@ public class Engine
 	public void sauvegarderPartie(String path)
 	{
 		/*
-		 * File fichier = new File(path); try { FileWriter w = new
-		 * FileWriter(fichier); String str = partieCourante.J1.toString() + "#"
-		 * + partieCourante.J1.getClass().getSimpleName() + "\n"; str +=
-		 * partieCourante.J2.toString() + "#" +
-		 * partieCourante.J2.getClass().getSimpleName() + "\n";
-		 * 
-		 * if (partieCourante.joueurCourant == partieCourante.J1) str += 1 +
-		 * "\n"; else str += 2 + "\n";
-		 * 
-		 * str += partieCourante.numberTurn + "\n"; str +=
-		 * partieCourante.map.largeur + "\n" + partieCourante.map.hauteur; for
-		 * (int i = 0; i < partieCourante.map.hauteur; i++) { str += "\n"; for
-		 * (int j = 0; j < partieCourante.map.largeur; j++) str +=
-		 * partieCourante.map.grille[j][i] + " "; } w.write(str); w.close(); }
-		 * catch (IOException e) { e.printStackTrace(); }
+		 * File fichier = new File(path); try { FileWriter w = new FileWriter(fichier); String str = partieCourante.J1.toString() + "#" + partieCourante.J1.getClass().getSimpleName() + "\n"; str += partieCourante.J2.toString() + "#" + partieCourante.J2.getClass().getSimpleName() + "\n"; if
+		 * (partieCourante.joueurCourant == partieCourante.J1) str += 1 + "\n"; else str += 2 + "\n"; str += partieCourante.numberTurn + "\n"; str += partieCourante.map.largeur + "\n" + partieCourante.map.hauteur; for (int i = 0; i < partieCourante.map.hauteur; i++) { str += "\n"; for (int j = 0; j
+		 * < partieCourante.map.largeur; j++) str += partieCourante.map.grille[j][i] + " "; } w.write(str); w.close(); } catch (IOException e) { e.printStackTrace(); }
 		 */
 	}
 
 	/**
-	 * Charge une nouvelle partie stochée dans path, la nouvelle partie sera en
-	 * pause
+	 * Charge une nouvelle partie stochée dans path, la nouvelle partie sera en pause
 	 * 
 	 * @param path
 	 *            Le chemin vers le fichier qui contient la partie à charger
