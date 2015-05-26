@@ -22,8 +22,6 @@ public class AireDeDessin extends JComponent {
     ArrayList<Case> l2;
     ArrayList<Case> pionPossible;
     ArrayList<Case> combo;
-    boolean estEnCombo;
-    Pion pionComboCouleur;
     Case pionCombo;
     
 
@@ -38,8 +36,6 @@ public class AireDeDessin extends JComponent {
         tailleJeton=tailleSegment/(int)2.5;
         setPreferredSize(new Dimension(10*tailleSegment,6*tailleSegment));
         pCourant=new Coordonnee(-1,-1);
-        estEnCombo=false;
-        pionComboCouleur=Pion.Noir;
     }
 
     public void paintComponent(Graphics g) {
@@ -78,13 +74,9 @@ public class AireDeDessin extends JComponent {
 	        	pionJouable(drawable);//halo vert
 	        }
         }
-        if(estEnCombo){
-        	if(pionCombo.pion!=pionComboCouleur){
-        		estEnCombo=false;
-        		System.out.println("n'est plus en combo");
-        	}
-        	pionJouableCombo(drawable);
-        	
+        else{
+        	System.out.println("est en combo---------------------");
+        	pionJouableCombo(drawable); 
         }
         if(!pionCliquer && doitChoisir){
         	choixManger(drawable);//halo bleu
@@ -120,13 +112,6 @@ public class AireDeDessin extends JComponent {
        drawable.setPaint(Color.black);
    }
    
- /*  public void pionJouable(Graphics2D drawable){
-	   ArrayList<Case> listCase = fenetre.engine.partieCourante.lesPionsJouables();
-	   for(int i=0;i<listCase.size();i++){
-		   jetonHalo(drawable,listCase.get(i).position);
-		  // System.out.println("--Point: "+listCase.get(i).position.x+" "+listCase.get(i).position.y);
-	   }
-   }*/
    
    public void pionJouable(Graphics2D drawable){
 	   if(pionPossible!=null){
