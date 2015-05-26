@@ -89,6 +89,8 @@ public class Game implements Serializable {
 	 */
 	public UndoRedo<Game>	annulerRefaire;
 	
+	public Case pionCombo;
+	
 	/**
 	 * Permet de savoir si le joueur veut terminer son tour (uniquement possible durant un combo enCombo==True)
 	 */
@@ -276,15 +278,15 @@ public class Game implements Serializable {
 			combo = new ArrayList<Case>();
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
 
-			Case pionJoue = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
+			pionCombo = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 			while (rejouer && !finirSonTour)
 			{
 
-				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
+				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionCombo), pionCombo);
 
 				l.removeAll(combo);
-				if (l.size() == 1 && l.contains(pionJoue))
-					l.remove(pionJoue);
+				if (l.size() == 1 && l.contains(pionCombo))
+					l.remove(pionCombo);
 				if (l.size() <= 0)
 				{
 					System.out.println("Plus de possibilites");
@@ -292,9 +294,9 @@ public class Game implements Serializable {
 				}
 				display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 				Case t[] = new Case[1];
-				t[0] = pionJoue;
+				t[0] = pionCombo;
 				Coup c2 = this.joueurCourant.play(t);
-				while (!joueurCourant.isStopped() && !comboValide(c2, pionJoue, combo))
+				while (!joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
 					c2 = this.joueurCourant.play(t);
 
 				/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
@@ -306,14 +308,16 @@ public class Game implements Serializable {
 					notifyAll();
 					return;
 				}
-				pionJoue = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
-				System.out.println("PION JOUE " + pionJoue);
+				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
+				System.out.println("PION JOUE " + pionCombo);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
 				rejouer = faireCoup(c2);
+				System.out.println("PEUT REJOUE ? " + rejouer);
 				enCombo = rejouer;
 			}
 
 			enCombo = false;
+			pionCombo = null;
 			finirSonTour=false;
 			if (!paused && !stopped)
 				annulerRefaire.addItem(new Game(this));
