@@ -1,8 +1,11 @@
 package engine;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
@@ -15,7 +18,7 @@ public class Engine {
 	public Game				partieCourante;
 	public Affichage		affichage;
 	private UndoRedo<Game>	undoRedo;
-
+	public boolean premierJeu;
 	public Engine()
 	{
 		this.gameInProgress = false;
@@ -25,6 +28,7 @@ public class Engine {
 	public void setAffichage(Affichage f)
 	{
 		this.affichage = f;
+		this.premierJeu = true;
 	}
 
 	public void begin()
@@ -39,7 +43,9 @@ public class Engine {
 					System.out.print("Attente d'une partie");
 					Thread.sleep(50);
 				}
-				// partieCourante.reprendre();
+				if(premierJeu)
+					partieCourante.reprendre();
+				premierJeu = false;
 				partieCourante.commencer();
 				if (partieCourante.finish)
 					gameInProgress = false;
@@ -182,6 +188,7 @@ public class Engine {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
 			
 			out.writeObject(partieCourante);
+			out.close();
 			
 		} catch (IOException e)
 		{
@@ -199,8 +206,27 @@ public class Engine {
 	 */
 	public void chargerPartie(String path)
 	{
-		
-		
+		File fichier =  new File(path) ;
+
+		 // ouverture d'un flux sur un fichier
+		ObjectInputStream ois = null;
+		try
+		{
+			ois = new ObjectInputStream(new FileInputStream(fichier));
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+				
+		 // désérialization de l'objet
+		try
+		{
+			Game g = (Game)ois.readObject() ;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 
 	private Player parsePlayer(String str)
