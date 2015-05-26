@@ -1,6 +1,12 @@
 package engine;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import AI.*;
@@ -12,7 +18,7 @@ public class Engine {
 	public Game				partieCourante;
 	public Affichage		affichage;
 	private UndoRedo<Game>	undoRedo;
-
+	public boolean premierJeu;
 	public Engine()
 	{
 		this.gameInProgress = false;
@@ -22,6 +28,7 @@ public class Engine {
 	public void setAffichage(Affichage f)
 	{
 		this.affichage = f;
+		this.premierJeu = true;
 	}
 
 	public void begin()
@@ -36,7 +43,10 @@ public class Engine {
 					System.out.print("Attente d'une partie");
 					Thread.sleep(50);
 				}
-				// partieCourante.reprendre();
+				partieCourante.pause();
+				if(premierJeu)
+					partieCourante.reprendre();
+				premierJeu = false;
 				partieCourante.commencer();
 				if (partieCourante.finish)
 					gameInProgress = false;
@@ -173,11 +183,20 @@ public class Engine {
 	 */
 	public void sauvegarderPartie(String path)
 	{
-		/*
-		 * File fichier = new File(path); try { FileWriter w = new FileWriter(fichier); String str = partieCourante.J1.toString() + "#" + partieCourante.J1.getClass().getSimpleName() + "\n"; str += partieCourante.J2.toString() + "#" + partieCourante.J2.getClass().getSimpleName() + "\n"; if
-		 * (partieCourante.joueurCourant == partieCourante.J1) str += 1 + "\n"; else str += 2 + "\n"; str += partieCourante.numberTurn + "\n"; str += partieCourante.map.largeur + "\n" + partieCourante.map.hauteur; for (int i = 0; i < partieCourante.map.hauteur; i++) { str += "\n"; for (int j = 0; j
-		 * < partieCourante.map.largeur; j++) str += partieCourante.map.grille[j][i] + " "; } w.write(str); w.close(); } catch (IOException e) { e.printStackTrace(); }
-		 */
+		File f = new File(path);
+		try
+		{
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+			
+			out.writeObject(partieCourante);
+			out.close();
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -188,43 +207,24 @@ public class Engine {
 	 */
 	public void chargerPartie(String path)
 	{
+		File fichier =  new File(path) ;
 
-		File fichier = new File(path);
+		 // ouverture d'un flux sur un fichier
+		ObjectInputStream ois = null;
 		try
 		{
-			Scanner s = new Scanner(fichier);
-			String j1 = s.nextLine();
-			String j2 = s.nextLine();
-			int jcour = Integer.parseInt(s.nextLine());
-			int nbturn = Integer.parseInt(s.nextLine());
-			int largeur = Integer.parseInt(s.nextLine());
-			int hauteur = Integer.parseInt(s.nextLine());
-			int map[][] = new int[largeur][hauteur];
-			for (int i = 0; i < hauteur; i++)
-			{
-				String[] str = s.nextLine().split(" ");
-				System.out.println(str[0]);
-				System.out.println(str[1]);
-				for (int j = 0; j < largeur; j++)
-				{
-					map[j][i] = Integer.parseInt(str[j]);
-				}
-			}
-			Player p1 = parsePlayer(j1);
-			Player p2 = parsePlayer(j2);
-			if (this.gameInProgress)
-				stopper();
-
-			Game g = new Game(affichage, this.undoRedo, 0, p1, p2, hauteur, largeur);
-			g.pause();
-			this.partieCourante = g;
-			this.gameInProgress = true;
-			affichage.afficherJeu();
-			this.partieCourante.reprendre();
-
+			ois = new ObjectInputStream(new FileInputStream(fichier));
 		} catch (Exception e)
 		{
-			System.err.println("Fichier corrompu");
+			e.printStackTrace();
+		}
+				
+		 // désérialization de l'objet
+		try
+		{
+			Game g = (Game)ois.readObject() ;
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 

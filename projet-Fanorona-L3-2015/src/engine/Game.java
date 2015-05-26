@@ -1,5 +1,6 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,8 +12,13 @@ import IHM.Affichage;
  * @author soulierc
  *
  */
-public class Game {
+public class Game implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -1634914624217639082L;
+	
 	/**
 	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer la partie
 	 */
@@ -71,17 +77,19 @@ public class Game {
 	/**
 	 * Le module d'affichage
 	 */
-	public Affichage		display;
+	public transient Affichage		display;
 
 	/**
 	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on ne peut pas revenir sur une case deja jouee
 	 */
-	public ArrayList<Case>	combo;
+	public transient ArrayList<Case>	combo;
 
 	/**
 	 * Module d'annuler refaire
 	 */
 	public UndoRedo<Game>	annulerRefaire;
+	
+	public Case pionCombo;
 	
 	/**
 	 * Permet de savoir si le joueur veut terminer son tour (uniquement possible durant un combo enCombo==True)
@@ -270,15 +278,15 @@ public class Game {
 			combo = new ArrayList<Case>();
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
 
-			Case pionJoue = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
+			pionCombo = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 			while (rejouer && !finirSonTour)
 			{
 
-				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
+				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionCombo), pionCombo);
 
 				l.removeAll(combo);
-				if (l.size() == 1 && l.contains(pionJoue))
-					l.remove(pionJoue);
+				if (l.size() == 1 && l.contains(pionCombo))
+					l.remove(pionCombo);
 				if (l.size() <= 0)
 				{
 					System.out.println("Plus de possibilites");
@@ -286,9 +294,9 @@ public class Game {
 				}
 				display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
 				Case t[] = new Case[1];
-				t[0] = pionJoue;
+				t[0] = pionCombo;
 				Coup c2 = this.joueurCourant.play(t);
-				while (!joueurCourant.isStopped() && !comboValide(c2, pionJoue, combo))
+				while (!joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
 					c2 = this.joueurCourant.play(t);
 
 				/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
@@ -300,14 +308,16 @@ public class Game {
 					notifyAll();
 					return;
 				}
-				pionJoue = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
-
+				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
+				System.out.println("PION JOUE " + pionCombo);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
 				rejouer = faireCoup(c2);
+				System.out.println("PEUT REJOUE ? " + rejouer);
 				enCombo = rejouer;
 			}
 
 			enCombo = false;
+			pionCombo = null;
 			finirSonTour=false;
 			if (!paused && !stopped)
 				annulerRefaire.addItem(new Game(this));
@@ -333,7 +343,6 @@ public class Game {
 	public void commencer() throws InterruptedException
 	{
 		System.err.println("Debut de la partie");
-		this.pause();
 		joueurBlanc.setStopped(false);
 		joueurNoir.setStopped(false);
 		joueurBlanc.start();

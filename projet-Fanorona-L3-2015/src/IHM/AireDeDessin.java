@@ -79,8 +79,10 @@ public class AireDeDessin extends JComponent {
 	        }
         }
         if(estEnCombo){
-        	if(pionCombo.pion!=pionComboCouleur)
+        	if(pionCombo.pion!=pionComboCouleur){
         		estEnCombo=false;
+        		System.out.println("n'est plus en combo");
+        	}
         	pionJouableCombo(drawable);
         	
         }

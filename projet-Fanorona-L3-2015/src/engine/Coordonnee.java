@@ -1,12 +1,14 @@
 package engine;
 
+import java.io.Serializable;
+
 /**
  * Represente des coordonnees matricielles
  * 
  * @author soulierc
  *
  */
-public class Coordonnee {
+public class Coordonnee implements Serializable{
 
 	public int	ligne;
 	public int	colonne;

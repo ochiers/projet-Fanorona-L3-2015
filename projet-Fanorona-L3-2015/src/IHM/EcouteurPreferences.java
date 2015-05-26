@@ -140,7 +140,6 @@ public class EcouteurPreferences implements ActionListener{
 				pref.fenetre.frame3.setVisible(false);
 			}
 			else System.out.println("Erreur bouton switch");
-			}
 		}
 
 }
