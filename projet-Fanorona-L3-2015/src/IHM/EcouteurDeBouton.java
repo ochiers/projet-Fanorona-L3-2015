@@ -34,11 +34,13 @@ public class EcouteurDeBouton implements ActionListener{
 			System.exit(0);
 			break;
 		case " Parametres Partie ":
-			Fenetre.frame2.setVisible(true);
+			fenetre.fenetreParamON=true;
+			fenetre.frame2.setVisible(true);
 			//TODO
 			break;
 		case " Preferences ":
-			Fenetre.frame3.setVisible(true);
+			fenetre.fenetrePrefON=true;
+			fenetre.frame3.setVisible(true);
 			break;
 		case " Historique Scores ":
 			//TODO

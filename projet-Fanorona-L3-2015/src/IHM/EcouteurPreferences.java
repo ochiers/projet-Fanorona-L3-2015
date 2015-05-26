@@ -9,13 +9,20 @@ import javax.swing.JRadioButtonMenuItem;
 
 public class EcouteurPreferences implements ActionListener{
 		Preferences pref;
+
 		Icon icon;
 		int fw = pref.fenetre.fw;
 		int fh = pref.fenetre.fh;
-		
+		//String message;
+
 		public EcouteurPreferences(Preferences p){
 			pref = p;
 		}
+
+		/*public EcouteurPreferences(Preferences p,String s){
+			pref=p;
+			message=s;
+		}*/
 		
 		public void actionPerformed(ActionEvent e) {
 					
