@@ -19,6 +19,7 @@ public class Engine {
 	public Affichage		affichage;
 	private UndoRedo<Game>	undoRedo;
 	public boolean premierJeu;
+	
 	public Engine()
 	{
 		this.gameInProgress = false;
@@ -118,16 +119,16 @@ public class Engine {
 			affichage.afficherJeu();
 		} else
 		{
-
+			partieCourante = g;
 		}
 	}
 
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, int hauteur, int largeur)
 	{
 
-		if (this.gameInProgress)
-			stopper();
-		this.partieCourante = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, hauteur, largeur);
+		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, hauteur, largeur);
+		changerPartieCourante(g, (premierJoueur == 0)?Pion.Blanc:Pion.Noir);
+		
 		this.undoRedo.vider();
 		this.undoRedo.addItem(new Game(partieCourante));
 		this.gameInProgress = true;

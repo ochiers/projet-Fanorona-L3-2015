@@ -281,7 +281,6 @@ public class Game implements Serializable {
 			pionCombo = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 			while (rejouer && !finirSonTour)
 			{
-
 				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionCombo), pionCombo);
 
 				l.removeAll(combo);
@@ -292,7 +291,8 @@ public class Game implements Serializable {
 					System.out.println("Plus de possibilites");
 					break;
 				}
-				display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+				display.afficherPionDuCombo(pionCombo);
+				display.afficherCheminParcouruParleCombo(combo);
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
 				Coup c2 = this.joueurCourant.play(t);
