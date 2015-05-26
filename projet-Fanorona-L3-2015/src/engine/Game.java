@@ -389,7 +389,7 @@ public class Game implements Serializable {
 	 * @param c
 	 *            Le coup a verifier
 	 * @param pionsPossibles
-	 * @param doitManger 
+	 * @param doitManger
 	 * @return True -> si coup est valide, False sinon
 	 */
 	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles, boolean doitManger)
@@ -404,7 +404,7 @@ public class Game implements Serializable {
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
 		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
-		if(!doitManger)
+		if (!doitManger)
 			return res;
 		else
 			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
@@ -491,36 +491,50 @@ public class Game implements Serializable {
 	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction d, Case depart)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
-		Case courante = depart;
-		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-
-		while (courante != null)
+		if (d != null && depart != null)
 		{
-			courante = courante.getCaseAt(d);
-			if (courante != null && !courante.estVide() && courante.pion != p)
-				res.add(courante);
-			else
-				break;
-		}
+			Case courante = depart;
+			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
-		return res;
-	}
-
-	private ArrayList<Case> determinerPionsACapturerEloignement(Direction d, Case depart)
-	{
-		ArrayList<Case> res = new ArrayList<Case>();
-		Case courante = depart;
-		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-
-		if (courante.getCaseAt(d).estVide())
-		{
 			while (courante != null)
 			{
-				courante = courante.getCaseAt(Direction.oppose(d));
+				courante = courante.getCaseAt(d);
 				if (courante != null && !courante.estVide() && courante.pion != p)
 					res.add(courante);
 				else
 					break;
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * Determine les pions qui seront capturer si le coup est reelement joue
+	 * 
+	 * @param d
+	 *            La direction dans la quelle capturer
+	 * @param depart
+	 *            La case de debut de la capture (cette case doit etre vide on commence la capture sur la case opposee)
+	 * @return Une liste de cases qui correspond aux pions supprimes
+	 */
+	private ArrayList<Case> determinerPionsACapturerEloignement(Direction d, Case depart)
+	{
+		ArrayList<Case> res = new ArrayList<Case>();
+		if (d != null && depart != null)
+		{
+			Case courante = depart;
+			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+
+			if (courante.getCaseAt(d).estVide())
+			{
+				while (courante != null)
+				{
+					courante = courante.getCaseAt(Direction.oppose(d));
+					if (courante != null && !courante.estVide() && courante.pion != p)
+						res.add(courante);
+					else
+						break;
+				}
 			}
 		}
 		return res;
@@ -594,13 +608,16 @@ public class Game implements Serializable {
 	{
 
 		ArrayList<Case> res = new ArrayList<Case>();
-		Iterator<Case> it = c.voisins().iterator();
-		Case cour;
-		while (it.hasNext())
+		if (c != null)
 		{
-			cour = it.next();
-			if (cour.estVide())
-				res.add(cour);
+			Iterator<Case> it = c.voisins().iterator();
+			Case cour;
+			while (it.hasNext())
+			{
+				cour = it.next();
+				if (cour.estVide())
+					res.add(cour);
+			}
 		}
 		return res;
 	}
@@ -719,25 +736,28 @@ public class Game implements Serializable {
 	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case c)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
-		Pion ennemi = (joueurCourant == joueurBlanc) ? Pion.Noir : Pion.Blanc;
-		for (Direction d : Direction.values())
+		if (c != null)
 		{
-			/* Aspiration - Eloignement */
-			/*
-			 * Pour chaque direction, on test si la case est vide, qu'elle est un coup possibles, et que la case opposée soit un pion ennemi
-			 */
-			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)) != null && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
-				res.add(c.getCaseAt(d));
+			Pion ennemi = (joueurCourant == joueurBlanc) ? Pion.Noir : Pion.Blanc;
+			for (Direction d : Direction.values())
+			{
+				/* Aspiration - Eloignement */
+				/*
+				 * Pour chaque direction, on test si la case est vide, qu'elle est un coup possibles, et que la case opposée soit un pion ennemi
+				 */
+				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)) != null && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
+					res.add(c.getCaseAt(d));
 
-			/* Percussion - Rapprochement */
-			/*
-			 * Pour chaque direction, on vérifie que la case visée soit vide, qu'elle soit un coup possible et que la case suivante dans la même direction soit un pion ennemi
-			 */
-			if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
-				res.add(c.getCaseAt(d));
+				/* Percussion - Rapprochement */
+				/*
+				 * Pour chaque direction, on vérifie que la case visée soit vide, qu'elle soit un coup possible et que la case suivante dans la même direction soit un pion ennemi
+				 */
+				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
+					res.add(c.getCaseAt(d));
+			}
+
+			// afficherList(res, "MACHIN");
 		}
-
-		// afficherList(res, "MACHIN");
 		return res;
 
 	}
