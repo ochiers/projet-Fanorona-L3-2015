@@ -373,7 +373,12 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherPionDuCombo(Case pionCourant) {
-		// TODO Auto-generated method stub
+		monDessin.estEnCombo=true;
+		monDessin.pionComboCouleur=pionCourant.pion;
+		monDessin.pionCombo=pionCourant;
+		System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
+		monDessin.repaint();
+		//monDessin.estEnCombo=false;
 		
 	}
 
