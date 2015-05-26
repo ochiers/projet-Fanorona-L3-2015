@@ -1,6 +1,7 @@
 package IHM;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -74,11 +75,7 @@ public class AireDeDessin extends JComponent {
         if(!pionCliquer && doitChoisir){
         	choixManger(drawable);//halo bleu
         }
-        dessinGrilleJeton(drawable,Color.black,Color.white);//pion
-        if(fenetre.engine.partieCourante.enCombo){
-        	System.out.println("en combo---------------------");
-	    	cheminCombo(drawable);//orange
-        }
+        dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
         if(pionCliquer){
         	jetonCliquer(drawable);//rond cyan
         	
@@ -174,7 +171,6 @@ public class AireDeDessin extends JComponent {
     	
     	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
     		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
-    			//System.out.print(fenetre.engine.partieCourante.matricePlateau[i][j].pion+" ");
     			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc){
     				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			}
@@ -229,6 +225,7 @@ public class AireDeDessin extends JComponent {
 	 
 	private static final long serialVersionUID = 1L;
 	private Image img;
+	private Icon icon;
 	private int width;
 	private int height;
  
@@ -242,6 +239,31 @@ public class AireDeDessin extends JComponent {
 		this.height = y;
 	}
  
+	public ImagePanel(Icon icon, int x, int y) {
+		this.icon = icon;
+		this.width = x;
+		this.height = y;
+		this.img = iconToImage(icon);
+	}
+
+	//fonction récupéré sur Internet
+	public static Image iconToImage(Icon icon) {
+        if (icon instanceof ImageIcon) {
+            return ((ImageIcon)icon).getImage();
+        } else {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gd.getDefaultConfiguration();
+            BufferedImage image = gc.createCompatibleImage(w, h);
+            Graphics2D g = image.createGraphics();
+            icon.paintIcon(null, g, 0, 0);
+            g.dispose();
+            return image;
+        }
+    }
+	
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, width, height, this);
 	}

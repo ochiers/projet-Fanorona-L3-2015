@@ -1,6 +1,5 @@
 package AI;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import engine.*;
@@ -13,6 +12,12 @@ public class HumanPlayer extends Player {
 	public HumanPlayer(Engine leMoteur, boolean isAI, String name)
 	{
 		super(leMoteur, isAI, name);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public HumanPlayer(Player p)
+	{
+		super(p);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -43,8 +48,9 @@ public class HumanPlayer extends Player {
 		hasPlayed = false;
 		coupJoue = null;
 		pointDirection = null;
-		while(!hasPlayed && coupJoue == null)
+		while(!isStopped() && !hasPlayed && coupJoue == null)
 		{
+			//System.out.println(name + " attend " + this);
 			try {
 				Thread.sleep(500);
 				//System.out.println(name + " attend");
@@ -74,5 +80,15 @@ public class HumanPlayer extends Player {
 			
 		}
 		return leMoteur.partieCourante.matricePlateau[this.pointDirection.ligne][this.pointDirection.colonne];
-	}	
+	}
+	
+
+
+
+	@Override
+	public Player clone()
+	{
+		
+		return new HumanPlayer(this);
+	}
 }

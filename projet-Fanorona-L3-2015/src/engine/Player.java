@@ -2,7 +2,7 @@ package engine;
 
 import java.util.ArrayList;
 
-public abstract class Player {
+public abstract class Player extends Thread {
 
 	public boolean	aiPlayer;
 	public String	name;
@@ -16,10 +16,18 @@ public abstract class Player {
 		this.leMoteur = leMoteur;
 	}
 
+	public Player(Player p)
+	{
+		this.aiPlayer = p.aiPlayer;
+		this.name = p.name;
+		this.leMoteur = p.leMoteur;
+		this.stopped = p.stopped;
+	}
+	
 	public String toString()
 	{
 
-		return "" + aiPlayer + "#" + name;
+		return "ID:"+this.hashCode()  + aiPlayer + " " + name;
 	}
 
 	public boolean isStopped()
@@ -60,5 +68,23 @@ public abstract class Player {
 	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA Difficle)
 	 */
 	public abstract String getNiveau();
+	
+	public abstract Player clone();
+	
+	@Override
+	public void run()
+	{
+		while(!isStopped())
+		{
+			try {
+				leMoteur.partieCourante.jouer(name);
+				System.out.println(name + " ********************************************");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(name + "////////////////////////////////////////");
+	}
 	
 }

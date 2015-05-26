@@ -12,7 +12,8 @@ import IHM.Affichage;
  * @author soulierc
  *
  */
-public class Game {
+public class Game
+{
 
 	/**
 	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer
@@ -47,11 +48,7 @@ public class Game {
 	 * terminee normalement (this.finish == true)
 	 */
 	private Player			winner;
-	/**
-	 * Premiere case du plateau, permet d'acceder aux autres car elles sont
-	 * chainee
-	 */
-	public Case				plateau;
+
 	/**
 	 * Tableau de case representant tous le plateau
 	 */
@@ -82,10 +79,15 @@ public class Game {
 	public Affichage		display;
 
 	/**
-	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on
-	 * ne peut pas revenir sur une case deja jouee
+	 * Liste des coups du combo courant, sert à respecter la regle qui dit
+	 * qu'on ne peut pas revenir sur une case deja jouee
 	 */
 	public ArrayList<Case>	combo;
+
+	/**
+	 * Module d'annuler refaire
+	 */
+	public UndoRedo<Game>	annulerRefaire;
 
 	/**
 	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc
@@ -104,7 +106,7 @@ public class Game {
 	 * @param nbColonnes
 	 *            Largeur du plateau (nombre de cases)(9 ou 5)
 	 */
-	public Game(Affichage affichage, int joueurQuiCommence, Player p1, Player p2, int nbLignes, int nbColonnes)
+	public Game(Affichage affichage, UndoRedo<Game> u, int joueurQuiCommence, Player p1, Player p2, int nbLignes, int nbColonnes)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -124,25 +126,34 @@ public class Game {
 		this.nombrePionNoir = this.nombrePionBlanc;
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
+		this.annulerRefaire = u;
 		initialisation(nbLignes, nbColonnes);
 	}
 
-	/**
-	 * Initialise le plateau du jeu
-	 * 
-	 * @param nbLignes
-	 *            (5)
-	 * @param nbColonne
-	 *            (9 ou 5)
-	 */
-	public void initialisation(int nbLignes, int nbColonne)
+	public Game(Game game)
 	{
-		Case[][] tableau = new Case[nbLignes][nbColonne];
+		this.annulerRefaire = game.annulerRefaire;
+		this.combo = new ArrayList<Case>();
+		this.display = game.display;
+		this.enCombo = false;
+		this.finish = game.finish;
+		this.joueurBlanc = null;
+		this.joueurNoir = null;
+		this.joueurCourant = null;
+		this.matricePlateau = copyMatrice(game.matricePlateau);
+		this.nbColonnes = game.nbColonnes;
+		this.nbLignes = game.nbLignes;
+		this.nombrePionBlanc = game.nombrePionBlanc;
+		this.nombrePionNoir = game.nombrePionNoir;
+		this.numberTurn = game.numberTurn;
+		this.paused = game.paused;
+		this.stopped = game.stopped;
+		this.winner = game.winner;
+	}
 
-		for (int i = 0; i < nbLignes; i++)
-			for (int j = 0; j < nbColonne; j++)
-				tableau[i][j] = new Case(new Coordonnee(i, j));
-
+	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau)
+	{
+		double x = System.nanoTime();
 		for (int i = 0; i < nbLignes; i++)
 		{
 			for (int j = 0; j < nbColonne - 1; j++)
@@ -200,6 +211,39 @@ public class Game {
 					}
 				}
 			}
+		System.out.println("Temps mis " + (System.nanoTime() - x) +" nano sec");
+		return tableau;
+
+	}
+
+	public static Case[][] copyMatrice(Case[][] courant)
+	{
+		double x = System.nanoTime();
+		Case[][] tableau = new Case[courant.length][courant[0].length];
+		for (int i = 0; i < courant.length; i++)
+			for (int j = 0; j < courant[0].length; j++)
+				tableau[i][j] = courant[i][j].clone();
+
+		return chainage(courant.length, courant[0].length, tableau);
+	}
+
+	/**
+	 * Initialise le plateau du jeu
+	 * 
+	 * @param nbLignes
+	 *            (5)
+	 * @param nbColonne
+	 *            (9 ou 5)
+	 */
+	public void initialisation(int nbLignes, int nbColonne)
+	{
+		Case[][] tableau = new Case[nbLignes][nbColonne];
+
+		for (int i = 0; i < nbLignes; i++)
+			for (int j = 0; j < nbColonne; j++)
+				tableau[i][j] = new Case(new Coordonnee(i, j));
+
+		tableau = chainage(nbLignes, nbColonne, tableau);
 
 		for (int i = 0; i < Math.floor((double) nbLignes / 2.0); i++)
 			for (int j = 0; j < nbColonne; j++)
@@ -223,25 +267,31 @@ public class Game {
 			else
 				tableau[(int) Math.floor((double) nbLignes / 2.0)][j].pion = Pion.Blanc;
 
-		this.plateau = tableau[0][0];
 		this.matricePlateau = tableau;
 	}
 
 	/**
-	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a été
-	 * arretée
+	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a
+	 * été arretée
 	 * 
 	 * @throws InterruptedException
 	 */
-	public void jouer() throws InterruptedException
+	public synchronized void jouer(String nameJoueur) throws InterruptedException
 	{
-		while (!finish && !stopped)
-		{
-			while (paused)
-				Thread.sleep(50);
 
-			if (stopped)
-				return;
+		System.err.println(nameJoueur + " rentre ne section critique");
+		while (!stopped && !nameJoueur.equals(joueurCourant.name)){
+			wait();
+			while (!stopped && paused)
+				Thread.sleep(50);
+		}
+
+		System.err.println(joueurCourant);
+		
+		if (!finish && !stopped)
+		{
+			System.err.println(nameJoueur + " debloqu�");
+						
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
 			if (pionsPossibles.size() == 0)
 			{
@@ -249,74 +299,110 @@ public class Game {
 				pionsPossibles = this.lesPionsJouables();
 			}
 			// TODO : FAIRE FONCTION D'ELIMINATION DOUBLON DE LA LISTE
-			// piosPossibles
-
+			// pionPossibles
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
+			afficherList(pionsPossibles, "PIONS POSSIBLES");
 			display.afficherPionsPossibles(pionsPossibles);
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles))
 			{
 				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : " + c.arrivee);
 				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
+				System.err.println("rejoueage");
 			}
-
-			while (paused)
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
+			
+			/*Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
+			while (!stopped && paused)
 				Thread.sleep(50);
-			System.out.println("Coup valide");
-			if (!stopped && !paused)
+			/*S'il a ete arrete alors il faut debloquer tout le monde pour terminer la methode play pour que les threads joueurs se termient*/
+			if (stopped)
+			{
+				notifyAll();
+				return;
+			}
+			
+			
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
+			boolean rejouer = faireCoup(c);
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
+			
+			System.err.println(joueurCourant + " " +  Thread.currentThread().getStackTrace()[1]);
+			enCombo = rejouer;
+			combo = new ArrayList<Case>();
+			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
+
+			Case pionJoue = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
+			while (rejouer)
 			{
 
-				// System.out.println("Maj matrice ..... ");
-				boolean rejouer = faireCoup(c);
-				enCombo = rejouer;
-				// System.out.println(".... Fini. Peut rejouer ? : " + rejouer);
-				combo = new ArrayList<Case>();
-				combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
-				// System.out.println("Premier coup " +c);
-				Case pionJoue = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
-				while (!joueurCourant.isStopped() && !stopped && !paused && rejouer)
+				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
+
+				l.removeAll(combo);
+				if (l.size() == 1 && l.contains(pionJoue))
+					l.remove(pionJoue);
+				Case tmp2[] = new Case[l.size()];
+				if (l.size() <= 0)
 				{
-
-					System.out.println("\t\t\t" + matricePlateau[2][4].pion);
-					System.out.println("\t\t\t" + pionJoue.pion);
-					System.out.println("\t\t\t" + matricePlateau[c.depart.ligne][c.depart.colonne]);
-					ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionJoue), pionJoue);
-					// afficherList(l, "Case");
-					// afficherList(combo, "Combo");
-					l.removeAll(combo);
-					if (l.size() == 1 && l.contains(pionJoue))
-						l.remove(pionJoue);
-					Case tmp2[] = new Case[l.size()];
-					if (l.size() <= 0)
-					{
-						System.out.println("Plus de possibilites");
-						break;
-					}
-					display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
-					Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
-					while (!joueurCourant.isStopped() && !comboValide(c2, combo))
-						c2 = this.joueurCourant.play(l.toArray(tmp2));
-
-					pionJoue = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
-					// System.out.println("Nouveau point du combo " + c2);
-					while (paused)
-						Thread.sleep(50);
-
-					combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
-					rejouer = faireCoup(c2);
-					enCombo = rejouer;
+					System.out.println("Plus de possibilites");
+					break;
 				}
+				display.afficherPionDuCombo(matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+				Coup c2 = this.joueurCourant.play(l.toArray(tmp2));
+				while (!joueurCourant.isStopped() && !comboValide(c2, combo))
+					c2 = this.joueurCourant.play(l.toArray(tmp2));
+
+				/*Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
+				while (!stopped && paused)
+					Thread.sleep(50);
+				/*S'il a ete arrete alors il faut debloquer tout le monde pour terminer la methode play pour que les threads joueurs se termient*/
+				if (stopped)
+				{
+					notifyAll();
+					return;
+				}
+				pionJoue = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
+
+				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
+				rejouer = faireCoup(c2);
+				enCombo = rejouer;
 			}
+
 			enCombo = false;
+			annulerRefaire.addItem(new Game(this));
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
 			this.display.afficherJeu();
-
+			System.err.println(nameJoueur + " a fini");
+			
+			/*Si un joueur a gagner alors il faut areter tous les threads joueurs*/
+			if (finish)
+				finir();
 		}
+		/*On reveil le thread du joueur suivant pour qu'il joue*/
+		notifyAll();
+	}
 
-		if (finish && !stopped)
+	public void commencer() throws InterruptedException
+	{
+		System.err.println("Debut de la partie");
+		annulerRefaire.addItem(new Game(this));
+		joueurBlanc.setStopped(false);
+		joueurNoir.setStopped(false);
+		joueurBlanc.start();
+		joueurNoir.start();
+
+		joueurBlanc.join();
+		joueurNoir.join();
+		System.err.println("Partie terminee");
+		if (finish)
 		{
+			System.out.println("victoire");
 			winner = joueurCourant;
+			display.afficherVictoire(winner);
 		}
 
 	}
@@ -330,15 +416,12 @@ public class Game {
 	 */
 	private boolean comboValide(Coup c, ArrayList<Case> listCombo)
 	{
-		System.out.println("\n ------------------------------------------------------ Fonction de vérfication de la validité du Combo");
 		boolean res = true;
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
 		ArrayList<Case> coupsPossibles = coupsPossiblesPourUnPion(depart);
 		coupsPossibles.removeAll(listCombo);
-		System.out.println(" ------------------------------------------------------ Nombre de pions possibles à manger : " + coupsPourPriseParUnPion(coupsPossibles, depart).size());
 		res = res && !combo.contains(arrivee) && coupsPossibles.contains(arrivee) && (coupsPourPriseParUnPion(coupsPossibles, depart).size() != 0);
-		System.out.println(" ------------------------------------------------------ Combo valide ? " + res);
 		return res;
 	}
 
@@ -369,49 +452,44 @@ public class Game {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		// System.out.println("Determination du raprochemeent ...");
-		Direction d = determinerDirection(c.depart, c.arrivee);
-
-		ArrayList<Case> rapprochement = determinerPionsACapturerRaprochement(d, matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
-		// System.out.println("..." + rapprochement.size() +
-		// "...Fini. Determination de l'eloignement ...");
-		ArrayList<Case> eloignement = determinerPionsACapturerEloignement(d, matricePlateau[c.depart.ligne][c.depart.colonne]);
-		// System.out.println("..." + eloignement.size() + "... Fini");
-		if (rapprochement.size() == 0 && eloignement.size() == 0)
+		if (!paused && !stopped && c !=null && c.depart != null && c.arrivee != null)
 		{
-			this.display.afficherJeu();
+			Direction d = determinerDirection(c.depart, c.arrivee);
+
+			ArrayList<Case> rapprochement = determinerPionsACapturerRaprochement(d, matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
+			ArrayList<Case> eloignement = determinerPionsACapturerEloignement(d, matricePlateau[c.depart.ligne][c.depart.colonne]);
+
+			if (rapprochement.size() == 0 && eloignement.size() == 0)
+			{
+				this.display.afficherJeu();
+				matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
+				matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
+				return false;
+			} else if (rapprochement.size() != 0 && eloignement.size() != 0)
+			{
+				display.afficherMultiDirections(eloignement, rapprochement);
+				Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
+				while (!rapprochement.contains(choix) && !eloignement.contains(choix))
+					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
+
+				if (rapprochement.contains(choix))
+					capturer(rapprochement);
+				else if (eloignement.contains(choix))
+					capturer(eloignement);
+
+			} else if (rapprochement.size() != 0 && eloignement.size() == 0)
+			{
+				capturer(rapprochement);
+			} else if (eloignement.size() != 0 && rapprochement.size() == 0)
+			{
+				capturer(eloignement);
+			}
 			matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
 			matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
-			return false;
-		} else if (rapprochement.size() != 0 && eloignement.size() != 0)
-		{
-			System.out.println("Deux prises possibles (" + rapprochement.size() + ", " + eloignement.size() + " , faite votre choix ....");
-			display.afficherMultiDirections(eloignement, rapprochement);
-			Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-			while (!rapprochement.contains(choix) && !eloignement.contains(choix))
-				choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-
-			if (rapprochement.contains(choix))
-				capturer(rapprochement);
-			else if (eloignement.contains(choix))
-				capturer(eloignement);
-
-			System.out.println(".... Choix fait.");
-		} else if (rapprochement.size() != 0 && eloignement.size() == 0)
-		{
-			// System.out.println("Capture avec rapprochement ....");
-			capturer(rapprochement);
-			// System.out.println("....Fini");
-		} else if (eloignement.size() != 0 && rapprochement.size() == 0)
-		{
-			// System.out.println("Capture avec eloignement ....");
-			capturer(eloignement);
-			// System.out.println("....Fini");
+			this.display.afficherJeu();
+			return true;
 		}
-		matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
-		matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
-		this.display.afficherJeu();
-		return true;
+		return false;
 	}
 
 	/**
@@ -446,9 +524,6 @@ public class Game {
 	 */
 	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction d, Case depart)
 	{
-		// System.out.println("\n Direction :" + d.name() + ", " + depart +
-		// "\n");
-
 		ArrayList<Case> res = new ArrayList<Case>();
 		Case courante = depart;
 		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
@@ -456,7 +531,7 @@ public class Game {
 		while (courante != null)
 		{
 			courante = courante.getCaseAt(d);
-			if (courante != null && !courante.estVide() & courante.pion != p)
+			if (courante != null && !courante.estVide() && courante.pion != p)
 				res.add(courante);
 			else
 				break;
@@ -467,8 +542,6 @@ public class Game {
 
 	private ArrayList<Case> determinerPionsACapturerEloignement(Direction d, Case depart)
 	{
-		System.out.println("\n Direction :" + d.name() + ", " + depart + "\n");
-
 		ArrayList<Case> res = new ArrayList<Case>();
 		Case courante = depart;
 		Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
@@ -477,10 +550,8 @@ public class Game {
 		{
 			while (courante != null)
 			{
-
 				courante = courante.getCaseAt(Direction.oppose(d));
-
-				if (courante != null && !courante.estVide() & courante.pion != p)
+				if (courante != null && !courante.estVide() && courante.pion != p)
 					res.add(courante);
 				else
 					break;
@@ -514,8 +585,6 @@ public class Game {
 	 */
 	public void pause()
 	{
-		this.joueurBlanc.setStopped(true);
-		this.joueurNoir.setStopped(true);
 		this.paused = true;
 	}
 
@@ -763,5 +832,12 @@ public class Game {
 		while (it.hasNext())
 			System.out.println(it.next());
 		System.out.println("------------ Fin Affichage-------------");
+	}
+
+	public void finir()
+	{
+		this.joueurBlanc.setStopped(true);
+		this.joueurNoir.setStopped(true);
+		this.stopped = true;
 	}
 }
