@@ -46,18 +46,10 @@ public class EcouteurDeSouris implements MouseListener{
 				pfinal.colonne=nbCoteLargeur;
 				pfinal.ligne=nbCoteHauteur;
 			}
-		//	System.out.println("pfinal: "+pfinal.x+" "+pfinal.y);
 			if(pfinal.colonne!=-1 && pfinal.ligne!=-1){
 				if(aire.pionCliquer){
-					
 						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
-						//System.out.println("Jouer: "+aire.pCourant.x+" "+aire.pCourant.y+" en "+pfinal.x+" "+pfinal.y);
 						aire.pionCliquer=false;
-						//System.out.println("test2");
-					/*	if(aire.fenetre.engine.partieCourante.enCombo){
-							aire.pCourant.ligne=pfinal.ligne;
-							aire.pCourant.colonne=pfinal.colonne;
-						}*/
 				}
 				else{
 					if(aire.doitChoisir){
@@ -65,11 +57,9 @@ public class EcouteurDeSouris implements MouseListener{
 							((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setDirectionMultiPrise(pfinal);
 							aire.doitChoisir=false;
 						}
-					
-						
 					}
 					else{
-						if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
+						if(aire.estJouable(pfinal) || (aire.estEnCombo && aire.pionCombo.position.ligne==pfinal.ligne && aire.pionCombo.position.colonne==pfinal.colonne ) ){
 							System.out.println("---------OUI c'est jouable");
 							aire.pCourant.colonne=pfinal.colonne;
 							aire.pCourant.ligne=pfinal.ligne;
