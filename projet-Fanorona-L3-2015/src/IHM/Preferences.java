@@ -43,6 +43,9 @@ public class Preferences {
 	String nameJ1;
 	String nameJ2;
 	
+	JButton accept;
+	JButton annuler;
+	
 	public Fenetre fenetre;
 	
 	public Preferences(Fenetre f){
@@ -58,11 +61,6 @@ public class Preferences {
 		JPanel panelPions1 = new JPanel(new GridLayout(0,1));
 		JPanel panelPions2 = new JPanel(new GridLayout(0,1));
 		JPanel panelBoutons = new JPanel(new GridLayout(0,1));
-		panelAccueil3.add(panelFond);
-		panelAccueil3.add(panelJoueurs);
-		panelAccueil3.add(panelPions1);
-		panelAccueil3.add(panelPions2);
-		panelAccueil3.add(panelBoutons);
 		
 			// PANEL FOND
 		JLabel fond = new JLabel(" Choix fond d'ecran ");
@@ -108,15 +106,15 @@ public class Preferences {
 		panelJoueurs.add(nom);
 		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
 		name1 = new JTextField(" Humain 1 ");
-			name1.addActionListener(new EcouteurPreferences(this, nameJ1));
+			name1.addActionListener(new EcouteurPreferences(this));
 		nameJ2 = fenetre.engine.partieCourante.joueurNoir.getNiveau();
 		name2 = new JTextField(" Humain 2 ");
-			name2.addActionListener(new EcouteurPreferences(this, nameJ2));
+			name2.addActionListener(new EcouteurPreferences(this));
 		// ajout des boites de dialogue
 		panelJoueurs.add(name1);
 		panelJoueurs.add(name2);
 		
-		/*	// PANEL COULEUR PIONS
+			// PANEL COULEUR PIONS
 		JLabel pion1 = new JLabel(" Choix couleur pions J1 ");
 		panelPions1.add(pion1);
 		ButtonGroup groupe2 = new ButtonGroup();
@@ -183,15 +181,21 @@ public class Preferences {
 		panelPions2.add(rb41);
 		panelPions2.add(rb51);
 		panelPions2.add(rb61);
-		panelPions2.add(rb71);*/
+		panelPions2.add(rb71);
 		
 			// PANEL BOUTONS
-		JButton accept= new JButton("Accepter");
-			accept.addActionListener(new EcouteurPreferences(this, accept.getText()));
-		JButton annuler= new JButton("Annuler");
-			annuler.addActionListener(new EcouteurPreferences(this, annuler.getText()));
+		accept = new JButton("Accepter");
+			accept.addActionListener(new EcouteurPreferences(this));
+		annuler = new JButton("Annuler");
+			annuler.addActionListener(new EcouteurPreferences(this));
 		panelBoutons.add(accept);
 		panelBoutons.add(annuler);
+				
+		panelAccueil3.add(panelFond);
+		panelAccueil3.add(panelJoueurs);
+		panelAccueil3.add(panelPions1);
+		panelAccueil3.add(panelPions2);
+		panelAccueil3.add(panelBoutons);
 		
 		fenetre.frame3.add(panelAccueil3);
 		fenetre.frame3.setResizable(false);
