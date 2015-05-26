@@ -43,6 +43,7 @@ public class Engine {
 					System.out.print("Attente d'une partie");
 					Thread.sleep(50);
 				}
+				partieCourante.pause();
 				if(premierJeu)
 					partieCourante.reprendre();
 				premierJeu = false;

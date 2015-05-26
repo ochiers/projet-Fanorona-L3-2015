@@ -339,7 +339,6 @@ public class Game implements Serializable {
 	public void commencer() throws InterruptedException
 	{
 		System.err.println("Debut de la partie");
-		this.pause();
 		joueurBlanc.setStopped(false);
 		joueurNoir.setStopped(false);
 		joueurBlanc.start();
