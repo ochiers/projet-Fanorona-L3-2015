@@ -17,67 +17,67 @@ public class Game implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= -1634914624217639082L;
-	
+	private static final long			serialVersionUID	= -1634914624217639082L;
+
 	/**
 	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer la partie
 	 */
-	public boolean			stopped;
+	public boolean						stopped;
 	/**
 	 * Indique que la partie s'est terminee normalement avec un vainqueur, la partie est arretée apres cela
 	 */
-	public boolean			finish;
+	public boolean						finish;
 	/**
 	 * Indique si la partie est en pause
 	 */
-	private boolean			paused;
+	private boolean						paused;
 
-	public boolean			enCombo;
+	public boolean						enCombo;
 	/**
 	 * Le joueur qui est en train de jouer
 	 */
-	public Player			joueurCourant;
+	public Player						joueurCourant;
 	/**
 	 * Le joueur qui les pions blancs
 	 */
-	public Player			joueurBlanc;
+	public Player						joueurBlanc;
 	/**
 	 * Le joueur qui a les pions noirs
 	 */
-	public Player			joueurNoir;
+	public Player						joueurNoir;
 	/**
 	 * Le joueur qui a gagner, est renseigné uniquement quand la partie c'est terminee normalement (this.finish == true)
 	 */
-	private Player			winner;
+	private Player						winner;
 
 	/**
 	 * Tableau de case representant tous le plateau
 	 */
-	public Case[][]			matricePlateau;
+	public Case[][]						matricePlateau;
 	/**
 	 * Nombre de tour effectués
 	 */
-	public int				numberTurn;
+	public int							numberTurn;
 	/**
 	 * Nombre de pions blancs restants sur le plateau
 	 */
-	public int				nombrePionBlanc;
+	public int							nombrePionBlanc;
 	/**
 	 * Nombre de pions noirs restants sur le plateau
 	 */
-	public int				nombrePionNoir;
+	public int							nombrePionNoir;
 	/**
 	 * Hauteur du plateau
 	 */
-	public int				nbLignes;
+	public int							nbLignes;
 	/**
 	 * Largeur du plateau
 	 */
-	public int				nbColonnes;
+	public int							nbColonnes;
 	/**
 	 * Le module d'affichage
 	 */
-	public transient Affichage		display;
+	public transient Affichage			display;
 
 	/**
 	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on ne peut pas revenir sur une case deja jouee
@@ -87,14 +87,14 @@ public class Game implements Serializable {
 	/**
 	 * Module d'annuler refaire
 	 */
-	public UndoRedo<Game>	annulerRefaire;
-	
-	public Case pionCombo;
-	
+	public UndoRedo<Game>				annulerRefaire;
+
+	public Case							pionCombo;
+
 	/**
 	 * Permet de savoir si le joueur veut terminer son tour (uniquement possible durant un combo enCombo==True)
 	 */
-	private boolean	finirSonTour;
+	private boolean						finirSonTour;
 
 	/**
 	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc et noirs et un plateu de largeur*hauteur
@@ -165,7 +165,6 @@ public class Game implements Serializable {
 		this.stopped = game.stopped;
 		this.winner = game.winner;
 	}
-
 
 	public static Case[][] copyMatrice(Case[][] courant)
 	{
@@ -251,19 +250,19 @@ public class Game implements Serializable {
 			}
 			// TODO : FAIRE FONCTION D'ELIMINATION DOUBLON DE LA LISTE
 			// pionPossibles
-			
+
 			afficherList(pionsPossibles, "PIONS POSSIBLES");
 			display.afficherPionsPossibles(pionsPossibles);
-			
+
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
-			
+
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles))
 			{
 				System.err.println("Coup impossible depart : " + c.depart + ", arrivee : " + c.arrivee);
 				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			}
-			
+
 			/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
 			while (!stopped && paused)
 				Thread.sleep(50);
@@ -318,7 +317,7 @@ public class Game implements Serializable {
 
 			enCombo = false;
 			pionCombo = null;
-			finirSonTour=false;
+			finirSonTour = false;
 			if (!paused && !stopped)
 				annulerRefaire.addItem(new Game(this));
 
@@ -393,6 +392,9 @@ public class Game implements Serializable {
 	 */
 	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles)
 	{
+		if (c == null || c.arrivee == null || c.depart == null)
+			return false;
+
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
 		for (int i = 0; i < pionsPossibles.size(); i++)
 			l.add(pionsPossibles.get(i).position);
@@ -860,6 +862,7 @@ public class Game implements Serializable {
 		return tableau;
 
 	}
+
 	/**
 	 * Permet au joueur courant de finir son tour (uniquement possible durant un combo this.enCombo==True)
 	 */
