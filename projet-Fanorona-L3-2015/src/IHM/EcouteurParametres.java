@@ -16,7 +16,6 @@ public class EcouteurParametres implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("test");
 		if(e.getSource()==parametre.r1b1){
 			parametre.saveMode=1;
 		}else if(e.getSource()==parametre.r1b2){

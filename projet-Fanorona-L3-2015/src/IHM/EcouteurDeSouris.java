@@ -50,6 +50,10 @@ public class EcouteurDeSouris implements MouseListener{
 				if(aire.pionCliquer){
 						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
 						aire.pionCliquer=false;
+					/*	if(aire.pionCombo!=null){
+							aire.pionCombo.position.ligne=pfinal.ligne;
+							aire.pionCombo.position.colonne=pfinal.colonne;
+						}*/
 				}
 				else{
 					if(aire.doitChoisir){

@@ -38,6 +38,14 @@ public class EcouteurPreferences implements ActionListener{
 				humain1 = "";
 				humain2 = "";
 			}
+			if(pref.rb1.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb1.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			if(pref.rb2.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb2.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			if(pref.rb3.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb3.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			if(pref.rb4.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb4.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			if(pref.rb5.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb5.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			if(pref.rb6.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb6.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			if(pref.rb7.isSelected() == true) pref.fenetre.panelAccueil = new ImagePanel(pref.rb7.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
+			else pref.fenetre.panelAccueil = new ImagePanel(pref.rb8.getIcon(), pref.fenetre.frame.getWidth(), pref.fenetre.frame.getHeight());
 			
 			if(pref.rb1.isSelected() == true) message = "rb1";
 			if(pref.rb2.isSelected() == true) message = "rb2";			
