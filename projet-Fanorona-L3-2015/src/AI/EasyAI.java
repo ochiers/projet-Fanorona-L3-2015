@@ -105,19 +105,19 @@ public class EasyAI extends Player {
 		Pion couleurJoueur = (leMoteur.partieCourante.joueurCourant == leMoteur.partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		Random r = new Random();
 		for (int i = 0; i < listeCoups.size(); i++){
-			Case depart = new Case(listeCoups.get(i).depart);
-			Case arrivee = new Case(listeCoups.get(i).arrivee);
+			Case depart = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne];
+			Case arrivee = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne];
 			Direction directionCoup = determinerDirection(listeCoups.get(i).depart, listeCoups.get(i).arrivee);
 			Direction opposeDirectionCoup = Direction.oppose(directionCoup);
 			Case premiereCaseAspiration = depart.getCaseAt(opposeDirectionCoup);
 			Case premiereCasePercussion = arrivee.getCaseAt(directionCoup);
 			/* Si le coup permet une capture par aspiration, on l'ajoute à la liste des captures */
-			if(premiereCaseAspiration != null ){ // && premiereCaseAspiration.pion != couleurJoueur
+			if(premiereCaseAspiration != null && !premiereCaseAspiration.estVide() && premiereCaseAspiration.pion != couleurJoueur){
 				listeCaptures.add(listeCoups.get(i));
 				premieresCasesPrises.add(premiereCaseAspiration);
 			}
 			/* Si le coup permet une capture par percussion, on l'ajoute à la liste des captures */
-			if(premiereCasePercussion != null ){ // && premiereCasePercussion.pion != couleurJoueur
+			if(premiereCasePercussion != null && !premiereCasePercussion.estVide() && premiereCasePercussion.pion != couleurJoueur){
 				listeCaptures.add(listeCoups.get(i));
 				premieresCasesPrises.add(premiereCasePercussion);
 			}
@@ -125,6 +125,8 @@ public class EasyAI extends Player {
 		if(listeCaptures.size() > 0){ 		/* Si il y a des coups qui réalisent une capture, on joue un de ces coups, choisi de façon aléatoire */
 			int coupChoisi = r.nextInt(listeCaptures.size());
 			choix = premieresCasesPrises.get(coupChoisi);
+			System.out.println(choix);
+			premieresCasesPrises.clear();
 			return listeCaptures.get(coupChoisi);
 		}
 		else { 								/* Si il n'y a pas de coup qui réalise une capture, on joue un coup, choisi de façon aléatoire */
