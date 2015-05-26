@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -12,6 +13,36 @@ import javax.swing.JTextField;
 
 public class Preferences {
 
+	JRadioButtonMenuItem rb1;
+	JRadioButtonMenuItem rb2;
+	JRadioButtonMenuItem rb3;
+	JRadioButtonMenuItem rb4;
+	JRadioButtonMenuItem rb5;
+	JRadioButtonMenuItem rb6;
+	JRadioButtonMenuItem rb7;
+	JRadioButtonMenuItem rb8;
+	
+	JRadioButton rb10;
+	JRadioButton rb20;
+	JRadioButton rb30;
+	JRadioButton rb40;
+	JRadioButton rb50;
+	JRadioButton rb60;
+	JRadioButton rb70;
+
+	JRadioButton rb11;
+	JRadioButton rb21;
+	JRadioButton rb31;
+	JRadioButton rb41;
+	JRadioButton rb51;
+	JRadioButton rb61;
+	JRadioButton rb71;
+	
+	JTextField name1;
+	JTextField name2;
+	String nameJ1;
+	String nameJ2;
+	
 	public Fenetre fenetre;
 	
 	public Preferences(Fenetre f){
@@ -19,41 +50,40 @@ public class Preferences {
 	}
 			
 	public void majPref(){
-		int fw = fenetre.fw;
-		int fh = fenetre.fh;
 		
-		//fenetre preferences
 		Fenetre.frame3.setSize(500, 500);
-		JPanel panelAccueil3 = new JPanel(new GridLayout(0,1));
+		JPanel panelAccueil3 = new JPanel(new GridLayout(3,2));
+		JPanel panelFond = new JPanel(new GridLayout(0,1));
+		JPanel panelJoueurs = new JPanel(new GridLayout(0,1));
+		JPanel panelPions1 = new JPanel(new GridLayout(0,1));
+		JPanel panelPions2 = new JPanel(new GridLayout(0,1));
+		JPanel panelBoutons = new JPanel(new GridLayout(0,1));
+		panelAccueil3.add(panelFond);
+		panelAccueil3.add(panelJoueurs);
+		panelAccueil3.add(panelPions1);
+		panelAccueil3.add(panelPions2);
+		panelAccueil3.add(panelBoutons);
 		
-			// FOND
+			// PANEL FOND
 		JLabel fond = new JLabel(" Choix fond d'ecran ");
-		panelAccueil3.add(fond);
+		panelFond.add(fond);
 		ButtonGroup groupe1 = new ButtonGroup();
-		JRadioButtonMenuItem rb1 = new JRadioButtonMenuItem(" image1 ", new ImageIcon("src/images/image1"), false);
-			rb1.addActionListener(new EcouteurPreferences(this,rb1.getText()));
-		JRadioButtonMenuItem rb2 = new JRadioButtonMenuItem(" image2 ", new ImageIcon("src/images/image2"), false);
-			rb2.addActionListener(new EcouteurPreferences(this,rb2.getText()));
-		JRadioButtonMenuItem rb3 = new JRadioButtonMenuItem(" image3 ", new ImageIcon("src/images/image3"), false);
-			rb3.addActionListener(new EcouteurPreferences(this,rb3.getText()));
-		JRadioButtonMenuItem rb4 = new JRadioButtonMenuItem(" image4 ", new ImageIcon("src/images/image4"), false);
-			rb4.addActionListener(new EcouteurPreferences(this,rb4.getText()));
-		JRadioButtonMenuItem rb5 = new JRadioButtonMenuItem(" image5 ", new ImageIcon("src/images/image5"), false);
-			rb5.addActionListener(new EcouteurPreferences(this,rb5.getText()));
-		JRadioButtonMenuItem rb6 = new JRadioButtonMenuItem(" image6 ", new ImageIcon("src/images/image6"), false);
-			rb6.addActionListener(new EcouteurPreferences(this,rb6.getText()));
-		JRadioButtonMenuItem rb7 = new JRadioButtonMenuItem(" image7 ", new ImageIcon("src/images/image7"), false);
-			rb7.addActionListener(new EcouteurPreferences(this,rb7.getText()));
-		JRadioButtonMenuItem rb8 = new JRadioButtonMenuItem(" fond par defaut ", new ImageIcon("src/images/imageDefault"), true);
-			rb8.addActionListener(new EcouteurPreferences(this,rb8.getText()));
-		if(rb1.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb1.getIcon(), fw, fh);
-		if(rb2.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb2.getIcon(), fw, fh);
-		if(rb3.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb3.getIcon(), fw, fh);
-		if(rb4.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb4.getIcon(), fw, fh);
-		if(rb5.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb5.getIcon(), fw, fh);
-		if(rb6.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb6.getIcon(), fw, fh);
-		if(rb7.isSelected() == true) fenetre.panelAccueil = new ImagePanel(rb7.getIcon(), fw, fh);
-		else fenetre.panelAccueil = new ImagePanel(rb8.getIcon(), fw, fh);
+		rb1 = new JRadioButtonMenuItem(" Fond multicolore ", new ImageIcon("src/images/image1"), false);
+			//rb1.addActionListener(new EcouteurPreferences(this));
+		rb2 = new JRadioButtonMenuItem(" Fond bleu ", new ImageIcon("src/images/image2"), false);
+			//rb2.addActionListener(new EcouteurPreferences(this));
+		rb3 = new JRadioButtonMenuItem(" Fond vert ", new ImageIcon("src/images/image3"), false);
+			//rb3.addActionListener(new EcouteurPreferences(this));
+		rb4 = new JRadioButtonMenuItem(" Fond rose ", new ImageIcon("src/images/image4"), false);
+			//rb4.addActionListener(new EcouteurPreferences(this));
+		rb5 = new JRadioButtonMenuItem(" Fond bleu clair ", new ImageIcon("src/images/image5"), false);
+			//rb5.addActionListener(new EcouteurPreferences(this));
+		rb6 = new JRadioButtonMenuItem(" Fond gris blanc ", new ImageIcon("src/images/image6"), false);
+			//rb6.addActionListener(new EcouteurPreferences(this));
+		rb7 = new JRadioButtonMenuItem(" Fond noir ", new ImageIcon("src/images/image7"), false);
+			//rb7.addActionListener(new EcouteurPreferences(this));
+		rb8 = new JRadioButtonMenuItem(" Fond par defaut ", new ImageIcon("src/images/imageDefault"), true);
+			//rb8.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe1.add(rb1);
 		groupe1.add(rb2);
@@ -64,81 +94,46 @@ public class Preferences {
 		groupe1.add(rb7);
 		groupe1.add(rb8);
 		//ajout de bg au panel
-		panelAccueil3.add(rb1);
-		panelAccueil3.add(rb2);
-		panelAccueil3.add(rb3);
-		panelAccueil3.add(rb4);
-		panelAccueil3.add(rb5);
-		panelAccueil3.add(rb6);
-		panelAccueil3.add(rb7);
-		panelAccueil3.add(rb8);
+		panelFond.add(rb1);
+		panelFond.add(rb2);
+		panelFond.add(rb3);
+		panelFond.add(rb4);
+		panelFond.add(rb5);
+		panelFond.add(rb6);
+		panelFond.add(rb7);
+		panelFond.add(rb8);
 		
-			// NOMS
+			// PANEL NOMS
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
-		panelAccueil3.add(nom);
-		String nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
-		JTextField name1 = new JTextField(" Humain 1 ");
-		if (nameJ1.equals("Humain")){
-					// ajout boite de dialogue
-			fenetre.engine.partieCourante.joueurBlanc.name = name1.getText();
-			fenetre.idj1 = new JLabel((String)(name1.getText()));
-			fenetre.levelj1 = new JLabel(" Bonne Chance ! ");
-		}
-		String nameJ2 = fenetre.engine.partieCourante.joueurNoir.getNiveau();
-		JTextField name2 = new JTextField(" Humain 2 ");
-		if (nameJ2.equals("Humain")){
-			fenetre.engine.partieCourante.joueurNoir.name = name2.getText();
-			fenetre.idj2 = new JLabel((String)(name2.getText()));
-			fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
-		}
-		else{
-			// verifier parametres par defaut !!!!!!!!!!!!!!! 
-			fenetre.idj1 = new JLabel(" Humain ");
-			fenetre.levelj1 = new JLabel(" Bonne Chance ! ");
-			fenetre.idj2 = new JLabel(" Humain ");
-			fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
-		}
-		
+		panelJoueurs.add(nom);
+		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
+		name1 = new JTextField(" Humain 1 ");
+			//name1.addActionListener(new EcouteurPreferences(this, nameJ1));
+		nameJ2 = fenetre.engine.partieCourante.joueurNoir.getNiveau();
+		name2 = new JTextField(" Humain 2 ");
+			//name2.addActionListener(new EcouteurPreferences(this, nameJ2));
 		// ajout des boites de dialogue
-		panelAccueil3.add(name1);
-		panelAccueil3.add(name2);
+		panelJoueurs.add(name1);
+		panelJoueurs.add(name2);
 		
-			// COULEUR PIONS
-		JLabel pion = new JLabel(" Choix couleur pions ");
-		panelAccueil3.add(pion);
+			// PANEL COULEUR PIONS
+		JLabel pion1 = new JLabel(" Choix couleur pions J1 ");
+		panelPions1.add(pion1);
 		ButtonGroup groupe2 = new ButtonGroup();
-		JRadioButton rb10 = new JRadioButton(" Noir ");
-		JRadioButton rb20 = new JRadioButton(" Blanc ");
-		JRadioButton rb30 = new JRadioButton(" Bleu ");
-		JRadioButton rb40 = new JRadioButton(" Rouge ");
-		JRadioButton rb50 = new JRadioButton(" Vert ");
-		JRadioButton rb60 = new JRadioButton(" Jaune ");
-		JRadioButton rb70 = new JRadioButton(" Multicolor ");
-		if(rb10.isSelected() == true){
-			
-		}
-		if(rb20.isSelected() == true){
-			
-		}
-		if(rb30.isSelected() == true){
-			
-		}
-		if(rb40.isSelected() == true){
-			
-		}
-		if(rb50.isSelected() == true){
-			
-		}
-		if(rb60.isSelected() == true){
-			
-		}
-		if(rb70.isSelected() == true){
-			
-		}
-		else{
-			
-		}
-		
+		rb10 = new JRadioButton(" Pion noir ");
+			//rb10.addActionListener(new EcouteurPreferences(this));
+		rb20 = new JRadioButton(" Pion blanc ");
+			//rb20.addActionListener(new EcouteurPreferences(this));
+		rb30 = new JRadioButton(" Pion bleu ");
+			//rb30.addActionListener(new EcouteurPreferences(this));
+		rb40 = new JRadioButton(" Pion rouge ");
+			//rb40.addActionListener(new EcouteurPreferences(this));
+		rb50 = new JRadioButton(" Pion vert ");
+			//rb50.addActionListener(new EcouteurPreferences(this));
+		rb60 = new JRadioButton(" Pion jaune ");
+			//rb60.addActionListener(new EcouteurPreferences(this));
+		rb70 = new JRadioButton(" Pion multicolore ");
+			//rb70.addActionListener(new EcouteurPreferences(this));
 		// ajout des boutons radio dans le groupe bg
 		groupe2.add(rb10);
 		groupe2.add(rb20);
@@ -148,19 +143,59 @@ public class Preferences {
 		groupe2.add(rb60);
 		groupe2.add(rb70);
 		//ajout de bg au panel
-		panelAccueil3.add(rb10);
-		panelAccueil3.add(rb20);
-		panelAccueil3.add(rb30);
-		panelAccueil3.add(rb40);
-		panelAccueil3.add(rb50);
-		panelAccueil3.add(rb60);
-		panelAccueil3.add(rb70);
+		panelPions1.add(rb10);
+		panelPions1.add(rb20);
+		panelPions1.add(rb30);
+		panelPions1.add(rb40);
+		panelPions1.add(rb50);
+		panelPions1.add(rb60);
+		panelPions1.add(rb70);
+		
+		JLabel pion2 = new JLabel(" Choix couleur pions J2 ");
+		panelPions2.add(pion2);
+		ButtonGroup groupe3 = new ButtonGroup();
+		rb11 = new JRadioButton(" Pion noir ");
+			//rb11.addActionListener(new EcouteurPreferences(this));
+		rb21 = new JRadioButton(" Pion blanc ");
+			//rb21.addActionListener(new EcouteurPreferences(this));
+		rb31 = new JRadioButton(" Pion bleu ");
+			//rb31.addActionListener(new EcouteurPreferences(this));
+		rb41 = new JRadioButton(" Pion rouge ");
+			//rb41.addActionListener(new EcouteurPreferences(this));
+		rb51 = new JRadioButton(" Pion vert ");
+			//rb51.addActionListener(new EcouteurPreferences(this));
+		rb61 = new JRadioButton(" Pion jaune ");
+			//rb61.addActionListener(new EcouteurPreferences(this));
+		rb71 = new JRadioButton(" Pion multicolore ");
+			//rb71.addActionListener(new EcouteurPreferences(this));
+		// ajout des boutons radio dans le groupe bg
+		groupe3.add(rb11);
+		groupe3.add(rb21);
+		groupe3.add(rb31);
+		groupe3.add(rb41);
+		groupe3.add(rb51);
+		groupe3.add(rb61);
+		groupe3.add(rb71);
+		//ajout de bg au panel
+		panelPions2.add(rb11);
+		panelPions2.add(rb21);
+		panelPions2.add(rb31);
+		panelPions2.add(rb41);
+		panelPions2.add(rb51);
+		panelPions2.add(rb61);
+		panelPions2.add(rb71);
+		
+			// PANEL BOUTONS
+		JButton accept= new JButton("Accepter");
+			//accept.addActionListener(new EcouteurPreferences(this, accept.getText()));
+		JButton annuler= new JButton("Annuler");
+			//annuler.addActionListener(new EcouteurPreferences(this, annuler.getText()));
+		panelBoutons.add(accept);
+		panelBoutons.add(annuler);
 		
 		Fenetre.frame3.add(panelAccueil3);
 		Fenetre.frame3.setResizable(false);
 		Fenetre.frame3.setVisible(false);
-		
-		Fenetre.frame.repaint();
 	}
 	
 }
