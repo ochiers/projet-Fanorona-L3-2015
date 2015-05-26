@@ -63,7 +63,7 @@ public class EcouteurDeSouris implements MouseListener{
 						}
 					}
 					else{
-						if(aire.estJouable(pfinal) || (aire.estEnCombo && aire.pionCombo.position.ligne==pfinal.ligne && aire.pionCombo.position.colonne==pfinal.colonne ) ){
+						if(aire.estJouable(pfinal) || (aire.fenetre.engine.partieCourante.enCombo && aire.pionCombo.position.ligne==pfinal.ligne && aire.pionCombo.position.colonne==pfinal.colonne ) ){
 							System.out.println("---------OUI c'est jouable");
 							aire.pCourant.colonne=pfinal.colonne;
 							aire.pCourant.ligne=pfinal.ligne;
