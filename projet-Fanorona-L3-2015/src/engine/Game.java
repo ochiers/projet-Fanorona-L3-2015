@@ -158,13 +158,7 @@ public class Game {
 		this.winner = game.winner;
 	}
 
-	/**
-	 * Fonction permettant de copier le plateau du jeu
-	 * 
-	 * @param courant
-	 *            Le plateau a copier
-	 * @return Le nouveau plateau, identique a celui passe en parametre
-	 */
+
 	public static Case[][] copyMatrice(Case[][] courant)
 	{
 		Case[][] tableau = new Case[courant.length][courant[0].length];

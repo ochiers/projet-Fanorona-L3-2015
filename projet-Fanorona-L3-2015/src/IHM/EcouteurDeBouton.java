@@ -3,9 +3,6 @@ package IHM;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFileChooser;
-
-import engine.*;
 import AI.*;
 
 public class EcouteurDeBouton implements ActionListener{
@@ -37,11 +34,33 @@ public class EcouteurDeBouton implements ActionListener{
 			System.exit(0);
 			break;
 		case " Parametres Partie ":
-			Fenetre.frame2.setVisible(true);
+			if(fenetre.mode==1){
+				fenetre.parametre.r1b1.setSelected(true);
+			}else if(fenetre.mode==2){
+				fenetre.parametre.r1b2.setSelected(true);
+			}else if(fenetre.mode==3){
+				fenetre.parametre.r1b3.setSelected(true);
+			}
+			
+			if(fenetre.lvlPC1==1){
+				fenetre.parametre.r2b1.setSelected(true);
+			}else if(fenetre.lvlPC1==2){
+				fenetre.parametre.r2b2.setSelected(true);
+			}else if(fenetre.lvlPC1==3){
+				fenetre.parametre.r2b3.setSelected(true);
+			}
+			if(fenetre.lvlPC2==1){
+				fenetre.parametre.r3b1.setSelected(true);
+			}else if(fenetre.lvlPC1==2){
+				fenetre.parametre.r3b2.setSelected(true);
+			}else if(fenetre.lvlPC2==3){
+				fenetre.parametre.r3b3.setSelected(true);
+			}
+			fenetre.frame2.setVisible(true);
 			//TODO
 			break;
 		case " Preferences ":
-			Fenetre.frame3.setVisible(true);
+			fenetre.frame3.setVisible(true);
 			break;
 		case " Historique Scores ":
 			//TODO
