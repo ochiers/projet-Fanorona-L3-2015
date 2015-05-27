@@ -1,11 +1,11 @@
 Lundi 18 mai
 	Matin : 
-		- Creation de l'IHM en version papier, puis debat a  9h45 avec les professeurs sur l'IHM.
+		- Creation de l'IHM en version papier, puis debat aï¿½ 9h45 avec les professeurs sur l'IHM.
 		  Conversation avec l'autre groupe programmant un Fanorona. Decisions prises en commun (2 groupes)
 		  pour le fonctionnement general du jeu : qui commence, quelles regles de jeu seront retenues...
 		- Debut de code pour l'IHM.
 	Apres-Midi :
-		- Creation d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface decidee a  partir de
+		- Creation d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface decidee aï¿½ partir de
 		  l'IHM faites apres l'audit. Poursuite du code l'IHM (creation d'une IHM de base pour tests rapide,
 		  creation de l'IHM plus travaillee en cours).
 		- Reflexion autour de l'IA et des problematiques intrinseques. Debut de realisation d'un algorithme alpha-beta adapte au Fanorona.
@@ -14,22 +14,22 @@ Lundi 18 mai
 Mardi 19 mai
 	Matin :
 		- CM reseau.
-		- Reflexion autour de l'IA, decision de realiser une IA "de base" ne gerant pas les enchaa®nements de coups ni les choix, puis de 
+		- Reflexion autour de l'IA, decision de realiser une IA "de base" ne gerant pas les enchaaï¿½nements de coups ni les choix, puis de 
 		  l'ameliorer progressivement.
 	Apres-midi :
 		- Realisation d'une premiere version  de l'IA "de base". En attente de certaines methodes du moteur de jeu pour effectuer les tests.
-		- Reflexion sur le passage de l'IA a  une version gerant les choix, puis a  une version "finale" gerant egalement les enchaa®nements.
+		- Reflexion sur le passage de l'IA aï¿½ une version gerant les choix, puis aï¿½ une version "finale" gerant egalement les enchaaï¿½nements.
 		- Reflexion sur les regles du jeu et debut de la mises en place des regles et de fonction permettant la gestion du plateau et des 
 		  coups joues.
 		- Mise en place de l'interface pour les tests. Non terminee. 
 
 Mercredi 20 mai
 	Matin :
-		- Ajout gestion des choix a  l'IA (si les deux types de capture sont possibles, choisir laquelle faire).
+		- Ajout gestion des choix aï¿½ l'IA (si les deux types de capture sont possibles, choisir laquelle faire).
 		- Discussion avec l'autre groupe pour les regles de jeu. Notamment sur le fait d'obliger un coup ou non.
 	Apres-midi :
-		- Ajout commentaires a  l'IA en vue de l'audit. En attente pour les tests.
-		- L'IHM est visuellement fonctionnelle pour les tests, reste a  debugguer le mouvement des pions.
+		- Ajout commentaires aï¿½ l'IA en vue de l'audit. En attente pour les tests.
+		- L'IHM est visuellement fonctionnelle pour les tests, reste aï¿½ debugguer le mouvement des pions.
 		- Mise en place du fond de la fenetre pour le jeu, celui-ci sera modifiable dans les preferences.
 		
 Jeudi 21 mai
@@ -49,10 +49,17 @@ Vendredi 22 mai
 Mardi 26 mai
 	Matin : 
 		- Mise a jour de l'IHM, accord au sein d binome. Debuggage de l'affichage.
+		- Audit IA : rÃ©lfexion sur l'IA et la fonction d'Ã©valuation de notre algo alpha-beta.
 	Apres-midi : 
-		- Modification du code de l'IHM, mise au propre du code pour plus de lisiblité. Fenetre preferences toujours non fonctionnelle.
+		- Modification du code de l'IHM, mise au propre du code pour plus de lisiblitï¿½. Fenetre preferences toujours non fonctionnelle.
 		  Probleme avec l'ecouteur et le refraichissement de l'affichage.
+		- Suite Ã  l'audit du matin, rÃ©alisation d'une IA facile n'utilisant pas l'algorithme alpha-beta, mais qui se contente de capturer quand c'est possible et joue au hasard sinon.
 		
+Mercredi 27 mai
+	Matin :
+		- Optimisation de l'algorithme alpha-beta pour accÃ©lÃ©rer le temps de calcul.
+	AprÃ¨s-midi :
+		- Modifs IA pour permettre d'Ã©viter les cases sur lesquelles on est dÃ©jÃ  passÃ© durant un enchaÃ®nement de coups.
 		
 		
 		
