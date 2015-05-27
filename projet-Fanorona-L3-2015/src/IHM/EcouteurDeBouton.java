@@ -50,21 +50,23 @@ public class EcouteurDeBouton implements ActionListener{
 					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0, 5,9);
 				}
 			}
-			System.out.println("new partie");
+			fenetre.stopper.setText(" Reprendre ");
+			//System.out.println("new partie");
 			break;
 			
 		case " Recommencer ":
-			System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
+			//System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
 			fenetre.engine.nouvellePartie(fenetre.engine.partieCourante.joueurBlanc, fenetre.engine.partieCourante.joueurNoir,0, 5,9);
+			fenetre.stopper.setText(" Reprendre ");
 			break;
 		case " Sauvegarder ":
-			System.out.println("save-----------");
+			//System.out.println("save-----------");
 			JFileChooser save = new JFileChooser();
 			save.showSaveDialog(fenetre.frame);
 			fenetre.engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 			break;
 		case " Charger ":
-			System.out.println("load------------");
+			//System.out.println("load------------");
 			JFileChooser load = new JFileChooser();
 			load.showOpenDialog(fenetre.frame);
 			fenetre.engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
