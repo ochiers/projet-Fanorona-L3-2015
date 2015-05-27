@@ -122,44 +122,43 @@ public class Fenetre implements Runnable,Affichage {
 			j2.setBounds((int)(5.15*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		idj2 = new JLabel(" Erreur ");
 		levelj2 = new JLabel(" Erreur ");
+		/*
 		String level = engine.partieCourante.joueurBlanc.getNiveau();
 		if (level.equals("Humain")){
 			idj1 = new JLabel(engine.partieCourante.joueurBlanc.name);
 			levelj1 = new JLabel(" Bonne Chance ! ");
-		}
-		if (level.equals("IA Facile")){
+			levelj1.setVisible(false);
+		}else if (level.equals("IA Facile")){
 			idj1 = new JLabel(" Ordinateur ");
 			levelj1 = new JLabel(" Facile ");
-		}
-		if (level.equals("IA Moyenne")){
+		}else if (level.equals("IA Moyenne")){
 			idj1 = new JLabel(" Ordinateur ");
 			levelj1 = new JLabel(" Moyen ");
-		}
-		if (level.equals("IA Difficle")){
+		}else if (level.equals("IA Difficile")){
 			idj1 = new JLabel(" Ordinateur ");
-			levelj1 = new JLabel(" Difficile ");
+			levelj1 = new JLabel(" Difficile ");	
 		}
+		level = engine.partieCourante.joueurNoir.getNiveau();
 		if (level.equals("Humain")){
 			idj2 = new JLabel(engine.partieCourante.joueurNoir.name);
 			levelj2 = new JLabel(" Bonne Chance ! ");
-		}
-		if (level.equals("IA Facile")){
+		}else if (level.equals("IA Facile")){
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Facile ");
-		}
-		if (level.equals("IA Moyenne")){
+		}else if (level.equals("IA Moyenne")){
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Moyen ");
-		}
-		if (level.equals("IA Difficle")){
+		}else if (level.equals("IA Difficile")){
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Difficile ");
-		}
+		}*/
 			idj1.setBounds((int)(0.25*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			levelj1.setBounds((int)(0.25*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			idj2.setBounds((int)(5.15*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			levelj2.setBounds((int)(5.15*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+			
+		//scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+		scoreInt1 = new JLabel("");
 			scoreInt1.setBounds((int)(0.25*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
 			scoreInt2.setBounds((int)(5.15*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));

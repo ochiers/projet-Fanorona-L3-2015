@@ -45,29 +45,11 @@ public class AireDeDessin extends JComponent {
         //int height = getSize().height;
 
         drawable.setPaint(Color.black);
-        	//MAJ du score
-        fenetre.scoreInt1.setText(""+fenetre.engine.partieCourante.nombrePionBlanc);
-        fenetre.scoreInt2.setText(""+fenetre.engine.partieCourante.nombrePionNoir);
-        if(fenetre.engine.partieCourante.joueurCourant.name.equals(fenetre.engine.partieCourante.joueurBlanc.name)){
-        	fenetre.tour1.setVisible(true);
-        	fenetre.tour2.setVisible(false);
-        }
-        else{
-        	fenetre.tour2.setVisible(true);
-        	fenetre.tour1.setVisible(false);
-        }
-        //System.out.println("boolean: "+fenetre.engine.peutAnnuler()+" "+fenetre.engine.peutRefaire());
-        if(fenetre.engine.peutAnnuler())
-        	fenetre.annuler.setEnabled(true);
-        else
-        	fenetre.annuler.setEnabled(false);
-        if(fenetre.engine.peutRefaire())
-        	fenetre.refaire.setEnabled(true);
-        else
-        	fenetre.refaire.setEnabled(false);
        
-        
-        
+        majScore();
+        majAQuiLeTour();
+        majBouton();
+        majNomJoueurs();
         
         dessinGrille(drawable);//grille
         if(!fenetre.engine.partieCourante.joueurCourant.aiPlayer){
@@ -95,25 +77,85 @@ public class AireDeDessin extends JComponent {
       //  positionPossible(drawable);
     }
     
+    public void majScore(){
+    	fenetre.scoreInt1.setText(""+fenetre.engine.partieCourante.nombrePionBlanc);
+        fenetre.scoreInt2.setText(""+fenetre.engine.partieCourante.nombrePionNoir);
+    }
 
-
-   public void jetonCliquer(Graphics2D drawable){
-	   drawable.setPaint(Color.cyan);
-       drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-       drawable.setPaint(Color.black);
+    public void majAQuiLeTour(){
+    	if(fenetre.engine.partieCourante.joueurCourant.name.equals(fenetre.engine.partieCourante.joueurBlanc.name)){
+        	fenetre.tour1.setVisible(true);
+        	fenetre.tour2.setVisible(false);
+        }else{
+        	fenetre.tour2.setVisible(true);
+        	fenetre.tour1.setVisible(false);
+        }
+    }
+    
+    public void majBouton(){
+    	if(fenetre.engine.peutAnnuler())fenetre.annuler.setEnabled(true);
+        else fenetre.annuler.setEnabled(false);
+        if(fenetre.engine.peutRefaire())fenetre.refaire.setEnabled(true);
+        else fenetre.refaire.setEnabled(false);
+    }
+    
+    public void majNomJoueurs(){  	
+    	String level = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
+		if (level.equals("Humain")){
+			fenetre.idj1.setText(fenetre.engine.partieCourante.joueurBlanc.name);
+			fenetre.levelj1.setText(" Bonne Chance ! ");
+			fenetre.levelj1.setVisible(false);
+		}else if (level.equals("IA Facile")){
+			fenetre.idj1.setText(" Ordinateur ");
+			fenetre.levelj1.setText(" Facile ");
+			fenetre.levelj1.setVisible(true);
+		}else if (level.equals("IA Moyenne")){
+			fenetre.idj1.setText(" Ordinateur ");
+			fenetre.levelj1.setText(" Moyen ");
+			fenetre.levelj1.setVisible(true);
+		}else if (level.equals("IA Difficile")){
+			fenetre.idj1.setText(" Ordinateur ");
+			fenetre.levelj1.setText(" Difficile ");
+			fenetre.levelj1.setVisible(true);
+		}
+    	
+    	level = fenetre.engine.partieCourante.joueurNoir.getNiveau();
+		if (level.equals("Humain")){
+			fenetre.idj2.setText(fenetre.engine.partieCourante.joueurNoir.name);
+			fenetre.levelj2.setText(" Bonne Chance ! ");
+			fenetre.levelj2.setVisible(false);
+		}else if (level.equals("IA Facile")){
+			fenetre.idj2.setText(" Ordinateur ");
+			fenetre.levelj2.setText(" Facile ");
+			fenetre.levelj2.setVisible(true);
+		}else if (level.equals("IA Moyenne")){
+			fenetre.idj2.setText(" Ordinateur ");
+			fenetre.levelj2.setText(" Moyen ");
+			fenetre.levelj2.setVisible(true);
+		}else if (level.equals("IA Difficile")){
+			fenetre.idj2.setText(" Ordinateur ");
+			fenetre.levelj2.setText(" Difficile ");
+			fenetre.levelj2.setVisible(true);
+		}
+    }
+    
+	public void jetonCliquer(Graphics2D drawable){
+		drawable.setPaint(Color.cyan);
+		drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		drawable.setPaint(Color.black);
 	   
-   }
+	}
    
-   public void jetonHalo(Graphics2D drawable,Coordonnee p){
-	   drawable.setPaint(halo);
-       drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-       drawable.setPaint(Color.black);
-   }
+	public void jetonHalo(Graphics2D drawable,Coordonnee p){
+		drawable.setPaint(halo);
+		drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		drawable.setPaint(Color.black);
+	}
    
    public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){
 	   drawable.setPaint(haloChoix);
-       drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-       drawable.setPaint(Color.black);
+	   drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+	   drawable.setPaint(Color.black);
    }
    
    
@@ -239,6 +281,8 @@ public class AireDeDessin extends JComponent {
      	}
     	return choix;
     }
+
+    
 }
 
  class ImagePanel extends JPanel {
