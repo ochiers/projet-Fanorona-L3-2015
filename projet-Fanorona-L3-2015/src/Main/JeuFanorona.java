@@ -12,9 +12,9 @@ public class JeuFanorona {
 	public static void main(String argv[]) throws InterruptedException{
 		Engine e=new Engine();
 		
-		Player p1=new EasyAI(e,true,"player1");
+		Player p1=new HumanPlayer(e,false,"Clem");
 		//Player p1=new EasyAI(e,true,"player1");
-		Player p2=new EasyAI(e,true,"player2");
+		Player p2=new HumanPlayer(e,false,"Seb");
 
 		Fenetre f=new Fenetre(e);
 		e.setAffichage(f);
