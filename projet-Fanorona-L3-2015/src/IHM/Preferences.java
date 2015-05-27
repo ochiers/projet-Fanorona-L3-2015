@@ -1,6 +1,8 @@
 package IHM;
 
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -46,6 +48,15 @@ public class Preferences {
 	JButton accept;
 	JButton annuler;
 	
+	//variables de sauvegarde
+	Image saveFond;
+	String saveJ1;
+	String savelvl1;
+	String saveJ2;
+	String savelvl2;
+	Color save1;
+	Color save2;
+	
 	public Fenetre fenetre;
 	
 	public Preferences(Fenetre f){
@@ -63,6 +74,8 @@ public class Preferences {
 		JPanel panelBoutons = new JPanel(new GridLayout(0,1));
 		
 			// PANEL FOND
+		saveFond = fenetre.panelAccueil.getImage();
+
 		JLabel fond = new JLabel(" Choix fond d'ecran ");
 		panelFond.add(fond);
 		ButtonGroup groupe1 = new ButtonGroup();
@@ -101,7 +114,40 @@ public class Preferences {
 		panelFond.add(rb7);
 		panelFond.add(rb8);
 		
-			// PANEL NOMS
+			// PANEL NOMS		
+		if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer || fenetre.engine.partieCourante.joueurNoir.aiPlayer){
+			if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer && fenetre.engine.partieCourante.joueurNoir.aiPlayer){
+				saveJ1 = (" Ordinateur ");
+				String tmplevel = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
+				if (tmplevel.equals("IA Facile")) savelvl1 = (" Niveau Facile ");
+				else if (tmplevel.equals("IA Moyenne")) savelvl1 = (" Niveau Moyen ");
+				else if (tmplevel.equals("IA Difficile")) savelvl1 = (" Niveau Difficile ");
+				else System.out.println(" Erreur ");
+				saveJ2 = (" Ordinateur ");
+				tmplevel = fenetre.engine.partieCourante.joueurNoir.getNiveau();
+				if (tmplevel.equals("IA Facile")) savelvl2 = (" Niveau Facile ");
+				else if (tmplevel.equals("IA Moyenne")) savelvl2 = (" Niveau Moyen ");
+				else if (tmplevel.equals("IA Difficile")) savelvl2 = (" Niveau Difficile ");
+				else System.out.println(" Erreur ");
+			}
+			else{
+				saveJ1 = (" Humain ");
+				savelvl1 = (" Bonne Chance ! ");
+				saveJ2 = (" Ordinateur ");
+				String tmplevel = fenetre.engine.partieCourante.joueurNoir.getNiveau();
+				if (tmplevel.equals("IA Facile")) savelvl2 = (" Niveau Facile ");
+				else if (tmplevel.equals("IA Moyenne")) savelvl2 = (" Niveau Moyen ");
+				else if (tmplevel.equals("IA Difficile")) savelvl2 = (" Niveau Difficile ");
+				else System.out.println(" Erreur ");
+			}
+		}
+		else{
+			saveJ1 = (" Humain 1 ");
+			savelvl1 = (" Bonne Chance ! ");
+			saveJ2 = (" Humain 2 ");
+			savelvl2 = (" Bonne Chance ! ");
+		}
+		
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
 		panelJoueurs.add(nom);
 		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
@@ -115,6 +161,8 @@ public class Preferences {
 		panelJoueurs.add(name2);
 		
 			// PANEL COULEUR PIONS
+		//save1 = ;
+		//save2 = ;
 		JLabel pion1 = new JLabel(" Choix couleur pions J1 ");
 		panelPions1.add(pion1);
 		ButtonGroup groupe2 = new ButtonGroup();

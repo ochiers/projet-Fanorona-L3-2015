@@ -28,7 +28,7 @@ public class AireDeDessin extends JComponent {
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
-        tailleSegment=f.frame.getWidth()*4/60;
+        tailleSegment=Fenetre.frame.getWidth()*4/60;
         halo=Color.green;
         haloChoix=Color.blue;
         comboColor=Color.orange;
@@ -81,7 +81,8 @@ public class AireDeDessin extends JComponent {
         if(!pionCliquer && doitChoisir){
         	choixManger(drawable);//halo bleu
         }
-        dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
+       // dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
+        dessinGrilleJeton(drawable);
         if(pionCliquer){
         	jetonCliquer(drawable);//rond cyan
         	
@@ -173,7 +174,7 @@ public class AireDeDessin extends JComponent {
     
     }
 
-    public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
+   /* public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
     	
     	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
     		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
@@ -188,9 +189,23 @@ public class AireDeDessin extends JComponent {
     			}
     		}
     	}
+   }*/
+    
+public void dessinGrilleJeton(Graphics2D drawable){
     	
-    	
-    }
+    	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
+    		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
+    			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc){
+    				dessinJeton(drawable,fenetre.pion1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
+    			}
+    			else if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Noir){
+    				dessinJeton(drawable,fenetre.pion2,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
+    			}
+    			else{}
+    		}
+    	}    	
+  }
+
     
     public void dessinJeton(Graphics2D drawable,Color c,int x,int y){
     	drawable.setPaint(c);
@@ -240,29 +255,34 @@ public class AireDeDessin extends JComponent {
  class ImagePanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
-	private Image img;
-	private Icon icon;
+	static Image img;
 	private int width;
 	private int height;
  
 	public ImagePanel(String img, int x, int y) {
-		this(new ImageIcon(img).getImage(), x, y);
+		//this(new ImageIcon(img).getImage(), x, y);
+		ImagePanel.img = new ImageIcon(img).getImage();
+		this.width = x;
+		this.height = y;
 	}
  
 	public ImagePanel(Image img, int x, int y) {
-		this.img = img;
+		ImagePanel.img = img;
 		this.width = x;
 		this.height = y;
 	}
  
 	public ImagePanel(Icon icon, int x, int y) {
-		this.icon = icon;
 		this.width = x;
 		this.height = y;
-		this.img = iconToImage(icon);
+		ImagePanel.img = iconToImage(icon);
+	}
+	
+	public Image getImage(){
+		return ImagePanel.img;
 	}
 
-	//fonction récupéré sur Internet
+	//fonction recuperee sur Internet
 	public static Image iconToImage(Icon icon) {
         if (icon instanceof ImageIcon) {
             return ((ImageIcon)icon).getImage();

@@ -23,13 +23,14 @@ public class Fenetre implements Runnable,Affichage {
 	JButton stopper;
 	JLabel tour1;
 	JLabel tour2;
-	JPanel panelAccueil;
+	ImagePanel panelAccueil;
 	int fw, fh;
 	JLabel idj1;
 	JLabel levelj1;
 	JLabel idj2;
 	JLabel levelj2;
-	Color pion1, pion2;
+	Color pion1 = Color.black;
+	Color pion2 = Color.white;
 	
 	public Fenetre(Engine e){
 		engine=e;
@@ -47,7 +48,7 @@ public class Fenetre implements Runnable,Affichage {
 		monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
 			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
-	/*	JPanel panelFano = new ImagePanel(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 4*fw/6, 4*fh/6);
+	/*	ImagePanel panelFano = new ImagePanel(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 4*fw/6, 4*fh/6);
 			panelFano.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
 			// dans ecouteurSours panel et non aireDeDessin faire 
 			// //System.out.println(" ( " + e.getX() + " , " + e.getY() + " ) ");
@@ -192,19 +193,18 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(tour1);
  		panelAccueil.add(tour2);
  		//panelAccueil.add(panelFano);
- 		
- 		frame.add(panelAccueil);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-			
 		parametre = new Parametres(this);
 		parametre.majParam();
 		//frame.repaint();
 		Preferences p = new Preferences(this);
 		p.majPref();
 		//frame.repaint();
+		
+ 		frame.add(panelAccueil);
+		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void afficherJeu(){
