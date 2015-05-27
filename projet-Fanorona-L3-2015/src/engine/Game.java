@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import AI.HumanPlayer;
 import IHM.Affichage;
 
 /**
@@ -302,9 +303,10 @@ public class Game implements Serializable {
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
 				Coup c2 = this.joueurCourant.play(t);
-				while (!joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
+				while (!finirSonTour && !joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
 					c2 = this.joueurCourant.play(t);
-
+				if (finirSonTour)
+					break;
 				/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
 				while (!stopped && paused)
 					Thread.sleep(50);
@@ -906,6 +908,10 @@ public class Game implements Serializable {
 	 */
 	public void finirSonTour()
 	{
-		this.finirSonTour = true;
+		if (this.joueurCourant instanceof HumanPlayer)
+		{
+			this.finirSonTour = true;
+			((HumanPlayer) this.joueurCourant).setCoup(null, null);
+		}
 	}
 }

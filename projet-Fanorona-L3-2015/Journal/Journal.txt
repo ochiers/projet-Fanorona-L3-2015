@@ -64,7 +64,7 @@ Mercredi 27 mai
 	Matin :
 		- Optimisation de l'algorithme alpha-beta pour accélérer le temps de calcul.
 	Après-midi :
-		- Modifs IA pour permettre d'éviter les cases sur lesquelles on est déjà passé durant un enchaînement de coups.
+		- Modifs IA pour permettre d'éviter les cases sur lesquelles on est déjà passé durant un enchaînement de coups, et pour ne tester que les captures si au moins une capture existe.
 		- MOteur : réparation de beugs encore et toujours .....
 		
 		
