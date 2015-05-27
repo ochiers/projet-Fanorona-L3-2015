@@ -67,22 +67,26 @@ public class AireDeDessin extends JComponent {
         	fenetre.refaire.setEnabled(false);
        
         
+        
+        
         dessinGrille(drawable);//grille
-        if(!fenetre.engine.partieCourante.enCombo){
-        	System.out.println("pas en combo---------------------");
-	        if(!pionCliquer && !doitChoisir){
-	        	pionJouable(drawable);//halo vert
+        if(!fenetre.engine.partieCourante.joueurCourant.aiPlayer){
+	        if(!fenetre.engine.partieCourante.enCombo){
+	        	//System.out.println("pas en combo---------------------");
+		        if(!pionCliquer && !doitChoisir && !fenetre.engine.partieCourante.joueurCourant.aiPlayer){
+		        	pionJouable(drawable);//halo vert
+		        }
+	        }
+	        else{
+	        	//System.out.println("est en combo---------------------");
+	        	pionJouableCombo(drawable); 
 	        }
         }
-        else{
-        	System.out.println("est en combo---------------------");
-        	pionJouableCombo(drawable); 
-        }
-        if(!pionCliquer && doitChoisir){
+        if(!pionCliquer && doitChoisir && !fenetre.engine.partieCourante.joueurCourant.aiPlayer){
         	choixManger(drawable);//halo bleu
         }
         dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
-        if(pionCliquer){
+        if(pionCliquer && !fenetre.engine.partieCourante.joueurCourant.aiPlayer){
         	jetonCliquer(drawable);//rond cyan
         	
         }
