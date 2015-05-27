@@ -67,14 +67,15 @@ public class Engine {
 			partieCourante.finir(); // On arrete la partie courante qui se
 									// deroule
 									// dans le thread principal
-			partieCourante = g;
+			
 			Player pB = partieCourante.joueurBlanc;
 			Player pN = partieCourante.joueurNoir;
+			partieCourante = g;
+			
 			/*
 			 * On récupere le coup d'avant (partie précédente) et parametre correctement
 			 */
 			
-			System.out.println("NIVEAU: "+pB.getNiveau()+" "+pN.getNiveau());
 			switch (pB.getNiveau())
 			{
 				case "Humain":

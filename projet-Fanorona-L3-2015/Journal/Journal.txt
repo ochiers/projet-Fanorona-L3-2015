@@ -39,12 +39,14 @@ Jeudi 21 mai
 	Apres-midi :
 		- Modifs IA et debut tests.
 		- Ajout de la fenetre Preferences (pour le moment non fonctionnelle).
+		- Moteur : continuation de la mise en place des regles du jeu
 		
 Vendredi 22 mai
 	Matin : 
 		- Debug IA.
 	Apres-midi : 
 		- Modification de la gestion du choix du type de capture de l'IA.
+		- Moteur : continuation de la mise en place des regles du jeu
 	
 Mardi 26 mai
 	Matin : 
@@ -54,13 +56,16 @@ Mardi 26 mai
 		- Modification du code de l'IHM, mise au propre du code pour plus de lisiblit�. Fenetre preferences toujours non fonctionnelle.
 		  Probleme avec l'ecouteur et le refraichissement de l'affichage.
 		- Suite à l'audit du matin, réalisation d'une IA facile n'utilisant pas l'algorithme alpha-beta, mais qui se contente de capturer quand c'est possible et joue au hasard sinon.
+		- Moteur : resolution de beugs concernant les regles du jeu
+		- Mise en place du systeme annuler/refaire et tests
+		- Mise en place du systeme de sauvegarde/chargement de parties grace a l'interface Serializable de JAVA mais on a pas encore tester
 		
 Mercredi 27 mai
 	Matin :
 		- Optimisation de l'algorithme alpha-beta pour accélérer le temps de calcul.
 	Après-midi :
 		- Modifs IA pour permettre d'éviter les cases sur lesquelles on est déjà passé durant un enchaînement de coups.
-		
+		- MOteur : réparation de beugs encore et toujours .....
 		
 		
 		
