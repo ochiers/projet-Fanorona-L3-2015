@@ -16,10 +16,10 @@ public class EcouteurDeSouris implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(" ( " + e.getX() + " , " + e.getY() + " ) ");
+		//System.out.println(" ( " + e.getX() + " , " + e.getY() + " ) ");
 		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer){
 			int buttonDown = e.getButton();
-			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfoncé
+			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
 				p.colonne=e.getX();
 				p.ligne=e.getY();
@@ -48,6 +48,22 @@ public class EcouteurDeSouris implements MouseListener{
 					pfinal.colonne=nbCoteLargeur;
 					pfinal.ligne=nbCoteHauteur;
 				}
+				/*if(distance(p,p1)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur-1)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur-1)*aire.tailleSegment;
+				}
+				else if(distance(p,p2)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur-1)*aire.tailleSegment;
+				}
+				else if(distance(p,p3)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur-1)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur)*aire.tailleSegment;		
+				}
+				else if(distance(p,p4)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur)*aire.tailleSegment;
+				}*/
 				if(pfinal.colonne!=-1 && pfinal.ligne!=-1){
 					if(aire.pionCliquer){
 							((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
@@ -76,8 +92,8 @@ public class EcouteurDeSouris implements MouseListener{
 					}
 					aire.repaint();
 				}
-			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfoncé
-			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfoncé
+			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
+			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
 				aire.pionCliquer=false;
 				aire.repaint();
 		    }
