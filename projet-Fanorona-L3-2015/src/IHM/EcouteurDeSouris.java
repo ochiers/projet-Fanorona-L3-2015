@@ -16,6 +16,7 @@ public class EcouteurDeSouris implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(" ( " + e.getX() + " , " + e.getY() + " ) ");
 		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer){
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfoncé

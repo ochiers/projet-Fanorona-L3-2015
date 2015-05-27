@@ -50,7 +50,8 @@ public class Fenetre implements Runnable,Affichage {
 			//grille
 		monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
-			monDessin.setBounds((int)(0.8*fw/6), (int)(0.2*fh/6), (int)(4.4*fw/6), (int)(4.4*fh/6)); //MODIF TAILLE
+			//monDessin.setBounds((int)(0.8*fw/6), (int)(0.2*fh/6), (int)(4.4*fw/6), (int)(4.4*fh/6)); //MODIF TAILLE POUR FANO
+			monDessin.setBounds(0, 0, fw, fh); //MODIF 2 TAILLE POUR FANO
 			
 			//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
@@ -99,16 +100,19 @@ public class Fenetre implements Runnable,Affichage {
 		int temp = (int)(0.6*fh/6)/2;
 		annuler = new JButton(" Annuler Coup ");
 			annuler.addActionListener(new EcouteurDeBouton(this,annuler.getText()));
-			annuler.setBounds((int)((1.5*fw/6)-temp), (int)(4.8*fh/6), (int)(fh/6), (int)(0.3*fh/6));
+			annuler.setBounds((int)((1.2*fw/6)-temp), (int)(4.8*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 		refaire = new JButton(" Refaire Coup ");
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
-			refaire.setBounds((int)(((1.5*fw/6)-temp)+fw/6), (int)(4.8*fh/6), (int)(fh/6), (int)(0.3*fh/6));
+			refaire.setBounds((int)(((1.2*fw/6)-temp)+(0.8*fw/6)), (int)(4.8*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 		stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
-			stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.8*fh/6), (int)(fh/6), (int)(0.3*fh/6));
+			stopper.setBounds((int)(((1.2*fw/6)-temp)+(1.6*fw/6)), (int)(4.8*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 		JButton valider = new JButton(" Fin du tour ");
 			valider.addActionListener(new EcouteurDeBouton(this,valider.getText()));
-			valider.setBounds((int)(((1.5*fw/6)-temp)+3*fw/6), (int)(4.8*fh/6), (int)(fh/6), (int)(0.3*fh/6));
+			valider.setBounds((int)(((1.2*fw/6)-temp)+(2.4*fw/6)), (int)(4.8*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
+		JButton suggestion = new JButton(" Suggerer coup ");
+			suggestion.addActionListener(new EcouteurDeBouton(this,suggestion.getText()));
+			suggestion.setBounds((int)(((1.2*fw/6)-temp)+(3.2*fw/6)), (int)(4.8*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 			
 			//affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ");
@@ -148,6 +152,7 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(refaire);
  		panelAccueil.add(stopper);
  		panelAccueil.add(valider);
+ 		panelAccueil.add(suggestion);
  		panelAccueil.add(j1);
  		panelAccueil.add(j2); 		 
  		panelAccueil.add(idj1);
