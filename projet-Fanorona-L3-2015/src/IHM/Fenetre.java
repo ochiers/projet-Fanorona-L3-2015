@@ -30,9 +30,12 @@ public class Fenetre implements Runnable,Affichage {
 	JLabel idj2;
 	JLabel levelj2;
 	Color pion1, pion2;
+	String nameJ1;
+	String nameJ2;
 	
 	public Fenetre(Engine e){
 		engine=e;
+		
 	}
 	
 	public void run(){		
@@ -198,7 +201,9 @@ public class Fenetre implements Runnable,Affichage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-			
+		nameJ1=engine.partieCourante.joueurBlanc.name;
+		nameJ2=engine.partieCourante.joueurNoir.name;
+		
 		parametre = new Parametres(this);
 		parametre.majParam();
 		//frame.repaint();
@@ -208,12 +213,12 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherJeu(){
-		System.out.println("11111111");
+		//System.out.println("11111111");
 		monDessin.repaint();
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
-		System.out.println("22222222");
+		//System.out.println("22222222");
 
 		monDessin.pionPossible=l;
 		monDessin.repaint();
@@ -224,18 +229,20 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2){
-		System.out.println("------------MULTI DIRECTION------------------");
+		if(!engine.partieCourante.joueurCourant.aiPlayer){
+		//System.out.println("------------MULTI DIRECTION------------------");
 		monDessin.doitChoisir=true;
 		monDessin.l1=l1;
 		monDessin.l2=l2;
+		}
 		monDessin.repaint();
 	}
 
 	@Override
 	public void afficherPionDuCombo(Case pionCourant) {
-		System.out.println("33333333333333");
+		//System.out.println("33333333333333");
 		monDessin.pionCombo=pionCourant;
-		System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
+		//System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
 		monDessin.repaint();
 		//monDessin.estEnCombo=false;
 		
@@ -243,7 +250,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
-		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		//System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo=combo;
 		monDessin.repaint();
 		

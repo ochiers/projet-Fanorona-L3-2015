@@ -14,7 +14,7 @@ public class JeuFanorona {
 		
 
 		Player p1=new HumanPlayer(e,false,"Jeremy");
-		Player p2=new HardAI(e,true,"player2");
+		Player p2=new EasyAI(e,true,"player2");
 
 		Fenetre f=new Fenetre(e);
 		e.setAffichage(f);
