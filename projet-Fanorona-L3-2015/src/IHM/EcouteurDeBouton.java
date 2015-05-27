@@ -133,7 +133,7 @@ public class EcouteurDeBouton implements ActionListener{
 			}
 			break;
 		case " Fin du tour ":
-			//TODO
+			this.fenetre.engine.partieCourante.finirSonTour();
 			break;
 		default:
 			System.out.println("Erreur bouton switch");
