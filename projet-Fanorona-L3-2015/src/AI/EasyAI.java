@@ -6,6 +6,10 @@ import java.util.Random;
 import engine.*;
 
 public class EasyAI extends Player {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<Case> premieresCasesPrises; /* La première case prise par chaque coup stocké dans la liste des coups qui capturent */
 	Case choix; /* La première case qu'on capture avec le coup choisi à la fin de la méthode play */
 
@@ -92,7 +96,7 @@ public class EasyAI extends Player {
 	}
 	
 	@Override
-	public Coup play(Case[] listeCases)
+	public Coup play(Case[] listeCases, boolean doitManger)
 	{
 		try { /* Sleep pour pouvoir visualiser les coups de l'IA */
 			Thread.sleep(1000);

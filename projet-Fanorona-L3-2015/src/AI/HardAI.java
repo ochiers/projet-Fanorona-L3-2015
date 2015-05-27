@@ -7,6 +7,10 @@ import java.util.Random;
 import engine.*;
 
 public class HardAI extends Player {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<Case> premieresCasesPrises; /* La première case prise par chaque coup stocké dans la liste des meilleurs coups */
 	Case choix; /* La première case qu'on capture avec le coup choisi à la fin de la méthode play */
 
@@ -26,32 +30,71 @@ public class HardAI extends Player {
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
 			for(int i  = 0; i < listeCoups.size(); i++){ /* On joue chaque coup possible */
-				Noeud noeudPercussion = new Noeud(n);
-				Noeud noeudAspiration = new Noeud(n);
+				/*Noeud noeudPercussion = new Noeud(n);
+				Noeud noeudAspiration = new Noeud(n);*/
 				Coup coupCourant = listeCoups.get(i);
 				/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */
-				int nbCapturésPercussion = capturer(noeudPercussion, noeudMin, determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur)); 	/* nbCapturésPercussion = nb pions capturés par percussion */
-				int nbCapturésAspiration = capturer(noeudAspiration, noeudMin, determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur));	/* nbCapturésAbsorption = nb pions capturés par aspiration */
+				//int nbCapturésPercussion = capturer(noeudPercussion, noeudMin, determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur)); 	/* nbCapturésPercussion = nb pions capturés par percussion */
+				//int nbCapturésAspiration = capturer(noeudAspiration, noeudMin, determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur));	/* nbCapturésAbsorption = nb pions capturés par aspiration */
+				
+				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, n.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
+				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
+				
 				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 				 * des deux captures est la meilleure */
-				noeudPercussion.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
+				
+				/*noeudPercussion.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
 				noeudPercussion.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;
 				noeudAspiration.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
-				noeudAspiration.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;
-				ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
+				noeudAspiration.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;*/
+				
+				/*ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
 				ArrayList<Case> pionsJouables3 = lesPionsJouables(noeudAspiration, couleurAdversaire);
-				Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];
-				if(nbCapturésPercussion > 0 && nbCapturésAspiration > 0){
+				Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];*/
+				if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0){
+					Noeud noeudPercussion = new Noeud(n);
+					Noeud noeudAspiration = new Noeud(n);
+					
+					noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+					noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+					noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+					noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+					
+					ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
+					ArrayList<Case> pionsJouables3 = lesPionsJouables(noeudAspiration, couleurAdversaire);
+					Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];
+					
 					int res1 = alphaBeta(noeudPercussion, pionsJouables2.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire);
 					int res2 = alphaBeta(noeudAspiration, pionsJouables3.toArray(listeCases3), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire);
 					val = java.lang.Math.min(val, java.lang.Math.min(res1, res2));
 				}
 				/* Sinon, on fait la seule capture réellement possible */
 				else {
-					if(nbCapturésPercussion > nbCapturésAspiration)
-						val = java.lang.Math.min(val, alphaBeta(noeudPercussion, pionsJouables2.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
-					else val = java.lang.Math.min(val, alphaBeta(noeudAspiration, pionsJouables3.toArray(listeCases3), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
+					Noeud nouveauNoeud = new Noeud(n);
+					ArrayList<Case> pionsJouables;
+					if(evaluationNbCapturésPercussion > evaluationNbCapturésAspiration) {
+						/* Capture et mise a jour du pion bougé */
+						capturer(nouveauNoeud, false, pionsACapturerRapprochement);
+						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+						/* On détermine les nouveaux pions jouables */
+						pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+						Case[] listeCases2 = new Case[pionsJouables.size()];
+						val = java.lang.Math.min(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
+					}
+					else {
+						/* Capture et mise a jour du pion bougé */
+						capturer(nouveauNoeud, false, pionsACapturerEloignement);
+						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+						/* On détermine les nouveaux pions jouables */
+						pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+						Case[] listeCases2 = new Case[pionsJouables.size()];
+						val = java.lang.Math.min(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
+					}
 				}
 				if(alpha >= val) return val;
 				beta = java.lang.Math.min(beta, val);
@@ -60,32 +103,69 @@ public class HardAI extends Player {
 		else { /* tour de l'IA */
 			val = Integer.MIN_VALUE;
 			for(int i  = 0; i < listeCoups.size(); i++){ /* Pour chaque voisin de la case c, on va jouer le coup c -> voisin */
-				Noeud noeudPercussion = new Noeud(n);
-				Noeud noeudAspiration = new Noeud(n);
+				/*Noeud noeudPercussion = new Noeud(n);
+				Noeud noeudAspiration = new Noeud(n);*/
 				Coup coupCourant = listeCoups.get(i);
 				/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */
-				int nbCapturésPercussion = capturer(noeudPercussion, noeudMin, determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur));	/* nbCapturésPercussion = nb pions capturés par percussion */
-				int nbCapturésAspiration = capturer(noeudAspiration, noeudMin, determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur));	/* nbCapturésAbsorption = nb pions capturés par aspiration */
+				//int nbCapturésPercussion = capturer(noeudPercussion, false, determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne], couleurJoueur));
+				//int nbCapturésAspiration = capturer(noeudAspiration, false, determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne], couleurJoueur));			
+				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, n.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
+				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
 				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 				 * des deux captures est la meilleure */
-				noeudPercussion.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
+				
+				/*noeudPercussion.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
 				noeudPercussion.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;
 				noeudAspiration.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
-				noeudAspiration.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;
-				ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
+				noeudAspiration.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;*/
+				
+				/*ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
 				ArrayList<Case> pionsJouables3 = lesPionsJouables(noeudAspiration, couleurAdversaire);
-				Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];
-				if(nbCapturésPercussion > 0 && nbCapturésAspiration > 0){
+				Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];*/
+				if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0) {
+					Noeud noeudPercussion = new Noeud(n);
+					Noeud noeudAspiration = new Noeud(n);
+					
+					noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+					noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+					noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+					noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+					
+					ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
+					ArrayList<Case> pionsJouables3 = lesPionsJouables(noeudAspiration, couleurAdversaire);
+					Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];
+					
 					int res1 = alphaBeta(noeudPercussion, pionsJouables2.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire);
 					int res2 = alphaBeta(noeudAspiration, pionsJouables3.toArray(listeCases3), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire);
 					val = java.lang.Math.max(val, java.lang.Math.max(res1, res2));
 				}
 				/* Sinon, on fait la seule capture réellement possible */
 				else {
-					if(nbCapturésPercussion > nbCapturésAspiration)
-						val = java.lang.Math.max(val, alphaBeta(noeudPercussion, pionsJouables2.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
-					else val = java.lang.Math.max(val, alphaBeta(noeudAspiration, pionsJouables3.toArray(listeCases3), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
+					Noeud nouveauNoeud = new Noeud(n);
+					ArrayList<Case> pionsJouables;
+					if(evaluationNbCapturésPercussion > evaluationNbCapturésAspiration) {
+						/* Capture et mise a jour du pion bougé */
+						capturer(nouveauNoeud, false, pionsACapturerRapprochement);
+						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+						/* On détermine les nouveaux pions jouables */
+						pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+						Case[] listeCases2 = new Case[pionsJouables.size()];
+						val = java.lang.Math.max(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
+					}
+					else {
+						/* Capture et mise a jour du pion bougé */
+						capturer(nouveauNoeud, false, pionsACapturerEloignement);
+						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+						/* On détermine les nouveaux pions jouables */
+						pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+						Case[] listeCases2 = new Case[pionsJouables.size()];
+						val = java.lang.Math.max(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire));
+					}
 				}
 				if(val >= beta) return val;
 				alpha = java.lang.Math.max(alpha, val);
@@ -245,14 +325,37 @@ public class HardAI extends Player {
 		return res;
 	}
 	
+	private boolean coupValide(Noeud n, Coup c, Case[] pionsPossibles, boolean doitManger, Pion p)
+	{
+		if (c == null || c.arrivee == null || c.depart == null)
+			return false;
+
+		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
+		for (int i = 0; i < pionsPossibles.length; i++)
+			l.add(pionsPossibles[i].position);
+		Direction d = determinerDirection(c.depart, c.arrivee);
+		Case arrivee = n.plateau[c.arrivee.ligne][c.arrivee.colonne];
+		Case depart = n.plateau[c.depart.ligne][c.depart.colonne];
+		boolean res = (c != null && l.contains(c.depart) && n.plateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
+		if (!doitManger)
+			return res;
+		else
+			res = res && (determinerPionsACapturerRapprochement(d, arrivee, p).size() > 0 || determinerPionsACapturerEloignement(d, depart,p).size() > 0);
+		return res;
+	}
+	
+	
+	
 	/* Fin méthodes récupérées dans Game */
 	
-	public ArrayList<Coup> creerCoups(Case[] listeCases){
+	public ArrayList<Coup> creerCoups(Case[] listeCases, Noeud n, boolean doitManger, Pion p){
 		ArrayList<Coup> listeCoups = new ArrayList<Coup>();
 		for(int i =0; i < listeCases.length; i++){
 			ArrayList<Case> voisins = voisins(listeCases[i]);
 			for(int j = 0; j < voisins.size(); j++){
-				listeCoups.add(new Coup(listeCases[i].position, voisins.get(j).position));
+				Coup c = new Coup(listeCases[i].position, voisins.get(j).position);
+				if(coupValide(n, c, listeCases, doitManger, p))
+					listeCoups.add(new Coup(listeCases[i].position, voisins.get(j).position));
 			}
 		}
 		return listeCoups;
@@ -261,7 +364,8 @@ public class HardAI extends Player {
 	@Override
 	public Coup play(Case[] listeCases)
 	{
-		int profondeur = 2;
+		int profondeur = 8;
+		long tempsAvant = System.nanoTime();
 		ArrayList<Coup> listeCoups = creerCoups(listeCases);
 		Noeud n = new Noeud(leMoteur.partieCourante);
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
@@ -275,58 +379,91 @@ public class HardAI extends Player {
 //			e.printStackTrace();
 //		}
 		for(int i = 0; i < listeCoups.size(); i++){
-			Noeud noeudPercussion = new Noeud(n);
-			Noeud noeudAspiration = new Noeud(n);
+			Coup coupCourant = listeCoups.get(i);
+			/*Noeud noeudPercussion = new Noeud(n);
+			Noeud noeudAspiration = new Noeud(n);*/
 			/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
-			Direction directionCoup = determinerDirection(listeCoups.get(i).depart, listeCoups.get(i).arrivee); 	/* d = direction correspondant au coup */
-			int nbCapturésPercussion = capturer(noeudPercussion, false, determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne], couleurJoueur));
-			int nbCapturésAspiration = capturer(noeudAspiration, false, determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne], couleurJoueur));			
+			Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */
+			//int nbCapturésPercussion = capturer(noeudPercussion, false, determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne], couleurJoueur));
+			//int nbCapturésAspiration = capturer(noeudAspiration, false, determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne], couleurJoueur));			
+			Case premiereCasePrise;
+			ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+			ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, n.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+			int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
+			int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
+			
 			/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 			 * des deux captures est la meilleure */
-			noeudPercussion.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
+			/*noeudPercussion.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
 			noeudPercussion.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;
 			noeudAspiration.plateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].pion = null;
 			noeudAspiration.plateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].pion = couleurJoueur;
 			ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
 			ArrayList<Case> pionsJouables3 = lesPionsJouables(noeudAspiration, couleurAdversaire);
 			Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];
-			Case premiereCasePrise;
-			if(nbCapturésPercussion > 0 && nbCapturésAspiration > 0){
+			Case premiereCasePrise;*/
+			
+			if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0) { // Capture avec un choix
+				Noeud noeudPercussion = new Noeud(n);
+				Noeud noeudAspiration = new Noeud(n);
+				capturer(noeudPercussion, false, pionsACapturerRapprochement);
+				capturer(noeudAspiration, false, pionsACapturerEloignement);
+				
+				noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+				noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+				noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+				noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+				ArrayList<Case> pionsJouables2 = lesPionsJouables(noeudPercussion, couleurAdversaire);
+				ArrayList<Case> pionsJouables3 = lesPionsJouables(noeudAspiration, couleurAdversaire);
+				Case[] listeCases2 = new Case[pionsJouables2.size()], listeCases3 = new Case[pionsJouables3.size()];
+				
 				int res1 = alphaBeta(noeudPercussion, pionsJouables2.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire);
 				int res2 = alphaBeta(noeudAspiration, pionsJouables3.toArray(listeCases3), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire);
 				if(res1>res2){
-					premiereCasePrise = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].getCaseAt(directionCoup);
+					premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
 					res = res1;
 				}
 				else {
-					premiereCasePrise = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].getCaseAt(Direction.oppose(directionCoup));
+					premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 					res = res2;
 				}
 			}
 			/* Sinon, on fait la seule capture réellement possible */
 			else {
-				if(nbCapturésPercussion > nbCapturésAspiration){
-					premiereCasePrise = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne].getCaseAt(directionCoup);
-					res = alphaBeta(noeudPercussion, pionsJouables2.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire);
+				Noeud nouveauNoeud = new Noeud(n);
+				ArrayList<Case> pionsJouables;
+				if(evaluationNbCapturésPercussion > evaluationNbCapturésAspiration) {
+					capturer(nouveauNoeud, false, pionsACapturerRapprochement);
+					nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+					nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+					pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+					Case[] listeCases2 = new Case[pionsJouables.size()];
+					premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
+					res = alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire);
 				}
 				else {
-					premiereCasePrise = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne].getCaseAt(Direction.oppose(directionCoup));
-					res = alphaBeta(noeudAspiration, pionsJouables3.toArray(listeCases3), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire);
+					capturer(nouveauNoeud, false, pionsACapturerEloignement);
+					nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
+					nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
+					pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+					Case[] listeCases2 = new Case[pionsJouables.size()];
+					premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
+					res = alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire);
 				}
 			}
 			// PRINT
-			Coup p = listeCoups.get(i);
+			Coup p = coupCourant;
 			//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 			
 			if(res > meilleurRes){
 				meilleurRes = res;
 				meilleurCoups.clear();
 				premieresCasesPrises.clear();
-				meilleurCoups.add(listeCoups.get(i));
+				meilleurCoups.add(coupCourant);
 				premieresCasesPrises.add(premiereCasePrise);
 			}
 			if(res == meilleurRes){
-				meilleurCoups.add(listeCoups.get(i));
+				meilleurCoups.add(coupCourant);
 				premieresCasesPrises.add(premiereCasePrise);
 			}
 		}
@@ -334,6 +471,7 @@ public class HardAI extends Player {
 		int rand = r.nextInt(meilleurCoups.size());
 		choix = premieresCasesPrises.get(rand);
 		//System.out.println(meilleurCoups.get(rand));
+		System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
 		return meilleurCoups.get(rand);
 	}
 
