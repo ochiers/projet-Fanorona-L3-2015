@@ -32,6 +32,9 @@ public class Game implements Serializable {
 	 */
 	private boolean						paused;
 
+	/**
+	 * Indique si un combo est en cours, le pion correspondant est dans l'attribu this.pionCombo
+	 */
 	public boolean						enCombo;
 	/**
 	 * Le joueur qui est en train de jouer
@@ -89,6 +92,9 @@ public class Game implements Serializable {
 	 */
 	public UndoRedo<Game>				annulerRefaire;
 
+	/**
+	 * Pion qui fait le combo en cours ( == null si this.enCombo==False)
+	 */
 	public Case							pionCombo;
 
 	/**
@@ -257,11 +263,11 @@ public class Game implements Serializable {
 			display.afficherPionsPossibles(pionsPossibles);
 
 			Case[] tmp = new Case[pionsPossibles.size()];
-			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
+			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp),doitManger);
 
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
-				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
+				c = this.joueurCourant.play(pionsPossibles.toArray(tmp),doitManger);
 			}
 
 			/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
@@ -295,9 +301,9 @@ public class Game implements Serializable {
 				display.afficherCheminParcouruParleCombo(combo);
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
-				Coup c2 = this.joueurCourant.play(t);
+				Coup c2 = this.joueurCourant.play(t,true);
 				while (!joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
-					c2 = this.joueurCourant.play(t);
+					c2 = this.joueurCourant.play(t,true);
 
 				/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
 				while (!stopped && paused)
@@ -347,6 +353,14 @@ public class Game implements Serializable {
 		joueurNoir.setStopped(false);
 		joueurBlanc.start();
 		joueurNoir.start();
+
+		ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
+		if (pionsPossibles.size() == 0)
+		{
+			System.err.println("Aucun pion ne peut manger");
+			pionsPossibles = this.lesPionsJouables();
+		}
+		display.afficherPionsPossibles(pionsPossibles);
 
 		joueurBlanc.join();
 		joueurNoir.join();
@@ -826,7 +840,6 @@ public class Game implements Serializable {
 
 	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau)
 	{
-		double x = System.nanoTime();
 		for (int i = 0; i < nbLignes; i++)
 		{
 			for (int j = 0; j < nbColonne - 1; j++)

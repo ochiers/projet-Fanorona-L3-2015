@@ -12,7 +12,11 @@ public class JeuFanorona {
 	public static void main(String argv[]) throws InterruptedException{
 		Engine e=new Engine();
 		
+<<<<<<< HEAD
 		Player p1=new HumanPlayer(e,false,"Jeremy");
+=======
+		Player p1=new EasyAI(e,true,"player1");
+>>>>>>> branch 'master' of https://github.com/ochiers/projet-Fanorona-L3-2015.git
 		//Player p1=new EasyAI(e,true,"player1");
 		Player p2=new HardAI(e,true,"player2");
 
