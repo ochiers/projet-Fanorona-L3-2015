@@ -31,9 +31,12 @@ public class Fenetre implements Runnable,Affichage {
 	JLabel levelj2;
 	Color pion1 = Color.black;
 	Color pion2 = Color.white;
+	String nameJ1;
+	String nameJ2;
 	
 	public Fenetre(Engine e){
 		engine=e;
+		
 	}
 	
 	public void run(){		
@@ -120,44 +123,43 @@ public class Fenetre implements Runnable,Affichage {
 			j2.setBounds((int)(5.15*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		idj2 = new JLabel(" Erreur ");
 		levelj2 = new JLabel(" Erreur ");
+		/*
 		String level = engine.partieCourante.joueurBlanc.getNiveau();
 		if (level.equals("Humain")){
 			idj1 = new JLabel(engine.partieCourante.joueurBlanc.name);
 			levelj1 = new JLabel(" Bonne Chance ! ");
-		}
-		if (level.equals("IA Facile")){
+			levelj1.setVisible(false);
+		}else if (level.equals("IA Facile")){
 			idj1 = new JLabel(" Ordinateur ");
 			levelj1 = new JLabel(" Facile ");
-		}
-		if (level.equals("IA Moyenne")){
+		}else if (level.equals("IA Moyenne")){
 			idj1 = new JLabel(" Ordinateur ");
 			levelj1 = new JLabel(" Moyen ");
-		}
-		if (level.equals("IA Difficle")){
+		}else if (level.equals("IA Difficile")){
 			idj1 = new JLabel(" Ordinateur ");
-			levelj1 = new JLabel(" Difficile ");
+			levelj1 = new JLabel(" Difficile ");	
 		}
+		level = engine.partieCourante.joueurNoir.getNiveau();
 		if (level.equals("Humain")){
 			idj2 = new JLabel(engine.partieCourante.joueurNoir.name);
 			levelj2 = new JLabel(" Bonne Chance ! ");
-		}
-		if (level.equals("IA Facile")){
+		}else if (level.equals("IA Facile")){
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Facile ");
-		}
-		if (level.equals("IA Moyenne")){
+		}else if (level.equals("IA Moyenne")){
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Moyen ");
-		}
-		if (level.equals("IA Difficle")){
+		}else if (level.equals("IA Difficile")){
 			idj2 = new JLabel(" Ordinateur ");
 			levelj2 = new JLabel(" Difficile ");
-		}
+		}*/
 			idj1.setBounds((int)(0.25*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			levelj1.setBounds((int)(0.25*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			idj2.setBounds((int)(5.15*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 			levelj2.setBounds((int)(5.15*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+			
+		//scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
+		scoreInt1 = new JLabel("");
 			scoreInt1.setBounds((int)(0.25*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
 			scoreInt2.setBounds((int)(5.15*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
@@ -193,6 +195,9 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(tour1);
  		panelAccueil.add(tour2);
  		//panelAccueil.add(panelFano);
+
+		nameJ1=engine.partieCourante.joueurBlanc.name;
+		nameJ2=engine.partieCourante.joueurNoir.name;
 		
 		parametre = new Parametres(this);
 		parametre.majParam();
@@ -208,12 +213,12 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherJeu(){
-		System.out.println("11111111");
+		//System.out.println("11111111");
 		monDessin.repaint();
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
-		System.out.println("22222222");
+		//System.out.println("22222222");
 
 		monDessin.pionPossible=l;
 		monDessin.repaint();
@@ -224,18 +229,20 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2){
-		System.out.println("------------MULTI DIRECTION------------------");
+		if(!engine.partieCourante.joueurCourant.aiPlayer){
+		//System.out.println("------------MULTI DIRECTION------------------");
 		monDessin.doitChoisir=true;
 		monDessin.l1=l1;
 		monDessin.l2=l2;
+		}
 		monDessin.repaint();
 	}
 
 	@Override
 	public void afficherPionDuCombo(Case pionCourant) {
-		System.out.println("33333333333333");
+		//System.out.println("33333333333333");
 		monDessin.pionCombo=pionCourant;
-		System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
+		//System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
 		monDessin.repaint();
 		//monDessin.estEnCombo=false;
 		
@@ -243,7 +250,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
-		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		//System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo=combo;
 		monDessin.repaint();
 		

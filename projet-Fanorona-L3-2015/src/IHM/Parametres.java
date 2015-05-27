@@ -164,6 +164,9 @@ public class Parametres {
 							System.out.println("Niveau IA blanc inconnu");
 							break;
 					}
+					r3b2.setSelected(true);
+					fenetre.lvlPC2=2;
+					savelvlPC2=2;
 				}
 				else{
 					switch(fenetre.engine.partieCourante.joueurNoir.getNiveau()){
@@ -187,6 +190,9 @@ public class Parametres {
 							break;
 					}
 				}
+				r3b2.setSelected(true);
+				fenetre.lvlPC2=2;
+				savelvlPC2=2;
 			}
 		else{
 			r2b2.setSelected(true);

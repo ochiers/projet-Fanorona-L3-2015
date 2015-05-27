@@ -32,6 +32,9 @@ public class Game implements Serializable {
 	 */
 	private boolean						paused;
 
+	/**
+	 * Indique si un combo est en cours, le pion correspondant est dans l'attribu this.pionCombo
+	 */
 	public boolean						enCombo;
 	/**
 	 * Le joueur qui est en train de jouer
@@ -89,6 +92,9 @@ public class Game implements Serializable {
 	 */
 	public UndoRedo<Game>				annulerRefaire;
 
+	/**
+	 * Pion qui fait le combo en cours ( == null si this.enCombo==False)
+	 */
 	public Case							pionCombo;
 
 	/**
@@ -347,6 +353,14 @@ public class Game implements Serializable {
 		joueurNoir.setStopped(false);
 		joueurBlanc.start();
 		joueurNoir.start();
+
+		ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
+		if (pionsPossibles.size() == 0)
+		{
+			System.err.println("Aucun pion ne peut manger");
+			pionsPossibles = this.lesPionsJouables();
+		}
+		display.afficherPionsPossibles(pionsPossibles);
 
 		joueurBlanc.join();
 		joueurNoir.join();
@@ -826,7 +840,6 @@ public class Game implements Serializable {
 
 	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau)
 	{
-		double x = System.nanoTime();
 		for (int i = 0; i < nbLignes; i++)
 		{
 			for (int j = 0; j < nbColonne - 1; j++)
