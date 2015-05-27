@@ -39,11 +39,11 @@ public class AireDeDessin extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-    	Graphics2D drawable = (Graphics2D) g;
-
-        //int width = getSize().width;
-        //int height = getSize().height;
-
+    	Graphics2D drawable = (Graphics2D) g;    	
+    	int width = this.getSize().width;
+    	int height = this.getSize().height;
+    	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);
+    	
         drawable.setPaint(Color.black);
        
         majScore();
