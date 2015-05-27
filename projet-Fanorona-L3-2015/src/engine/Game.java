@@ -263,11 +263,11 @@ public class Game implements Serializable {
 			display.afficherPionsPossibles(pionsPossibles);
 
 			Case[] tmp = new Case[pionsPossibles.size()];
-			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp),doitManger);
+			Coup c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
-				c = this.joueurCourant.play(pionsPossibles.toArray(tmp),doitManger);
+				c = this.joueurCourant.play(pionsPossibles.toArray(tmp));
 			}
 
 			/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
@@ -301,9 +301,9 @@ public class Game implements Serializable {
 				display.afficherCheminParcouruParleCombo(combo);
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
-				Coup c2 = this.joueurCourant.play(t,true);
+				Coup c2 = this.joueurCourant.play(t);
 				while (!joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
-					c2 = this.joueurCourant.play(t,true);
+					c2 = this.joueurCourant.play(t);
 
 				/* Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause */
 				while (!stopped && paused)
