@@ -57,7 +57,7 @@ public abstract class Player extends Thread implements Serializable{
 	 * 
 	 * @return
 	 */
-	public abstract Coup play(Case[] listeCoups, boolean doitManger);
+	public abstract Coup play(Case[] listeCoups);
 
 	/**
 	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les

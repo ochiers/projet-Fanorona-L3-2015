@@ -96,7 +96,7 @@ public class EasyAI extends Player {
 	}
 	
 	@Override
-	public Coup play(Case[] listeCases, boolean doitManger)
+	public Coup play(Case[] listeCases)
 	{
 		try { /* Sleep pour pouvoir visualiser les coups de l'IA */
 			Thread.sleep(1000);

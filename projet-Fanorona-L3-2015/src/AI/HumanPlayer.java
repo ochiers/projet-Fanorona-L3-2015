@@ -43,7 +43,7 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public Coup play(Case[] listeCoups, boolean doitManger)
+	public Coup play(Case[] listeCoups)
 	{
 		hasPlayed = false;
 		coupJoue = null;
