@@ -9,7 +9,7 @@ public class HumanPlayer extends Player {
 	private boolean hasPlayed;
 	private Coup coupJoue;
 	private Coordonnee pointDirection;
-	public HumanPlayer(Engine leMoteur, boolean isAI, String name)
+	public HumanPlayer(EngineServices leMoteur, boolean isAI, String name)
 	{
 		super(leMoteur, isAI, name);
 		// TODO Auto-generated constructor stub

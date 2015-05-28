@@ -52,7 +52,7 @@ public class EcouteurDeBouton implements ActionListener{
 					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0,size);
 				}
 			}
-			fenetre.stopper.setText(" Reprendre ");
+			//fenetre.stopper.setText(" Reprendre ");
 			//System.out.println("new partie");
 			break;
 			

@@ -145,7 +145,7 @@ public interface EngineServices {
 	 * @param p2 Le joueur noir
 	 * @param size La taille du plateau (9X5 ou 5X5)
 	 */
-	public void nouvellePartie(Player p1, Player p2, Dimension size);
+	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size);
 	
 	/**
 	 * Sauvegarde la partie courante dans le fichier de chemin path

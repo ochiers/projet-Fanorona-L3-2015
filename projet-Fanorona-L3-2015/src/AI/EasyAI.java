@@ -13,7 +13,7 @@ public class EasyAI extends Player {
 	ArrayList<Case> premieresCasesPrises; /* La première case prise par chaque coup stocké dans la liste des coups qui capturent */
 	Case choix; /* La première case qu'on capture avec le coup choisi à la fin de la méthode play */
 
-	public EasyAI(Engine moteur, boolean isAI, String name)
+	public EasyAI(EngineServices moteur, boolean isAI, String name)
 	{
 		super(moteur, isAI, name);
 		premieresCasesPrises = new ArrayList<Case>();
