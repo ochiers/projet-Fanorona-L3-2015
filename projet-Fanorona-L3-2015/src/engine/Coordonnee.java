@@ -8,10 +8,14 @@ import java.io.Serializable;
  * @author soulierc
  *
  */
-public class Coordonnee implements Serializable{
+public class Coordonnee implements Serializable {
 
-	public int	ligne;
-	public int	colonne;
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -2185563985578894357L;
+	public int					ligne;
+	public int					colonne;
 
 	/**
 	 * Cree une coordonnee [ligne][colonne]
@@ -48,20 +52,21 @@ public class Coordonnee implements Serializable{
 		return this.colonne;
 	}
 
-	public boolean equals(Object o){
-		
-		if(o != null && o instanceof Coordonnee)
+	public boolean equals(Object o)
+	{
+
+		if (o != null && o instanceof Coordonnee)
 		{
 			Coordonnee c = (Coordonnee) o;
 			return c.ligne == this.ligne && c.colonne == this.colonne;
 		}
 		return false;
-		
+
 	}
-	
+
 	public String toString()
 	{
-		return "[Ligne = "+this.ligne+", Colonne = "+ this.colonne+"]";
+		return "[Ligne = " + this.ligne + ", Colonne = " + this.colonne + "]";
 	}
-	
+
 }

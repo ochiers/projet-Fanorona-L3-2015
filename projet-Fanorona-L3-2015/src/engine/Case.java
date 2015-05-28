@@ -4,29 +4,55 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Represente une case du plateau
+ * 
+ * @author soulierc
+ *
+ */
 public class Case implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long	serialVersionUID	= -438749539936809334L;
-	public int			nbVoisins;
-	public Case			nord;
-	public Case			nordEst;
-	public Case			est;
-	public Case			sudEst;
-	public Case			sud;
-	public Case			sudOuest;
-	public Case			ouest;
-	public Case			nordOuest;
-	public Coordonnee	position;
-	public Pion			pion;
 
+	/* Les voisins de cette case */
+	public Case					nord;
+	public Case					nordEst;
+	public Case					est;
+	public Case					sudEst;
+	public Case					sud;
+	public Case					sudOuest;
+	public Case					ouest;
+	public Case					nordOuest;
+
+	/**
+	 * La position de la case dans la matrice du plateau
+	 */
+	public Coordonnee			position;
+
+	/**
+	 * Le pion placé sur la case Si null -> case vide
+	 */
+	public Pion					pion;
+
+	/**
+	 * Cree une nouvelle case
+	 * 
+	 * @param position
+	 *            La position de la case dans la matrice
+	 */
 	public Case(Coordonnee position)
 	{
 		this.position = position;
 	}
 
+	/**
+	 * Donne les voisins de cette case
+	 * 
+	 * @return
+	 */
 	public ArrayList<Case> voisins()
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
@@ -49,11 +75,23 @@ public class Case implements Serializable {
 		return res;
 	}
 
+	/**
+	 * Indique si la case est vide ou non
+	 * 
+	 * @return
+	 */
 	public boolean estVide()
 	{
 		return pion == null;
 	}
 
+	/**
+	 * Retourne la case voisine de celle-ci a une direction donnée
+	 * 
+	 * @param d
+	 *            La direction de la case voisine voulue
+	 * @return La case voisin de celle si
+	 */
 	public Case getCaseAt(Direction d)
 	{
 
@@ -108,7 +146,6 @@ public class Case implements Serializable {
 	public Case clone()
 	{
 		Case c = new Case(new Coordonnee(this.position.ligne, this.position.colonne));
-		c.nbVoisins = this.nbVoisins;
 		if (this.pion == Pion.Blanc)
 			c.pion = Pion.Blanc;
 		else if (this.pion == Pion.Noir)

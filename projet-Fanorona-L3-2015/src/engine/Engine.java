@@ -11,12 +11,17 @@ import java.util.ArrayList;
 
 import AI.*;
 import IHM.Affichage;
-import IHM.Fenetre;
 
+/**
+ * Definit un moteur pour le jeu
+ * 
+ * @author soulierc
+ *
+ */
 public class Engine implements EngineServices {
 
 	public boolean			gameInProgress;
-	public Game				partieCourante;
+	private Game			partieCourante;
 	public Affichage		affichage;
 	private UndoRedo<Game>	undoRedo;
 	public boolean			premierJeu;
