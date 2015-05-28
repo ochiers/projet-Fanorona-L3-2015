@@ -46,8 +46,8 @@ public class Parametres {
 		r1b3 = new JRadioButton("Ordi 1 vs Ordi 2");
 			r1b3.addActionListener(new EcouteurParametres(this));
 			
-		if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer || fenetre.engine.partieCourante.joueurNoir.aiPlayer){
-			if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer && fenetre.engine.partieCourante.joueurNoir.aiPlayer){
+		if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
+			if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer && fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
 				r1b3.setSelected(true);
 				fenetre.mode=3;
 				saveMode=3;
@@ -99,9 +99,9 @@ public class Parametres {
 		r3b3 = new JRadioButton("Difficile");
 			r3b3.addActionListener(new EcouteurParametres(this));
 		
-		if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer || fenetre.engine.partieCourante.joueurNoir.aiPlayer)
-			if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer && fenetre.engine.partieCourante.joueurNoir.aiPlayer){
-				switch(fenetre.engine.partieCourante.joueurBlanc.getNiveau()){
+		if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer)
+			if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer && fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
+				switch(fenetre.engine.getCurrentGame().joueurBlanc.getNiveau()){
 					case "IA Facile":
 						r2b1.setSelected(true);
 						fenetre.lvlPC1=1;
@@ -121,7 +121,7 @@ public class Parametres {
 						System.out.println("Niveau IA blanc inconnu");
 						break;
 				}
-				switch(fenetre.engine.partieCourante.joueurNoir.getNiveau()){
+				switch(fenetre.engine.getCurrentGame().joueurNoir.getNiveau()){
 					case "IA Facile":
 						r3b1.setSelected(true);
 						fenetre.lvlPC2=1;
@@ -143,8 +143,8 @@ public class Parametres {
 				}
 			}
 			else{
-				if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer){
-					switch(fenetre.engine.partieCourante.joueurBlanc.getNiveau()){
+				if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer){
+					switch(fenetre.engine.getCurrentGame().joueurBlanc.getNiveau()){
 						case "IA Facile":
 							r2b1.setSelected(true);
 							fenetre.lvlPC1=1;
@@ -169,7 +169,7 @@ public class Parametres {
 					savelvlPC2=2;
 				}
 				else{
-					switch(fenetre.engine.partieCourante.joueurNoir.getNiveau()){
+					switch(fenetre.engine.getCurrentGame().joueurNoir.getNiveau()){
 						case "IA Facile":
 							r2b1.setSelected(true);
 							fenetre.lvlPC1=1;

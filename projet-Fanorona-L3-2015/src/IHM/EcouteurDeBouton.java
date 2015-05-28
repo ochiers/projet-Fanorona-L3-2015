@@ -58,7 +58,7 @@ public class EcouteurDeBouton implements ActionListener{
 			
 		case " Recommencer ":
 			//System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
-			fenetre.engine.nouvellePartie(fenetre.engine.partieCourante.joueurBlanc, fenetre.engine.partieCourante.joueurNoir,0, size);
+			fenetre.engine.nouvellePartie(fenetre.engine.getCurrentGame().joueurBlanc, fenetre.engine.getCurrentGame().joueurNoir,0, size);
 			fenetre.stopper.setText(" Reprendre ");
 			break;
 		case " Sauvegarder ":
@@ -129,20 +129,20 @@ public class EcouteurDeBouton implements ActionListener{
 			//TODO
 			break;
 		case " Pause ":
-			if(fenetre.engine.partieCourante.isPaused()){
-				fenetre.engine.partieCourante.reprendre();
+			if(fenetre.engine.getCurrentGame().isPaused()){
+				fenetre.engine.getCurrentGame().reprendre();
 				fenetre.stopper.setText(" Pause ");
 				System.out.println("reprise");
 			}
 			else{
-				fenetre.engine.partieCourante.pause();
+				fenetre.engine.getCurrentGame().pause();
 				fenetre.stopper.setText(" Reprendre ");
 				System.out.println("en pause");
 			}
 			break;
 		case " Fin du tour ":
 			fenetre.monDessin.pionCliquer=false;
-			fenetre.engine.partieCourante.finirSonTour();
+			fenetre.engine.getCurrentGame().finirSonTour();
 			break;
 		default:
 			System.out.println("Erreur bouton switch");
