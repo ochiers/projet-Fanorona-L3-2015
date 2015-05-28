@@ -36,7 +36,7 @@ public class Fenetre implements Runnable,Affichage {
 	String nameJ1;
 	String nameJ2;
 	
-	public Fenetre(Engine e){
+	public Fenetre(EngineServices e){
 		engine=e;
 		
 	}

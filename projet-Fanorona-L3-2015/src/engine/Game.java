@@ -354,8 +354,7 @@ public class Game implements Serializable {
 			System.err.println(nameJoueur + " a fini");
 
 			/*
-			 * Si un joueur a gagner alors il faut areter tous les threads
-			 * joueurs
+			 * Si un joueur a gagner alors il faut areter tous les threads joueurs
 			 */
 			if (finish)
 				finir();
@@ -416,7 +415,7 @@ public class Game implements Serializable {
 		ArrayList<Case> coupsPossibles = coupsPossiblesPourUnPion(depart);
 		coupsPossibles.removeAll(listCombo);
 		res = res && depart.equals(pionJoue) && !combo.contains(arrivee) && coupsPossibles.contains(arrivee) 
-				/* && (coupsPourPriseParUnPion(coupsPossibles, depart).size() != 0)*/; // MARCHE PAS CAR IL FAUT TESTER LA DIRECTION
+				/* && (coupsPourPriseParUnPion(coupsPossibles, depart).size() != 0)*/; /* MARCHE PAS CAR IL FAUT TESTER LA DIRECTION */
 		res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;
 	}
