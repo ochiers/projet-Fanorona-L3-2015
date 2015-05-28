@@ -257,6 +257,8 @@ public class Game implements Serializable {
 
 			afficherList(pionsPossibles, "PIONS POSSIBLES");
 			display.afficherPionsPossibles(pionsPossibles);
+			
+			combo = new ArrayList<Case>();
 
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Case[][] copiePlateau = copyMatrice(matricePlateau);
@@ -282,7 +284,6 @@ public class Game implements Serializable {
 			}
 			boolean rejouer = faireCoup(c);
 			enCombo = rejouer;
-			combo = new ArrayList<Case>();
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
 
 			pionCombo = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
