@@ -53,6 +53,7 @@ public class AireDeDessin extends JComponent {
         majNomJoueurs();
         
         dessinGrille(drawable);//grille
+
         if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer){
 	        if(!fenetre.engine.getCurrentGame().enCombo){
 	        	//System.out.println("pas en combo---------------------");
@@ -255,11 +256,11 @@ public class AireDeDessin extends JComponent {
 
     /*public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
     	
-    	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
-    		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
-    			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc)
+    	for(int i=0;i<fenetre.engine.getCurrentGame().matricePlateau.length;i++){
+    		for(int j=0;j<fenetre.engine.getCurrentGame().matricePlateau[0].length;j++){
+    			if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Blanc)
     				dessinJeton(drawable,c1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
-    			else if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Noir)
+    			else if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Noir)
     				dessinJeton(drawable,c2,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			else{}
     		}
@@ -268,11 +269,11 @@ public class AireDeDessin extends JComponent {
 
    /* public void dessinGrilleJeton(Graphics2D drawable){
     	
-    	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
-    		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
-    			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc)
+    	for(int i=0;i<fenetre.engine.getCurrentGame().matricePlateau.length;i++){
+    		for(int j=0;j<fenetre.engine.getCurrentGame().matricePlateau[0].length;j++){
+    			if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Blanc)
     				dessinJeton(drawable,fenetre.pion1,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
-    			else if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Noir)
+    			else if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Noir)
     				dessinJeton(drawable,fenetre.pion2,tailleSegment-(tailleJeton/2)+j*tailleSegment,tailleSegment-(tailleJeton/2)+i*tailleSegment);
     			else{}
     		}
