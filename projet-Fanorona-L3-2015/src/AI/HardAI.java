@@ -382,7 +382,7 @@ public class HardAI extends Player {
 		int profondeur = 2;
 		long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
-		Noeud n = new Noeud(leMoteur.getCurrentGame());
+		Noeud n = new Noeud(partieCourante);
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
 		Pion couleurJoueur = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		Pion couleurAdversaire = inversePion(couleurJoueur);
