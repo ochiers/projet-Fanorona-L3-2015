@@ -141,6 +141,7 @@ public class EcouteurDeBouton implements ActionListener{
 			}
 			break;
 		case " Fin du tour ":
+			fenetre.monDessin.pionCliquer=false;
 			fenetre.engine.partieCourante.finirSonTour();
 			break;
 		default:
