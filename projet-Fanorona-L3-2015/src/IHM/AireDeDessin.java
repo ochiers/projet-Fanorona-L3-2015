@@ -62,7 +62,9 @@ public class AireDeDessin extends JComponent {
 	        else{
 	        	System.out.println("est en combo---------------------");
 	        	cheminCombo(drawable);
+	        	//pionCliquer=true;
 	        	pionJouableCombo(drawable); 
+
 	        }
 
         
@@ -158,20 +160,12 @@ public class AireDeDessin extends JComponent {
 		drawable.setPaint(Color.black);
 	}
    
-	public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
-		drawable.setPaint(halo);
-		//drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-		drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-		drawable.setPaint(Color.black);
-	}
-   
    public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 	   drawable.setPaint(haloChoix);
 	   //drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
 	   drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
 	   drawable.setPaint(Color.black);
    }
-   
    
    public void pionJouable(Graphics2D drawable){
 	   if(pionPossible!=null){
@@ -182,10 +176,24 @@ public class AireDeDessin extends JComponent {
 	   }
    }
    
+   public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
+		drawable.setPaint(halo);
+		//drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		drawable.setPaint(Color.black);
+		System.out.println("haloPION: "+p.ligne+" "+p.colonne);
+	}
+   
    public void pionJouableCombo(Graphics2D drawable){
 	   if(pionCombo!=null){
 		   jetonHalo(drawable,pionCombo.position);
-	   }
+	  // }
+	   drawable.setPaint(Color.cyan);
+		//drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		drawable.fillOval(300+pionCombo.position.colonne*tailleSegment-tailleJeton/4, 135+pionCombo.position.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		drawable.setPaint(Color.black);
+		System.out.println("comboPION: "+pionCombo.position.ligne+" "+pionCombo.position.colonne);
+   	}
    }
    
    public void cheminCombo(Graphics2D drawable){	//MODIFIE
