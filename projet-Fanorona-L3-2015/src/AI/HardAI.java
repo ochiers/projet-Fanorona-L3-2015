@@ -379,7 +379,7 @@ public class HardAI extends Player {
 	@Override
 	public Coup play(Case[] listeCases)
 	{
-		int profondeur = 2;
+		int profondeur = 1;
 		long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
 		Noeud n = new Noeud(partieCourante);
@@ -395,7 +395,6 @@ public class HardAI extends Player {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 		for(int i = 0; i < listeCoups.size(); i++){
 			Coup coupCourant = listeCoups.get(i);
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
