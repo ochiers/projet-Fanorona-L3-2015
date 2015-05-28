@@ -78,7 +78,8 @@ public class EcouteurDeSouris implements MouseListener{
 				}
 			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
 			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
-				aire.pionCliquer=false;
+				if(!aire.fenetre.engine.getCurrentGame().enCombo)
+					aire.pionCliquer=false;
 				aire.repaint();
 		    }
 			

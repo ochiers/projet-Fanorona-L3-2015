@@ -1,9 +1,15 @@
 package IHM;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -23,6 +29,9 @@ public class Parametres {
 	int savelvlPC2;
 	JButton accepter;
 	JButton annuler;
+	JComboBox box1;
+	JComboBox box2;
+	JComboBox box3;
 	
 	
 	public Fenetre fenetre;
@@ -121,6 +130,7 @@ public class Parametres {
 						System.out.println("Niveau IA blanc inconnu");
 						break;
 				}
+
 				switch(fenetre.engine.getCurrentGame().joueurNoir.getNiveau()){
 					case "IA Facile":
 						r3b1.setSelected(true);
@@ -222,4 +232,120 @@ public class Parametres {
 		fenetre.frame2.setVisible(false);
 	}
 	
+	public void majParam2(){
+		//fenetre.frame2.setSize(300, 300);
+		JPanel panel = new JPanel(new GridLayout(0,2));
+		JLabel labelbox1 = new JLabel("Mode de jeu");
+		String[] tab = {"Joueur vs Joueur", "Joueur vs Ordi", "Ordi vs Ordi"};
+		box1 = new JComboBox(tab);
+		box1.addItemListener(new ItemStatebox1());
+		box1.addActionListener(new ItemActionbox1());
+		
+		JLabel labelbox2 = new JLabel("Difficulte Ordi 1");
+		String[] tab2 = {"Facile", "Moyen", "Difficile"};
+		box2 = new JComboBox(tab2);
+		box2.addItemListener(new ItemStatebox2());
+		box2.addActionListener(new ItemActionbox2());
+		
+		JLabel labelbox3 = new JLabel("Difficulte Ordi 2");
+		String[] tab3 = {"Facile", "Moyen", "Difficile"};
+		box3 = new JComboBox(tab3);
+		box3.addItemListener(new ItemStatebox3());
+		box3.addActionListener(new ItemActionbox3());
+		
+		
+		//Selection des Boutons
+		if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
+			if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer && fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
+				fenetre.mode=3;
+				saveMode=3;
+			}
+			else{
+				fenetre.mode=2;
+				saveMode=2;
+			}
+		}
+		else{
+			fenetre.mode=1;
+			saveMode=1;
+		}
+		
+		box1.setSelectedIndex(fenetre.mode);
+		box2.setSelectedIndex(fenetre.lvlPC1);
+		box3.setSelectedIndex(fenetre.lvlPC2);
+		JButton accepter = new JButton("Accepter");
+		JButton annuler = new JButton("Annuler");
+		
+		panel.add(labelbox1);
+		panel.add(box1);
+		panel.add(labelbox2);
+		panel.add(box2);
+		panel.add(labelbox3);
+		panel.add(box3);
+		panel.add(accepter);
+		panel.add(annuler);
+		fenetre.frame2.add(panel);
+		fenetre.frame2.pack();
+		fenetre.frame2.setResizable(false);
+		fenetre.frame2.setVisible(false);
+	}
+	class ItemStatebox1 implements ItemListener{
+
+	    public void itemStateChanged(ItemEvent e) {
+
+	      System.out.println("événement déclenché sur : " + e.getItem());
+
+	    }               
+	}
+	class ItemActionbox1 implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println("ActionListener : action sur " + box1.getSelectedItem());
+	      System.out.println("numero de l'item: " + box1.getSelectedIndex());
+	      fenetre.mode=box1.getSelectedIndex();
+	      fenetre.afficherJeu();
+
+	    }               
+
+	}
+	class ItemStatebox2 implements ItemListener{
+
+	    public void itemStateChanged(ItemEvent e) {
+
+	      System.out.println("événement déclenché sur : " + e.getItem());
+
+	    }               
+	}
+	class ItemActionbox2 implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println("ActionListener : action sur " + box2.getSelectedItem());
+	      System.out.println("numero de l'item: " + box2.getSelectedIndex());
+	      fenetre.lvlPC1=box2.getSelectedIndex();
+	      fenetre.afficherJeu();
+
+	    }               
+
+	}
+	class ItemStatebox3 implements ItemListener{
+
+	    public void itemStateChanged(ItemEvent e) {
+
+	      System.out.println("événement déclenché sur : " + e.getItem());
+
+	    }               
+	}
+	class ItemActionbox3 implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println("ActionListener : action sur " + box3.getSelectedItem());
+	      System.out.println("numero de l'item: " + box3.getSelectedIndex());
+	      fenetre.lvlPC2=box3.getSelectedIndex();
+	      fenetre.afficherJeu();
+
+	    }               
+
+	}
+	
 }
+
