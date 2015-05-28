@@ -52,6 +52,7 @@ public class EcouteurDeBouton implements ActionListener{
 					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0,size);
 				}
 			}
+			fenetre.monDessin.finPartie=false;
 			//fenetre.stopper.setText(" Reprendre ");
 			//System.out.println("new partie");
 			break;
@@ -59,6 +60,7 @@ public class EcouteurDeBouton implements ActionListener{
 		case " Recommencer ":
 			//System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
 			fenetre.engine.nouvellePartie(fenetre.engine.getCurrentGame().joueurBlanc, fenetre.engine.getCurrentGame().joueurNoir,0, size);
+			fenetre.monDessin.finPartie=false;
 			fenetre.stopper.setText(" Reprendre ");
 			break;
 		case " Sauvegarder ":
@@ -121,6 +123,8 @@ public class EcouteurDeBouton implements ActionListener{
 			//TODO
 			break;
 		case " Annuler Coup ":
+			if(fenetre.monDessin.finPartie)
+				fenetre.monDessin.finPartie=false;
 			fenetre.engine.annuler();
 			//TODO
 			break;

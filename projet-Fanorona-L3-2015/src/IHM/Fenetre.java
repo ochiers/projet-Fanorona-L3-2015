@@ -207,7 +207,9 @@ public class Fenetre implements Runnable,Affichage {
 	}
 
 	public void afficherVictoire(Player p) {
-		// TODO Auto-generated method stub	
+		monDessin.finPartie=true;
+		System.out.println("VICTOIRE");
+		monDessin.repaint();
 	}
 	
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2){

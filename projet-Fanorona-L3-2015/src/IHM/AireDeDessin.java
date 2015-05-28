@@ -19,6 +19,7 @@ public class AireDeDessin extends JComponent {
     Color haloChoix;
     Color comboColor;
     boolean doitChoisir=false;
+    boolean finPartie=false;
     ArrayList<Case> l1;
     ArrayList<Case> l2;
     ArrayList<Case> pionPossible;
@@ -42,7 +43,7 @@ public class AireDeDessin extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-    	System.out.println("/////////////////////MODE "+fenetre.mode+" -PC1: "+fenetre.lvlPC1+" -PC2: "+fenetre.lvlPC2);
+    	//System.out.println("/////////////////////MODE "+fenetre.mode+" -PC1: "+fenetre.lvlPC1+" -PC2: "+fenetre.lvlPC2);
     	Graphics2D drawable = (Graphics2D) g;    	
     	/*int width = this.getSize().width;
     	int height = this.getSize().height;
@@ -58,7 +59,7 @@ public class AireDeDessin extends JComponent {
         
         dessinGrille(drawable);//grille
 
-        if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer){
+        if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !finPartie){
         	if(!pionCliquer && doitChoisir){
 	        	choixManger(drawable);//halo bleu
 	        }
