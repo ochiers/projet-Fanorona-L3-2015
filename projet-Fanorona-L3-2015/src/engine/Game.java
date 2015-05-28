@@ -328,7 +328,7 @@ public class Game implements Serializable {
 				System.out.println("PEUT REJOUE ? " + rejouer);
 				enCombo = rejouer;
 			}
-
+			combo.clear();
 			enCombo = false;
 			pionCombo = null;
 			finirSonTour = false;
