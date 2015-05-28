@@ -312,9 +312,7 @@ public class AireDeDessin extends JComponent {
     		i++;
      	}
     	return choix;
-    }
-
-    
+    } 
 }
 
  class ImagePanel extends JPanel {
