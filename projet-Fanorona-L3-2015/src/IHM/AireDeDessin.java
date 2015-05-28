@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import engine.*;
 
+@SuppressWarnings("serial")
 public class AireDeDessin extends JComponent {
     Fenetre fenetre;
     int tailleJeton;
@@ -42,9 +43,9 @@ public class AireDeDessin extends JComponent {
 
     public void paintComponent(Graphics g) {
     	Graphics2D drawable = (Graphics2D) g;    	
-    	int width = this.getSize().width;
+    	/*int width = this.getSize().width;
     	int height = this.getSize().height;
-    	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);
+    	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);*/
     	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
         drawable.setPaint(Color.black);
