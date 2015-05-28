@@ -6,6 +6,10 @@ import engine.*;
 
 public class HumanPlayer extends Player {
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -8423735410841988573L;
 	private boolean hasPlayed;
 	private Coup coupJoue;
 	private Coordonnee pointDirection;
@@ -43,7 +47,7 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public Coup play(Case[] listeCoups)
+	public Coup play(Case[][] laMatrice, Case[] listeCoups)
 	{
 		hasPlayed = false;
 		coupJoue = null;

@@ -64,13 +64,13 @@ public class EcouteurDeBouton implements ActionListener{
 		case " Sauvegarder ":
 			//System.out.println("save-----------");
 			JFileChooser save = new JFileChooser();
-			save.showSaveDialog(fenetre.frame);
+			save.showSaveDialog(Fenetre.frame);
 			fenetre.engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 			break;
 		case " Charger ":
 			//System.out.println("load------------");
 			JFileChooser load = new JFileChooser();
-			load.showOpenDialog(fenetre.frame);
+			load.showOpenDialog(Fenetre.frame);
 			fenetre.engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
 			break;
 		case " Quitter ":
@@ -102,14 +102,14 @@ public class EcouteurDeBouton implements ActionListener{
 			fenetre.parametre.saveMode=fenetre.mode;
 			fenetre.parametre.savelvlPC1=fenetre.lvlPC1;
 			fenetre.parametre.savelvlPC2=fenetre.lvlPC2;
-			fenetre.frame2.setVisible(true);
+			Fenetre.frame2.setVisible(true);
 			//TODO
 			break;
 		case " Preferences ":
 			fenetre.preference.resetBouton();
 			fenetre.preference.save1=fenetre.pion1;
 			fenetre.preference.save2=fenetre.pion2;
-			fenetre.frame3.setVisible(true);
+			Fenetre.frame3.setVisible(true);
 			break;
 		case " Historique Scores ":
 			//TODO

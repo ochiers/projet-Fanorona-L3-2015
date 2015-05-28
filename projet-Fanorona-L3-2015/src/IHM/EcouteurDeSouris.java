@@ -1,6 +1,5 @@
 package IHM;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -20,8 +19,8 @@ public class EcouteurDeSouris implements MouseListener{
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
-				p.colonne=e.getX()-215;
-				p.ligne=e.getY()-50;
+				p.colonne=e.getX()-(aire.decalageL-aire.tailleSegment);
+				p.ligne=e.getY()-(aire.decalageH-aire.tailleSegment);
 				int nbCoteLargeur=p.colonne/aire.tailleSegment;
 				int nbCoteHauteur=p.ligne/aire.tailleSegment;
 				System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
@@ -49,22 +48,6 @@ public class EcouteurDeSouris implements MouseListener{
 					pfinal.colonne=nbCoteLargeur;
 					pfinal.ligne=nbCoteHauteur;
 				}
-				/*if(distance(p,p1)<=(aire.tailleJeton/2)){
-					pfinal.colonne=(nbCoteLargeur-1)*aire.tailleSegment;
-					pfinal.ligne=(nbCoteHauteur-1)*aire.tailleSegment;
-				}
-				else if(distance(p,p2)<=(aire.tailleJeton/2)){
-					pfinal.colonne=(nbCoteLargeur)*aire.tailleSegment;
-					pfinal.ligne=(nbCoteHauteur-1)*aire.tailleSegment;
-				}
-				else if(distance(p,p3)<=(aire.tailleJeton/2)){
-					pfinal.colonne=(nbCoteLargeur-1)*aire.tailleSegment;
-					pfinal.ligne=(nbCoteHauteur)*aire.tailleSegment;		
-				}
-				else if(distance(p,p4)<=(aire.tailleJeton/2)){
-					pfinal.colonne=(nbCoteLargeur)*aire.tailleSegment;
-					pfinal.ligne=(nbCoteHauteur)*aire.tailleSegment;
-				}*/
 				if(pfinal.colonne!=-1 && pfinal.ligne!=-1){
 					if(aire.pionCliquer){
 							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,pfinal);
