@@ -33,16 +33,21 @@
 package IHM;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class ChoixCouleur extends JPanel {
 
+		ActionListener okListener, cancelListener;
+	
 	    protected JColorChooser fenChoix1;
 	    protected JColorChooser fenChoix2;
 	    protected JLabel titre;
 
-	    public ChoixCouleur() {
+	    @SuppressWarnings("static-access")
+		public ChoixCouleur() {
 	        super(new BorderLayout());	//super constructeur par defaut
 
 	        	//mettre titre dans fenetre
@@ -65,6 +70,7 @@ public class ChoixCouleur extends JPanel {
 	        fenChoix1.setPreviewPanel(new JPanel());
 	        	//mettre le colorchooser en place pour joueur 2
 	        fenChoix2 = new JColorChooser(titre.getForeground());
+	        fenChoix2.createDialog((Component)fenChoix2, titre.getText(), true, fenChoix2, okListener, cancelListener);
 	        fenChoix2.setBorder(BorderFactory.createTitledBorder(" Pions Joueur 2 "));
 	        fenChoix2.setPreviewPanel(new JPanel());
 	        	// ajouts
