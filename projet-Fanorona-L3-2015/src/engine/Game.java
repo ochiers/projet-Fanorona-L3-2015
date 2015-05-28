@@ -133,10 +133,10 @@ public class Game implements Serializable {
 
 		this.combo = new ArrayList<Case>();
 		this.display = affichage;
-		this.nombrePionBlanc = ((nbLignes * nbColonnes) - 1) / 2;
-		this.nombrePionNoir = this.nombrePionBlanc;
 		this.nbColonnes = size.width;
 		this.nbLignes = size.height;
+		this.nombrePionBlanc = ((nbLignes * nbColonnes) - 1) / 2;
+		this.nombrePionNoir = this.nombrePionBlanc;
 		this.annulerRefaire = undoRedo;
 		initialisation(nbLignes, nbColonnes);
 	}
