@@ -2,16 +2,8 @@ package engine;
 
 public enum Direction
 {
-	Nord,
-	NordEst,
-	Est,
-	SudEst,
-	Sud,
-	SudOuest,
-	Ouest,
-	NordOuest;
-	
-	
+	Nord, NordEst, Est, SudEst, Sud, SudOuest, Ouest, NordOuest;
+
 	public static Direction oppose(Direction d)
 	{
 		Direction res = null;
