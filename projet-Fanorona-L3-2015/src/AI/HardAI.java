@@ -381,9 +381,10 @@ public class HardAI extends Player {
 	{
 		int profondeur = 2;
 		long tempsAvant = System.nanoTime();
-		Noeud n = new Noeud(leMoteur.partieCourante);
+		Game partieCourante = leMoteur.getCurrentGame();
+		Noeud n = new Noeud(leMoteur.getCurrentGame());
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
-		Pion couleurJoueur = (leMoteur.partieCourante.joueurCourant == leMoteur.partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		Pion couleurJoueur = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, n, couleurJoueur);
 		int meilleurRes = Integer.MIN_VALUE;
@@ -397,7 +398,7 @@ public class HardAI extends Player {
 		
 		for(int i = 0; i < listeCoups.size(); i++){
 			Coup coupCourant = listeCoups.get(i);
-			if(!coupImpossible(coupCourant, leMoteur.partieCourante.combo)) {
+			if(!coupImpossible(coupCourant, partieCourante.combo)) {
 				/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */
 				Case premiereCasePrise = null;
@@ -419,24 +420,24 @@ public class HardAI extends Player {
 					noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 					noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 					
-					ArrayList<Case> comboPercussion = new ArrayList<Case>(leMoteur.partieCourante.combo);
-					ArrayList<Case> comboAspiration = new ArrayList<Case>(leMoteur.partieCourante.combo);
+					ArrayList<Case> comboPercussion = new ArrayList<Case>(partieCourante.combo);
+					ArrayList<Case> comboAspiration = new ArrayList<Case>(partieCourante.combo);
 					comboPercussion.add(noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne]);
 					comboAspiration.add(noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne]);
 					comboPercussion.add(noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					comboAspiration.add(noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					Case[] listeCases2 = new Case[1];
-					listeCases2[0] = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+					listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 					Case[] listeCases3 = new Case[1];
-					listeCases3[0] = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+					listeCases3[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 					int res1 = alphaBeta(noeudPercussion, listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, comboPercussion, true);
 					int res2 = alphaBeta(noeudAspiration, listeCases3, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, comboAspiration, true);
 					if(res1>res2){
-						premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
+						premiereCasePrise = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
 						res = res1;
 					}
 					else {
-						premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
+						premiereCasePrise = partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 						res = res2;
 					}
 				}
@@ -444,7 +445,7 @@ public class HardAI extends Player {
 				else {
 					Noeud nouveauNoeud = new Noeud(n);
 					ArrayList<Case> pionsJouables;
-					ArrayList<Case> combo = new ArrayList<Case>(leMoteur.partieCourante.combo);
+					ArrayList<Case> combo = new ArrayList<Case>(partieCourante.combo);
 					combo.add(nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne]);
 					combo.add(nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					if(evaluationNbCapturésPercussion > 0) {
@@ -452,8 +453,8 @@ public class HardAI extends Player {
 						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
-						listeCases2[0] = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
+						listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						premiereCasePrise = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
 						res = alphaBeta(nouveauNoeud, listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 					}
 					else if(evaluationNbCapturésAspiration > 0) {
@@ -461,12 +462,12 @@ public class HardAI extends Player {
 						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
-						listeCases2[0] = leMoteur.partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						premiereCasePrise = leMoteur.partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
+						listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						premiereCasePrise = partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 						res = alphaBeta(nouveauNoeud,listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 					}
 					else {
-						if(leMoteur.partieCourante.combo.isEmpty()){
+						if(partieCourante.combo.isEmpty()){
 							nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 							nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						}
