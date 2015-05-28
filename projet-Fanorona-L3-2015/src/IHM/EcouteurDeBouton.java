@@ -1,5 +1,6 @@
 package IHM;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,37 +18,38 @@ public class EcouteurDeBouton implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		Dimension size = new Dimension(9,5);
 		switch (message){
 		case " Nouvelle Partie ":
 			if(fenetre.mode==1){
-				fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new HumanPlayer(fenetre.engine,false,fenetre.nameJ2),0, 5,9);
+				fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new HumanPlayer(fenetre.engine,false,fenetre.nameJ2),0,size);
 			}else if(fenetre.mode==2){
 				if(fenetre.lvlPC1==1){
-					fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new EasyAI(fenetre.engine,true,"Ordi Facile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new EasyAI(fenetre.engine,true,"Ordi Facile"),0,size);
 				}else if(fenetre.lvlPC1==2){
-					fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new MediumAI(fenetre.engine,true,"Ordi Moyen"),0, 5,9);
+					fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new MediumAI(fenetre.engine,true,"Ordi Moyen"),0,size);
 				}else if(fenetre.lvlPC1==3){
-					fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new HardAI(fenetre.engine,true,"Ordi Difficile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new HardAI(fenetre.engine,true,"Ordi Difficile"),0,size);
 				}
 			}else if(fenetre.mode==3){
 				if(fenetre.lvlPC1==1 && fenetre.lvlPC2==1){
-					fenetre.engine.nouvellePartie(new EasyAI(fenetre.engine,true,"Ordi1 Facile"), new EasyAI(fenetre.engine,true,"Ordi2 Facile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new EasyAI(fenetre.engine,true,"Ordi1 Facile"), new EasyAI(fenetre.engine,true,"Ordi2 Facile"),0,size);
 				}else if(fenetre.lvlPC1==1 && fenetre.lvlPC2==2){
-					fenetre.engine.nouvellePartie(new EasyAI(fenetre.engine,true,"Ordi1 Facile"), new MediumAI(fenetre.engine,true,"Ordi2 Moyen"),0, 5,9);
+					fenetre.engine.nouvellePartie(new EasyAI(fenetre.engine,true,"Ordi1 Facile"), new MediumAI(fenetre.engine,true,"Ordi2 Moyen"),0,size);
 				}else if(fenetre.lvlPC1==1 && fenetre.lvlPC2==3){
-					fenetre.engine.nouvellePartie(new EasyAI(fenetre.engine,true,"Ordi1 Facile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new EasyAI(fenetre.engine,true,"Ordi1 Facile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0,size);
 				}else if(fenetre.lvlPC1==2 && fenetre.lvlPC2==1){
-					fenetre.engine.nouvellePartie(new MediumAI(fenetre.engine,true,"Ordi1 Moyen"), new EasyAI(fenetre.engine,true,"Ordi2 Facile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new MediumAI(fenetre.engine,true,"Ordi1 Moyen"), new EasyAI(fenetre.engine,true,"Ordi2 Facile"),0,size);
 				}else if(fenetre.lvlPC1==2 && fenetre.lvlPC2==2){
-					fenetre.engine.nouvellePartie(new MediumAI(fenetre.engine,true,"Ordi1 Moyen"), new MediumAI(fenetre.engine,true,"Ordi2 Moyen"),0, 5,9);
+					fenetre.engine.nouvellePartie(new MediumAI(fenetre.engine,true,"Ordi1 Moyen"), new MediumAI(fenetre.engine,true,"Ordi2 Moyen"),0,size);
 				}else if(fenetre.lvlPC1==2 && fenetre.lvlPC2==3){
-					fenetre.engine.nouvellePartie(new MediumAI(fenetre.engine,true,"Ordi1 Moyen"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new MediumAI(fenetre.engine,true,"Ordi1 Moyen"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0,size);
 				}else if(fenetre.lvlPC1==3 && fenetre.lvlPC2==1){
-					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new EasyAI(fenetre.engine,true,"Ordi2 Facile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new EasyAI(fenetre.engine,true,"Ordi2 Facile"),0,size);
 				}else if(fenetre.lvlPC1==3 && fenetre.lvlPC2==2){
-					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new MediumAI(fenetre.engine,true,"Ordi2 Moyen"),0, 5,9);
+					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new MediumAI(fenetre.engine,true,"Ordi2 Moyen"),0,size);
 				}else if(fenetre.lvlPC1==3 && fenetre.lvlPC2==3){
-					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0, 5,9);
+					fenetre.engine.nouvellePartie(new HardAI(fenetre.engine,true,"Ordi1 Difficile"), new HardAI(fenetre.engine,true,"Ordi2 Difficile"),0,size);
 				}
 			}
 			fenetre.stopper.setText(" Reprendre ");
@@ -56,7 +58,7 @@ public class EcouteurDeBouton implements ActionListener{
 			
 		case " Recommencer ":
 			//System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
-			fenetre.engine.nouvellePartie(fenetre.engine.partieCourante.joueurBlanc, fenetre.engine.partieCourante.joueurNoir,0, 5,9);
+			fenetre.engine.nouvellePartie(fenetre.engine.partieCourante.joueurBlanc, fenetre.engine.partieCourante.joueurNoir,0, size);
 			fenetre.stopper.setText(" Reprendre ");
 			break;
 		case " Sauvegarder ":
