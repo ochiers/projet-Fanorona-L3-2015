@@ -103,7 +103,6 @@ public class EasyAI extends Player {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 		ArrayList<Coup> listeCoups = creerCoups(listeCases);
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
 		Pion couleurJoueur = (leMoteur.getCurrentGame().joueurCourant == leMoteur.getCurrentGame().joueurBlanc) ? Pion.Blanc : Pion.Noir;
