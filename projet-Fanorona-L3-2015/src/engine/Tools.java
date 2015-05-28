@@ -21,7 +21,7 @@ public class Tools {
 		return res;
 	}
 	
-	public PlayerType getTypeOfPlayer(Player p){
+	public static PlayerType getTypeOfPlayer(Player p){
 		
 		if(p instanceof HumanPlayer)
 			return PlayerType.Humain;
