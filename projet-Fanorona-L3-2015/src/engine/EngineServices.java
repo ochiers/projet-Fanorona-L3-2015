@@ -7,11 +7,11 @@ import IHM.Affichage;
 
 
 /**
- * Defini les services et les donnes que propose le moteur
+ * Defini les services et les donnees que propose le moteur
  * @author soulierc
  *
  */
-public interface Polling {
+public interface EngineServices {
 
 
 	/**
@@ -155,7 +155,7 @@ public interface Polling {
 	
 	/**
 	 * Charge la partie sauvegardée dans le fichier de chemin path
-	 * La partie courante est detruite
+	 * La partie courante est detruite et remplacée, le jeu est en pause apres cette action
 	 * @param path Le chemin du fichier a charger
 	 */
 	public void chargerPartie(String path);

@@ -17,7 +17,7 @@ public class JeuFanorona {
 		Player p2=new EasyAI(e,true,"player2");
 
 		Fenetre f=new Fenetre(e);
-		e.setDisplay(f);
+		e.setAffichage(f);
 		//System.err.close();
 		e.nouvellePartie(p1, p2,0, new Dimension(9,5));
 		SwingUtilities.invokeLater(f);

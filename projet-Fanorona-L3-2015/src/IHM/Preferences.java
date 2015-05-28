@@ -23,8 +23,8 @@ public class Preferences {
 	JRadioButtonMenuItem rb6;
 	JRadioButtonMenuItem rb7;
 	JRadioButtonMenuItem rb8;
-	
-	JRadioButton rb10;
+	JRadioButton bouton[][] = new JRadioButton[6][2]; // 6 couleurs et 2 palettes
+/*	JRadioButton rb10;
 	JRadioButton rb20;
 	JRadioButton rb30;
 	JRadioButton rb40;
@@ -38,22 +38,22 @@ public class Preferences {
 	JRadioButton rb41;
 	JRadioButton rb51;
 	JRadioButton rb61;
-	JRadioButton rb71;
+	JRadioButton rb71;*/
 	
 	JTextField name1;
 	JTextField name2;
 	String nameJ1;
 	String nameJ2;
 	
-	JButton accept;
+	JButton accepter;
 	JButton annuler;
 	
 	//variables de sauvegarde
 	Image saveFond;
 	String saveJ1;
-	String savelvl1;
+//	String savelvl1;
 	String saveJ2;
-	String savelvl2;
+//	String savelvl2;
 	Color save1;
 	Color save2;
 	
@@ -115,7 +115,7 @@ public class Preferences {
 		panelFond.add(rb8);
 		
 			// PANEL NOMS		
-		if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer || fenetre.engine.partieCourante.joueurNoir.aiPlayer){
+	/*	if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer || fenetre.engine.partieCourante.joueurNoir.aiPlayer){
 			if(fenetre.engine.partieCourante.joueurBlanc.aiPlayer && fenetre.engine.partieCourante.joueurNoir.aiPlayer){
 				saveJ1 = (" Ordinateur ");
 				String tmplevel = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
@@ -148,8 +148,7 @@ public class Preferences {
 			savelvl2 = (" Bonne Chance ! ");
 		}
 		
-		JLabel nom = new JLabel(" Choix nom joueurs humains ");
-		panelJoueurs.add(nom);
+		
 		nameJ1 = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
 		name1 = new JTextField(" Humain 1 ");
 			name1.addActionListener(new EcouteurPreferences(this));
@@ -158,85 +157,114 @@ public class Preferences {
 			name2.addActionListener(new EcouteurPreferences(this));
 		// ajout des boites de dialogue
 		panelJoueurs.add(name1);
+		panelJoueurs.add(name2);*/
+		JLabel nom = new JLabel(" Choix nom joueurs humains ");
+		panelJoueurs.add(nom);
+		name1 = new JTextField(" Joueur 1 ");
+			name1.addActionListener(new EcouteurPreferences(this));
+		name2 = new JTextField(" Joueur 2 ");
+			name2.addActionListener(new EcouteurPreferences(this));
+		panelJoueurs.add(name1);
 		panelJoueurs.add(name2);
-		
 			// PANEL COULEUR PIONS
 		//save1 = ;
 		//save2 = ;
 		JLabel pion1 = new JLabel(" Choix couleur pions J1 ");
 		panelPions1.add(pion1);
 		ButtonGroup groupe2 = new ButtonGroup();
-		rb10 = new JRadioButton(" Pion noir ");
-			rb10.addActionListener(new EcouteurPreferences(this));
-		rb20 = new JRadioButton(" Pion blanc ");
-			rb20.addActionListener(new EcouteurPreferences(this));
-		rb30 = new JRadioButton(" Pion bleu ");
-			rb30.addActionListener(new EcouteurPreferences(this));
-		rb40 = new JRadioButton(" Pion rouge ");
-			rb40.addActionListener(new EcouteurPreferences(this));
-		rb50 = new JRadioButton(" Pion vert ");
-			rb50.addActionListener(new EcouteurPreferences(this));
-		rb60 = new JRadioButton(" Pion jaune ");
-			rb60.addActionListener(new EcouteurPreferences(this));
+		bouton[0][0] = new JRadioButton(" Pion noir ");
+			bouton[0][0].addActionListener(new EcouteurPreferences(this));
+		bouton[1][0] = new JRadioButton(" Pion blanc ");
+			bouton[1][0].addActionListener(new EcouteurPreferences(this));
+		bouton[2][0] = new JRadioButton(" Pion bleu ");
+			bouton[2][0].addActionListener(new EcouteurPreferences(this));
+		bouton[3][0] = new JRadioButton(" Pion rouge ");
+			bouton[3][0].addActionListener(new EcouteurPreferences(this));
+		bouton[4][0] = new JRadioButton(" Pion vert ");
+			bouton[4][0].addActionListener(new EcouteurPreferences(this));
+		bouton[5][0] = new JRadioButton(" Pion jaune ");
+			bouton[5][0].addActionListener(new EcouteurPreferences(this));
 		/*rb70 = new JRadioButton(" Pion multicolore ");
 			rb70.addActionListener(new EcouteurPreferences(this));*/
 		// ajout des boutons radio dans le groupe bg
-		groupe2.add(rb10);
-		groupe2.add(rb20);
-		groupe2.add(rb30);
-		groupe2.add(rb40);
-		groupe2.add(rb50);
-		groupe2.add(rb60);
+		for(int i=0;i<bouton.length;i++)
+			groupe2.add(bouton[i][0]);
+		
 		//groupe2.add(rb70);
 		//ajout de bg au panel
-		panelPions1.add(rb10);
-		panelPions1.add(rb20);
-		panelPions1.add(rb30);
-		panelPions1.add(rb40);
-		panelPions1.add(rb50);
-		panelPions1.add(rb60);
+		for(int i=0;i<bouton.length;i++)
+			panelPions1.add(bouton[i][0]);
+		
 		//panelPions1.add(rb70);
 		
 		JLabel pion2 = new JLabel(" Choix couleur pions J2 ");
 		panelPions2.add(pion2);
 		ButtonGroup groupe3 = new ButtonGroup();
-		rb11 = new JRadioButton(" Pion noir ");
-			rb11.addActionListener(new EcouteurPreferences(this));
-		rb21 = new JRadioButton(" Pion blanc ");
-			rb21.addActionListener(new EcouteurPreferences(this));
-		rb31 = new JRadioButton(" Pion bleu ");
-			rb31.addActionListener(new EcouteurPreferences(this));
-		rb41 = new JRadioButton(" Pion rouge ");
-			rb41.addActionListener(new EcouteurPreferences(this));
-		rb51 = new JRadioButton(" Pion vert ");
-			rb51.addActionListener(new EcouteurPreferences(this));
-		rb61 = new JRadioButton(" Pion jaune ");
-			rb61.addActionListener(new EcouteurPreferences(this));
+		bouton[0][1] = new JRadioButton(" Pion noir ");
+			bouton[0][1].addActionListener(new EcouteurPreferences(this));
+		bouton[1][1] = new JRadioButton(" Pion blanc ");
+			bouton[1][1].addActionListener(new EcouteurPreferences(this));
+		bouton[2][1] = new JRadioButton(" Pion bleu ");
+			bouton[2][1].addActionListener(new EcouteurPreferences(this));
+		bouton[3][1] = new JRadioButton(" Pion rouge ");
+			bouton[3][1].addActionListener(new EcouteurPreferences(this));
+		bouton[4][1] = new JRadioButton(" Pion vert ");
+			bouton[4][1].addActionListener(new EcouteurPreferences(this));
+		bouton[5][1] = new JRadioButton(" Pion jaune ");
+			bouton[5][1].addActionListener(new EcouteurPreferences(this));
 		/*rb71 = new JRadioButton(" Pion multicolore ");
 			rb71.addActionListener(new EcouteurPreferences(this));*/
 		// ajout des boutons radio dans le groupe bg
-		groupe3.add(rb11);
-		groupe3.add(rb21);
-		groupe3.add(rb31);
-		groupe3.add(rb41);
-		groupe3.add(rb51);
-		groupe3.add(rb61);
+		for(int i=0;i<bouton.length;i++)
+			groupe3.add(bouton[i][1]);
+		
 		//groupe3.add(rb71);
 		//ajout de bg au panel
-		panelPions2.add(rb11);
-		panelPions2.add(rb21);
-		panelPions2.add(rb31);
-		panelPions2.add(rb41);
-		panelPions2.add(rb51);
-		panelPions2.add(rb61);
-		//panelPions2.add(rb71);
+		for(int i=0;i<bouton.length;i++)
+			panelPions2.add(bouton[i][1]);
+
+		int numCouleur=-1;
+		if(fenetre.pion1==Color.black){
+			numCouleur=0;
+		}else if(fenetre.pion1==Color.white){
+			numCouleur=1;
+		}else if(fenetre.pion1==Color.blue){
+			numCouleur=2;
+		}else if(fenetre.pion1==Color.red){
+			numCouleur=3;
+		}else if(fenetre.pion1==Color.green){
+			numCouleur=4;
+		}else if(fenetre.pion1==Color.yellow){
+			numCouleur=5;
+		}
+		bouton[numCouleur][0].setSelected(true);
+		bouton[numCouleur][1].setEnabled(false);
+		
+		if(fenetre.pion2==Color.black){
+			numCouleur=0;
+		}else if(fenetre.pion2==Color.white){
+			numCouleur=1;
+		}else if(fenetre.pion2==Color.blue){
+			numCouleur=2;
+		}else if(fenetre.pion2==Color.red){
+			numCouleur=3;
+		}else if(fenetre.pion2==Color.green){
+			numCouleur=4;
+		}else if(fenetre.pion2==Color.yellow){
+			numCouleur=5;
+		}
+		bouton[numCouleur][1].setSelected(true);
+		bouton[numCouleur][0].setEnabled(false);
+		
+		save1=fenetre.pion1;
+		save2=fenetre.pion2;
 		
 			// PANEL BOUTONS
-		accept = new JButton("Accepter");
-			accept.addActionListener(new EcouteurPreferences(this));
+		accepter = new JButton("Accepter");
+			accepter.addActionListener(new EcouteurPreferences(this));
 		annuler = new JButton("Annuler");
 			annuler.addActionListener(new EcouteurPreferences(this));
-		panelBoutons.add(accept);
+		panelBoutons.add(accepter);
 		panelBoutons.add(annuler);
 				
 		panelAccueil3.add(panelFond);
@@ -248,6 +276,66 @@ public class Preferences {
 		Fenetre.frame3.add(panelAccueil3);
 		Fenetre.frame3.setResizable(false);
 		Fenetre.frame3.setVisible(false);
+	}
+	
+	public void desactiveLautrePion(){
+		for(int i=0;i<bouton.length;i++){
+			if(bouton[i][0].isSelected())bouton[i][1].setEnabled(false);
+			else if(bouton[i][1].isSelected())bouton[i][0].setEnabled(false);
+			else{
+				bouton[i][0].setEnabled(true);
+				bouton[i][1].setEnabled(true);
+			}
+			
+		}
+	}
+	public void resetBouton(){
+		for(int i=0;i<bouton.length;i++){
+			bouton[i][0].setSelected(false);
+			bouton[i][1].setSelected(false);
+			bouton[i][0].setEnabled(true);
+			bouton[i][1].setEnabled(true);
+		}
+		int i=0;
+		if(fenetre.pion1==Color.black){}
+		else{
+			i++;
+			if(fenetre.pion1==Color.white){}
+			else{ 
+				i++;
+				if(fenetre.pion1==Color.blue){}
+				else{ 
+					i++;
+					if(fenetre.pion1==Color.red){}
+					else{ 
+						i++;
+						if(fenetre.pion1==Color.green){}
+						else{ 
+							i++;
+							if(fenetre.pion1==Color.yellow){}
+		}}}}}
+		bouton[i][0].setSelected(true);
+		bouton[i][1].setEnabled(false);
+		i=0;
+		if(fenetre.pion2==Color.black){}
+		else{
+			i++;
+			if(fenetre.pion2==Color.white){}
+			else{ 
+				i++;
+				if(fenetre.pion2==Color.blue){}
+				else{ 
+					i++;
+					if(fenetre.pion2==Color.red){}
+					else{ 
+						i++;
+						if(fenetre.pion2==Color.green){}
+						else{ 
+							i++;
+							if(fenetre.pion2==Color.yellow){}
+		}}}}}
+		bouton[i][1].setSelected(true);
+		bouton[i][0].setEnabled(false);
 	}
 	
 }

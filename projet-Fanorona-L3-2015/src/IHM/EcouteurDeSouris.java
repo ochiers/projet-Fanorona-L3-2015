@@ -16,7 +16,7 @@ public class EcouteurDeSouris implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer){
+		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer && !aire.fenetre.engine.partieCourante.isPaused()){
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
