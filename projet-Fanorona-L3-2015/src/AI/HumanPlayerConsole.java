@@ -1,6 +1,6 @@
 package AI;
 
-import java.awt.Point;
+import java.util.ArrayList;
 
 import engine.*;
 
@@ -13,10 +13,32 @@ public class HumanPlayerConsole extends Player {
 	}
 
 	@Override
-	public Point play()
+	public Coup play(Case[] listeCoups)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	@Override
+	public String getNiveau()
+	{
+		return "Humain Console";
+	}
+
+	@Override
+	public Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void run()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

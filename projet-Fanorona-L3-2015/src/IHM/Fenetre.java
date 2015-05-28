@@ -4,33 +4,59 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-
 import engine.*;
-import IHM.*;
 
 public class Fenetre implements Runnable,Affichage {
 	static JFrame frame = new JFrame(" -- Fanorona -- ");
+	static JFrame frame2 = new JFrame(" -- Parametres -- ");
+	static JFrame frame3 = new JFrame(" -- Preferences -- ");
+	Parametres parametre;
+	Preferences preference;
 	AireDeDessin monDessin;
 	Engine engine;
+	int lvlPC1;
+	int lvlPC2;
+	int mode;
+	JLabel scoreInt1;
+	JLabel scoreInt2;
+	JButton annuler;
+	JButton refaire;
+	JButton stopper;
+	JButton valider;
+	JLabel tour1;
+	JLabel tour2;
+	ImagePanel panelAccueil;
+	int fw, fh;
+	JLabel idj1;
+	JLabel levelj1;
+	JLabel idj2;
+	JLabel levelj2;
+	Color pion1 = Color.black;
+	Color pion2 = Color.white;
+	String nameJ1;
+	String nameJ2;
 	
 	public Fenetre(Engine e){
 		engine=e;
+		
 	}
 	
-	public void run(){
+	public void run(){		
+
 		frame.setSize(1280, 720);
-		JPanel panelAccueil = new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage());
+		fw = frame.getWidth();
+		fh = frame.getHeight();
+		panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);
 		panelAccueil.setLayout(null);
-		
-		int fw = frame.getWidth();
-		int fh = frame.getHeight();
 		
 			//grille
 		monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
-			monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
-		
- 			//barre de Menu
+			//monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
+			//monDessin.setBounds((int)(0.8*fw/6), (int)(0.2*fh/6), (int)(4.4*fw/6), (int)(4.4*fh/6)); //MODIF TAILLE POUR FANO
+			monDessin.setBounds(0, 0, fw, 5*fh/6); // RE MODIF TAILLE POUR FANO
+			
+			//barre de Menu
 		JMenuBar menuBar = new JMenuBar();
 			//menu1
 		JMenu partie = new JMenu(" Partie ");
@@ -52,9 +78,9 @@ public class Fenetre implements Runnable,Affichage {
 		partie.add(mi1b5);
 			//menu2
 		JMenu options = new JMenu(" Options ");
-		JMenuItem mi2b1 = new JMenuItem(" Paramètres Partie ");
+		JMenuItem mi2b1 = new JMenuItem(" Parametres Partie ");
 			mi2b1.addActionListener(new EcouteurDeBouton(this,mi2b1.getText()));
-		JMenuItem mi2b2 = new JMenuItem(" Préférences ");	
+		JMenuItem mi2b2 = new JMenuItem(" Preferences ");	
 			mi2b2.addActionListener(new EcouteurDeBouton(this,mi2b2.getText()));
 		JMenuItem mi2b3 = new JMenuItem(" Historique Scores ");
 			mi2b3.addActionListener(new EcouteurDeBouton(this,mi2b3.getText()));
@@ -64,7 +90,7 @@ public class Fenetre implements Runnable,Affichage {
 		options.add(mi2b3);
 			//menu3
 		JMenu aide = new JMenu(" Aide ");
-		JMenuItem mi3b1 = new JMenuItem(" Règles du Jeu ");
+		JMenuItem mi3b1 = new JMenuItem(" Regles du Jeu ");
 			mi3b1.addActionListener(new EcouteurDeBouton(this,mi3b1.getText()));
 		JMenuItem mi3b2 = new JMenuItem(" A Propos ");	
 			mi3b2.addActionListener(new EcouteurDeBouton(this,mi3b2.getText()));
@@ -73,78 +99,53 @@ public class Fenetre implements Runnable,Affichage {
 		aide.add(mi3b2);		
  		
 			//boutons commandes
-		int temp = (int)(0.8*fh/6)/2;
-		JButton annuler = new JButton(" Annuler Coup ");
+		//TODO VERIF DIMENSIONS 
+		int temp = (int)(0.6*fh/6)/2;
+		annuler = new JButton(" Annuler Coup ");
 			annuler.addActionListener(new EcouteurDeBouton(this,annuler.getText()));
-			annuler.setBounds((int)((1.5*fw/6)-temp), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton refaire = new JButton(" Refaire Coup ");
+			annuler.setBounds((int)((1.2*fw/6)-temp), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
+		refaire = new JButton(" Refaire Coup ");
 			refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
-			refaire.setBounds((int)(((1.5*fw/6)-temp)+fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton stopper = new JButton(" Pause ");
+			refaire.setBounds((int)(((1.2*fw/6)-temp)+(0.8*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
+		stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
-			stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		JButton valider = new JButton(" Fin du tour ");
+			
+			//stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
+			stopper.setBounds((int)(((1.2*fw/6)-temp)+(1.6*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
+		valider = new JButton(" Fin du tour ");
 			valider.addActionListener(new EcouteurDeBouton(this,valider.getText()));
-			valider.setBounds((int)(((1.5*fw/6)-temp)+3*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
+			valider.setBounds((int)(((1.2*fw/6)-temp)+(2.4*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
+		JButton suggestion = new JButton(" Suggerer coup ");
+			suggestion.addActionListener(new EcouteurDeBouton(this,suggestion.getText()));
+			suggestion.setBounds((int)(((1.2*fw/6)-temp)+(3.2*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 			
 			//affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ");
-			j1.setBounds((int)(0.45*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel idj1 = new JLabel(" Erreur ");
-		JLabel levelj1 = new JLabel(" Erreur ");
+			j1.setBounds((int)(0.2*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		idj1 = new JLabel(" Erreur ");
+		levelj1 = new JLabel(" Erreur ");
 		JLabel j2 = new JLabel(" # Joueur 2 ");
-			j2.setBounds((int)(5.15*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel idj2 = new JLabel(" Erreur ");
-		JLabel levelj2 = new JLabel(" Erreur ");
-		String level = engine.partieCourante.joueurBlanc.getNiveau();
-		if (level.equals("Humain")){
-			idj1 = new JLabel(engine.partieCourante.joueurBlanc.name);
-			levelj1 = new JLabel(" Bonne Chance ! ");
-		}
-		if (level.equals("IA Facile")){
-			idj1 = new JLabel(" Ordinateur ");
-			levelj1 = new JLabel(" Facile ");
-		}
-		if (level.equals("IA Moyenne")){
-			idj1 = new JLabel(" Ordinateur ");
-			levelj1 = new JLabel(" Moyen ");
-		}
-		if (level.equals("IA Difficle")){
-			idj1 = new JLabel(" Ordinateur ");
-			levelj1 = new JLabel(" Difficile ");
-		}
-		if (level.equals("Humain")){
-			idj2 = new JLabel(engine.partieCourante.joueurNoir.name);
-			levelj2 = new JLabel(" Bonne Chance ! ");
-		}
-		if (level.equals("IA Facile")){
-			idj2 = new JLabel(" Ordinateur ");
-			levelj2 = new JLabel(" Facile ");
-		}
-		if (level.equals("IA Moyenne")){
-			idj2 = new JLabel(" Ordinateur ");
-			levelj2 = new JLabel(" Moyen ");
-		}
-		if (level.equals("IA Difficle")){
-			idj2 = new JLabel(" Ordinateur ");
-			levelj2 = new JLabel(" Difficile ");
-		}
-			idj1.setBounds((int)(0.45*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-			levelj1.setBounds((int)(0.45*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-			idj2.setBounds((int)(5.15*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-			levelj2.setBounds((int)(5.15*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel scoreInt1 = new JLabel("" + engine.partieCourante.nombrePionBlanc);
-			scoreInt1.setBounds((int)(0.45*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel scoreInt2 = new JLabel("" + engine.partieCourante.nombrePionNoir);
-			scoreInt2.setBounds((int)(5.15*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			j2.setBounds((int)(5.4*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		idj2 = new JLabel(" Erreur ");
+		levelj2 = new JLabel(" Erreur ");
+		
+			idj1.setBounds((int)(0.2*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			levelj1.setBounds((int)(0.2*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			idj2.setBounds((int)(5.4*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			levelj2.setBounds((int)(5.4*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			
+		scoreInt1 = new JLabel("");
+			scoreInt1.setBounds((int)(0.35*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		scoreInt2 = new JLabel("");
+			scoreInt2.setBounds((int)(5.55*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel score1 = new JLabel(" Pions restants ");
-			score1.setBounds((int)(0.45*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			score1.setBounds((int)(0.2*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		JLabel score2 = new JLabel(" Pions restants ");
-			score2.setBounds((int)(5.15*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel tour1 = new JLabel(" A votre tour ! ");
-			tour1.setBounds((int)(0.45*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		JLabel tour2 = new JLabel(" A votre tour ! ");
-			tour2.setBounds((int)(5.15*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+			score2.setBounds((int)(5.4*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		tour1 = new JLabel(" A votre tour ! ");
+			tour1.setBounds((int)(0.2*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
+		tour2 = new JLabel(" A votre tour ! ");
+			tour2.setBounds((int)(5.4*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
 		
  			//ajouts 
  		menuBar.add(partie);
@@ -156,6 +157,7 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(refaire);
  		panelAccueil.add(stopper);
  		panelAccueil.add(valider);
+ 		panelAccueil.add(suggestion);
  		panelAccueil.add(j1);
  		panelAccueil.add(j2); 		 
  		panelAccueil.add(idj1);
@@ -168,24 +170,79 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(score2); 		
  		panelAccueil.add(tour1);
  		panelAccueil.add(tour2);
- 		
+
+		nameJ1=engine.partieCourante.joueurBlanc.name;
+		nameJ2=engine.partieCourante.joueurNoir.name;
+		
+		parametre = new Parametres(this);
+		parametre.majParam();
+		//frame.repaint();
+		preference = new Preferences(this);
+		preference.majPref();
+		//frame.repaint();
+		
  		frame.add(panelAccueil);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 	}
 
 	public void afficherJeu(){
+		//System.out.println("11111111");
 		monDessin.repaint();
 	}
 
 	public void afficherPionsPossibles(ArrayList<Case> l) {
-		// TODO Auto-generated method stub
+		//System.out.println("22222222");
+
+		monDessin.pionPossible=l;
+		monDessin.repaint();
 	}
 
 	public void afficherVictoire(Player p) {
 		// TODO Auto-generated method stub	
+	}
+	
+	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2){
+		if(!engine.partieCourante.joueurCourant.aiPlayer){
+		//System.out.println("------------MULTI DIRECTION------------------");
+		monDessin.doitChoisir=true;
+		monDessin.l1=l1;
+		monDessin.l2=l2;
+		}
+		monDessin.repaint();
+	}
+
+	@Override
+	public void afficherPionDuCombo(Case pionCourant) {
+		//System.out.println("33333333333333");
+		monDessin.pionCombo=pionCourant;
+		//System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
+		monDessin.repaint();
+		//monDessin.estEnCombo=false;
+		
+	}
+
+	@Override
+	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
+		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		monDessin.combo=combo;
+		monDessin.repaint();
+		
+	}
+
+	@Override
+	public void sauvegardeReussie(boolean reussi)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void chargementReussi(boolean reussi)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

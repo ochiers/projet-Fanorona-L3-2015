@@ -1,85 +1,115 @@
 package IHM;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import AI.HumanPlayer;
+import AI.*;
+import engine.*;
 
 
 public class EcouteurDeSouris implements MouseListener{
 	AireDeDessin aire;
-	//Point pSave=new Point();
 	
 	public EcouteurDeSouris(AireDeDessin a){
 		aire=a;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		int buttonDown = e.getButton();
-		if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfoncé
-			Point p=new Point();	
-			p.y=e.getX();
-			p.x=e.getY();
-			int nbCoteLargeur=p.y/aire.tailleSegment;
-			int nbCoteHauteur=p.x/aire.tailleSegment;
-		
-			Point p1=new Point(nbCoteHauteur*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);// haut gauche
-			Point p2=new Point(nbCoteHauteur*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//haut droit
-			Point p3=new Point((nbCoteHauteur+1)*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);//bas gauche
-			Point p4=new Point((nbCoteHauteur+1)*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//bas droit
-			Point pfinal=new Point(-1,-1);
-			
-			if(distance(p,p1)<=(aire.tailleJeton/2)){
-				pfinal.y=nbCoteLargeur-1;
-				pfinal.x=nbCoteHauteur-1;
-			}
-			else if(distance(p,p2)<=(aire.tailleJeton/2)){
-				pfinal.y=nbCoteLargeur;
-				pfinal.x=nbCoteHauteur-1;
-			}
-			else if(distance(p,p3)<=(aire.tailleJeton/2)){
-				pfinal.y=nbCoteLargeur-1;
-				pfinal.x=nbCoteHauteur;		
-			}
-			else if(distance(p,p4)<=(aire.tailleJeton/2)){
-				pfinal.y=nbCoteLargeur;
-				pfinal.x=nbCoteHauteur;
-			}
-		//	System.out.println("pfinal: "+pfinal.x+" "+pfinal.y);
-			if(pfinal.y!=-1 && pfinal.x!=-1){
-				if(aire.pionCliquer){
-					
-						((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
-						System.out.println("Jouer: "+aire.pCourant.x+" "+aire.pCourant.y+" en "+pfinal.x+" "+pfinal.y);
-						aire.pionCliquer=false;
-						System.out.println("test2");
+		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer && !aire.fenetre.engine.partieCourante.isPaused()){
+			int buttonDown = e.getButton();
+			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
+				Coordonnee p=new Coordonnee(-1,-1);	
+				p.colonne=e.getX()-215;
+				p.ligne=e.getY()-50;
+				int nbCoteLargeur=p.colonne/aire.tailleSegment;
+				int nbCoteHauteur=p.ligne/aire.tailleSegment;
+				System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
+				System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
+							
+				Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);// haut gauche
+				Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//haut droit
+				Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);//bas gauche
+				Coordonnee p4=new Coordonnee((nbCoteHauteur+1)*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//bas droit
+				Coordonnee pfinal=new Coordonnee(-1,-1);
+				
+				if(distance(p,p1)<=(aire.tailleJeton/2)){
+					pfinal.colonne=nbCoteLargeur-1;
+					pfinal.ligne=nbCoteHauteur-1;
 				}
-				else{
-					if(aire.fenetre.engine.partieCourante.estJouable(pfinal)){
-						System.out.println("---------OUI c'est jouable");
-						aire.pCourant.y=pfinal.y;
-						aire.pCourant.x=pfinal.x;
-						aire.pionCliquer=true;
-						System.out.println("Point: "+aire.pCourant.x+" "+aire.pCourant.y);
+				else if(distance(p,p2)<=(aire.tailleJeton/2)){
+					pfinal.colonne=nbCoteLargeur;
+					pfinal.ligne=nbCoteHauteur-1;
+				}
+				else if(distance(p,p3)<=(aire.tailleJeton/2)){
+					pfinal.colonne=nbCoteLargeur-1;
+					pfinal.ligne=nbCoteHauteur;		
+				}
+				else if(distance(p,p4)<=(aire.tailleJeton/2)){
+					pfinal.colonne=nbCoteLargeur;
+					pfinal.ligne=nbCoteHauteur;
+				}
+				/*if(distance(p,p1)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur-1)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur-1)*aire.tailleSegment;
+				}
+				else if(distance(p,p2)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur-1)*aire.tailleSegment;
+				}
+				else if(distance(p,p3)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur-1)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur)*aire.tailleSegment;		
+				}
+				else if(distance(p,p4)<=(aire.tailleJeton/2)){
+					pfinal.colonne=(nbCoteLargeur)*aire.tailleSegment;
+					pfinal.ligne=(nbCoteHauteur)*aire.tailleSegment;
+				}*/
+				if(pfinal.colonne!=-1 && pfinal.ligne!=-1){
+					if(aire.pionCliquer){
+							((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
+							aire.pionCliquer=false;
+						/*	if(aire.pionCombo!=null){
+								aire.pionCombo.position.ligne=pfinal.ligne;
+								aire.pionCombo.position.colonne=pfinal.colonne;
+							}*/
 					}
+					else{
+						if(aire.doitChoisir){
+							if(aire.estUnChoix(pfinal)){
+								((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setDirectionMultiPrise(pfinal);
+								aire.doitChoisir=false;
+							}
+						}
+						else{
+							if(aire.estJouable(pfinal) || (aire.fenetre.engine.partieCourante.enCombo && aire.pionCombo.position.ligne==pfinal.ligne && aire.pionCombo.position.colonne==pfinal.colonne ) ){
+								System.out.println("---------OUI c'est jouable");
+								aire.pCourant.colonne=pfinal.colonne;
+								aire.pCourant.ligne=pfinal.ligne;
+								aire.pionCliquer=true;
+								System.out.println("Point: "+aire.pCourant.ligne+" "+aire.pCourant.colonne);
+							}
+						}
+					}
+					aire.repaint();
 				}
+			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
+			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
+				aire.pionCliquer=false;
 				aire.repaint();
-			}
-		} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfoncé
-		} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfoncé
-			aire.pionCliquer=false;
-			aire.repaint();
-	    }
-		
-		
+		    }
+			
+		}
 	}
 	public void mouseEntered(MouseEvent e) {
 	}
 	public void mouseExited(MouseEvent e) {
 	}
 	public void mousePressed(MouseEvent e) {
+		/*
+		 	System.out.println(e.getX());
+		 	System.out.println(e.getY());
+		 */
 	}
 	public void mouseReleased(MouseEvent e) {
 	}
@@ -88,8 +118,8 @@ public class EcouteurDeSouris implements MouseListener{
         return a*a;
     }
  
-    public int distance(Point p1, Point p2) {	
-        return (int)Math.sqrt(sqr(p2.y - p1.y) + sqr(p2.x - p1.x));
+    public int distance(Coordonnee p1, Coordonnee p2) {	
+        return (int)Math.sqrt(sqr(p2.colonne - p1.colonne) + sqr(p2.ligne - p1.ligne));
     } 
 
 }
