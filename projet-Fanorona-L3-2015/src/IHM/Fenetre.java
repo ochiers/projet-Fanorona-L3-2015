@@ -13,7 +13,7 @@ public class Fenetre implements Runnable,Affichage {
 	Parametres parametre;
 	Preferences preference;
 	AireDeDessin monDessin;
-	Engine engine;
+	EngineServices engine;
 	int lvlPC1;
 	int lvlPC2;
 	int mode;
