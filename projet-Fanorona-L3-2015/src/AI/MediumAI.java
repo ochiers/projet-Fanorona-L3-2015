@@ -1,6 +1,5 @@
 package AI;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import engine.*;
@@ -19,7 +18,7 @@ public class MediumAI extends Player {
 	}
 
 	@Override
-	public Coup play(Case[] listeCoups)
+	public Coup play(Case[][] laMatrice, Case[] listeCoups)
 	{
 		// TODO Auto-generated method stub
 		return null;

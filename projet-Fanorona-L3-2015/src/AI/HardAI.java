@@ -377,7 +377,7 @@ public class HardAI extends Player {
 	}
 	
 	@Override
-	public Coup play(Case[] listeCases)
+	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
 		int profondeur = 2;
 		long tempsAvant = System.nanoTime();
