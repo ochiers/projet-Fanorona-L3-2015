@@ -127,12 +127,13 @@ public class Engine {
 	{
 
 		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, size);
+
+		this.premierJeu = true;
 		changerPartieCourante(g, (premierJoueur == 0)?Pion.Blanc:Pion.Noir);
 		
 		this.undoRedo.vider();
 		this.undoRedo.addItem(new Game(partieCourante));
 		this.gameInProgress = true;
-		this.premierJeu = true;
 	}
 
 	public void stopper()
