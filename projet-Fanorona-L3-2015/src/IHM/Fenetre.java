@@ -175,7 +175,7 @@ public class Fenetre implements Runnable,Affichage {
 		nameJ2=engine.getCurrentGame().joueurNoir.name;
 		
 		parametre = new Parametres(this);
-		parametre.majParam();
+		parametre.majParam2();
 		//frame.repaint();
 		preference = new Preferences(this);
 		preference.majPref();
@@ -225,7 +225,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
-		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		//System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo=combo;
 		monDessin.repaint();
 		
