@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import AI.*;
@@ -26,7 +28,7 @@ public class Engine {
 		this.undoRedo = new UndoRedo<Game>();
 	}
 
-	public void setAffichage(Affichage f)
+	public void setDisplay(Affichage f)
 	{
 		this.affichage = f;
 		this.premierJeu = true;
@@ -127,10 +129,10 @@ public class Engine {
 		}
 	}
 
-	public void nouvellePartie(Player p1, Player p2, int premierJoueur, int hauteur, int largeur)
+	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
 
-		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, hauteur, largeur);
+		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, size);
 		changerPartieCourante(g, (premierJoueur == 0)?Pion.Blanc:Pion.Noir);
 		
 		this.undoRedo.vider();
@@ -194,11 +196,14 @@ public class Engine {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
 			
 			out.writeObject(partieCourante);
+			System.out.println("Partie sauvegardee");
+			this.affichage.sauvegardeReussie(true);
 			out.close();
 			
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
+			this.affichage.sauvegardeReussie(false);
 			e.printStackTrace();
 		}
 		
@@ -219,38 +224,15 @@ public class Engine {
 		try
 		{
 			ois = new ObjectInputStream(new FileInputStream(fichier));
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-				
-		 // désérialization de l'objet
-		try
-		{
 			Game g = (Game)ois.readObject() ;
+			g.display = this.affichage;
+			g.combo = new ArrayList<Case>();
+			Pion Jcourant = (g.joueurBlanc == g.joueurCourant)?Pion.Blanc:Pion.Noir;
+			changerPartieCourante(g, Jcourant);
 		} catch (Exception e)
 		{
+			this.affichage.chargementReussi(false);
 			e.printStackTrace();
 		}
-
-	}
-
-	private Player parsePlayer(String str)
-	{
-		Player res = null;
-		String[] a = str.split("#");
-		if (a[2].equals("EasyAI"))
-			res = new EasyAI(this, true, a[1]);
-		else if (a[2].equals("MediumAI"))
-			res = new MediumAI(this, true, a[1]);
-		else if (a[2].equals("HardAI"))
-			res = new HardAI(this, true, a[1]);
-		else if (a[2].equals("HumanPlayer"))
-			res = new HumanPlayer(this, false, a[1]);
-		else if (a[2].equals("HumanPlayerConsole"))
-			res = new HumanPlayerConsole(this, false, a[1]);
-
-		return res;
-
 	}
 }
