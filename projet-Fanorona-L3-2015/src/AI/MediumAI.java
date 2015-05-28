@@ -12,9 +12,9 @@ public class MediumAI extends Player {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MediumAI(Engine gaufre, boolean isAI, String name)
+	public MediumAI(EngineServices leMoteur, boolean isAI, String name)
 	{
-		super(gaufre, isAI, name);
+		super(leMoteur, isAI, name);
 		// TODO Auto-generated constructor stub
 	}
 

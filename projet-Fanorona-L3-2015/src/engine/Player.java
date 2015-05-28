@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 public abstract class Player extends Thread implements Serializable {
 
-	private static final long	serialVersionUID	= -745601135784423811L;
-	public boolean				aiPlayer;
-	public String				name;
-	public transient Engine		leMoteur;
-	private boolean				stopped;
+	private static final long		serialVersionUID	= -745601135784423811L;
+	public boolean					aiPlayer;
+	public String					name;
+	public transient EngineServices	leMoteur;
+	private boolean					stopped;
 
-	public Player(Engine leMoteur, boolean isAI, String name)
+	public Player(EngineServices leMoteur, boolean isAI, String name)
 	{
 		this.aiPlayer = isAI;
 		this.name = name;
@@ -56,8 +56,8 @@ public abstract class Player extends Thread implements Serializable {
 	public abstract Coup play(Case[] listeCoups);
 
 	/**
-	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les
-	 * pions
+	 * Fonction demandant au joueur de choisir de quel coté il veut capturer
+	 * les pions
 	 * 
 	 * @param eloignement
 	 * @param rapprochement
@@ -81,7 +81,7 @@ public abstract class Player extends Thread implements Serializable {
 		{
 			try
 			{
-				leMoteur.partieCourante.jouer(name);
+				leMoteur.getCurrentGame().jouer(name);
 				System.out.println(name + " ********************************************");
 			} catch (InterruptedException e)
 			{
