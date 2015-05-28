@@ -37,7 +37,8 @@ public abstract class Player extends Thread implements Serializable {
 	}
 
 	/**
-	 * Permet d'arreter un joueur de jouer (dans le cas d'une mise en pause du jeu par exemple)
+	 * Permet d'arreter un joueur de jouer (dans le cas d'une mise en pause du
+	 * jeu par exemple)
 	 * 
 	 * @param stopped
 	 *            True -> arrete le joueur, False -> retour a l'etat initial
@@ -55,7 +56,8 @@ public abstract class Player extends Thread implements Serializable {
 	public abstract Coup play(Case[] listeCoups);
 
 	/**
-	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les pions
+	 * Fonction demandant au joueur de choisir de quel coté il veut capturer
+	 * les pions
 	 * 
 	 * @param eloignement
 	 * @param rapprochement
@@ -65,7 +67,8 @@ public abstract class Player extends Thread implements Serializable {
 	public abstract Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement);
 
 	/**
-	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA Difficle)
+	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA
+	 * Difficle)
 	 */
 	public abstract String getNiveau();
 
@@ -78,7 +81,7 @@ public abstract class Player extends Thread implements Serializable {
 		{
 			try
 			{
-				leMoteur.partieCourante.jouer(name);
+				leMoteur.getCurrentGame().jouer(name);
 				System.out.println(name + " ********************************************");
 			} catch (InterruptedException e)
 			{
