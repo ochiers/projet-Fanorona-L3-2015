@@ -48,4 +48,16 @@ public interface Affichage {
 	 * @param combo
 	 */
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo);
+
+	/**
+	 * Affiche un message a l'utilisateur qui indique si la sauvegarde de la partie a reussie ou non
+	 * @param reussi Indique si la sauvegarde a reussi
+	 */
+	public void sauvegardeReussie(boolean reussi);
+	
+	/**
+	 * Affiche un message a l'utilisateur qui indique si le chargement de la partie a reussie ou non
+	 * @param reussi Indique si le chargement a reussi
+	 */
+	public void chargementReussi(boolean reussi);
 }

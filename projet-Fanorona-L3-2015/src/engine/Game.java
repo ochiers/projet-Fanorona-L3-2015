@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,10 +59,7 @@ public class Game implements Serializable {
 	 * Tableau de case representant tous le plateau
 	 */
 	public Case[][]						matricePlateau;
-	/**
-	 * Nombre de tour effectués
-	 */
-	public int							numberTurn;
+
 	/**
 	 * Nombre de pions blancs restants sur le plateau
 	 */
@@ -117,12 +115,10 @@ public class Game implements Serializable {
 	 *            Joueur Blanc
 	 * @param p2
 	 *            Joueur Noir
-	 * @param nbLignes
-	 *            Hauteur du plateau (nombre de cases)(5)
-	 * @param nbColonnes
-	 *            Largeur du plateau (nombre de cases)(9 ou 5)
+	 * @param size
+	 *            Taille du plateau size.height = nombre de lignes size.width = nombre de colonnes
 	 */
-	public Game(Affichage affichage, UndoRedo<Game> undoRedo, int joueurQuiCommence, Player p1, Player p2, int nbLignes, int nbColonnes)
+	public Game(Affichage affichage, UndoRedo<Game> undoRedo, int joueurQuiCommence, Player p1, Player p2, Dimension size)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -136,12 +132,11 @@ public class Game implements Serializable {
 			this.joueurCourant = p2;
 
 		this.combo = new ArrayList<Case>();
-		this.numberTurn = 0;
 		this.display = affichage;
 		this.nombrePionBlanc = ((nbLignes * nbColonnes) - 1) / 2;
 		this.nombrePionNoir = this.nombrePionBlanc;
-		this.nbLignes = nbLignes;
-		this.nbColonnes = nbColonnes;
+		this.nbColonnes = size.width;
+		this.nbLignes = size.height;
 		this.annulerRefaire = undoRedo;
 		initialisation(nbLignes, nbColonnes);
 	}
@@ -167,7 +162,6 @@ public class Game implements Serializable {
 		this.nbLignes = game.nbLignes;
 		this.nombrePionBlanc = game.nombrePionBlanc;
 		this.nombrePionNoir = game.nombrePionNoir;
-		this.numberTurn = game.numberTurn;
 		this.paused = game.paused;
 		this.stopped = game.stopped;
 		this.winner = game.winner;
@@ -685,7 +679,7 @@ public class Game implements Serializable {
 				}
 				break;
 		}
-		System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart + ", arrivee : " + arrivee);
+		//System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart + ", arrivee : " + arrivee);
 		return null;
 	}
 
@@ -785,7 +779,7 @@ public class Game implements Serializable {
 	 *            La coordonnee de la case
 	 * @return Vrai si la case est vide, Faux sinon
 	 */
-	public boolean estJouable(Coordonnee p)
+	/*public boolean estJouable(Coordonnee p)
 	{
 
 		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
@@ -799,7 +793,7 @@ public class Game implements Serializable {
 		}
 		return res;
 
-	}
+	}*/
 
 	/**
 	 * Teste si la case a la coordonee p est voisin de la case a la coordonnee q
@@ -810,14 +804,14 @@ public class Game implements Serializable {
 	 *            Une case
 	 * @return Vrai si p appartien aux voisins de q
 	 */
-	public boolean estVoisin(Coordonnee p, Coordonnee q)
+	/*public boolean estVoisin(Coordonnee p, Coordonnee q)
 	{
 		Case c1 = matricePlateau[p.ligne][p.colonne];
 		Case c2 = matricePlateau[q.ligne][q.colonne];
 
 		return c1.voisins().contains(c2);
 
-	}
+	}*/
 
 	public void afficherList(ArrayList<Case> l, String str)
 	{
