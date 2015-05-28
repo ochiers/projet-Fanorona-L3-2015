@@ -13,7 +13,7 @@ public class Fenetre implements Runnable,Affichage {
 	Parametres parametre;
 	Preferences preference;
 	AireDeDessin monDessin;
-	Engine engine;
+	EngineServices engine;
 	int lvlPC1;
 	int lvlPC2;
 	int mode;
@@ -36,7 +36,7 @@ public class Fenetre implements Runnable,Affichage {
 	String nameJ1;
 	String nameJ2;
 	
-	public Fenetre(Engine e){
+	public Fenetre(EngineServices e){
 		engine=e;
 		
 	}

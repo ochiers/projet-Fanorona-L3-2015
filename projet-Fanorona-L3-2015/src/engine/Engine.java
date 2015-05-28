@@ -13,7 +13,7 @@ import AI.*;
 import IHM.Affichage;
 import IHM.Fenetre;
 
-public class Engine {
+public class Engine implements EngineServices{
 
 	public boolean			gameInProgress;
 	public Game				partieCourante;
@@ -242,8 +242,102 @@ public class Engine {
 		}
 	}
 
-	public void setAffichage(Fenetre f)
+	@Override
+	public void setDisplay(Affichage display)
 	{
-		this.affichage = f;
+		this.affichage = display;
+		
 	}
+
+	@Override
+	public Game getCurrentGame()
+	{
+		return this.partieCourante;
+	}
+
+	@Override
+	public Case[][] getPlateau()
+	{
+		return this.partieCourante.matricePlateau;
+	}
+
+	@Override
+	public Player getJoueurBlanc()
+	{
+		return this.partieCourante.joueurBlanc;
+	}
+
+	@Override
+	public Player getJoueurNoir()
+	{
+		
+		return this.partieCourante.joueurNoir;
+	}
+
+	@Override
+	public Player getWinner()
+	{
+		return this.partieCourante.getWinner();
+	}
+
+	@Override
+	public int getNombrePionsBlancs()
+	{
+		return this.partieCourante.nombrePionBlanc;
+	}
+
+	@Override
+	public int getNombrePionsNoirs()
+	{
+		return this.partieCourante.nombrePionNoir;
+	}
+
+	@Override
+	public Case getPionCombo()
+	{
+		return this.partieCourante.pionCombo;
+	}
+
+	@Override
+	public ArrayList<Case> getComboList()
+	{
+		return this.partieCourante.combo;
+	}
+
+	@Override
+	public boolean enCombo()
+	{
+		return this.partieCourante.enCombo;
+	}
+
+	@Override
+	public boolean isGamePaused()
+	{
+		return this.partieCourante.isPaused();
+	}
+
+	@Override
+	public boolean isGameStopped()
+	{
+		return this.partieCourante.stopped;
+	}
+
+	@Override
+	public void finirSonTour()
+	{
+		this.partieCourante.finirSonTour();		
+	}
+
+	@Override
+	public void pause()
+	{
+		this.partieCourante.pause();
+	}
+
+	@Override
+	public void reprendre()
+	{
+		this.partieCourante.reprendre();
+	}
+	
 }
