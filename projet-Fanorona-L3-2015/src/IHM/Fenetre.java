@@ -225,5 +225,19 @@ public class Fenetre implements Runnable,Affichage {
 		monDessin.repaint();
 		
 	}
+
+	@Override
+	public void sauvegardeReussie(boolean reussi)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void chargementReussi(boolean reussi)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
