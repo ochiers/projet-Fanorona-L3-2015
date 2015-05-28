@@ -50,6 +50,11 @@ public interface EngineServices {
 	public Player getJoueurNoir();
 	
 	/**
+	 * Donne le joueur courant de la partie
+	 * @return
+	 */
+	public Player getJoueurCourant();
+	/**
 	 * Donne le joueur qui a gagné la partie
 	 * @return Le joueur gagnant, null si pas de gagnant
 	 */
