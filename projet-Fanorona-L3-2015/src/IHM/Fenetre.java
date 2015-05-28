@@ -171,8 +171,8 @@ public class Fenetre implements Runnable,Affichage {
  		panelAccueil.add(tour1);
  		panelAccueil.add(tour2);
 
-		nameJ1=engine.partieCourante.joueurBlanc.name;
-		nameJ2=engine.partieCourante.joueurNoir.name;
+		nameJ1 = engine.getJoueurBlanc().name;
+		nameJ2 = engine.getJoueurNoir().name;
 		
 		parametre = new Parametres(this);
 		parametre.majParam();
@@ -204,11 +204,12 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2){
-		if(!engine.partieCourante.joueurCourant.aiPlayer){
-		//System.out.println("------------MULTI DIRECTION------------------");
-		monDessin.doitChoisir=true;
-		monDessin.l1=l1;
-		monDessin.l2=l2;
+		//if(!engine.partieCourante.joueurCourant.aiPlayer){
+		if(!engine.getCurrentGame().joueurCourant.aiPlayer){
+			//System.out.println("------------MULTI DIRECTION------------------");
+			monDessin.doitChoisir=true;
+			monDessin.l1=l1;
+			monDessin.l2=l2;
 		}
 		monDessin.repaint();
 	}

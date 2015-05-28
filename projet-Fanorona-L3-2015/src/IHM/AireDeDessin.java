@@ -53,10 +53,10 @@ public class AireDeDessin extends JComponent {
         majNomJoueurs();
         
         dessinGrille(drawable);//grille
-        if(!fenetre.engine.partieCourante.joueurCourant.aiPlayer){
-	        if(!fenetre.engine.partieCourante.enCombo){
+        if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer){
+	        if(!fenetre.engine.getCurrentGame().enCombo){
 	        	//System.out.println("pas en combo---------------------");
-		        if(!pionCliquer && !doitChoisir && !fenetre.engine.partieCourante.joueurCourant.aiPlayer)
+		        if(!pionCliquer && !doitChoisir && !fenetre.engine.getCurrentGame().joueurCourant.aiPlayer)
 		        	pionJouable(drawable);//halo vert
 	        }
 	        else{
@@ -82,12 +82,12 @@ public class AireDeDessin extends JComponent {
     }
     
     public void majScore(){
-    	fenetre.scoreInt1.setText(""+fenetre.engine.partieCourante.nombrePionBlanc);
-        fenetre.scoreInt2.setText(""+fenetre.engine.partieCourante.nombrePionNoir);
+    	fenetre.scoreInt1.setText(""+fenetre.engine.getCurrentGame().nombrePionBlanc);
+        fenetre.scoreInt2.setText(""+fenetre.engine.getCurrentGame().nombrePionNoir);
     }
 
     public void majAQuiLeTour(){
-    	if(fenetre.engine.partieCourante.joueurCourant.name.equals(fenetre.engine.partieCourante.joueurBlanc.name)){
+    	if(fenetre.engine.getCurrentGame().joueurCourant.name.equals(fenetre.engine.getCurrentGame().joueurBlanc.name)){
         	fenetre.tour1.setVisible(true);
         	fenetre.tour2.setVisible(false);
         }else{
@@ -101,20 +101,20 @@ public class AireDeDessin extends JComponent {
         else fenetre.annuler.setEnabled(false);
         if(fenetre.engine.peutRefaire())fenetre.refaire.setEnabled(true);
         else fenetre.refaire.setEnabled(false);
-        if(!fenetre.engine.partieCourante.joueurCourant.aiPlayer){
-	        if(fenetre.engine.partieCourante.enCombo)
+        if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer){
+	        if(fenetre.engine.getCurrentGame().enCombo)
 	        	fenetre.valider.setEnabled(true);
 	        else fenetre.valider.setEnabled(false);
         }else fenetre.valider.setEnabled(false);
-        if(fenetre.engine.partieCourante.isPaused())
+        if(fenetre.engine.getCurrentGame().isPaused())
         	fenetre.stopper.setText(" Reprendre ");
         else fenetre.stopper.setText(" Pause ");
     }
     
     public void majNomJoueurs(){  	
-    	String level = fenetre.engine.partieCourante.joueurBlanc.getNiveau();
+    	String level = fenetre.engine.getCurrentGame().joueurBlanc.getNiveau();
 		if (level.equals("Humain")){
-			fenetre.idj1.setText(fenetre.engine.partieCourante.joueurBlanc.name);
+			fenetre.idj1.setText(fenetre.engine.getCurrentGame().joueurBlanc.name);
 			fenetre.levelj1.setText(" Bonne Chance ! ");
 			fenetre.levelj1.setVisible(false);
 		}else if (level.equals("IA Facile")){
@@ -131,9 +131,9 @@ public class AireDeDessin extends JComponent {
 			fenetre.levelj1.setVisible(true);
 		}
     	
-    	level = fenetre.engine.partieCourante.joueurNoir.getNiveau();
+    	level = fenetre.engine.getCurrentGame().joueurNoir.getNiveau();
 		if (level.equals("Humain")){
-			fenetre.idj2.setText(fenetre.engine.partieCourante.joueurNoir.name);
+			fenetre.idj2.setText(fenetre.engine.getCurrentGame().joueurNoir.name);
 			fenetre.levelj2.setText(" Bonne Chance ! ");
 			fenetre.levelj2.setVisible(false);
 		}else if (level.equals("IA Facile")){
@@ -200,7 +200,7 @@ public class AireDeDessin extends JComponent {
    }
    
    public void positionPossible(Graphics2D drawable){
-	   ArrayList<Case> listCase = fenetre.engine.partieCourante.matricePlateau[2][4].voisins();
+	   ArrayList<Case> listCase = fenetre.engine.getCurrentGame().matricePlateau[2][4].voisins();
 	   for(int i=0;i<listCase.size();i++){
 		   //System.out.println("--Voisin: "+listCase.get(i).position.ligne+" "+listCase.get(i).position.colonne);
 	   }
@@ -273,11 +273,11 @@ public class AireDeDessin extends JComponent {
     
     public void dessinGrilleJeton(Graphics2D drawable){
     	
-    	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
-    		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
-    			if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Blanc)
+    	for(int i=0;i<fenetre.engine.getCurrentGame().matricePlateau.length;i++){
+    		for(int j=0;j<fenetre.engine.getCurrentGame().matricePlateau[0].length;j++){
+    			if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Blanc)
     				dessinJeton(drawable,fenetre.pion1,300-(tailleJeton/2)+j*tailleSegment,135-(tailleJeton/2)+i*tailleSegment);
-    			else if(fenetre.engine.partieCourante.matricePlateau[i][j].pion==Pion.Noir)
+    			else if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Noir)
     				dessinJeton(drawable,fenetre.pion2,300-(tailleJeton/2)+j*tailleSegment,135-(tailleJeton/2)+i*tailleSegment);
     			else{}
     		}

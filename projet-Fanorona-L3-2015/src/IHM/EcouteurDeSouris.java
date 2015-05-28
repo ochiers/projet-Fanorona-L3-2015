@@ -16,7 +16,7 @@ public class EcouteurDeSouris implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer && !aire.fenetre.engine.partieCourante.isPaused()){
+		if(!aire.fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !aire.fenetre.engine.getCurrentGame().isPaused()){
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
@@ -67,7 +67,7 @@ public class EcouteurDeSouris implements MouseListener{
 				}*/
 				if(pfinal.colonne!=-1 && pfinal.ligne!=-1){
 					if(aire.pionCliquer){
-							((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setCoup(aire.pCourant,pfinal);
+							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,pfinal);
 							aire.pionCliquer=false;
 						/*	if(aire.pionCombo!=null){
 								aire.pionCombo.position.ligne=pfinal.ligne;
@@ -77,12 +77,12 @@ public class EcouteurDeSouris implements MouseListener{
 					else{
 						if(aire.doitChoisir){
 							if(aire.estUnChoix(pfinal)){
-								((HumanPlayer)aire.fenetre.engine.partieCourante.joueurCourant).setDirectionMultiPrise(pfinal);
+								((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setDirectionMultiPrise(pfinal);
 								aire.doitChoisir=false;
 							}
 						}
 						else{
-							if(aire.estJouable(pfinal) || (aire.fenetre.engine.partieCourante.enCombo && aire.pionCombo.position.ligne==pfinal.ligne && aire.pionCombo.position.colonne==pfinal.colonne ) ){
+							if(aire.estJouable(pfinal) || (aire.fenetre.engine.getCurrentGame().enCombo && aire.pionCombo.position.ligne==pfinal.ligne && aire.pionCombo.position.colonne==pfinal.colonne ) ){
 								System.out.println("---------OUI c'est jouable");
 								aire.pCourant.colonne=pfinal.colonne;
 								aire.pCourant.ligne=pfinal.ligne;
