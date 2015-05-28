@@ -19,17 +19,17 @@ public class EcouteurDeSouris implements MouseListener{
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
-				p.colonne=e.getX()-(aire.decalageL-aire.tailleSegment);
-				p.ligne=e.getY()-(aire.decalageH-aire.tailleSegment);
-				int nbCoteLargeur=p.colonne/aire.tailleSegment;
-				int nbCoteHauteur=p.ligne/aire.tailleSegment;
+				p.colonne=e.getX()-(aire.decalageL-aire.segment);
+				p.ligne=e.getY()-(aire.decalageH-aire.segment);
+				int nbCoteLargeur=p.colonne/aire.segment;
+				int nbCoteHauteur=p.ligne/aire.segment;
 				System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
 				System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
 							
-				Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);// haut gauche
-				Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//haut droit
-				Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);//bas gauche
-				Coordonnee p4=new Coordonnee((nbCoteHauteur+1)*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//bas droit
+				Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.segment,nbCoteLargeur*aire.segment);// haut gauche
+				Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.segment,(nbCoteLargeur+1)*aire.segment);//haut droit
+				Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.segment,nbCoteLargeur*aire.segment);//bas gauche
+				Coordonnee p4=new Coordonnee((nbCoteHauteur+1)*aire.segment,(nbCoteLargeur+1)*aire.segment);//bas droit
 				Coordonnee pfinal=new Coordonnee(-1,-1);
 				
 				if(distance(p,p1)<=(aire.tailleJeton/2)){
