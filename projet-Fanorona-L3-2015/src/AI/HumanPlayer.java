@@ -79,7 +79,7 @@ public class HumanPlayer extends Player {
 			}
 			
 		}
-		return leMoteur.partieCourante.matricePlateau[this.pointDirection.ligne][this.pointDirection.colonne];
+		return leMoteur.getCurrentGame().matricePlateau[this.pointDirection.ligne][this.pointDirection.colonne];
 	}
 	
 
