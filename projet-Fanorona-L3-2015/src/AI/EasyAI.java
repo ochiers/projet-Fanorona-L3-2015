@@ -106,11 +106,11 @@ public class EasyAI extends Player {
 		
 		ArrayList<Coup> listeCoups = creerCoups(listeCases);
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
-		Pion couleurJoueur = (leMoteur.partieCourante.joueurCourant == leMoteur.partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		Pion couleurJoueur = (leMoteur.getCurrentGame().joueurCourant == leMoteur.getCurrentGame().joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		Random r = new Random(System.currentTimeMillis());
 		for (int i = 0; i < listeCoups.size(); i++){
-			Case depart = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne];
-			Case arrivee = leMoteur.partieCourante.matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne];
+			Case depart = leMoteur.getCurrentGame().matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne];
+			Case arrivee = leMoteur.getCurrentGame().matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne];
 			Direction directionCoup = determinerDirection(listeCoups.get(i).depart, listeCoups.get(i).arrivee);
 			Direction opposeDirectionCoup = Direction.oppose(directionCoup);
 			Case premiereCaseAspiration = depart.getCaseAt(opposeDirectionCoup);
