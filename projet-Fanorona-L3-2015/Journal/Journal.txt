@@ -77,7 +77,7 @@ Jeudi 28 mai
 		- Audit code.
 		- Ajouts modifs pour la gestion des enchaînements dans les IA moyenne et difficile + corrections de bugs.
 	Après-midi :
-		- Correction de bugs liés à la gestion des enchaînements, première version fonctionnelle des IA moyenne et difficile.
+		- Correction de bugs liés à la gestion des enchaînements, première version fonctionnelle des IA moyenne et difficile. Fonction d'evaluation à modifier...
 		
 		
 		
