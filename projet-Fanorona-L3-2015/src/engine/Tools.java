@@ -53,6 +53,21 @@ public class Tools {
 
 		throw new RuntimeException();
 	}
+	
+	public static PlayerType getTypeOfPlayer(int p)
+	{
+
+		if (p == 0)
+			return PlayerType.Humain;
+		if (p == 1)
+			return PlayerType.IAFacile;
+		if (p == 2)
+			return PlayerType.IAMoyenne;
+		if (p == 3)
+			return PlayerType.IADifficile;
+
+		throw new RuntimeException();
+	}
 
 	/**
 	 * Donne la configuration d'une partie donnée
@@ -68,6 +83,18 @@ public class Tools {
 		if (g.joueurBlanc.aiPlayer || g.joueurNoir.aiPlayer)
 			return Configuration.HumainVSIA;
 
+		throw new RuntimeException();
+	}
+	
+	public static Configuration getTypePartie(int g)
+	{
+		if (g == 0)
+			return Configuration.HumainVSHumain;
+		if (g == 1)
+			return Configuration.HumainVSIA;
+		if (g == 2)
+			return Configuration.IAvsIA;
+		
 		throw new RuntimeException();
 	}
 

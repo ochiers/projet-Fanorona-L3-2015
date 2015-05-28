@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import engine.Configuration;
+import engine.PlayerType;
+
 public class Parametres {
 	JRadioButton r1b1;
 	JRadioButton r1b2;
@@ -24,9 +27,15 @@ public class Parametres {
 	JRadioButton r3b1;
 	JRadioButton r3b2;
 	JRadioButton r3b3;
+	
 	int saveMode;
 	int savelvlPC1;
 	int savelvlPC2;
+	
+/*	Configuration saveMode;
+	PlayerType savelvlPC1;
+	PlayerType savelvlPC2;
+*/	
 	JButton accepter;
 	JButton annuler;
 	JComboBox box1;
@@ -231,7 +240,7 @@ public class Parametres {
 		fenetre.frame2.setResizable(false);
 		fenetre.frame2.setVisible(false);
 	}
-	
+/*	
 	public void majParam2(){
 		//fenetre.frame2.setSize(300, 300);
 		JPanel panel = new JPanel(new GridLayout(0,2));
@@ -255,7 +264,7 @@ public class Parametres {
 		
 		
 		//Selection des Boutons
-		if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
+	/*	if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
 			if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer && fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
 				fenetre.mode=3;
 				saveMode=3;
@@ -268,11 +277,21 @@ public class Parametres {
 		else{
 			fenetre.mode=1;
 			saveMode=1;
-		}
+		}*/
+/*		fenetre.mode=engine.Tools.getTypePartie(fenetre.engine.getCurrentGame());
+		fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurBlanc);
+		fenetre.lvlPC2=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurNoir);
 		
-		box1.setSelectedIndex(fenetre.mode);
-		box2.setSelectedIndex(fenetre.lvlPC1);
-		box3.setSelectedIndex(fenetre.lvlPC2);
+		box1.setSelectedIndex(fenetre.mode.ordinal());
+		if(fenetre.lvlPC1.ordinal()==0)box2.setSelectedIndex(1);
+		else box2.setSelectedIndex(fenetre.lvlPC1.ordinal()-1);
+		if(fenetre.lvlPC2.ordinal()==0)box3.setSelectedIndex(1);
+		else box3.setSelectedIndex(fenetre.lvlPC2.ordinal()-1);
+		saveMode=fenetre.mode;
+		savelvlPC1=fenetre.lvlPC1;
+		savelvlPC2=fenetre.lvlPC2;
+		
+		
 		JButton accepter = new JButton("Accepter");
 		JButton annuler = new JButton("Annuler");
 		
@@ -302,7 +321,7 @@ public class Parametres {
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box1.getSelectedItem());
 	      System.out.println("numero de l'item: " + box1.getSelectedIndex());
-	      fenetre.mode=box1.getSelectedIndex();
+	      fenetre.mode=engine.Tools.getTypePartie(box1.getSelectedIndex());
 	      fenetre.afficherJeu();
 
 	    }               
@@ -321,7 +340,7 @@ public class Parametres {
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box2.getSelectedItem());
 	      System.out.println("numero de l'item: " + box2.getSelectedIndex());
-	      fenetre.lvlPC1=box2.getSelectedIndex();
+	      fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(box2.getSelectedIndex());
 	      fenetre.afficherJeu();
 
 	    }               
@@ -340,12 +359,12 @@ public class Parametres {
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box3.getSelectedItem());
 	      System.out.println("numero de l'item: " + box3.getSelectedIndex());
-	      fenetre.lvlPC2=box3.getSelectedIndex();
+	      fenetre.lvlPC2=engine.Tools.getTypeOfPlayer(box3.getSelectedIndex());
 	      fenetre.afficherJeu();
 
 	    }               
 
 	}
-	
+*/	
 }
 
