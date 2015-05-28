@@ -44,10 +44,10 @@ public class EcouteurPreferences implements ActionListener{
 				pref.fenetre.engine.partieCourante.joueurNoir.name = pref.name2.getText();
 				pref.fenetre.idj2 = new JLabel(pref.name2.getText());
 				pref.fenetre.levelj2 = new JLabel(" Bonne Chance ! ");
-			}
+			}*/
 			
 			//COULEUR PIONS
-*/			int i=0;
+			int i=0;
 			if(e.getSource()==pref.bouton[i][0])pref.save1=Color.black;	
 			else{
 				i++;
