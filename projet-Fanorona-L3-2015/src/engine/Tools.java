@@ -21,6 +21,12 @@ public class Tools {
 		return res;
 	}
 	
+	/*public PlayerType getTypeOfPlayer(Player p){
+		
+		PlayerType res;
+		
+		
+	}*/
 	
 	
 }
