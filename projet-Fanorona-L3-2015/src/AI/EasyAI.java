@@ -108,7 +108,7 @@ public class EasyAI extends Player {
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
 		Pion couleurJoueur = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		Random r = new Random(System.currentTimeMillis());
-		for (int i = 0; i < listeCoups.size(); i++){
+		for (int i = 0; i < listeCoups.size(); i++){ 
 			Case depart = partieCourante.matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne];
 			Case arrivee = partieCourante.matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne];
 			Direction directionCoup = determinerDirection(listeCoups.get(i).depart, listeCoups.get(i).arrivee);

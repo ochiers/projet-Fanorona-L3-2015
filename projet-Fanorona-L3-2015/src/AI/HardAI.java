@@ -465,7 +465,7 @@ public class HardAI extends Player {
 						listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						premiereCasePrise = partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 						res = alphaBeta(nouveauNoeud,listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
-					}
+					} 
 					else {
 						if(partieCourante.combo.isEmpty()){
 							nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
