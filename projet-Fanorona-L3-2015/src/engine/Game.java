@@ -33,7 +33,6 @@ public class Game implements Serializable {
 	 * Indique si la partie est en pause
 	 */
 	private boolean						paused;
-
 	/**
 	 * Indique si un combo est en cours, le pion correspondant est dans l'attribu this.pionCombo
 	 */
@@ -679,7 +678,7 @@ public class Game implements Serializable {
 				}
 				break;
 		}
-		//System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart + ", arrivee : " + arrivee);
+		// System.err.println("GROS SOUCIS ! IMPOSSIBLE DE DETERMINEE LA DIRECTION DU COUP : Depart : " + depart + ", arrivee : " + arrivee);
 		return null;
 	}
 
@@ -779,21 +778,10 @@ public class Game implements Serializable {
 	 *            La coordonnee de la case
 	 * @return Vrai si la case est vide, Faux sinon
 	 */
-	/*public boolean estJouable(Coordonnee p)
-	{
-
-		Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
-		boolean res = false;
-		if (matricePlateau[p.ligne][p.colonne].pion == courant)
-		{
-			for (Case case1 : matricePlateau[p.ligne][p.colonne].voisins())
-			{
-				res = res || case1.estVide();
-			}
-		}
-		return res;
-
-	}*/
+	/*
+	 * public boolean estJouable(Coordonnee p) { Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir; boolean res = false; if (matricePlateau[p.ligne][p.colonne].pion == courant) { for (Case case1 : matricePlateau[p.ligne][p.colonne].voisins()) { res = res || case1.estVide(); } }
+	 * return res; }
+	 */
 
 	/**
 	 * Teste si la case a la coordonee p est voisin de la case a la coordonnee q
@@ -804,14 +792,9 @@ public class Game implements Serializable {
 	 *            Une case
 	 * @return Vrai si p appartien aux voisins de q
 	 */
-	/*public boolean estVoisin(Coordonnee p, Coordonnee q)
-	{
-		Case c1 = matricePlateau[p.ligne][p.colonne];
-		Case c2 = matricePlateau[q.ligne][q.colonne];
-
-		return c1.voisins().contains(c2);
-
-	}*/
+	/*
+	 * public boolean estVoisin(Coordonnee p, Coordonnee q) { Case c1 = matricePlateau[p.ligne][p.colonne]; Case c2 = matricePlateau[q.ligne][q.colonne]; return c1.voisins().contains(c2); }
+	 */
 
 	public void afficherList(ArrayList<Case> l, String str)
 	{

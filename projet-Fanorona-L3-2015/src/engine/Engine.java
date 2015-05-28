@@ -3,13 +3,11 @@ package engine;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import AI.*;
 import IHM.Affichage;
@@ -44,7 +42,7 @@ public class Engine {
 				while (!gameInProgress)
 				{
 					System.out.print("Attente d'une partie");
-					Thread.sleep(50);
+					Thread.sleep(500);
 				}
 				partieCourante.pause();
 				if(premierJeu)
@@ -138,6 +136,7 @@ public class Engine {
 		this.undoRedo.vider();
 		this.undoRedo.addItem(new Game(partieCourante));
 		this.gameInProgress = true;
+		this.premierJeu = true;
 	}
 
 	public void stopper()
