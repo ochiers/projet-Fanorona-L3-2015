@@ -21,12 +21,19 @@ public class Tools {
 		return res;
 	}
 	
-	/*public PlayerType getTypeOfPlayer(Player p){
+	public PlayerType getTypeOfPlayer(Player p){
 		
-		PlayerType res;
+		if(p instanceof HumanPlayer)
+			return PlayerType.Humain;
+		if(p instanceof EasyAI)
+			return PlayerType.IAFacile;
+		if(p instanceof MediumAI)
+			return PlayerType.IAMoyenne;
+		if(p instanceof HardAI)
+			return PlayerType.IADifficile;
 		
-		
-	}*/
+		throw new RuntimeException();
+	}
 	
 	
 }
