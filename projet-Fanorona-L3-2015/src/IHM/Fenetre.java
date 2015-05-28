@@ -11,6 +11,7 @@ public class Fenetre implements Runnable,Affichage {
 	static JFrame frame2 = new JFrame(" -- Parametres -- ");
 	static JFrame frame3 = new JFrame(" -- Preferences -- ");
 	Parametres parametre;
+	Preferences preference;
 	AireDeDessin monDessin;
 	Engine engine;
 	int lvlPC1;
@@ -21,6 +22,7 @@ public class Fenetre implements Runnable,Affichage {
 	JButton annuler;
 	JButton refaire;
 	JButton stopper;
+	JButton valider;
 	JLabel tour1;
 	JLabel tour2;
 	ImagePanel panelAccueil;
@@ -50,6 +52,7 @@ public class Fenetre implements Runnable,Affichage {
 			//grille
 		monDessin = new AireDeDessin(this);
 			monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
+			//monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
 			//monDessin.setBounds((int)(0.8*fw/6), (int)(0.2*fh/6), (int)(4.4*fw/6), (int)(4.4*fh/6)); //MODIF TAILLE POUR FANO
 			monDessin.setBounds(0, 0, fw, 5*fh/6); // RE MODIF TAILLE POUR FANO
 			
@@ -106,8 +109,10 @@ public class Fenetre implements Runnable,Affichage {
 			refaire.setBounds((int)(((1.2*fw/6)-temp)+(0.8*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 		stopper = new JButton(" Pause ");
 			stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
+			
+			//stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
 			stopper.setBounds((int)(((1.2*fw/6)-temp)+(1.6*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
-		JButton valider = new JButton(" Fin du tour ");
+		valider = new JButton(" Fin du tour ");
 			valider.addActionListener(new EcouteurDeBouton(this,valider.getText()));
 			valider.setBounds((int)(((1.2*fw/6)-temp)+(2.4*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 		JButton suggestion = new JButton(" Suggerer coup ");
@@ -172,8 +177,8 @@ public class Fenetre implements Runnable,Affichage {
 		parametre = new Parametres(this);
 		parametre.majParam();
 		//frame.repaint();
-		Preferences p = new Preferences(this);
-		p.majPref();
+		preference = new Preferences(this);
+		preference.majPref();
 		//frame.repaint();
 		
  		frame.add(panelAccueil);
@@ -220,7 +225,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
-		//System.out.println("COOOOOOOOOOOOOOOOMBO");
+		System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo=combo;
 		monDessin.repaint();
 		

@@ -60,16 +60,24 @@ public class AireDeDessin extends JComponent {
 		        	pionJouable(drawable);//halo vert
 	        }
 	        else{
-	        	//System.out.println("est en combo---------------------");
+	        	System.out.println("est en combo---------------------");
+	        	cheminCombo(drawable);
 	        	pionJouableCombo(drawable); 
 	        }
-        }
-        if(!pionCliquer && doitChoisir && !fenetre.engine.partieCourante.joueurCourant.aiPlayer)
-        	choixManger(drawable);//halo bleu
-       // dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
-        dessinGrilleJeton(drawable);
-        if(pionCliquer && !fenetre.engine.partieCourante.joueurCourant.aiPlayer)
-        	jetonCliquer(drawable);//rond cyan 
+
+        
+	        if(!pionCliquer && doitChoisir){
+	        	choixManger(drawable);//halo bleu
+	        }
+	       // dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
+	        dessinGrilleJeton(drawable);
+	        if(pionCliquer){
+	        	jetonCliquer(drawable);//rond cyan
+	        	
+	        }
+    	}else dessinGrilleJeton(drawable);
+        
+
       //  positionPossible(drawable);
     }
     
@@ -93,6 +101,14 @@ public class AireDeDessin extends JComponent {
         else fenetre.annuler.setEnabled(false);
         if(fenetre.engine.peutRefaire())fenetre.refaire.setEnabled(true);
         else fenetre.refaire.setEnabled(false);
+        if(!fenetre.engine.partieCourante.joueurCourant.aiPlayer){
+	        if(fenetre.engine.partieCourante.enCombo)
+	        	fenetre.valider.setEnabled(true);
+	        else fenetre.valider.setEnabled(false);
+        }else fenetre.valider.setEnabled(false);
+        if(fenetre.engine.partieCourante.isPaused())
+        	fenetre.stopper.setText(" Reprendre ");
+        else fenetre.stopper.setText(" Pause ");
     }
     
     public void majNomJoueurs(){  	
@@ -174,14 +190,13 @@ public class AireDeDessin extends JComponent {
    
    public void cheminCombo(Graphics2D drawable){	//MODIFIE
 	   drawable.setPaint(comboColor);
-	  /* if(combo!=null){
-		   for(int i=0;i<combo.size();i++){
-			   //System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
-		   }
-	   }*/
-	   //drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-	   drawable.fillOval(300+pCourant.colonne*tailleSegment-tailleJeton/4, 135+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-       drawable.setPaint(Color.black);
+	   for(int i=0;i<combo.size();i++){
+		   System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
+		   //drawable.fillOval(tailleSegment+combo.get(i).position.colonne*tailleSegment-tailleJeton/4, tailleSegment+combo.get(i).position.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		   drawable.fillOval(300+combo.get(i).position.colonne*tailleSegment-tailleJeton/4, 135+combo.get(i).position.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+
+	   }
+	   drawable.setPaint(Color.black);
    }
    
    public void positionPossible(Graphics2D drawable){

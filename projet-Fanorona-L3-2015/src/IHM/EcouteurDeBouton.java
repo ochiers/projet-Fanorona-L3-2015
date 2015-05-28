@@ -99,10 +99,16 @@ public class EcouteurDeBouton implements ActionListener{
 			}else if(fenetre.lvlPC2==3){
 				fenetre.parametre.r3b3.setSelected(true);
 			}
+			fenetre.parametre.saveMode=fenetre.mode;
+			fenetre.parametre.savelvlPC1=fenetre.lvlPC1;
+			fenetre.parametre.savelvlPC2=fenetre.lvlPC2;
 			fenetre.frame2.setVisible(true);
 			//TODO
 			break;
 		case " Preferences ":
+			fenetre.preference.resetBouton();
+			fenetre.preference.save1=fenetre.pion1;
+			fenetre.preference.save2=fenetre.pion2;
 			fenetre.frame3.setVisible(true);
 			break;
 		case " Historique Scores ":
@@ -135,7 +141,7 @@ public class EcouteurDeBouton implements ActionListener{
 			}
 			break;
 		case " Fin du tour ":
-			this.fenetre.engine.partieCourante.finirSonTour();
+			fenetre.engine.partieCourante.finirSonTour();
 			break;
 		default:
 			System.out.println("Erreur bouton switch");

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import AI.*;
 import IHM.Affichage;
+import IHM.Fenetre;
 
 public class Engine {
 
@@ -24,11 +25,6 @@ public class Engine {
 	{
 		this.gameInProgress = false;
 		this.undoRedo = new UndoRedo<Game>();
-	}
-
-	public void setDisplay(Affichage f)
-	{
-		this.affichage = f;
 		this.premierJeu = true;
 	}
 
@@ -131,12 +127,13 @@ public class Engine {
 	{
 
 		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, size);
+
+		this.premierJeu = true;
 		changerPartieCourante(g, (premierJoueur == 0)?Pion.Blanc:Pion.Noir);
 		
 		this.undoRedo.vider();
 		this.undoRedo.addItem(new Game(partieCourante));
 		this.gameInProgress = true;
-		this.premierJeu = true;
 	}
 
 	public void stopper()
@@ -233,5 +230,10 @@ public class Engine {
 			this.affichage.chargementReussi(false);
 			e.printStackTrace();
 		}
+	}
+
+	public void setAffichage(Fenetre f)
+	{
+		this.affichage = f;
 	}
 }
