@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import AI.*;
 import IHM.Affichage;
+import IHM.Fenetre;
 
 public class Engine {
 
@@ -24,11 +25,6 @@ public class Engine {
 	{
 		this.gameInProgress = false;
 		this.undoRedo = new UndoRedo<Game>();
-	}
-
-	public void setDisplay(Affichage f)
-	{
-		this.affichage = f;
 		this.premierJeu = true;
 	}
 
@@ -233,5 +229,10 @@ public class Engine {
 			this.affichage.chargementReussi(false);
 			e.printStackTrace();
 		}
+	}
+
+	public void setAffichage(Fenetre f)
+	{
+		this.affichage = f;
 	}
 }
