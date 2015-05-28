@@ -10,8 +10,8 @@ public class JeuFanorona {
 	public static void main(String argv[]) throws InterruptedException{
 		Engine e=new Engine();
 		
-		Player p1=new HumanPlayer(e,false,"player1");
-		Player p2=new HumanPlayer(e,false,"player2");
+		Player p1=new HumanPlayer(e,false,"Jean");
+		Player p2=new HumanPlayer(e,false,"Pierre");
 
 		Fenetre f=new Fenetre(e);
 		e.setAffichage(f);
