@@ -105,6 +105,14 @@ public class HardAI extends Player {
 						}
 					}
 				}
+				else if(comboEnCours){
+					Noeud nouveauNoeud = new Noeud(n);
+					ArrayList<Case> pionsJouables;
+					ArrayList<Case> combo2 = new ArrayList<Case>();
+					pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+					Case[] listeCases2 = new Case[pionsJouables.size()];
+					val = java.lang.Math.min(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire, combo2, false));
+				}
 				if(alpha >= val) return val;
 				beta = java.lang.Math.min(beta, val);
 			}
@@ -183,9 +191,17 @@ public class HardAI extends Player {
 							combo2.clear();
 							pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
 							Case[] listeCases2 = new Case[pionsJouables.size()];
-							val = java.lang.Math.min(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire, combo2, false));
+							val = java.lang.Math.max(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire, combo2, false));
 						}
 					}
+				}
+				else if(comboEnCours){
+					Noeud nouveauNoeud = new Noeud(n);
+					ArrayList<Case> pionsJouables;
+					ArrayList<Case> combo2 = new ArrayList<Case>();
+					pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+					Case[] listeCases2 = new Case[pionsJouables.size()];
+					val = java.lang.Math.max(val, alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), alpha, beta, !noeudMin, profondeur-1, couleurAdversaire, combo2, false));
 				}
 				if(val >= beta) return val;
 				alpha = java.lang.Math.max(alpha, val);
@@ -379,8 +395,8 @@ public class HardAI extends Player {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-		int profondeur = 1;
-		long tempsAvant = System.nanoTime();
+		int profondeur = 6;
+		//long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
 		Noeud n = new Noeud(partieCourante);
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
@@ -397,10 +413,10 @@ public class HardAI extends Player {
 		}
 		for(int i = 0; i < listeCoups.size(); i++){
 			Coup coupCourant = listeCoups.get(i);
+			Case premiereCasePrise = null;
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
 				/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */
-				Case premiereCasePrise = null;
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, n.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
 				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
@@ -426,9 +442,9 @@ public class HardAI extends Player {
 					comboPercussion.add(noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					comboAspiration.add(noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					Case[] listeCases2 = new Case[1];
-					listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+					listeCases2[0] = noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 					Case[] listeCases3 = new Case[1];
-					listeCases3[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+					listeCases3[0] = noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 					int res1 = alphaBeta(noeudPercussion, listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, comboPercussion, true);
 					int res2 = alphaBeta(noeudAspiration, listeCases3, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, comboAspiration, true);
 					if(res1>res2){
@@ -452,7 +468,7 @@ public class HardAI extends Player {
 						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
-						listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						listeCases2[0] = nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						premiereCasePrise = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
 						res = alphaBeta(nouveauNoeud, listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 					}
@@ -461,7 +477,7 @@ public class HardAI extends Player {
 						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
-						listeCases2[0] = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						listeCases2[0] = nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						premiereCasePrise = partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 						res = alphaBeta(nouveauNoeud,listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 					} 
@@ -476,28 +492,36 @@ public class HardAI extends Player {
 						res = alphaBeta(nouveauNoeud,pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo, false);
 					}
 				}
-				// PRINT
-				Coup p = coupCourant;
-				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
-				
-				if(res > meilleurRes){
-					meilleurRes = res;
-					meilleurCoups.clear();
-					premieresCasesPrises.clear();
-					meilleurCoups.add(coupCourant);
-					premieresCasesPrises.add(premiereCasePrise);
-				}
-				if(res == meilleurRes){
-					meilleurCoups.add(coupCourant);
-					premieresCasesPrises.add(premiereCasePrise);
-				}
+			}
+			else if(leMoteur.enCombo()){
+				Noeud nouveauNoeud = new Noeud(n);
+				ArrayList<Case> pionsJouables;
+				ArrayList<Case> combo2 = new ArrayList<Case>();
+				pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
+				Case[] listeCases2 = new Case[pionsJouables.size()];
+				res = alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
+			}
+			// PRINT
+			//Coup p = coupCourant;
+			//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+			
+			if(res > meilleurRes){
+				meilleurRes = res;
+				meilleurCoups.clear();
+				premieresCasesPrises.clear();
+				meilleurCoups.add(coupCourant);
+				premieresCasesPrises.add(premiereCasePrise);
+			}
+			if(res == meilleurRes){
+				meilleurCoups.add(coupCourant);
+				premieresCasesPrises.add(premiereCasePrise);
 			}
 		}
 		Random r = new Random();
 		int rand = r.nextInt(meilleurCoups.size());
 		choix = premieresCasesPrises.get(rand);
-		System.out.println(meilleurCoups.get(rand));
-		System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
+		//System.out.println(meilleurCoups.get(rand));
+		//System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
 		return meilleurCoups.get(rand);
 	}
 

@@ -42,6 +42,7 @@ public class AireDeDessin extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
+    	System.out.println("/////////////////////MODE "+fenetre.mode+" -PC1: "+fenetre.lvlPC1+" -PC2: "+fenetre.lvlPC2);
     	Graphics2D drawable = (Graphics2D) g;    	
     	/*int width = this.getSize().width;
     	int height = this.getSize().height;
@@ -58,23 +59,23 @@ public class AireDeDessin extends JComponent {
         dessinGrille(drawable);//grille
 
         if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer){
-	        if(!fenetre.engine.getCurrentGame().enCombo){
+        	if(!pionCliquer && doitChoisir){
+	        	choixManger(drawable);//halo bleu
+	        }
+        	if(!fenetre.engine.getCurrentGame().enCombo){
 	        	//System.out.println("pas en combo---------------------");
-		        if(!pionCliquer && !doitChoisir && !fenetre.engine.getCurrentGame().joueurCourant.aiPlayer)
+		        if(!pionCliquer && !doitChoisir)
 		        	pionJouable(drawable);//halo vert
 	        }
 	        else{
-	        	System.out.println("est en combo---------------------");
+	        	//System.out.println("est en combo---------------------");
 	        	cheminCombo(drawable);
 	        	//pionCliquer=true;
 	        	pionJouableCombo(drawable); 
+	        	//pCourant.ligne=pionCombo.position.ligne;
+	        	//pCourant.colonne=pionCombo.position.colonne;
 
-	        }
-
-        
-	        if(!pionCliquer && doitChoisir){
-	        	choixManger(drawable);//halo bleu
-	        }
+	        } 
 	       // dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
 	        dessinGrilleJeton(drawable);
 	        if(pionCliquer){
@@ -185,7 +186,7 @@ public class AireDeDessin extends JComponent {
 		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*1.2)/2), (int)(segment+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
 		drawable.fillOval((int)(decalageL+p.colonne*segment-(tailleJeton*1.2)/2), (int)(decalageH+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
 		drawable.setPaint(Color.black);
-		System.out.println("haloPION: "+p.ligne+" "+p.colonne);
+		//System.out.println("haloPION: "+p.ligne+" "+p.colonne);
 	}
    
    public void pionJouableCombo(Graphics2D drawable){
@@ -196,17 +197,16 @@ public class AireDeDessin extends JComponent {
 		//drawable.fillOval(segment+pCourant.colonne*segment-tailleJeton/4, segment+pCourant.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
 		drawable.fillOval(decalageL+pionCombo.position.colonne*segment-tailleJeton/4, decalageH+pionCombo.position.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
 		drawable.setPaint(Color.black);
-		System.out.println("comboPION: "+pionCombo.position.ligne+" "+pionCombo.position.colonne);
+		//System.out.println("comboPION: "+pionCombo.position.ligne+" "+pionCombo.position.colonne);
    	}
    }
    
    public void cheminCombo(Graphics2D drawable){	//MODIFIE
 	   drawable.setPaint(comboColor);
 	   for(int i=0;i<combo.size();i++){
-		   System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
+		   //System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
 		   //drawable.fillOval(segment+combo.get(i).position.colonne*segment-tailleJeton/4, segment+combo.get(i).position.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
 		   drawable.fillOval(decalageL+combo.get(i).position.colonne*segment-tailleJeton/4, decalageH+combo.get(i).position.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-
 	   }
 	   drawable.setPaint(Color.black);
    }

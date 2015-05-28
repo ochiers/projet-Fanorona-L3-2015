@@ -14,9 +14,15 @@ public class Fenetre implements Runnable,Affichage {
 	Preferences preference;
 	AireDeDessin monDessin;
 	EngineServices engine;
+	
 	int lvlPC1;
 	int lvlPC2;
 	int mode;
+	
+/*	PlayerType lvlPC1;
+	PlayerType lvlPC2;
+	Configuration mode;
+*/	
 	JLabel scoreInt1;
 	JLabel scoreInt2;
 	JButton annuler;
@@ -176,6 +182,7 @@ public class Fenetre implements Runnable,Affichage {
 		
 		parametre = new Parametres(this);
 		parametre.majParam();
+		//parametre.majParam2();
 		//frame.repaint();
 		preference = new Preferences(this);
 		preference.majPref();
@@ -226,7 +233,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo){
-		System.out.println("COOOOOOOOOOOOOOOOMBO");
+		//System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo=combo;
 		monDessin.repaint();
 		
