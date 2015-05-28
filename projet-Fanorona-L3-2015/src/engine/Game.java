@@ -415,30 +415,8 @@ public class Game implements Serializable {
 		Direction d = determinerDirection(c.depart, c.arrivee);
 		ArrayList<Case> coupsPossibles = coupsPossiblesPourUnPion(depart);
 		coupsPossibles.removeAll(listCombo);
-		res = res && depart.equals(pionJoue) && !combo.contains(arrivee) && coupsPossibles.contains(arrivee) /*
-																											 * &&
-																											 * (
-																											 * coupsPourPriseParUnPion
-																											 * (
-																											 * coupsPossibles
-																											 * ,
-																											 * depart
-																											 * )
-																											 * .
-																											 * size
-																											 * (
-																											 * )
-																											 * !=
-																											 * 0
-																											 * )
-																											 */; // MARCHE
-																													// PAS
-																													// CAR
-																													// IL
-																													// FAUT
-																													// TESTER
-																													// LA
-																													// DIRECTION
+		res = res && depart.equals(pionJoue) && !combo.contains(arrivee) && coupsPossibles.contains(arrivee) 
+				/* && (coupsPourPriseParUnPion(coupsPossibles, depart).size() != 0)*/; // MARCHE PAS CAR IL FAUT TESTER LA DIRECTION
 		res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;
 	}
@@ -464,9 +442,7 @@ public class Game implements Serializable {
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
 		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
-		if (!doitManger)
-			return res;
-		else
+		if (doitManger)
 			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;
 	}
@@ -672,7 +648,6 @@ public class Game implements Serializable {
 	 */
 	public ArrayList<Case> coupsPossiblesPourUnPion(Case c)
 	{
-
 		ArrayList<Case> res = new ArrayList<Case>();
 		if (c != null)
 		{
@@ -829,8 +804,6 @@ public class Game implements Serializable {
 				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 					res.add(c.getCaseAt(d));
 			}
-
-			// afficherList(res, "MACHIN");
 		}
 		return res;
 
