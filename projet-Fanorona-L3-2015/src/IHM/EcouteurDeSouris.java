@@ -20,7 +20,7 @@ public class EcouteurDeSouris implements MouseListener{
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
-				p.colonne=e.getX()-214;
+				p.colonne=e.getX()-215;
 				p.ligne=e.getY()-50;
 				int nbCoteLargeur=p.colonne/aire.tailleSegment;
 				int nbCoteHauteur=p.ligne/aire.tailleSegment;
