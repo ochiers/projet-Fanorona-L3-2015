@@ -43,7 +43,7 @@ public class AireDeDessin extends JComponent {
     	int width = this.getSize().width;
     	int height = this.getSize().height;
     	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);
-    	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
+    	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
         drawable.setPaint(Color.black);
        
@@ -137,22 +137,22 @@ public class AireDeDessin extends JComponent {
     
 	public void jetonCliquer(Graphics2D drawable){	//MODIFIE 
 		drawable.setPaint(Color.cyan);
-		drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-		//drawable.fillOval(300+pCourant.colonne*tailleSegment-tailleJeton/4, 135+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		//drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		drawable.fillOval(300+pCourant.colonne*tailleSegment-tailleJeton/4, 135+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
 		drawable.setPaint(Color.black);
 	}
    
 	public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 		drawable.setPaint(halo);
-		drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-		//drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		//drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
 		drawable.setPaint(Color.black);
 	}
    
    public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 	   drawable.setPaint(haloChoix);
-	   drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-	   //drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+	   //drawable.fillOval((int)(tailleSegment+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleSegment+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+	   drawable.fillOval((int)(300+p.colonne*tailleSegment-(tailleJeton*1.2)/2), (int)(135+p.ligne*tailleSegment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
 	   drawable.setPaint(Color.black);
    }
    
@@ -179,8 +179,8 @@ public class AireDeDessin extends JComponent {
 			   //System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
 		   }
 	   }*/
-	   drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-	   //drawable.fillOval(300+pCourant.colonne*tailleSegment-tailleJeton/4, 135+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+	   //drawable.fillOval(tailleSegment+pCourant.colonne*tailleSegment-tailleJeton/4, tailleSegment+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+	   drawable.fillOval(300+pCourant.colonne*tailleSegment-tailleJeton/4, 135+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
        drawable.setPaint(Color.black);
    }
    
@@ -191,7 +191,7 @@ public class AireDeDessin extends JComponent {
 	   }
    }
     
-    public void dessinGrille(Graphics2D drawable){
+    /*public void dessinGrille(Graphics2D drawable){
     		//ligne verticale
     	for(int i=0;i<=8;i++)
     		drawable.drawLine(tailleSegment+i*tailleSegment, tailleSegment, tailleSegment+i*tailleSegment,tailleSegment+4*tailleSegment);
@@ -208,9 +208,9 @@ public class AireDeDessin extends JComponent {
     	for(int i=0;i<3;i++)
     		drawable.drawLine(tailleSegment+(2*i*tailleSegment),tailleSegment+4*tailleSegment,tailleSegment+(2*i*tailleSegment)+4*tailleSegment,tailleSegment);
     	drawable.drawLine(tailleSegment+6*tailleSegment,tailleSegment+4*tailleSegment,tailleSegment+8*tailleSegment,tailleSegment+2*tailleSegment);
-    }
+    }*/
    
-   /*public void dessinGrille(Graphics2D drawable){
+   public void dessinGrille(Graphics2D drawable){
 		//ligne verticale
 	for(int i=0;i<=8;i++)
 		drawable.drawLine(300+i*tailleSegment, 135, 300+i*tailleSegment,135+4*tailleSegment);
@@ -227,7 +227,7 @@ public class AireDeDessin extends JComponent {
 	for(int i=0;i<3;i++)
 		drawable.drawLine(300+(2*i*tailleSegment),135+4*tailleSegment,300+(2*i*tailleSegment)+4*tailleSegment,135);
 	drawable.drawLine(300+6*tailleSegment,135+4*tailleSegment,300+8*tailleSegment,135+2*tailleSegment);
-}*/
+}
    
 
     /*public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
@@ -243,7 +243,7 @@ public class AireDeDessin extends JComponent {
     	}
    }*/
 
-    public void dessinGrilleJeton(Graphics2D drawable){
+   /* public void dessinGrilleJeton(Graphics2D drawable){
     	
     	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
     		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
@@ -254,9 +254,9 @@ public class AireDeDessin extends JComponent {
     			else{}
     		}
     	}    	
- 	}
+ 	}*/
     
-    /*public void dessinGrilleJeton(Graphics2D drawable){
+    public void dessinGrilleJeton(Graphics2D drawable){
     	
     	for(int i=0;i<fenetre.engine.partieCourante.matricePlateau.length;i++){
     		for(int j=0;j<fenetre.engine.partieCourante.matricePlateau[0].length;j++){
@@ -267,7 +267,7 @@ public class AireDeDessin extends JComponent {
     			else{}
     		}
     	}    	
- 	}*/
+ 	}
     
     
     public void dessinJeton(Graphics2D drawable,Color c,int x,int y){

@@ -16,16 +16,17 @@ public class EcouteurDeSouris implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		//System.out.println(" ( " + e.getX() + " , " + e.getY() + " ) ");
 		if(!aire.fenetre.engine.partieCourante.joueurCourant.aiPlayer){
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
 				Coordonnee p=new Coordonnee(-1,-1);	
-				p.colonne=e.getX();
-				p.ligne=e.getY();
+				p.colonne=e.getX()-214;
+				p.ligne=e.getY()-50;
 				int nbCoteLargeur=p.colonne/aire.tailleSegment;
 				int nbCoteHauteur=p.ligne/aire.tailleSegment;
-			
+				System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
+				System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
+							
 				Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);// haut gauche
 				Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.tailleSegment,(nbCoteLargeur+1)*aire.tailleSegment);//haut droit
 				Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.tailleSegment,nbCoteLargeur*aire.tailleSegment);//bas gauche
