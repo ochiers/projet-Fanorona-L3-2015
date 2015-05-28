@@ -13,7 +13,7 @@ import AI.*;
 import IHM.Affichage;
 import IHM.Fenetre;
 
-public class Engine implements EngineServices{
+public class Engine implements EngineServices {
 
 	public boolean			gameInProgress;
 	public Game				partieCourante;
@@ -69,7 +69,7 @@ public class Engine implements EngineServices{
 			{
 				pB = partieCourante.joueurBlanc;
 				pN = partieCourante.joueurNoir;
-				
+
 			}
 			partieCourante = g;
 
@@ -139,7 +139,7 @@ public class Engine implements EngineServices{
 		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
-		changerPartieCourante(g, p1,p2,(premierJoueur == 0) ? Pion.Blanc : Pion.Noir);
+		changerPartieCourante(g, p1, p2, (premierJoueur == 0) ? Pion.Blanc : Pion.Noir);
 
 		this.undoRedo.vider();
 		this.undoRedo.addItem(new Game(partieCourante));
@@ -162,7 +162,7 @@ public class Engine implements EngineServices{
 		if (undoRedo.canUndo())
 		{
 			System.err.println("Annuler");
-			changerPartieCourante(this.undoRedo.undo(),null,null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
+			changerPartieCourante(this.undoRedo.undo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class Engine implements EngineServices{
 		if (undoRedo.canRedo())
 		{
 			System.err.println("Refaire");
-			changerPartieCourante(this.undoRedo.redo(),null,null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
+			changerPartieCourante(this.undoRedo.redo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 		}
 	}
 
@@ -234,7 +234,7 @@ public class Engine implements EngineServices{
 			g.display = this.affichage;
 			g.combo = new ArrayList<Case>();
 			Pion Jcourant = (g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir;
-			changerPartieCourante(g,null,null,Jcourant);
+			changerPartieCourante(g, null, null, Jcourant);
 		} catch (Exception e)
 		{
 			this.affichage.chargementReussi(false);
@@ -246,7 +246,7 @@ public class Engine implements EngineServices{
 	public void setDisplay(Affichage display)
 	{
 		this.affichage = display;
-		
+
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class Engine implements EngineServices{
 	@Override
 	public Player getJoueurNoir()
 	{
-		
+
 		return this.partieCourante.joueurNoir;
 	}
 
@@ -325,7 +325,7 @@ public class Engine implements EngineServices{
 	@Override
 	public void finirSonTour()
 	{
-		this.partieCourante.finirSonTour();		
+		this.partieCourante.finirSonTour();
 	}
 
 	@Override
@@ -339,5 +339,11 @@ public class Engine implements EngineServices{
 	{
 		this.partieCourante.reprendre();
 	}
-	
+
+	@Override
+	public Player getJoueurCourant()
+	{
+		return this.partieCourante.joueurCourant;
+	}
+
 }
