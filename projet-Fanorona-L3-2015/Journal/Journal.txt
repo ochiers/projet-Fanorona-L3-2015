@@ -5,7 +5,7 @@ Lundi 18 mai
 		  pour le fonctionnement general du jeu : qui commence, quelles regles de jeu seront retenues...
 		- Debut de code pour l'IHM.
 	Apres-Midi :
-		- Creation d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface decidee � partir de
+		- Creation d'une nouvelle IHM. Entretien avec notre tuteur. Nouvelle interface decidee � partir de
 		  l'IHM faites apres l'audit. Poursuite du code l'IHM (creation d'une IHM de base pour tests rapide,
 		  creation de l'IHM plus travaillee en cours).
 		- Reflexion autour de l'IA et des problematiques intrinseques. Debut de realisation d'un algorithme alpha-beta adapte au Fanorona.
@@ -66,11 +66,18 @@ Mercredi 27 mai
 		- Optimisation de l'algorithme alpha-beta pour accelerer le temps de calcul.
 		- Debeuguage et avance dans l'IHM pour les parametres et preferences. Gestion de la fenetre parametres. Modification des halos.
 	Apres-midi :
-		- Modifs IA pour permettre d'eviter les cases sur lesquelles on est deja� passe durant un enchainement de coups, et pour ne tester
+		- Modifs IA pour permettre d'eviter les cases sur lesquelles on est deja� passe durant un enchainement de coups, et pour ne tester
 		  que les captures si au moins une capture existe.
 		- Moteur : reparation de beugs encore et toujours .....
 		- Encore des retouches sur preferences pour rendre ces fonctionnalitees actives. Mise en place du joli plateau de jeu. Redefinition
 		  des 4 boutons de la fenetre de jeu plus 1 pour les suggestions.
+		  
+Jeudi 28 mai
+	Matin :
+		- Audit code.
+		- Ajouts modifs pour la gestion des enchaînements dans les IA moyenne et difficile + corrections de bugs.
+	Après-midi :
+		- Correction de bugs liés à la gestion des enchaînements, première version fonctionnelle des IA moyenne et difficile.
 		
 		
 		
