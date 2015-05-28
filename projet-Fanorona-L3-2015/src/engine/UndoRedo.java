@@ -11,9 +11,6 @@ import java.util.Stack;
  */
 public class UndoRedo<T> implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= -8483769241045172642L;
 	private Stack<T> annuler;
 	private Stack<T> refaire;
@@ -44,7 +41,6 @@ public class UndoRedo<T> implements Serializable{
 	public boolean canRedo() {
 		return !refaire.isEmpty();
 	}
-	
 
 	public boolean canUndo() {
 		return !annuler.isEmpty() && annuler.size() >= 2;
@@ -54,5 +50,4 @@ public class UndoRedo<T> implements Serializable{
 		this.refaire.removeAll(refaire);
 		this.annuler.removeAll(annuler);
 	}
-
 }
