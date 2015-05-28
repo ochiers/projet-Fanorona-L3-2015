@@ -193,7 +193,7 @@ public class AireDeDessin extends JComponent {
 	   for(int i=0;i<combo.size();i++){
 		   System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
 		   //drawable.fillOval(tailleSegment+combo.get(i).position.colonne*tailleSegment-tailleJeton/4, tailleSegment+combo.get(i).position.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-		   drawable.fillOval(300+pCourant.colonne*tailleSegment-tailleJeton/4, 135+pCourant.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+		   drawable.fillOval(300+combo.get(i).position.colonne*tailleSegment-tailleJeton/4, 135+combo.get(i).position.ligne*tailleSegment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
 
 	   }
 	   drawable.setPaint(Color.black);
