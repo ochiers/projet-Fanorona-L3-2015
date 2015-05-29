@@ -67,6 +67,7 @@ Mercredi 27 mai
 		- Debeuguage et avance dans l'IHM pour les parametres et preferences. Gestion de la fenetre parametres. Modification des halos.
 	Apres-midi :
 		- Modifs IA pour permettre d'eviter les cases sur lesquelles on est deja� passe durant un enchainement de coups, et pour ne tester
+		- Debu de réalisation du dossier de validation (IA facile).
 		  que les captures si au moins une capture existe.
 		- Moteur : reparation de beugs encore et toujours .....
 		- Encore des retouches sur preferences pour rendre ces fonctionnalitees actives. Mise en place du joli plateau de jeu. Redefinition
@@ -86,8 +87,8 @@ Venrdredi 29 mai
 		- Debug IA qui ne fonctionne pas tout à fait comme prévu.
 		- 
 	Apres-midi :
-		- 		
-		
+		- Debug avec succès des IA moyenne et difficile. Il reste maintenant à améliorer la fonction d'évaluation et le temps de calcul.		
+		- Dossier de validation (algorithme alpha-beta).
 		
 		
 		
