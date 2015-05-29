@@ -34,8 +34,8 @@ public class PreferencesOnglets extends JPanel {
         
         ChoixNoms panel2 = new ChoixNoms();
     		// ajout fond
-	    ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
-	    panel2.add(imagefond);
+	    //ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
+	    //panel2.add(imagefond);
         tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
