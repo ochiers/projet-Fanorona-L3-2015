@@ -20,8 +20,26 @@ public class PlayerOnNetwork {
 	 */
 	public void etablishConnection()
 	{ // Une ip et un port
-
+		
 	}
+	
+	
+	
+	/**
+	 * Serveur
+	 */
+	public void hebergerPartie(){
+		
+	}
+	
+	/**
+	 * Client
+	 */
+	public void rejoindrePartie(){
+		
+	}
+	
+	
 
 	/**
 	 * Envoie de la configuration de la machine principale vers la deuxi�me.
