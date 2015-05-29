@@ -76,10 +76,17 @@ Jeudi 28 mai
 	Matin :
 		- Audit code.
 		- Ajouts modifs pour la gestion des enchaînements dans les IA moyenne et difficile + corrections de bugs.
-	Après-midi :
-		- Correction de bugs liés à la gestion des enchaînements, première version fonctionnelle des IA moyenne et difficile. Fonction d'evaluation à modifier...
+		- Ajout d'une fenetre de choix pour l'IHM.
+	Apres-midi :
+		- Correction de bugs lies a la gestion des enchainements, premiere version fonctionnelle des IA moyenne et difficile.
+		- Suite a l'audit de code, modfication de celui-ci et optimisation.
 		
-		
+Venrdredi 29 mai
+	Matin :
+		- 
+		- 
+	Apres-midi :
+		- 		
 		
 		
 		

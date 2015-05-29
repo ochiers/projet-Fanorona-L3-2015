@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import engine.Case;
 import engine.Player;
 
+/**
+ * Interface definissant les services que doit fournir en affichage quelconque pour faire fonctionner le moteur 
+ * @author soulierc
+ *
+ */
 public interface Affichage {
 
 	/**
@@ -51,13 +56,13 @@ public interface Affichage {
 
 	/**
 	 * Affiche un message a l'utilisateur qui indique si la sauvegarde de la partie a reussie ou non
-	 * @param reussi Indique si la sauvegarde a reussi
+	 * @param reussi : Indique si la sauvegarde a reussi
 	 */
 	public void sauvegardeReussie(boolean reussi);
 	
 	/**
 	 * Affiche un message a l'utilisateur qui indique si le chargement de la partie a reussie ou non
-	 * @param reussi Indique si le chargement a reussi
+	 * @param reussi : Indique si le chargement a reussi
 	 */
 	public void chargementReussi(boolean reussi);
 }
