@@ -83,7 +83,7 @@ Jeudi 28 mai
 		
 Venrdredi 29 mai
 	Matin :
-		- 
+		- Debug IA qui ne fonctionne pas tout à fait comme prévu.
 		- 
 	Apres-midi :
 		- 		
