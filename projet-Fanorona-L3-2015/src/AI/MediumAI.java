@@ -502,8 +502,8 @@ public class MediumAI extends Player {
 				res = alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
 			}
 			// PRINT
-			//Coup p = coupCourant;
-			//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+			Coup p = coupCourant;
+			System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 			
 			if(res > meilleurRes){
 				meilleurRes = res;
