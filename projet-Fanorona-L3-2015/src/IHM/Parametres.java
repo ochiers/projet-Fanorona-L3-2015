@@ -28,19 +28,24 @@ public class Parametres {
 	JRadioButton r3b2;
 	JRadioButton r3b3;
 	
-	int saveMode;
+/*	int saveMode;
 	int savelvlPC1;
 	int savelvlPC2;
-	
-/*	Configuration saveMode;
+*/	
+
+	Configuration saveMode;
 	PlayerType savelvlPC1;
 	PlayerType savelvlPC2;
-*/	
+	boolean saveCommencer;
+	
+	PlayerType defaut=PlayerType.IAMoyenne;
+	
 	JButton accepter;
 	JButton annuler;
 	JComboBox box1;
 	JComboBox box2;
 	JComboBox box3;
+	JComboBox box4;
 	
 	
 	public Fenetre fenetre;
@@ -50,7 +55,7 @@ public class Parametres {
 	}
 			
 	public void majParam(){
-		//fenetre parametre
+/*		//fenetre parametre
 		fenetre.frame2.setSize(500, 500);
 		JPanel panelAccueil2 = new JPanel(new GridLayout(0,1));
 				
@@ -239,61 +244,61 @@ public class Parametres {
 		fenetre.frame2.add(panelAccueil2);
 		fenetre.frame2.setResizable(false);
 		fenetre.frame2.setVisible(false);
-	}
-/*	
+*/	}
+	
 	public void majParam2(){
 		//fenetre.frame2.setSize(300, 300);
 		JPanel panel = new JPanel(new GridLayout(0,2));
 		JLabel labelbox1 = new JLabel("Mode de jeu");
-		String[] tab = {"Joueur vs Joueur", "Joueur vs Ordi", "Ordi vs Ordi"};
-		box1 = new JComboBox(tab);
-		box1.addItemListener(new ItemStatebox1());
-		box1.addActionListener(new ItemActionbox1());
-		
 		JLabel labelbox2 = new JLabel("Difficulte Ordi 1");
-		String[] tab2 = {"Facile", "Moyen", "Difficile"};
-		box2 = new JComboBox(tab2);
-		box2.addItemListener(new ItemStatebox2());
-		box2.addActionListener(new ItemActionbox2());
-		
 		JLabel labelbox3 = new JLabel("Difficulte Ordi 2");
+		JLabel labelbox4 = new JLabel("Commencer ?");
+		
+		String[] tab1 = {"Joueur vs Joueur", "Joueur vs Ordi", "Ordi vs Ordi"};
+		String[] tab2 = {"Facile", "Moyen", "Difficile"};
 		String[] tab3 = {"Facile", "Moyen", "Difficile"};
+		String[] tab4 = {"Oui", "Non"};
+		
+		box1 = new JComboBox(tab1);
+		box2 = new JComboBox(tab2);
 		box3 = new JComboBox(tab3);
-		box3.addItemListener(new ItemStatebox3());
+		box4 = new JComboBox(tab4);
+		
+		box1.addActionListener(new ItemActionbox1());
+		box2.addActionListener(new ItemActionbox2());
 		box3.addActionListener(new ItemActionbox3());
+		box4.addActionListener(new ItemActionbox4());
 		
 		
 		//Selection des Boutons
-	/*	if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
+		fenetre.commencer=fenetre.engine.getPremierJoueur();
+		fenetre.mode=engine.Tools.getTypePartie(fenetre.engine.getCurrentGame());
+		if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer || fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
 			if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer && fenetre.engine.getCurrentGame().joueurNoir.aiPlayer){
-				fenetre.mode=3;
-				saveMode=3;
+				fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurBlanc);
+				fenetre.lvlPC2=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurNoir);
 			}
 			else{
-				fenetre.mode=2;
-				saveMode=2;
+				if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer){
+					fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurBlanc);
+					fenetre.lvlPC2=defaut;
+				}
+				else{
+					fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurNoir);
+					fenetre.lvlPC2=defaut;
+				}
 			}
 		}
-		else{
-			fenetre.mode=1;
-			saveMode=1;
-		}*/
-/*		fenetre.mode=engine.Tools.getTypePartie(fenetre.engine.getCurrentGame());
-		fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurBlanc);
-		fenetre.lvlPC2=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurNoir);
-		
-		box1.setSelectedIndex(fenetre.mode.ordinal());
-		if(fenetre.lvlPC1.ordinal()==0)box2.setSelectedIndex(1);
-		else box2.setSelectedIndex(fenetre.lvlPC1.ordinal()-1);
-		if(fenetre.lvlPC2.ordinal()==0)box3.setSelectedIndex(1);
-		else box3.setSelectedIndex(fenetre.lvlPC2.ordinal()-1);
+		saveCommencer=fenetre.commencer;
 		saveMode=fenetre.mode;
 		savelvlPC1=fenetre.lvlPC1;
 		savelvlPC2=fenetre.lvlPC2;
 		
 		
 		JButton accepter = new JButton("Accepter");
+			accepter.addActionListener(new ItemActionaccepter());
 		JButton annuler = new JButton("Annuler");
+			annuler.addActionListener(new ItemActionannuler());
 		
 		panel.add(labelbox1);
 		panel.add(box1);
@@ -301,6 +306,8 @@ public class Parametres {
 		panel.add(box2);
 		panel.add(labelbox3);
 		panel.add(box3);
+		panel.add(labelbox4);
+		panel.add(box4);
 		panel.add(accepter);
 		panel.add(annuler);
 		fenetre.frame2.add(panel);
@@ -308,63 +315,81 @@ public class Parametres {
 		fenetre.frame2.setResizable(false);
 		fenetre.frame2.setVisible(false);
 	}
-	class ItemStatebox1 implements ItemListener{
+	
 
-	    public void itemStateChanged(ItemEvent e) {
-
-	      System.out.println("événement déclenché sur : " + e.getItem());
-
-	    }               
-	}
 	class ItemActionbox1 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box1.getSelectedItem());
 	      System.out.println("numero de l'item: " + box1.getSelectedIndex());
-	      fenetre.mode=engine.Tools.getTypePartie(box1.getSelectedIndex());
+	      saveMode=engine.Tools.getTypePartie(box1.getSelectedIndex());
 	      fenetre.afficherJeu();
 
 	    }               
 
 	}
-	class ItemStatebox2 implements ItemListener{
-
-	    public void itemStateChanged(ItemEvent e) {
-
-	      System.out.println("événement déclenché sur : " + e.getItem());
-
-	    }               
-	}
+	
 	class ItemActionbox2 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box2.getSelectedItem());
 	      System.out.println("numero de l'item: " + box2.getSelectedIndex());
-	      fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(box2.getSelectedIndex());
+	      savelvlPC1=engine.Tools.getTypeOfPlayer(box2.getSelectedIndex()+1);
 	      fenetre.afficherJeu();
 
 	    }               
 
 	}
-	class ItemStatebox3 implements ItemListener{
-
-	    public void itemStateChanged(ItemEvent e) {
-
-	      System.out.println("événement déclenché sur : " + e.getItem());
-
-	    }               
-	}
+	
 	class ItemActionbox3 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box3.getSelectedItem());
 	      System.out.println("numero de l'item: " + box3.getSelectedIndex());
-	      fenetre.lvlPC2=engine.Tools.getTypeOfPlayer(box3.getSelectedIndex());
+	      savelvlPC2=engine.Tools.getTypeOfPlayer(box3.getSelectedIndex()+1);
 	      fenetre.afficherJeu();
 
 	    }               
 
 	}
-*/	
+	
+	class ItemActionbox4 implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	    	saveCommencer=(box4.getSelectedIndex()==0);
+	    	fenetre.afficherJeu();
+	    }               
+
+	}
+	
+	class ItemActionaccepter implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Bouton Accepter");
+			fenetre.mode=saveMode;
+			fenetre.lvlPC1=savelvlPC1;
+			fenetre.lvlPC2=savelvlPC2;
+			fenetre.commencer=saveCommencer;
+			fenetre.frame2.setVisible(false);
+			fenetre.afficherJeu();
+
+	    }               
+
+	}
+	class ItemActionannuler implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	    	System.out.println("Bouton Annuler");
+	    	box1.setSelectedIndex(fenetre.mode.ordinal());
+			box2.setSelectedIndex(fenetre.lvlPC1.ordinal()-1);
+			box3.setSelectedIndex(fenetre.lvlPC2.ordinal()-1);
+			box4.setSelectedIndex((fenetre.commencer?0:1));
+			fenetre.frame2.setVisible(false);
+			fenetre.afficherJeu();
+
+	    }               
+
+	}
+	
 }
 
