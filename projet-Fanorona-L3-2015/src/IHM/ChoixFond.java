@@ -1,57 +1,46 @@
 package IHM;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class ChoixFond extends JPanel {
-	static JPanel tmpPanel = new JPanel();
 	
 	public ChoixFond() {
 
-		int width = 100;
-		int height = 30;
-		int pw = 700;
-		int ph = 500;
-
-		tmpPanel.setLayout(null);
-		tmpPanel.setPreferredSize(new Dimension(pw, ph));
+		super(new GridLayout(3,3));	//super constructeur par defaut
+		
+		int width = 233;
+		int height = 173;
 		
 			// creation bouton image
-		ImageIcon image1 = new ImageIcon("src/images/image1");
-		ImageIcon image2 = new ImageIcon("src/images/image2");
-		ImageIcon image3 = new ImageIcon("src/images/image3");
-		ImageIcon image4 = new ImageIcon("src/images/image4");
-		ImageIcon image5 = new ImageIcon("src/images/image5");
-		ImageIcon image6 = new ImageIcon("images/image6");
-		ImageIcon image7 = new ImageIcon("images/image7");
-		ImageIcon imageDefaut = new ImageIcon("images/imageDefaut");
-		JButton img1 = new JButton(image1);
-		JButton img2 = new JButton(image2);
-		JButton img3 = new JButton(image3);
-		JButton img4 = new JButton(image4);
-		JButton img5 = new JButton(image5);
-		JButton img6 = new JButton(image6);
-		JButton img7 = new JButton(image7);
-		JButton imgDef = new JButton();
-			// ancrage des boutons
-		imgDef.setIcon(imageDefaut);
-		img1.setBounds(50, 50, width, height);
-		img2.setBounds(200, 100, width, height);
-		img3.setBounds(400, 150, width, height);
-		img4.setBounds(50, 200, width, height);
-		img5.setBounds(200, 250, width, height);
-		img6.setBounds(400, 300, width, height);
-		img7.setBounds(50, 350, width, height);
-		imgDef.setBounds(200, 400, width, height);
-		
-		
+		ImageIcon image1 = new ImageIcon("src/images/iconimage1.jpg");
+		ImageIcon image2 = new ImageIcon("src/images/iconimage2.jpg");
+		ImageIcon image3 = new ImageIcon("src/images/iconimage3.jpg");
+		ImageIcon image4 = new ImageIcon("src/images/iconimage4.jpg");
+		ImageIcon image5 = new ImageIcon("src/images/iconimage5.jpg");
+		ImageIcon image6 = new ImageIcon("src/images/iconimage6.jpg");
+		ImageIcon image7 = new ImageIcon("src/images/iconimage7.jpg");
+		ImageIcon image8 = new ImageIcon("src/images/iconimage8.jpg");
+		ImageIcon imageDefaut = new ImageIcon("src/images/iconimageDefault.jpg");
+			// ajout boutons
+		JButton img1 = new JButton((Icon)image1);
+		JButton img2 = new JButton((Icon)image2);
+		JButton img3 = new JButton((Icon)image3);
+		JButton img4 = new JButton((Icon)image4);
+		JButton img5 = new JButton((Icon)image5);
+		JButton img6 = new JButton((Icon)image6);
+		JButton img7 = new JButton((Icon)image7);
+		JButton img8 = new JButton((Icon)image8);
+		JButton imgDef = new JButton((Icon)imageDefaut);
+
 		/*	// ajout listener
 		img1.addActionListener(new Listener1());
 		img2.addActionListener(new Listener2());
@@ -62,22 +51,27 @@ public class ChoixFond extends JPanel {
 		img7.addActionListener(new Listener7());
 		imgDef.addActionListener(new ListenerDef());*/
 		
-		tmpPanel.add(img1);		
-		tmpPanel.add(img2);
-		tmpPanel.add(img3);
-		tmpPanel.add(img4);
-		tmpPanel.add(img5);
-		tmpPanel.add(img6);
-		tmpPanel.add(img7);
-		tmpPanel.add(imgDef);
+		add(img1);		
+		add(img2);
+		add(img3);
+		add(img4);
+		add(img5);
+		add(img6);
+		add(img7);
+		add(img8);
+		add(imgDef);
 	}
 	
     private static void createAndShow() {
-	    	//fenetre
+		int pw = 699;
+		int ph = 549;
+		
+    		//fenetre
 	    JFrame frame = new JFrame("Choix image fond");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	//ajout colorchoosen
-	    new ChoixFond();
+	    	//ajout boutons-images
+	    JPanel tmpPanel = new ChoixFond();
+	    tmpPanel.setPreferredSize(new Dimension(pw,ph));
 	    tmpPanel.setOpaque(true); 
 	    frame.setContentPane(tmpPanel);
 	
@@ -90,5 +84,4 @@ public class ChoixFond extends JPanel {
 	        public void run() { createAndShow(); }
 	    });
 	}*/
-	
 }

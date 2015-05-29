@@ -14,7 +14,7 @@ public class Fenetre implements Runnable,Affichage {
 	static JFrame frame2 = new JFrame(" -- Parametres -- ");
 	static JFrame frame3 = new JFrame(" -- Preferences -- ");
 	Parametres parametre;
-	Preferences preference;
+	PreferencesOnglets preference;
 	AireDeDessin monDessin;
 	EngineServices engine;
 	Dimension size = new Dimension(9,5);
@@ -218,8 +218,9 @@ public class Fenetre implements Runnable,Affichage {
 		
 		parametre = new Parametres(this);
 		parametre.majParam();
-		preference = new Preferences(this);
-		preference.majPref();
+		preference = new PreferencesOnglets();
+		preference.createAndShowGUI();
+
 		
 		frame.setJMenuBar(menuBar);
  		frame.add(panelAccueil);
@@ -305,10 +306,10 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_options_preferences implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			preference.resetBouton();
+			/*preference.resetBouton();
 			preference.save1=pion1;
 			preference.save2=pion2;
-			frame3.setVisible(true);
+			frame3.setVisible(true);*/
 	    }               
 
 	}
