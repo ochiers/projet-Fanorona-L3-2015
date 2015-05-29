@@ -86,7 +86,7 @@ Venrdredi 29 mai
 		- Debug IA qui ne fonctionne pas tout à fait comme prévu.
 		- 
 	Apres-midi :
-		- 		
+		- Debug avec succès des IA moyenne et difficile. Il reste maintenant à améliorer la fonction d'évaluation et le temps de calcul.		
 		
 		
 		
