@@ -54,7 +54,7 @@ public class Parametres {
 		fenetre = f;
 	}
 			
-	public void majParam(){
+	public void majParam2(){
 /*		//fenetre parametre
 		fenetre.frame2.setSize(500, 500);
 		JPanel panelAccueil2 = new JPanel(new GridLayout(0,1));
@@ -246,28 +246,28 @@ public class Parametres {
 		fenetre.frame2.setVisible(false);
 */	}
 	
-	public void majParam2(){
+	public void majParam(){
 		//fenetre.frame2.setSize(300, 300);
 		JPanel panel = new JPanel(new GridLayout(0,2));
 		JLabel labelbox1 = new JLabel("Mode de jeu");
 		JLabel labelbox2 = new JLabel("Difficulte Ordi 1");
 		JLabel labelbox3 = new JLabel("Difficulte Ordi 2");
-		JLabel labelbox4 = new JLabel("Commencer ?");
+		JLabel labelbox4 = new JLabel("Qui commence ?");
 		
 		String[] tab1 = {"Joueur vs Joueur", "Joueur vs Ordi", "Ordi vs Ordi"};
 		String[] tab2 = {"Facile", "Moyen", "Difficile"};
 		String[] tab3 = {"Facile", "Moyen", "Difficile"};
-		String[] tab4 = {"Oui", "Non"};
+		String[] tab4 = {"Joueur 1", "Joueur 2"};
 		
 		box1 = new JComboBox(tab1);
 		box2 = new JComboBox(tab2);
 		box3 = new JComboBox(tab3);
 		box4 = new JComboBox(tab4);
 		
-		box1.addActionListener(new ItemActionbox1());
-		box2.addActionListener(new ItemActionbox2());
-		box3.addActionListener(new ItemActionbox3());
-		box4.addActionListener(new ItemActionbox4());
+		box1.addActionListener(new ItemAction_box1());
+		box2.addActionListener(new ItemAction_box2());
+		box3.addActionListener(new ItemAction_box3());
+		box4.addActionListener(new ItemAction_box4());
 		
 		
 		//Selection des Boutons
@@ -295,10 +295,11 @@ public class Parametres {
 		savelvlPC2=fenetre.lvlPC2;
 		
 		
-		JButton accepter = new JButton("Accepter");
-			accepter.addActionListener(new ItemActionaccepter());
+		JButton accepter = new JButton("Accepter");	
 		JButton annuler = new JButton("Annuler");
-			annuler.addActionListener(new ItemActionannuler());
+		
+		accepter.addActionListener(new ItemAction_accepter());
+		annuler.addActionListener(new ItemAction_annuler());
 		
 		panel.add(labelbox1);
 		panel.add(box1);
@@ -310,6 +311,7 @@ public class Parametres {
 		panel.add(box4);
 		panel.add(accepter);
 		panel.add(annuler);
+		
 		fenetre.frame2.add(panel);
 		fenetre.frame2.pack();
 		fenetre.frame2.setResizable(false);
@@ -317,7 +319,7 @@ public class Parametres {
 	}
 	
 
-	class ItemActionbox1 implements ActionListener{
+	class ItemAction_box1 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box1.getSelectedItem());
@@ -329,7 +331,7 @@ public class Parametres {
 
 	}
 	
-	class ItemActionbox2 implements ActionListener{
+	class ItemAction_box2 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box2.getSelectedItem());
@@ -341,7 +343,7 @@ public class Parametres {
 
 	}
 	
-	class ItemActionbox3 implements ActionListener{
+	class ItemAction_box3 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	      System.out.println("ActionListener : action sur " + box3.getSelectedItem());
@@ -353,7 +355,7 @@ public class Parametres {
 
 	}
 	
-	class ItemActionbox4 implements ActionListener{
+	class ItemAction_box4 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	    	saveCommencer=(box4.getSelectedIndex()==0);
@@ -362,7 +364,7 @@ public class Parametres {
 
 	}
 	
-	class ItemActionaccepter implements ActionListener{
+	class ItemAction_accepter implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Bouton Accepter");
@@ -376,7 +378,8 @@ public class Parametres {
 	    }               
 
 	}
-	class ItemActionannuler implements ActionListener{
+	
+	class ItemAction_annuler implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
 	    	System.out.println("Bouton Annuler");

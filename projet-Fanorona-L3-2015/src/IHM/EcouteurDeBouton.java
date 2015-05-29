@@ -66,6 +66,7 @@ public class EcouteurDeBouton implements ActionListener{
 			fenetre.monDessin.finPartie=false;
 */			//fenetre.stopper.setText(" Reprendre ");
 			//System.out.println("new partie");
+			fenetre.monDessin.finPartie=false;
 			break;
 			
 		case " Recommencer ":
@@ -74,7 +75,7 @@ public class EcouteurDeBouton implements ActionListener{
 			//System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
 			fenetre.engine.nouvellePartie(p1,p2,(fenetre.commencer?0:1), size);
 			fenetre.monDessin.finPartie=false;
-			fenetre.stopper.setText(" Reprendre ");
+			//fenetre.stopper.setText(" Reprendre ");
 			break;
 		case " Sauvegarder ":
 			//System.out.println("save-----------");

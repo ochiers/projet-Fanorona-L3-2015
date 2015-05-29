@@ -111,9 +111,9 @@ public class AireDeDessin extends JComponent {
         else fenetre.refaire.setEnabled(false);
         if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer){
 	        if(fenetre.engine.getCurrentGame().enCombo)
-	        	fenetre.valider.setEnabled(true);
-	        else fenetre.valider.setEnabled(false);
-        }else fenetre.valider.setEnabled(false);
+	        	fenetre.finTour.setEnabled(true);
+	        else fenetre.finTour.setEnabled(false);
+        }else fenetre.finTour.setEnabled(false);
         if(fenetre.engine.getCurrentGame().isPaused())
         	fenetre.stopper.setText(" Reprendre ");
         else fenetre.stopper.setText(" Pause ");

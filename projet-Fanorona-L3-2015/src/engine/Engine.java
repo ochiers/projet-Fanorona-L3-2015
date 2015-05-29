@@ -136,6 +136,7 @@ public class Engine implements EngineServices {
 		{
 			partieCourante = g;
 		}
+		System.out.println("/////VERIF////"+Tools.getTypePartie(g));
 	}
 
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
@@ -239,6 +240,8 @@ public class Engine implements EngineServices {
 			g.display = this.affichage;
 			g.combo = new ArrayList<Case>();
 			Pion Jcourant = (g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir;
+			System.out.println("////////CHARGER");
+			System.out.println("////////"+Tools.getTypePartie(g)+" "+Tools.getTypeOfPlayer((g.joueurBlanc))+" "+Tools.getTypeOfPlayer((g.joueurNoir)));
 			changerPartieCourante(g, null, null, Jcourant);
 		} catch (Exception e)
 		{
