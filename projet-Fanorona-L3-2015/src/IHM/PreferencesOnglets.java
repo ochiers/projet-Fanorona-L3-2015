@@ -1,11 +1,10 @@
 package IHM;
 
+import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -16,57 +15,55 @@ import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class PreferencesOnglets extends JPanel {
-	int width = 500;
-	int height = 500;
+	int width = 700;
+	int height = 550;
+    
+    int pBw = 10;
+    int pBh = 30;
 	
 	public PreferencesOnglets() {
-        super(new GridLayout(1, 1));
-        
+		super(new BorderLayout());
+		
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setPreferredSize(new Dimension(width, height));
-        System.out.println("" + System.getProperties().get("user.dir"));
-        ImageIcon icon = createImageIcon("src/images/iconFano.jpg");
+        ImageIcon icon = new ImageIcon("src/images/iconFano.jpg");
         
-        JComponent panel1 = makeTextPanel("Panel #1");
-        tabbedPane.addTab("Tab 1", icon, panel1, "Does nothing");
+        ChoixFond panel1 = new ChoixFond();
+        tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
         
-        JComponent panel2 = makeTextPanel("Panel #2");
-        tabbedPane.addTab("Tab 2", icon, panel2, "Does twice as much nothing");
+        JPanel panel2 = new JPanel();
+        tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
-        JComponent panel3 = makeTextPanel("Panel #3");
-        tabbedPane.addTab("Tab 3", icon, panel3, "Still does nothing");
+        ChoixCouleur panel3 = new ChoixCouleur();
+        tabbedPane.addTab(" Choix Couleurs Pions ", icon, panel3);
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
         
+	    	//creation panel boutons
+	    JPanel panelBouton = new JPanel(new GridLayout(1,3));
+	    	//mettre 3 boutons
+	    JButton ok = new JButton(" VALIDER ");
+	    	ok.addActionListener(new okListener());
+	    JButton annuler = new JButton(" ANNULER ");
+	    	annuler.addActionListener(new cancelListener());
+	    JButton reset = new JButton(" REMETTRE PAR DEFAUT ");
+	    	reset.addActionListener(new resetListener());
+	    panelBouton.add(ok);
+	    panelBouton.add(annuler);
+	    panelBouton.add(reset);
+	    panelBouton.setPreferredSize(new Dimension(pBw, pBh));
+        
         //Ajout
-        add(tabbedPane);
+        add(tabbedPane, BorderLayout.PAGE_START);
+        add(panelBouton, BorderLayout.PAGE_END);
         
         //The following line enables to use scrolling tabs.
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
     
-    protected JComponent makeTextPanel(String text) {
-        JPanel panel = new JPanel(false);
-        JLabel filler = new JLabel(text);
-        filler.setHorizontalAlignment(JLabel.CENTER);
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(filler);
-        return panel;
-    }
-    
-    protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = PreferencesOnglets.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
-    
     private static void createAndShowGUI() {
-        JFrame frame = new JFrame("TabbedPaneDemo");
+        JFrame frame = new JFrame(" -- Preferences -- ");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //Ajouts
