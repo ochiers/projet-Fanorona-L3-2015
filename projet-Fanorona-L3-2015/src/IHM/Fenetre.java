@@ -148,11 +148,11 @@ public class Fenetre implements Runnable,Affichage {
 		finTour = new JButton(" Fin du tour ");
 		suggestion = new JButton(" Suggerer coup ");
 		
-		annuler.addActionListener(new EcouteurDeBouton(this,annuler.getText()));
-		refaire.addActionListener(new EcouteurDeBouton(this,refaire.getText()));
-		stopper.addActionListener(new EcouteurDeBouton(this,stopper.getText()));
-		finTour.addActionListener(new EcouteurDeBouton(this,finTour.getText()));
-		suggestion.addActionListener(new EcouteurDeBouton(this,suggestion.getText()));
+		annuler.addActionListener(new ItemAction_annuler());
+		refaire.addActionListener(new ItemAction_refaire());
+		stopper.addActionListener(new ItemAction_stopper());
+		finTour.addActionListener(new ItemAction_finTour());
+		suggestion.addActionListener(new ItemAction_suggestion());
 		
 		annuler.setBounds((int)((1.2*fw/6)-temp), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
 		refaire.setBounds((int)(((1.2*fw/6)-temp)+(0.8*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
@@ -371,7 +371,7 @@ public class Fenetre implements Runnable,Affichage {
 
 	}
 	
-	class ItemAction_valider implements ActionListener{
+	class ItemAction_finTour implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			monDessin.pionCliquer=false;
