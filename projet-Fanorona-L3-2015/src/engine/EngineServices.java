@@ -195,4 +195,11 @@ public interface EngineServices {
 	 * @return True -> joueur 1, False -> joueur 2
 	 */
 	public boolean getPremierJoueur();
+	
+	/**
+	 * Permet de changer a la volée une joueur de la partie courante
+	 * @param precedent Le joueur a remplacer
+	 * @param nouveau Le nouveau joueur
+	 */
+	public void changerLeJoueur(Player precedent, Player nouveau);
 }

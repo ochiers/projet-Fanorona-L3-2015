@@ -33,6 +33,7 @@ public class Engine implements EngineServices {
 		this.premierJeu = true;
 	}
 
+	@Override
 	public void begin()
 	{
 		try
@@ -139,6 +140,7 @@ public class Engine implements EngineServices {
 		System.out.println("/////VERIF////"+Tools.getTypePartie(g));
 	}
 
+	@Override
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
 		System.out.println("Nouvelle partie demandee");
@@ -152,6 +154,7 @@ public class Engine implements EngineServices {
 		this.gameInProgress = true;
 	}
 
+	@Override
 	public void stopper()
 	{
 		if (partieCourante != null)
@@ -160,9 +163,8 @@ public class Engine implements EngineServices {
 		}
 	}
 
-	/**
-	 * Revient un demi-coup plus tot
-	 */
+
+	@Override
 	public void annuler()
 	{
 		if (undoRedo.canUndo())
@@ -172,9 +174,8 @@ public class Engine implements EngineServices {
 		}
 	}
 
-	/**
-	 * Refait le demi-coup annul�
-	 */
+
+	@Override
 	public void refaire()
 	{
 		if (undoRedo.canRedo())
@@ -184,22 +185,20 @@ public class Engine implements EngineServices {
 		}
 	}
 
+	@Override
 	public boolean peutAnnuler()
 	{
 		return undoRedo.canUndo();
 	}
 
+	@Override
 	public boolean peutRefaire()
 	{
 		return undoRedo.canRedo();
 	}
 
-	/**
-	 * Sauvegarde la partie courante dans son état courant dans le fichier situé dans path
-	 * 
-	 * @param path
-	 *            Chemin du fichier de sauvegarde
-	 */
+
+	@Override
 	public void sauvegarderPartie(String path)
 	{
 		File f = new File(path);
@@ -221,12 +220,7 @@ public class Engine implements EngineServices {
 
 	}
 
-	/**
-	 * Charge une nouvelle partie stochée dans path, la nouvelle partie sera en pause
-	 * 
-	 * @param path
-	 *            Le chemin vers le fichier qui contient la partie à charger
-	 */
+	@Override
 	public void chargerPartie(String path)
 	{
 		File fichier = new File(path);
@@ -242,7 +236,7 @@ public class Engine implements EngineServices {
 			Pion Jcourant = (g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir;
 			System.out.println("////////CHARGER");
 			System.out.println("////////"+Tools.getTypePartie(g)+" "+Tools.getTypeOfPlayer((g.joueurBlanc))+" "+Tools.getTypeOfPlayer((g.joueurNoir)));
-			changerPartieCourante(g, null, null, Jcourant);
+			changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, Jcourant);
 		} catch (Exception e)
 		{
 			this.affichage.chargementReussi(false);
@@ -359,6 +353,25 @@ public class Engine implements EngineServices {
 	{
 		// TODO Auto-generated method stub
 		return this.partieCourante.premierJoueur;
+	}
+
+	@Override
+	public void changerLeJoueur(Player precedent, Player nouveau)
+	{
+		Game g = new Game(partieCourante);
+		if(this.partieCourante.joueurBlanc == precedent){
+			g.joueurBlanc = nouveau;
+			g.joueurNoir = partieCourante.joueurNoir;
+		}
+		else {
+			g.joueurNoir = nouveau;
+			g.joueurBlanc = partieCourante.joueurNoir;
+		}
+		if(this.partieCourante.joueurCourant == precedent)
+			g.joueurCourant = nouveau;
+		else
+			g.joueurCourant = partieCourante.joueurCourant;
+		changerPartieCourante(g,g.joueurBlanc,g.joueurNoir,((g.joueurBlanc==g.joueurCourant) ? Pion.Blanc : Pion.Noir));
 	}
 
 }
