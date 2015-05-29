@@ -73,7 +73,7 @@ public class PreferencesOnglets extends JPanel {
         frame.add(new PreferencesOnglets(), BorderLayout.CENTER);
         
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
     
    /* public static void main(String[] args) {
