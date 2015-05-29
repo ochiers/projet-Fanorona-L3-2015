@@ -7,16 +7,16 @@ public class PlayerOnNetwork {
 	// TODO 3. Envoyer un coup valide au moteur distant
 	// TODO 4. Envoyer le coup au joueur (moteur -> joueur)
 	
-	//TODO Système de requêtes : Envoie d'une annulation/refaire
+	//TODO SystÃ¨me de requÃªtes : Envoie d'une annulation/refaire
 
 	
-	// Comment déterminer celui qui commence ?
-	// Le moteur analyse en local les coups tenter par le joueur humain puis l'envoie sur le réseau. Seul des coups valides sont envoyés.
-	// Comment annuler et refaire en réseau ? Requête ? 
+	// Comment dÃ©terminer celui qui commence ?
+	// Le moteur analyse en local les coups tenter par le joueur humain puis l'envoie sur le rï¿½seau. Seul des coups valides sont envoyÃ©s.
+	// Comment annuler et refaire en rÃ©seau ? RequÃªte ? 
 	
 	/**
 	 * Etablie la connexion entre les deux ordinateurs.
-	 * Elle prend une adresse ip ainsi qu'un numéro de port pour l'établir.
+	 * Elle prend une adresse ip ainsi qu'un numÃ©ro de port pour l'Ã©tablir.
 	 */
 	public void etablishConnection()
 	{ // Une ip et un port
@@ -24,7 +24,7 @@ public class PlayerOnNetwork {
 	}
 
 	/**
-	 * Envoie de la configuration de la machine principale vers la deuxième.
+	 * Envoie de la configuration de la machine principale vers la deuxiï¿½me.
 	 */
 	public void sendConfig()
 	{
@@ -32,7 +32,7 @@ public class PlayerOnNetwork {
 	}
 
 	/**
-	 * Méthode permettant de recevoir la configuration partagée entre les 2 ordinateurs.
+	 * MÃ©thode permettant de recevoir la configuration partagÃ©e entre les 2 ordinateurs.
 	 */
 	public void receiveConfig()
 	{
@@ -48,7 +48,7 @@ public class PlayerOnNetwork {
 	}
 
 	/**
-	 * Réception du coup envoyé sur le réseau.
+	 * RÃ©ception du coup envoyÃ© sur le rÃ©seau.
 	 */
 	public void receiveCoup()
 	{
