@@ -189,4 +189,10 @@ public interface EngineServices {
 	 */
 	public void chargerPartie(String path);
 
+	
+	/**
+	 * Donne le joueur qui commence
+	 * @return True -> joueur 1, False -> joueur 2
+	 */
+	public boolean getPremierJoueur();
 }

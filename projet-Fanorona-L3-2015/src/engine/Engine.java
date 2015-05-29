@@ -351,4 +351,11 @@ public class Engine implements EngineServices {
 		return this.partieCourante.joueurCourant;
 	}
 
+	@Override
+	public boolean getPremierJoueur()
+	{
+		// TODO Auto-generated method stub
+		return this.partieCourante.premierJoueur;
+	}
+
 }
