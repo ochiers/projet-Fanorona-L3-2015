@@ -395,7 +395,7 @@ public class HardAI extends Player {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-		int profondeur = 6;
+		int profondeur = 8;
 		//long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
 		Noeud n = new Noeud(partieCourante);
@@ -406,11 +406,11 @@ public class HardAI extends Player {
 		int meilleurRes = Integer.MIN_VALUE;
 		int res = 0;
 		
-		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		for(int i = 0; i < listeCoups.size(); i++){
 			Coup coupCourant = listeCoups.get(i);
 			Case premiereCasePrise = null;
