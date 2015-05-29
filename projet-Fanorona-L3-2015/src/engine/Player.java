@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public abstract class Player extends Thread implements Serializable {
 
 	private static final long		serialVersionUID	= -745601135784423811L;
-	public boolean					aiPlayer;
+	public final boolean			aiPlayer;
 	public String					name;
 	public transient EngineServices	leMoteur;
 	private boolean					stopped;
@@ -37,8 +37,7 @@ public abstract class Player extends Thread implements Serializable {
 	}
 
 	/**
-	 * Permet d'arreter un joueur de jouer (dans le cas d'une mise en pause du
-	 * jeu par exemple)
+	 * Permet d'arreter un joueur de jouer (dans le cas d'une mise en pause du jeu par exemple)
 	 * 
 	 * @param stopped
 	 *            True -> arrete le joueur, False -> retour a l'etat initial
@@ -56,8 +55,7 @@ public abstract class Player extends Thread implements Serializable {
 	public abstract Coup play(Case[][] laMatrice, Case[] listeCoups);
 
 	/**
-	 * Fonction demandant au joueur de choisir de quel coté il veut capturer
-	 * les pions
+	 * Fonction demandant au joueur de choisir de quel coté il veut capturer les pions
 	 * 
 	 * @param eloignement
 	 * @param rapprochement
@@ -67,8 +65,7 @@ public abstract class Player extends Thread implements Serializable {
 	public abstract Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement);
 
 	/**
-	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA
-	 * Difficle)
+	 * Renseigne le niveau du joueur (Humain, IA Facile, IA Moyenne, IA Difficle)
 	 */
 	public abstract String getNiveau();
 

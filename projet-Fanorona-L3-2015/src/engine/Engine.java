@@ -140,7 +140,7 @@ public class Engine implements EngineServices {
 
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
-
+		System.out.println("Nouvelle partie demandee");
 		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
