@@ -127,9 +127,10 @@ public class EcouteurDeBouton implements ActionListener{
 			//TODO
 			break;
 		case " Preferences ":
-			fenetre.preference.resetBouton();
+			/*fenetre.preference.resetBouton();
 			fenetre.preference.save1=fenetre.pion1;
-			fenetre.preference.save2=fenetre.pion2;
+			fenetre.preference.save2=fenetre.pion2;*/
+			PreferencesOnglets();
 			Fenetre.frame3.setVisible(true);
 			break;
 		case " Historique Scores ":

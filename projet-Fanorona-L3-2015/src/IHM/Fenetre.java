@@ -11,7 +11,7 @@ public class Fenetre implements Runnable,Affichage {
 	static JFrame frame2 = new JFrame(" -- Parametres -- ");
 	static JFrame frame3 = new JFrame(" -- Preferences -- ");
 	Parametres parametre;
-	Preferences preference;
+	PreferencesOnglets preference;
 	AireDeDessin monDessin;
 	EngineServices engine;
 	
@@ -185,8 +185,8 @@ public class Fenetre implements Runnable,Affichage {
 //		parametre.majParam();
 		parametre.majParam2();
 		//frame.repaint();
-		preference = new Preferences(this);
-		preference.majPref();
+		preference = new PreferencesOnglets();
+		preference.createAndShowGUI();
 		//frame.repaint();
 		
  		frame.add(panelAccueil);
