@@ -20,9 +20,13 @@ public class PreferencesOnglets extends JPanel {
     
     int pBw = 10;
     int pBh = 30;
-	
-	public PreferencesOnglets() {
+    
+    Fenetre fenetre;
+    
+	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
+		
+		fenetre = f;
 		
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setPreferredSize(new Dimension(width, height));
@@ -34,8 +38,8 @@ public class PreferencesOnglets extends JPanel {
         
         ChoixNoms panel2 = new ChoixNoms();
     		// ajout fond
-	    ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
-	    panel2.add(imagefond);
+	   // ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
+	    //panel2.add(imagefond);
         tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
@@ -65,15 +69,14 @@ public class PreferencesOnglets extends JPanel {
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
     
-    static void createAndShowGUI() {
-        JFrame frame = new JFrame(" -- Preferences -- ");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void  majPref() {
+        fenetre.frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //Ajouts
-        frame.add(new PreferencesOnglets(), BorderLayout.CENTER);
+        fenetre.frame3.add(this, BorderLayout.CENTER);
         
-        frame.pack();
-        frame.setVisible(false);
+        fenetre.frame3.pack();
+        fenetre.frame3.setVisible(false);
     }
     
    /* public static void main(String[] args) {
