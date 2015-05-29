@@ -108,6 +108,8 @@ public class Game implements Serializable {
 	 */
 	private boolean						finirSonTour;
 
+	public boolean						premierJoueur;
+	
 	/**
 	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc et noirs et un plateu de largeur*hauteur
 	 * 
@@ -134,6 +136,7 @@ public class Game implements Serializable {
 		this.joueurBlanc = p1;
 		this.joueurNoir = p2;
 		this.joueurCourant = (joueurQuiCommence == 0) ? p1 : p2;
+		this.premierJoueur = joueurQuiCommence == 0;
 		this.combo = new ArrayList<Case>();
 		this.display = affichage;
 		this.nbColonnes = size.width;
@@ -168,6 +171,7 @@ public class Game implements Serializable {
 		this.paused = game.paused;
 		this.stopped = game.stopped;
 		this.winner = game.winner;
+		this.premierJoueur = game.premierJoueur;
 	}
 
 	public static Case[][] copyMatrice(Case[][] courant)

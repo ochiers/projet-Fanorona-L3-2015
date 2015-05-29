@@ -15,14 +15,15 @@ public class Fenetre implements Runnable,Affichage {
 	AireDeDessin monDessin;
 	EngineServices engine;
 	
-	int lvlPC1;
+/*	int lvlPC1;
 	int lvlPC2;
 	int mode;
-	
-/*	PlayerType lvlPC1;
+*/	
+	PlayerType lvlPC1;
 	PlayerType lvlPC2;
 	Configuration mode;
-*/	
+	boolean commencer;
+	
 	JLabel scoreInt1;
 	JLabel scoreInt2;
 	JButton annuler;
@@ -181,8 +182,8 @@ public class Fenetre implements Runnable,Affichage {
 		nameJ2 = engine.getJoueurNoir().name;
 		
 		parametre = new Parametres(this);
-		parametre.majParam();
-		//parametre.majParam2();
+//		parametre.majParam();
+		parametre.majParam2();
 		//frame.repaint();
 		preference = new Preferences(this);
 		preference.majPref();

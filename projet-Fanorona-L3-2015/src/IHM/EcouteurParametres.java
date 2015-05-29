@@ -16,7 +16,7 @@ public class EcouteurParametres implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==parametre.r1b1){
+/*		if(e.getSource()==parametre.r1b1){
 			parametre.saveMode=1;
 		}else if(e.getSource()==parametre.r1b2){
 			parametre.saveMode=2;
@@ -67,7 +67,7 @@ public class EcouteurParametres implements ActionListener{
 			parametre.fenetre.frame2.setVisible(false);
 		}
 		
-
+*/
 	}
 
 }

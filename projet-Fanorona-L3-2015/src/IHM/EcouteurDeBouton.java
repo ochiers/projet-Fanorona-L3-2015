@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFileChooser;
 
+import engine.Player;
+import engine.PlayerType;
 import AI.*;
 
 public class EcouteurDeBouton implements ActionListener{
@@ -21,7 +23,16 @@ public class EcouteurDeBouton implements ActionListener{
 		Dimension size = new Dimension(9,5);
 		switch (message){
 		case " Nouvelle Partie ":
-			if(fenetre.mode==1){
+			
+			Player humain1= engine.Tools.createPlayer(fenetre.engine, PlayerType.Humain, fenetre.nameJ1);
+			Player humain2= engine.Tools.createPlayer(fenetre.engine, PlayerType.Humain, fenetre.nameJ2);
+			Player pc1= engine.Tools.createPlayer(fenetre.engine, fenetre.lvlPC1, "Ordi");
+			Player pc2= engine.Tools.createPlayer(fenetre.engine, fenetre.lvlPC2, "Ordi");
+			
+			if(fenetre.mode.ordinal()==0)		fenetre.engine.nouvellePartie(humain1, humain2, (fenetre.commencer?0:1), size);
+			else if(fenetre.mode.ordinal()==1)	fenetre.engine.nouvellePartie(humain1, pc1, (fenetre.commencer?0:1), size);
+			else if(fenetre.mode.ordinal()==2)	fenetre.engine.nouvellePartie(pc1, pc2, (fenetre.commencer?0:1), size);
+/*			if(fenetre.mode==1){
 				fenetre.engine.nouvellePartie(new HumanPlayer(fenetre.engine,false,fenetre.nameJ1), new HumanPlayer(fenetre.engine,false,fenetre.nameJ2),0,size);
 			}else if(fenetre.mode==2){
 				if(fenetre.lvlPC1==1){
@@ -53,13 +64,15 @@ public class EcouteurDeBouton implements ActionListener{
 				}
 			}
 			fenetre.monDessin.finPartie=false;
-			//fenetre.stopper.setText(" Reprendre ");
+*/			//fenetre.stopper.setText(" Reprendre ");
 			//System.out.println("new partie");
 			break;
 			
 		case " Recommencer ":
+			Player p1=engine.Tools.createPlayer(fenetre.engine, engine.Tools.getTypeOfPlayer((fenetre.engine.getCurrentGame().joueurBlanc)), fenetre.engine.getCurrentGame().joueurBlanc.name);
+			Player p2=engine.Tools.createPlayer(fenetre.engine, engine.Tools.getTypeOfPlayer((fenetre.engine.getCurrentGame().joueurNoir)), fenetre.engine.getCurrentGame().joueurNoir.name);
 			//System.out.println("MODE: "+fenetre.mode+" - PC1: "+fenetre.lvlPC1+" - PC2: "+fenetre.lvlPC2+" - J1: "+fenetre.nameJ1+" - J2: "+fenetre.nameJ2);
-			fenetre.engine.nouvellePartie(fenetre.engine.getCurrentGame().joueurBlanc, fenetre.engine.getCurrentGame().joueurNoir,0, size);
+			fenetre.engine.nouvellePartie(p1,p2,(fenetre.commencer?0:1), size);
 			fenetre.monDessin.finPartie=false;
 			fenetre.stopper.setText(" Reprendre ");
 			break;
@@ -79,7 +92,7 @@ public class EcouteurDeBouton implements ActionListener{
 			System.exit(0);
 			break;
 		case " Parametres Partie ":
-			if(fenetre.mode==1){
+/*			if(fenetre.mode==1){
 				fenetre.parametre.r1b1.setSelected(true);
 			}else if(fenetre.mode==2){
 				fenetre.parametre.r1b2.setSelected(true);
@@ -101,6 +114,12 @@ public class EcouteurDeBouton implements ActionListener{
 			}else if(fenetre.lvlPC2==3){
 				fenetre.parametre.r3b3.setSelected(true);
 			}
+*/				
+			
+			fenetre.parametre.box1.setSelectedIndex(fenetre.mode.ordinal());
+			fenetre.parametre.box2.setSelectedIndex(fenetre.lvlPC1.ordinal()-1);
+			fenetre.parametre.box3.setSelectedIndex(fenetre.lvlPC2.ordinal()-1);
+			
 			fenetre.parametre.saveMode=fenetre.mode;
 			fenetre.parametre.savelvlPC1=fenetre.lvlPC1;
 			fenetre.parametre.savelvlPC2=fenetre.lvlPC2;

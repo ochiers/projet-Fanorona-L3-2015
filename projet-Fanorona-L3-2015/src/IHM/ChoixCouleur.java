@@ -13,6 +13,9 @@ public class ChoixCouleur extends JPanel {
 	    protected JColorChooser fenChoix1;
 	    protected JColorChooser fenChoix2;
 	    protected JLabel titre;
+	    
+	    int f1w = 700;
+	    int f1h = 225;
 
 	    @SuppressWarnings("static-access")
 		public ChoixCouleur() {
@@ -28,34 +31,20 @@ public class ChoixCouleur extends JPanel {
 	        	//creation panel conteneur
 	        JPanel panelTitre = new JPanel(new BorderLayout());	        
 	        panelTitre.add(titre, BorderLayout.CENTER);
-	        	//creation panel central
-	        JPanel panelCentre = new JPanel(new GridLayout(3,1));
 	        	//mettre le colorchooser en place pour joueur 1
 	        fenChoix1 = new JColorChooser(Color.black);
 	        fenChoix1.setBorder(BorderFactory.createTitledBorder(" Pions Joueur 1 "));
+	        fenChoix1.setPreferredSize(new Dimension(f1w, f1h));
 	        fenChoix1.setPreviewPanel(new JPanel());
-	        panelCentre.add(fenChoix1);
 	        	//mettre le colorchooser en place pour joueur 2
 	        fenChoix2 = new JColorChooser(Color.white);
 	        fenChoix2.setBorder(BorderFactory.createTitledBorder(" Pions Joueur 2 "));
+	        fenChoix2.setPreferredSize(new Dimension(f1w, f1h));
 	        fenChoix2.setPreviewPanel(new JPanel());
-	        panelCentre.add(fenChoix2);
-	        	//creation panel boutons
-	        JPanel panelBouton = new JPanel(new GridLayout(1,3));
-	        	//mettre 3 boutons
-		    JButton ok = new JButton(" VALIDER ");
-	        	ok.addActionListener(new okListener());
-	        JButton annuler = new JButton(" ANNULER ");
-	        	annuler.addActionListener(new cancelListener());
-		    JButton reset = new JButton(" REMETTRE PAR DEFAUT ");
-	        	reset.addActionListener(new resetListener());
-	        panelBouton.add(ok);
-	        panelBouton.add(annuler);
-	        panelBouton.add(reset);
 	        	// ajouts
 	        add(panelTitre, BorderLayout.NORTH);
-	        add(panelCentre, BorderLayout.CENTER);
-	        add(panelBouton, BorderLayout.SOUTH);
+	        add(fenChoix1, BorderLayout.CENTER);
+	        add(fenChoix2, BorderLayout.SOUTH);
 	    }
 
 	    private static void createAndShow() {
