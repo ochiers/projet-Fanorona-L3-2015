@@ -38,7 +38,7 @@ public class Parametres {
 	PlayerType savelvlPC2;
 	boolean saveCommencer;
 	
-	PlayerType defaut=PlayerType.IAMoyenne;
+	
 	
 	JButton accepter;
 	JButton annuler;
@@ -281,11 +281,11 @@ public class Parametres {
 			else{
 				if(fenetre.engine.getCurrentGame().joueurBlanc.aiPlayer){
 					fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurBlanc);
-					fenetre.lvlPC2=defaut;
+					fenetre.lvlPC2=fenetre.defaut;
 				}
 				else{
 					fenetre.lvlPC1=engine.Tools.getTypeOfPlayer(fenetre.engine.getCurrentGame().joueurNoir);
-					fenetre.lvlPC2=defaut;
+					fenetre.lvlPC2=fenetre.defaut;
 				}
 			}
 		}

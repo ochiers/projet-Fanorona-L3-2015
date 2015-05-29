@@ -137,7 +137,7 @@ public class Engine implements EngineServices {
 		{
 			partieCourante = g;
 		}
-		System.out.println("/////VERIF////"+Tools.getTypePartie(g));
+		System.out.println("/////VERIF////"+Tools.getTypePartie(g)+" "+Tools.getTypeOfPlayer(g.joueurBlanc)+" "+Tools.getTypeOfPlayer(g.joueurNoir)+" "+this.getPremierJoueur());
 	}
 
 	@Override

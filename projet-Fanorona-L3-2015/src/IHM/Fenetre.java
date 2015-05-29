@@ -27,6 +27,7 @@ public class Fenetre implements Runnable,Affichage {
 	PlayerType lvlPC2;
 	Configuration mode;
 	boolean commencer;
+	PlayerType defaut=PlayerType.IAMoyenne;
 	
 	JLabel scoreInt1;
 	JLabel scoreInt2;
@@ -272,10 +273,8 @@ public class Fenetre implements Runnable,Affichage {
 			JFileChooser load = new JFileChooser();
 			load.showOpenDialog(Fenetre.frame);
 			engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
-			System.out.println("////////TEST");
-			System.out.println("////////"+Tools.getTypePartie(engine.getCurrentGame()));
-			mode=Tools.getTypePartie(engine.getCurrentGame());
-			System.out.println("////////"+mode+" "+lvlPC1+" "+lvlPC2);
+			modifChargement();
+			System.out.println("////TEST////"+mode+" "+lvlPC1+" "+lvlPC2+" "+commencer);
 	    }               
 
 	}
@@ -450,6 +449,27 @@ public class Fenetre implements Runnable,Affichage {
 	{
 		System.out.println("///////LoadReussi?: "+reussi);
 		
+	}
+	
+	// AUTRE METHODE
+	
+	public void modifChargement(){
+		mode=Tools.getTypePartie(engine.getCurrentGame());
+		if(mode.ordinal()==0){
+			lvlPC1=defaut;
+			lvlPC2=defaut;
+		}else if(mode.ordinal()==1){
+			lvlPC1=(engine.getCurrentGame().joueurBlanc.aiPlayer?Tools.getTypeOfPlayer(engine.getCurrentGame().joueurBlanc):Tools.getTypeOfPlayer(engine.getCurrentGame().joueurNoir));
+			lvlPC2=defaut;
+		}else if(mode.ordinal()==2){
+			lvlPC1=Tools.getTypeOfPlayer(engine.getCurrentGame().joueurBlanc);
+			lvlPC2=Tools.getTypeOfPlayer(engine.getCurrentGame().joueurNoir);	
+		}
+		commencer=engine.getPremierJoueur();
+		parametre.box1.setSelectedIndex(mode.ordinal());
+		parametre.box2.setSelectedIndex(lvlPC1.ordinal()-1);
+		parametre.box3.setSelectedIndex(lvlPC2.ordinal()-1);
+		parametre.box4.setSelectedIndex((commencer?0:1));
 	}
 	
 }
