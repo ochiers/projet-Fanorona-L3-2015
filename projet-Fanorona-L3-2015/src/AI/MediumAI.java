@@ -21,12 +21,16 @@ public class MediumAI extends Player implements Serializable {
 		premieresCasesPrises = new ArrayList<Case>();
 	}
 	
+	public int eval(Noeud n){
+		return n.nbPionsJoueur-n.nbPionsAdversaire;
+	}
+	
 	public int alphaBeta(Noeud n, Case[] listeCases, int alpha, int beta, boolean noeudMin, int profondeur, Pion couleurJoueur, ArrayList<Case> combo, boolean comboEnCours) {
 		int val = 0;
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, n, couleurJoueur);
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		if(profondeur == 0 || n.nbPionsAdversaire == 0 || n.nbPionsJoueur == 0) { /* Si on est sur une feuille ou qu'on a atteint la profondeur maximale */
-			return n.nbPionsJoueur-n.nbPionsAdversaire; // POUR TESTER PLUS SIMPLEMENT
+			return eval(n);
 		}
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
