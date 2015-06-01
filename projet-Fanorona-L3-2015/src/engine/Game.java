@@ -86,7 +86,7 @@ public class Game implements Serializable {
 	/**
 	 * Le module d'affichage
 	 */
-	public transient Affichage			display;
+	public transient EngineServices		leMoteur;
 
 	/**
 	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on ne peut pas revenir sur une case deja jouee
@@ -127,7 +127,7 @@ public class Game implements Serializable {
 	 * @param size
 	 *            Taille du plateau size.height = nombre de lignes size.width = nombre de colonnes
 	 */
-	public Game(Affichage affichage, UndoRedo<Game> undoRedo, int joueurQuiCommence, Player p1, Player p2, Dimension size)
+	public Game(EngineServices leMoteur, UndoRedo<Game> undoRedo, int joueurQuiCommence, Player p1, Player p2, Dimension size)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -138,7 +138,7 @@ public class Game implements Serializable {
 		this.joueurCourant = (joueurQuiCommence == 0) ? p1 : p2;
 		this.premierJoueur = joueurQuiCommence == 0;
 		this.combo = new ArrayList<Case>();
-		this.display = affichage;
+		this.leMoteur = leMoteur;
 		this.nbColonnes = size.width;
 		this.nbLignes = size.height;
 		this.nombrePionBlanc = ((nbLignes * nbColonnes) - 1) / 2;
@@ -157,7 +157,7 @@ public class Game implements Serializable {
 	{
 		this.annulerRefaire = game.annulerRefaire;
 		this.combo = new ArrayList<Case>();
-		this.display = game.display;
+		this.leMoteur = game.leMoteur;
 		this.enCombo = false;
 		this.finish = game.finish;
 		this.joueurBlanc = null;
@@ -260,14 +260,13 @@ public class Game implements Serializable {
 			}
 
 			afficherList(pionsPossibles, "PIONS POSSIBLES");
-			display.afficherPionsPossibles(pionsPossibles);
+			leMoteur.getCurrentDisplay().afficherPionsPossibles(pionsPossibles);
 
 			combo = new ArrayList<Case>();
 
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Case[][] copiePlateau = copyMatrice(matricePlateau);
 			Coup c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
-
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
 				c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
@@ -286,6 +285,7 @@ public class Game implements Serializable {
 				notifyAll();
 				return;
 			}
+			this.leMoteur.envoyerCoup(c);
 			boolean rejouer = faireCoup(c);
 			enCombo = rejouer;
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
@@ -303,8 +303,8 @@ public class Game implements Serializable {
 					System.out.println("Plus de possibilites");
 					break;
 				}
-				display.afficherPionDuCombo(pionCombo);
-				display.afficherCheminParcouruParleCombo(combo);
+				leMoteur.getCurrentDisplay().afficherPionDuCombo(pionCombo);
+				leMoteur.getCurrentDisplay().afficherCheminParcouruParleCombo(combo);
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
 				copiePlateau = copyMatrice(matricePlateau);
@@ -329,7 +329,9 @@ public class Game implements Serializable {
 				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
 				System.out.println("PION JOUE " + pionCombo);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
+				this.leMoteur.envoyerCoup(c);
 				rejouer = faireCoup(c2);
+				
 				System.out.println("PEUT REJOUE ? " + rejouer);
 				enCombo = rejouer;
 			}
@@ -342,7 +344,7 @@ public class Game implements Serializable {
 
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
-			this.display.afficherJeu();
+			leMoteur.getCurrentDisplay().afficherJeu();
 			System.err.println(nameJoueur + " a fini");
 
 			/*
@@ -374,7 +376,7 @@ public class Game implements Serializable {
 			System.err.println("Aucun pion ne peut manger");
 			pionsPossibles = this.lesPionsJouables();
 		}
-		display.afficherPionsPossibles(pionsPossibles);
+		leMoteur.getCurrentDisplay().afficherPionsPossibles(pionsPossibles);
 
 		joueurBlanc.join();
 		joueurNoir.join();
@@ -383,7 +385,7 @@ public class Game implements Serializable {
 		{
 			System.out.println("victoire");
 			winner = joueurCourant;
-			display.afficherVictoire(winner);
+			leMoteur.getCurrentDisplay().afficherVictoire(winner);
 		}
 
 	}
@@ -446,7 +448,7 @@ public class Game implements Serializable {
 	 */
 	private boolean faireCoup(Coup c)
 	{
-		display.afficherCoupJoue(c);
+		leMoteur.getCurrentDisplay().afficherCoupJoue(c);
 		if (!paused && !stopped && c != null && c.depart != null && c.arrivee != null)
 		{
 			Direction d = determinerDirection(c.depart, c.arrivee);
@@ -456,38 +458,38 @@ public class Game implements Serializable {
 
 			if (rapprochement.size() == 0 && eloignement.size() == 0)
 			{
-				this.display.afficherJeu();
+				leMoteur.getCurrentDisplay().afficherJeu();
 				matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
 				matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
 				return false;
 			} else if (rapprochement.size() != 0 && eloignement.size() != 0)
 			{
-				display.afficherMultiDirections(eloignement, rapprochement);
+				leMoteur.getCurrentDisplay().afficherMultiDirections(eloignement, rapprochement);
 				Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
 				while (!rapprochement.contains(choix) && !eloignement.contains(choix))
 					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
 
 				if (rapprochement.contains(choix))
 				{
-					this.display.afficherPionsCaptures(rapprochement);
+					leMoteur.getCurrentDisplay().afficherPionsCaptures(rapprochement);
 					capturer(rapprochement);
 				} else if (eloignement.contains(choix))
 				{
-					this.display.afficherPionsCaptures(eloignement);
+					leMoteur.getCurrentDisplay().afficherPionsCaptures(eloignement);
 					capturer(eloignement);
 				}
 			} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 			{
 				capturer(rapprochement);
-				this.display.afficherPionsCaptures(rapprochement);
+				leMoteur.getCurrentDisplay().afficherPionsCaptures(rapprochement);
 			} else if (eloignement.size() != 0 && rapprochement.size() == 0)
 			{
 				capturer(eloignement);
-				this.display.afficherPionsCaptures(eloignement);
+				leMoteur.getCurrentDisplay().afficherPionsCaptures(eloignement);
 			}
 			matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
 			matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
-			this.display.afficherJeu();
+			leMoteur.getCurrentDisplay().afficherJeu();
 			return true;
 		}
 		return false;

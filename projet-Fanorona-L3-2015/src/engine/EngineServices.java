@@ -3,6 +3,7 @@ package engine;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import network.NetworkManager;
 import IHM.Affichage;
 
 /**
@@ -202,4 +203,14 @@ public interface EngineServices {
 	 * @param nouveau Le nouveau joueur
 	 */
 	public void changerLeJoueur(Player precedent, Player nouveau);
+
+	public void hebergerPartie(int port);
+	
+	public void rejoindrePartie(int port, String ip);
+	
+	public NetworkManager getNetworkManager();
+	
+	public Affichage getCurrentDisplay();
+
+	public void envoyerCoup(Coup c);
 }
