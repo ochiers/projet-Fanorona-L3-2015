@@ -233,9 +233,10 @@ public class Engine implements EngineServices {
 			Game g = (Game) ois.readObject();
 			g.display = this.affichage;
 			g.combo = new ArrayList<Case>();
+			g.joueurBlanc.leMoteur = this;
+			g.joueurNoir.leMoteur = this;
+			g.joueurCourant.leMoteur = this;
 			Pion Jcourant = (g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir;
-			System.out.println("////////CHARGER");
-			System.out.println("////////"+Tools.getTypePartie(g)+" "+Tools.getTypeOfPlayer((g.joueurBlanc))+" "+Tools.getTypeOfPlayer((g.joueurNoir)));
 			changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, Jcourant);
 		} catch (Exception e)
 		{

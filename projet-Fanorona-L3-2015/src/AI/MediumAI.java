@@ -1,12 +1,13 @@
 package AI;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 import engine.*;
 
-public class MediumAI extends Player {
+public class MediumAI extends Player implements Serializable {
 	/**
 	 * 
 	 */

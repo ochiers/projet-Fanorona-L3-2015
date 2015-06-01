@@ -1,6 +1,8 @@
 package engine;
 
-public class Coup {
+import java.io.Serializable;
+
+public class Coup implements Serializable{
 
 	public Coordonnee	depart;
 	public Coordonnee	arrivee;
