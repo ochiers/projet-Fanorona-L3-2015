@@ -25,30 +25,47 @@ public class AireDeDessin extends JComponent {
     ArrayList<Case> pionPossible;
     ArrayList<Case> combo;
     Case pionCombo;
-    int decalageH = 135;
-    int decalageL = 300;
- 
+    int decalageH;
+    int decalageL;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
-        segment=fenetre.frame.getWidth()*4/60;
-        segment = 85;
+        segment  = (int)((fenetre.fw*3.99)/60);
+        decalageH = (int)(1.4*segment);
+        decalageL = (int)(1.55*segment);
         halo=Color.green;
         haloChoix=Color.blue;
         comboColor=Color.orange;
-        System.out.println("taille: "+segment);
         tailleJeton=segment/(int)2.5;
         setPreferredSize(new Dimension(10*segment,6*segment));
         pCourant=new Coordonnee(-1,-1);
     }
 
     public void paintComponent(Graphics g) {
-    	//System.out.println("/////////////////////MODE "+fenetre.mode+" -PC1: "+fenetre.lvlPC1+" -PC2: "+fenetre.lvlPC2);
-    	Graphics2D drawable = (Graphics2D) g;    	
-    	/*int width = this.getSize().width;
+    	Graphics2D drawable = (Graphics2D) g; 
+		fenetre.fw = fenetre.frame.getWidth();
+		fenetre.fh = fenetre.frame.getHeight();
+        segment  = (int)((fenetre.fw*3.99)/60);
+        decalageH = (int)(1.4*segment);
+        decalageL = (int)(1.55*segment);
+    	int width = this.getSize().width;
     	int height = this.getSize().height;
-    	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);*/
-    	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
+    	if ((width < 561) || (height < 338)){
+    		System.out.println(" trop petit ");
+    		fenetre.frame.setSize(fenetre.wmin, fenetre.hmin);
+    		width = 561;
+    		height = 338;
+    	}
+    	else if (width >= height){ height = (int)((60.25*width)/100); }
+    	else if (height >= width){ width = (int)((165.98*height)/100); }
+    	else if ((width > 996) || (height > 600)){
+    		System.out.println(" trop grand ");
+    		fenetre.frame.setSize(fenetre.wmax, fenetre.hmax);
+    		width = 996;
+			height = 600;
+		}
+    	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);
+    	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
         drawable.setPaint(Color.black);
        
@@ -57,7 +74,7 @@ public class AireDeDessin extends JComponent {
         majBouton();
         majNomJoueurs();
         
-        dessinGrille(drawable);//grille
+        //dessinGrille(drawable);//grille
 
         if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !finPartie){
         	if(!pionCliquer && doitChoisir){
@@ -75,17 +92,13 @@ public class AireDeDessin extends JComponent {
 	        	pionJouableCombo(drawable); 
 	        	//pCourant.ligne=pionCombo.position.ligne;
 	        	//pCourant.colonne=pionCombo.position.colonne;
-
 	        } 
 	       // dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
 	        dessinGrilleJeton(drawable);
 	        if(pionCliquer){
 	        	jetonCliquer(drawable);//rond cyan
-	        	
 	        }
     	}else dessinGrilleJeton(drawable);
-        
-
       //  positionPossible(drawable);
     }
     

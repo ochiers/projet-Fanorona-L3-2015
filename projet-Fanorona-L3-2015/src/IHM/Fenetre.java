@@ -69,29 +69,30 @@ public class Fenetre implements Runnable,Affichage {
 	JButton finTour;
 	JButton suggestion;
 	
-	
+	int wmin = 673;
+	int hmin = 405;
+	int wmax = 1280;
+	int hmax = 720;
 	
 	
 	public Fenetre(EngineServices e){
 		engine=e;
-		
 	}
 	
 	public void run(){		
 		System.out.println("//////////////////////////////////////////////////////");
-		frame.setSize(1280, 720);
+		frame.setSize(842, 507);
+		frame.setMinimumSize(new Dimension(wmin, hmin));
+		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
 		panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);
-		panelAccueil.setLayout(null);
+		panelAccueil.setLayout(new BorderLayout( 20, 10));
 		
 			//grille
 		monDessin = new AireDeDessin(this);
 		monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
-		//monDessin.setBounds(fw/6, (int)(0.3*fh/6), 4*fw/6, 4*fh/6);
-		//monDessin.setBounds((int)(0.8*fw/6), (int)(0.2*fh/6), (int)(4.4*fw/6), (int)(4.4*fh/6)); //MODIF TAILLE POUR FANO
-		monDessin.setBounds(0, 0, fw, 5*fh/6); // RE MODIF TAILLE POUR FANO
-			
+
 			//barre de Menu
 		menuBar = new JMenuBar();
 			//menu1
@@ -137,11 +138,14 @@ public class Fenetre implements Runnable,Affichage {
 		aide_aPropos.addActionListener(new ItemAction_aide_aPropos());
 		
 		aide.add(aide_reglesDuJeu);
-		aide.add(aide_aPropos);		
+		aide.add(aide_aPropos);	
+
+			//ajouts dans barre de menu
+		menuBar.add(partie);
+		menuBar.add(options);
+		menuBar.add(aide);
  		
 			//boutons commandes
-		//TODO VERIF DIMENSIONS 
-		int temp = (int)(0.6*fh/6)/2;
 		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
@@ -153,14 +157,15 @@ public class Fenetre implements Runnable,Affichage {
 		stopper.addActionListener(new ItemAction_stopper());
 		finTour.addActionListener(new ItemAction_finTour());
 		suggestion.addActionListener(new ItemAction_suggestion());
-		
-		annuler.setBounds((int)((1.2*fw/6)-temp), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
-		refaire.setBounds((int)(((1.2*fw/6)-temp)+(0.8*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
-		//stopper.setBounds((int)(((1.5*fw/6)-temp)+2*fw/6), (int)(4.6*fh/6), (int)(0.8*fh/6), (int)(0.8*fh/6));
-		stopper.setBounds((int)(((1.2*fw/6)-temp)+(1.6*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
-		finTour.setBounds((int)(((1.2*fw/6)-temp)+(2.4*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
-		suggestion.setBounds((int)(((1.2*fw/6)-temp)+(3.2*fw/6)), (int)(5.1*fh/6), (int)(1.2*fh/6), (int)(0.3*fh/6));
-			
+ 		
+			//boutons
+		JPanel panelSud = new JPanel(new FlowLayout());
+		panelSud.setOpaque(false);
+		panelSud.add(annuler);
+		panelSud.add(refaire);
+		panelSud.add(stopper);
+		panelSud.add(finTour);
+		panelSud.add(suggestion);
 		
 			//affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ");
@@ -175,53 +180,46 @@ public class Fenetre implements Runnable,Affichage {
 		JLabel score2 = new JLabel(" Pions restants ");
 		tour1 = new JLabel(" A votre tour ! ");
 		tour2 = new JLabel(" A votre tour ! ");
-		
-		j1.setBounds((int)(0.2*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));		
-		j2.setBounds((int)(5.4*fw/6), (int)(0.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));		
-		idj1.setBounds((int)(0.2*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		levelj1.setBounds((int)(0.2*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		idj2.setBounds((int)(5.4*fw/6), (int)(1.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		levelj2.setBounds((int)(5.4*fw/6), (int)(1.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));					
-		scoreInt1.setBounds((int)(0.35*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));		
-		scoreInt2.setBounds((int)(5.55*fw/6), (int)(2.2*fh/6), (int)(0.8*fw/6), (int)(fh/6));		
-		score1.setBounds((int)(0.2*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));		
-		score2.setBounds((int)(5.4*fw/6), (int)(2.4*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		tour1.setBounds((int)(0.2*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		tour2.setBounds((int)(5.4*fw/6), (int)(3*fh/6), (int)(0.8*fw/6), (int)(fh/6));
-		
- 			//ajouts 
- 		menuBar.add(partie);
-		menuBar.add(options);
-		menuBar.add(aide);
-		
- 		panelAccueil.add(monDessin);
- 		panelAccueil.add(annuler);
- 		panelAccueil.add(refaire);
- 		panelAccueil.add(stopper);
- 		panelAccueil.add(finTour);
- 		panelAccueil.add(suggestion);
- 		panelAccueil.add(j1);
- 		panelAccueil.add(j2); 		 
- 		panelAccueil.add(idj1);
- 		panelAccueil.add(idj2);
- 		panelAccueil.add(levelj1);
- 		panelAccueil.add(levelj2);
- 		panelAccueil.add(scoreInt1);
- 		panelAccueil.add(scoreInt2);
- 		panelAccueil.add(score1); 
- 		panelAccueil.add(score2); 		
- 		panelAccueil.add(tour1);
- 		panelAccueil.add(tour2);
-
+ 		
+			//joueur 1
+		JPanel panelOuest = new JPanel();
+		panelOuest.setLayout(new BoxLayout(panelOuest, 1));
+		panelOuest.setOpaque(false);
+		panelOuest.add(j1);
+		panelOuest.add(idj1);
+		panelOuest.add(levelj1);
+		panelOuest.add(scoreInt1);
+		panelOuest.add(score1);
+		panelOuest.add(tour1);
+ 		
+			//joueur 2
+ 		JPanel panelEst = new JPanel();
+ 		panelEst.setLayout(new BoxLayout(panelEst, 1));
+ 		panelEst.setOpaque(false);
+ 		panelEst.add(j2); 		 
+ 		panelEst.add(idj2);
+ 		panelEst.add(levelj2);
+ 		panelEst.add(scoreInt2);
+ 		panelEst.add(score2); 		
+ 		panelEst.add(tour2);
+ 		
+ 			//ajout au panel accueil
+ 		panelAccueil.add(monDessin, BorderLayout.CENTER);
+ 		panelAccueil.add(panelEst, BorderLayout.EAST);
+ 		panelAccueil.add(panelOuest, BorderLayout.WEST);
+ 		panelAccueil.add(panelSud, BorderLayout.SOUTH);
+ 		
+ 			//recuperation joueurs
 		nameJ1 = engine.getJoueurBlanc().name;
 		nameJ2 = engine.getJoueurNoir().name;
 		
+			// ajout fenetres details
 		parametre = new Parametres(this);
 		parametre.majParam();
 		preference = new PreferencesOnglets(this);
 		preference.majPref();
 
-		
+			// FENETRE
 		frame.setJMenuBar(menuBar);
  		frame.add(panelAccueil);
 		//frame.setResizable(false);
@@ -306,9 +304,9 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_options_preferences implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			preference.setVisible(true);
+			frame3.setVisible(true);
 	    }               
-
+		
 	}
 	
 	class ItemAction_options_historiqueScores implements ActionListener{
