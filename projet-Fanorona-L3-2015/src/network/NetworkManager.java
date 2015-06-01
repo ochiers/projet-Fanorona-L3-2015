@@ -70,14 +70,13 @@ public class NetworkManager {
 	 */
 	public void rejoindrePartie()
 	{
-		Socket socketEnvoi;
 		try
 		{
 			InetAddress addr = InetAddress.getByName(ip);
-			socketEnvoi = new Socket(addr, port);
+			socketEnvoiPrincipal = new Socket(addr, port);
 
-			this.envoi = socketEnvoi.getOutputStream();
-			this.reception = socketEnvoi.getInputStream();
+			this.envoi = socketEnvoiPrincipal.getOutputStream();
+			this.reception = socketEnvoiPrincipal.getInputStream();
 
 		} catch (Exception e)
 		{
@@ -127,17 +126,17 @@ public class NetworkManager {
 		try{
 			int col1,lig1,col2,lig2;
 			col1 = col2 = lig1 = lig2 = -1;
-			while(col1 != -1)
+			while(col1 == -1)
 				col1 = this.reception.read();
 			this.envoi.write(852);
 			
-			while(lig1 != -1)
+			while(lig1 == -1)
 				lig1 = this.reception.read();
 			this.envoi.write(852);
-			while(col2 != -1)
+			while(col2 == -1)
 				col2 = this.reception.read();
 			this.envoi.write(852);
-			while(lig2 != -1)
+			while(lig2 == -1)
 				lig2 = this.reception.read();
 			this.envoi.write(852);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
@@ -167,6 +166,7 @@ public class NetworkManager {
 		else{
 			net.hebergerPartie();
 			net.receiveCoup();
+			net.socketServeurPrincipal.close();
 		}
 		
 	}
