@@ -271,11 +271,16 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_partie_charger implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
+			try{
 			JFileChooser load = new JFileChooser();
 			load.showOpenDialog(frame);
 			engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
 			modifChargement();
 			System.out.println("////TEST////"+mode+" "+lvlPC1+" "+lvlPC2+" "+commencer);
+			}
+			catch(Exception ex){
+				
+			}
 	    }               
 
 	}
@@ -449,6 +454,18 @@ public class Fenetre implements Runnable,Affichage {
 		
 	}
 	
+	@Override
+	public void afficherCoupJoue(Coup c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afficherPionsCaptures(ArrayList<Case> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	// AUTRE METHODE
 	
 	public void modifChargement(){
@@ -470,16 +487,6 @@ public class Fenetre implements Runnable,Affichage {
 		parametre.box4.setSelectedIndex((commencer?0:1));
 	}
 
-	@Override
-	public void afficherCoupJoue(Coup c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void afficherPionsCaptures(ArrayList<Case> list) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 }
