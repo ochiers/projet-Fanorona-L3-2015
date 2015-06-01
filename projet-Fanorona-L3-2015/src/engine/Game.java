@@ -109,7 +109,7 @@ public class Game implements Serializable {
 	private boolean						finirSonTour;
 
 	public boolean						premierJoueur;
-	
+
 	/**
 	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc et noirs et un plateu de largeur*hauteur
 	 * 
@@ -261,7 +261,7 @@ public class Game implements Serializable {
 
 			afficherList(pionsPossibles, "PIONS POSSIBLES");
 			display.afficherPionsPossibles(pionsPossibles);
-			
+
 			combo = new ArrayList<Case>();
 
 			Case[] tmp = new Case[pionsPossibles.size()];
@@ -446,6 +446,7 @@ public class Game implements Serializable {
 	 */
 	private boolean faireCoup(Coup c)
 	{
+		display.afficherCoupJoue(c);
 		if (!paused && !stopped && c != null && c.depart != null && c.arrivee != null)
 		{
 			Direction d = determinerDirection(c.depart, c.arrivee);
@@ -467,16 +468,22 @@ public class Game implements Serializable {
 					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
 
 				if (rapprochement.contains(choix))
+				{
+					this.display.afficherPionsCaptures(rapprochement);
 					capturer(rapprochement);
-				else if (eloignement.contains(choix))
+				} else if (eloignement.contains(choix))
+				{
+					this.display.afficherPionsCaptures(eloignement);
 					capturer(eloignement);
-
+				}
 			} else if (rapprochement.size() != 0 && eloignement.size() == 0)
 			{
 				capturer(rapprochement);
+				this.display.afficherPionsCaptures(rapprochement);
 			} else if (eloignement.size() != 0 && rapprochement.size() == 0)
 			{
 				capturer(eloignement);
+				this.display.afficherPionsCaptures(eloignement);
 			}
 			matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
 			matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
