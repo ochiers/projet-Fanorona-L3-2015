@@ -224,7 +224,7 @@ public class Fenetre implements Runnable,Affichage {
 		
 		frame.setJMenuBar(menuBar);
  		frame.add(panelAccueil);
-		frame.setResizable(false);
+	//	frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -306,7 +306,7 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_options_preferences implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			Fenetre.frame3.setVisible(true);
+			frame3.setVisible(true);
 	    }               
 
 	}
@@ -468,6 +468,18 @@ public class Fenetre implements Runnable,Affichage {
 		parametre.box2.setSelectedIndex(lvlPC1.ordinal()-1);
 		parametre.box3.setSelectedIndex(lvlPC2.ordinal()-1);
 		parametre.box4.setSelectedIndex((commencer?0:1));
+	}
+
+	@Override
+	public void afficherCoupJoue(Coup c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afficherPionsCaptures(ArrayList<Case> list) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

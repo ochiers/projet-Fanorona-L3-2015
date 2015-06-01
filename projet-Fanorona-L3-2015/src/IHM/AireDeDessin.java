@@ -57,7 +57,7 @@ public class AireDeDessin extends JComponent {
         majBouton();
         majNomJoueurs();
         
-        dessinGrille(drawable);//grille
+       // dessinGrille(drawable);//grille
 
         if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !finPartie){
         	if(!pionCliquer && doitChoisir){
