@@ -10,9 +10,9 @@ import javax.swing.*;
 import engine.*;
 
 public class Fenetre implements Runnable,Affichage {
-	static JFrame frame = new JFrame(" -- Fanorona -- ");
-	static JFrame frame2 = new JFrame(" -- Parametres -- ");
-	static JFrame frame3 = new JFrame(" -- Preferences -- ");
+	JFrame frame = new JFrame(" -- Fanorona -- ");
+	JFrame frame2 = new JFrame(" -- Parametres -- ");
+	JFrame frame3 = new JFrame(" -- Preferences -- ");
 	Parametres parametre;
 	PreferencesOnglets preference;
 	AireDeDessin monDessin;
@@ -78,7 +78,7 @@ public class Fenetre implements Runnable,Affichage {
 	}
 	
 	public void run(){		
-
+		System.out.println("//////////////////////////////////////////////////////");
 		frame.setSize(1280, 720);
 		fw = frame.getWidth();
 		fh = frame.getHeight();
@@ -262,7 +262,7 @@ public class Fenetre implements Runnable,Affichage {
 
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser save = new JFileChooser();
-			save.showSaveDialog(Fenetre.frame);
+			save.showSaveDialog(frame);
 			engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 	    }               
 
@@ -272,7 +272,7 @@ public class Fenetre implements Runnable,Affichage {
 
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser load = new JFileChooser();
-			load.showOpenDialog(Fenetre.frame);
+			load.showOpenDialog(frame);
 			engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
 			modifChargement();
 			System.out.println("////TEST////"+mode+" "+lvlPC1+" "+lvlPC2+" "+commencer);
@@ -298,7 +298,7 @@ public class Fenetre implements Runnable,Affichage {
 			parametre.saveMode=mode;
 			parametre.savelvlPC1=lvlPC1;
 			parametre.savelvlPC2=lvlPC2;
-			Fenetre.frame2.setVisible(true);
+			frame2.setVisible(true);
 	    }               
 
 	}
