@@ -462,7 +462,7 @@ public class Engine implements EngineServices {
 	public void envoyerCoup(Coup c)
 	{
 		if(this.networkManager != null)
-			this.networkManager.sendCoup(c);
+			this.networkManager.setaEnvoyer(c);
 	}
 
 }

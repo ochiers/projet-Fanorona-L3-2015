@@ -26,6 +26,12 @@ public class NetworkManager extends Thread {
 	public Coup				coupRecu;
 	public Coordonnee		coordonneeRecu;
 	private boolean			enReception;
+	private Coup			aEnvoyer;
+
+	public void setaEnvoyer(Coup aEnvoyer)
+	{
+		this.aEnvoyer = aEnvoyer;
+	}
 
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
@@ -139,7 +145,7 @@ public class NetworkManager extends Thread {
 			case RequestType.Refaire:
 				leMoteur.refaire();
 				break;
-			case RequestType.EnvoiCase :
+			case RequestType.EnvoiCase:
 				coordonneeRecu = receiveCoordonnee();
 		}
 		System.out.println("Reception terminee ************************************************************************* ");
@@ -164,12 +170,16 @@ public class NetworkManager extends Thread {
 		try
 		{
 			this.sendRequete(RequestType.EnvoiCoup);
+			System.out.println("envoi1");
 			this.envoi.write(c.depart.colonne);
 			attenteNotif();
+			System.out.println("envoi2");
 			this.envoi.write(c.depart.ligne);
 			attenteNotif();
+			System.out.println("envoi3");
 			this.envoi.write(c.arrivee.colonne);
 			attenteNotif();
+			System.out.println("envoi4");
 			this.envoi.write(c.arrivee.ligne);
 		} catch (Exception e)
 		{
@@ -181,11 +191,10 @@ public class NetworkManager extends Thread {
 	/**
 	 * Réception du coup envoyé sur le réseau.
 	 */
-	public synchronized Coup receiveCoup()
+	public Coup receiveCoup()
 	{
 		System.out.println("Reception coup ************************************************************************* ");
 		Coup c = null;
-		enReception = true;
 		try
 		{
 			int col1, lig1, col2, lig2;
@@ -215,9 +224,7 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-		enReception = false;
-		System.out.println('e');
-		notifyAll();
+
 		System.out.println("Coup recu ************************************************************************* ");
 		return c;
 
@@ -239,8 +246,8 @@ public class NetworkManager extends Thread {
 			while (lig1 == -1)
 				lig1 = this.reception.read();
 			this.envoi.write(852);
-			
-			c = new Coordonnee(lig1,col1);
+
+			c = new Coordonnee(lig1, col1);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -250,41 +257,26 @@ public class NetworkManager extends Thread {
 		return c;
 
 	}
-	
+
 	public void attenteNotif() throws InterruptedException, IOException
 	{
 
-		while (this.reception.read() == -1)
+		System.out.print("JATTEND");
+		int recu = -1;
+		while (recu == -1)
 		{
-			Thread.sleep(50);
+			recu = this.reception.read();
+			// System.out.print(recu);
+			// Thread.sleep(50);
 		}
-
+		System.out.print("JATTEND plus");
 	}
-
-//	public static void main(String args[]) throws IOException
-//	{
-//
-//		NetworkManager net = new NetworkManager(null, 12345, args[0]);
-//		if (args[1].equals("client"))
-//		{
-//			net.rejoindrePartie();
-//			net.sendCoup(new Coup(new Coordonnee(5, 9), new Coordonnee(4, 8)));
-//			net.socketEnvoiPrincipal.close();
-//		} else
-//		{
-//			net.hebergerPartie();
-//			net.receiveCoup();
-//			net.socketServeurPrincipal.close();
-//		}
-//
-//	}
 
 	public void run()
 	{
-
 		try
 		{
-			while (receiveRequete())
+			while (envoyerCoup() && receiveRequete())
 			{
 				try
 				{
@@ -298,19 +290,19 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-
+		System.out.println("RESEAU TERMINE");
 	}
 
-	public synchronized Coup getCoupRecu()
+	private boolean envoyerCoup()
 	{
-		while (enReception)
-			try
-			{
-				wait();
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
+		if (aEnvoyer != null)
+			sendCoup(aEnvoyer);
+		aEnvoyer = null;
+		return true;
+	}
+
+	public Coup getCoupRecu()
+	{
 
 		Coup res = null;
 		if (coupRecu != null)
@@ -319,17 +311,8 @@ public class NetworkManager extends Thread {
 		return res;
 	}
 
-	public synchronized Coordonnee getCoordonnee()
+	public Coordonnee getCoordonnee()
 	{
-		while (enReception)
-			try
-			{
-				wait();
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-
 		Coordonnee res = null;
 		if (coordonneeRecu != null)
 			res = coordonneeRecu;
