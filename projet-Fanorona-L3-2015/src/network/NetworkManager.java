@@ -125,13 +125,20 @@ public class NetworkManager {
 	{
 		Coup c = null;
 		try{
-			int col1 = this.reception.read();
+			int col1,lig1,col2,lig2;
+			col1 = col2 = lig1 = lig2 = -1;
+			while(col1 != -1)
+				col1 = this.reception.read();
 			this.envoi.write(852);
-			int lig1 = this.reception.read();
+			
+			while(lig1 != -1)
+				lig1 = this.reception.read();
 			this.envoi.write(852);
-			int col2 = this.reception.read();
+			while(col2 != -1)
+				col2 = this.reception.read();
 			this.envoi.write(852);
-			int lig2 = this.reception.read();
+			while(lig2 != -1)
+				lig2 = this.reception.read();
 			this.envoi.write(852);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
 		}
@@ -149,12 +156,13 @@ public class NetworkManager {
 		
 	}
 	
-	public static void main(String args[]){
+	public static void main(String args[]) throws IOException{
 		
 		NetworkManager net = new NetworkManager(12345, args[0]);
 		if(args[1].equals("client")){
 			net.rejoindrePartie();
 			net.sendCoup(new Coup(new Coordonnee(5,9),new Coordonnee(4,8)));
+			net.socketEnvoiPrincipal.close();
 		}
 		else{
 			net.hebergerPartie();
