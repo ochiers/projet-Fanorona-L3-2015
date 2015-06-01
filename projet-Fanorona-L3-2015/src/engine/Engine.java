@@ -18,12 +18,35 @@ import IHM.Affichage;
  * @author soulierc
  *
  */
+/**
+ * @author ochiers
+ *
+ */
 public class Engine implements EngineServices {
 
+	/**
+	 * Booleen permettant de connaitre l'etat courant du jeu. A savoir s'il est en pause ou non
+	 */
 	public boolean			gameInProgress;
+	
+	/**
+	 * C'est la partie sur laquelle on joue. C'est cette partie qui est modifiée par le mouvement des pions.
+	 */
 	private Game			partieCourante;
+	
+	/**
+	 *  Affichage utilisé par la partie courante (Graphique ou non)
+	 */
 	public Affichage		affichage;
+	
+	/**
+	 * Module pour annuler/refaire un ou plusieurs coups
+	 */
 	private UndoRedo<Game>	undoRedo;
+	
+	/**
+	 * Booleen permettant d'eviter que la partie ne soit en pause au lancement
+	 */
 	public boolean			premierJeu;
 
 	public Engine()
@@ -61,6 +84,13 @@ public class Engine implements EngineServices {
 		}
 	}
 
+	/**
+	 * Methode permettant de changer de joueur en cours de partie
+	 * @param g Partie sur laquelle on joue et que l'on veut modifiee
+	 * @param pB Joueur blanc
+	 * @param pN Joueur noir
+	 * @param jCourant Joueur dont c'est le tour
+	 */
 	private void changerPartieCourante(Game g, Player pB, Player pN, Pion jCourant)
 	{
 		if (partieCourante != null)
