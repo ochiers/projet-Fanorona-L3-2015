@@ -133,11 +133,13 @@ public class NetworkManager extends Thread {
 		{
 			int col1, lig1, col2, lig2;
 			col1 = col2 = lig1 = lig2 = -1;
-			while (col1 == -1)
-				col1 = this.reception.read();
-			this.envoi.write(852);
 
-			while (lig1 == -1)
+			while(col1 == -1){
+				col1 = this.reception.read();
+			}
+			
+			this.envoi.write(852);
+			while(lig1 == -1)
 				lig1 = this.reception.read();
 			this.envoi.write(852);
 			while (col2 == -1)
@@ -147,11 +149,10 @@ public class NetworkManager extends Thread {
 				lig2 = this.reception.read();
 			this.envoi.write(852);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
-		} catch (Exception e)
-		{
 		}
-
-		System.out.println(c);
+		catch (Exception e){
+			e.printStackTrace();
+		}
 		return c;
 
 	}
