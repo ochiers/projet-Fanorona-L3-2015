@@ -422,6 +422,7 @@ public class Engine implements EngineServices {
 		}
 		this.networkManager = new NetworkManager(this, port, null);
 		this.networkManager.hebergerPartie();
+		this.networkManager.start();
 
 	}
 
@@ -441,6 +442,7 @@ public class Engine implements EngineServices {
 		}
 		this.networkManager = new NetworkManager(this, port, ip);
 		this.networkManager.rejoindrePartie();
+		this.networkManager.start();
 
 	}
 
