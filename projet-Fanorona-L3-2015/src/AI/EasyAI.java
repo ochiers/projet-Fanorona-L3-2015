@@ -96,6 +96,42 @@ public class EasyAI extends Player implements Serializable {
 		return listeCoups;
 	}
 	
+	public Pion inversePion(Pion p){
+		if(p==Pion.Noir)
+			return Pion.Blanc;
+		else return Pion.Noir;
+	}
+	
+	public boolean coupPerdantPercussion(Case c, Pion couleurAdversaire){
+		if((c.nord != null && c.nord.estVide() && c.nord.nord != null && c.nord.nord.pion == couleurAdversaire) ||
+				(c.nordOuest != null && c.nordOuest.estVide() && c.nordOuest.nordOuest != null && c.nordOuest.nordOuest.pion == couleurAdversaire) ||
+				(c.ouest != null && c.ouest.estVide() && c.ouest.ouest != null && c.ouest.ouest.pion == couleurAdversaire) ||
+				(c.sudOuest != null && c.sudOuest.estVide() && c.sudOuest.sudOuest != null && c.sudOuest.sudOuest.pion == couleurAdversaire) ||
+				(c.sud != null && c.sud.estVide() && c.sud.sud != null && c.sud.sud.pion == couleurAdversaire) ||
+				(c.sudEst != null && c.sudEst.estVide() && c.sudEst.sudEst != null && c.sudEst.sudEst.pion == couleurAdversaire) ||
+				(c.est != null && c.est.estVide() && c.est.est != null && c.est.est.pion == couleurAdversaire) ||
+				(c.nordEst != null && c.nordEst.estVide() && c.nordEst.nordEst != null && c.nordEst.nordEst.pion == couleurAdversaire)
+				){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean coupPerdantAspiration(Case c, Pion couleurAdversaire){
+		if((c.nord != null && c.nord.pion == couleurAdversaire && c.nord.nord != null && c.nord.nord.estVide()) ||
+				(c.nordOuest != null && c.nordOuest.pion == couleurAdversaire && c.nordOuest.nordOuest != null && c.nordOuest.nordOuest.estVide()) ||
+				(c.ouest != null && c.ouest.pion == couleurAdversaire && c.ouest.ouest != null && c.ouest.ouest.estVide()) ||
+				(c.sudOuest != null && c.sudOuest.pion == couleurAdversaire && c.sudOuest.sudOuest != null && c.sudOuest.sudOuest.estVide()) ||
+				(c.sud != null && c.sud.pion == couleurAdversaire && c.sud.sud != null && c.sud.sud.estVide()) ||
+				(c.sudEst != null && c.sudEst.pion == couleurAdversaire && c.sudEst.sudEst != null && c.sudEst.sudEst.estVide()) ||
+				(c.est != null && c.est.pion == couleurAdversaire && c.est.est != null && c.est.est.estVide()) ||
+				(c.nordEst != null && c.nordEst.pion == couleurAdversaire && c.nordEst.nordEst != null && c.nordEst.nordEst.estVide())
+				){
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
@@ -106,35 +142,44 @@ public class EasyAI extends Player implements Serializable {
 		}
 		ArrayList<Coup> listeCoups = creerCoups(listeCases);
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
+		ArrayList<Coup> listeCoupsNonPerdants = new ArrayList<Coup>();
 		Pion couleurJoueur = (leMoteur.getCurrentGame().joueurCourant == leMoteur.getCurrentGame().joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		Pion couleurAdversaire = inversePion(couleurJoueur);
 		Random r = new Random(System.currentTimeMillis());
 		for (int i = 0; i < listeCoups.size(); i++){
-			Case depart = leMoteur.getCurrentGame().matricePlateau[listeCoups.get(i).depart.ligne][listeCoups.get(i).depart.colonne];
-			Case arrivee = leMoteur.getCurrentGame().matricePlateau[listeCoups.get(i).arrivee.ligne][listeCoups.get(i).arrivee.colonne];
-			Direction directionCoup = determinerDirection(listeCoups.get(i).depart, listeCoups.get(i).arrivee);
+			Coup coupCourant = listeCoups.get(i);
+			Case depart = leMoteur.getCurrentGame().matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne];
+			Case arrivee = leMoteur.getCurrentGame().matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+			Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee);
 			Direction opposeDirectionCoup = Direction.oppose(directionCoup);
 			Case premiereCaseAspiration = depart.getCaseAt(opposeDirectionCoup);
 			Case premiereCasePercussion = arrivee.getCaseAt(directionCoup);
 			/* Si le coup permet une capture par aspiration, on l'ajoute à la liste des captures */
 			if(premiereCaseAspiration != null && !premiereCaseAspiration.estVide() && premiereCaseAspiration.pion != couleurJoueur){
-				listeCaptures.add(listeCoups.get(i));
+				listeCaptures.add(coupCourant);
 				premieresCasesPrises.add(premiereCaseAspiration);
 			}
 			/* Si le coup permet une capture par percussion, on l'ajoute à la liste des captures */
 			if(premiereCasePercussion != null && !premiereCasePercussion.estVide() && premiereCasePercussion.pion != couleurJoueur){
-				listeCaptures.add(listeCoups.get(i));
+				listeCaptures.add(coupCourant);
 				premieresCasesPrises.add(premiereCasePercussion);
 			}
+			if(!(coupPerdantPercussion(arrivee, couleurAdversaire) || coupPerdantAspiration(arrivee, couleurAdversaire))){
+				listeCoupsNonPerdants.add(coupCourant);
+			}
 		}
-		if(listeCaptures.size() > 0){ 		/* Si il y a des coups qui réalisent une capture, on joue un de ces coups, choisi de façon aléatoire */
+		if(listeCaptures.size() > 0){ 		/* Si il y a des coups qui réalisent une capture, on joue un de ces coups, choisi de façon aléatoire selon une loi uniforme */
 			int coupChoisi = r.nextInt(listeCaptures.size());
 			choix = premieresCasesPrises.get(coupChoisi);
-			System.out.println(choix);
+//			System.out.println(choix);
 			premieresCasesPrises.clear();
 			return listeCaptures.get(coupChoisi);
 		}
-		else { 								/* Si il n'y a pas de coup qui réalise une capture, on joue un coup, choisi de façon aléatoire */
-			return listeCoups.get(r.nextInt(listeCoups.size()));
+		else { 								/* Si il n'y a pas de coup qui réalise une capture, on joue un coup non perdant (s'il existe), choisi de façon aléatoire selon une loi uniforme */
+			if(listeCoupsNonPerdants.size() > 0){
+				return listeCoupsNonPerdants.get(r.nextInt(listeCoupsNonPerdants.size()));
+			}
+			else return listeCoups.get(r.nextInt(listeCoups.size()));
 		}
 	}
 
