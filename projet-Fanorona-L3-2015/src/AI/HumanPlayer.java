@@ -1,10 +1,11 @@
 package AI;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import engine.*;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer extends Player implements Serializable {
 
 	/**
 	 * 

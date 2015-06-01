@@ -15,14 +15,18 @@ import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class PreferencesOnglets extends JPanel {
-	int width = 700;
-	int height = 550;
+	int width = 699;
+	int height = 549;
     
     int pBw = 10;
     int pBh = 30;
-	
-	public PreferencesOnglets() {
+    
+    Fenetre fenetre;
+    
+	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
+		
+		fenetre = f;
 		
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setPreferredSize(new Dimension(width, height));
@@ -32,7 +36,10 @@ public class PreferencesOnglets extends JPanel {
         tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
         
-        JPanel panel2 = new JPanel();
+        ChoixNoms panel2 = new ChoixNoms();
+    		// ajout fond
+	   // ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
+	    //panel2.add(imagefond);
         tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
@@ -62,25 +69,20 @@ public class PreferencesOnglets extends JPanel {
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
     
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame(" -- Preferences -- ");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void  majPref() {
+        fenetre.frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //Ajouts
-        frame.add(new PreferencesOnglets(), BorderLayout.CENTER);
+        fenetre.frame3.add(this, BorderLayout.CENTER);
         
-        frame.pack();
-        frame.setVisible(true);
+        fenetre.frame3.pack();
+        fenetre.frame3.setVisible(false);
     }
     
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                //Turn off metal's use of bold fonts
-				UIManager.put("swing.boldMetal", Boolean.FALSE);
-				createAndShowGUI();
-			}
+            public void run(){ createAndShowGUI(); }
         });
-    }
+    }*/
 }
 

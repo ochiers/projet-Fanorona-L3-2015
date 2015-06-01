@@ -1,12 +1,13 @@
 package AI;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 import engine.*;
 
-public class HardAI extends Player {
+public class HardAI extends Player implements Serializable {
 	/**
 	 * 
 	 */

@@ -1,9 +1,11 @@
 package AI;
 
+import java.io.Serializable;
+
 import engine.Case;
 import engine.Game;
 
-public class Noeud {
+public class Noeud implements Serializable {
 	public Case[][] plateau;
 	public int nbPionsJoueur;
 	public int nbPionsAdversaire;

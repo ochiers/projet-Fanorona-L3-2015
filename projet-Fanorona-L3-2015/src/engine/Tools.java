@@ -13,6 +13,9 @@ public class Tools {
 	 */
 	public static Player createPlayer(EngineServices e, PlayerType p, String nom)
 	{
+		if(e == null || p == null || nom == null)
+			throw new RuntimeException("IMPOSSIBLE DE CREE LE JOUEUR");
+		
 		Player res;
 		switch (p)
 		{
@@ -29,7 +32,7 @@ public class Tools {
 				res = new HardAI(e, true, nom);
 				break;
 			default:
-				throw new RuntimeException();
+				throw new RuntimeException("IMPOSSIBLE DE CREE LE JOUEUR");
 		}
 		return res;
 	}
