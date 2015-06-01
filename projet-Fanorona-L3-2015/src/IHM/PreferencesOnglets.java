@@ -37,9 +37,6 @@ public class PreferencesOnglets extends JPanel {
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
         
         ChoixNoms panel2 = new ChoixNoms();
-    		// ajout fond
-	   // ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
-	    //panel2.add(imagefond);
         tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
@@ -70,8 +67,7 @@ public class PreferencesOnglets extends JPanel {
     }
     
     public void  majPref() {
-        fenetre.frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         //Ajouts
         fenetre.frame3.add(this, BorderLayout.CENTER);
         

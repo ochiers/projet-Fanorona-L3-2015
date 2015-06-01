@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class ChoixNoms extends JPanel {
+	static int pw = 699;
+	static int ph = 549;
 	
 	public ChoixNoms() {
 
@@ -36,19 +38,18 @@ public class ChoixNoms extends JPanel {
 		nom.setBounds(width, 50, width, height);
 		name1.setBounds(width, 150, width, height);
 		name2.setBounds(width, 350, width, height);
+			// ajout fond
+	    ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), pw, ph);
 			//ajouts
 		add(nom);
 		add(name1);
 		add(name2);
+		add(imagefond);
 	}
 	
-    private static void createAndShow() {
-		int pw = 699;
-		int ph = 549;
-		
+    private static void createAndShow() {		
     		//fenetre
 	    JFrame frame = new JFrame("Choix noms joueurs");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    	//ajout case texte
 	    JPanel tmpPanel = new ChoixNoms();
 	    frame.setContentPane(tmpPanel);
@@ -56,9 +57,9 @@ public class ChoixNoms extends JPanel {
 	    frame.setVisible(true);
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 	    javax.swing.SwingUtilities.invokeLater(new Runnable() {
 	        public void run() { createAndShow(); }
 	    });
-	}*/
+	}
 }
