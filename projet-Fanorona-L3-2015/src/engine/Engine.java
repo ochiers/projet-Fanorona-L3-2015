@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import network.NetworkManager;
 import AI.*;
 import IHM.Affichage;
 
@@ -18,13 +19,37 @@ import IHM.Affichage;
  * @author soulierc
  *
  */
+/**
+ * @author ochiers
+ *
+ */
 public class Engine implements EngineServices {
 
+	/**
+	 * Booleen permettant de connaitre l'etat courant du jeu. A savoir s'il est en pause ou non
+	 */
 	public boolean			gameInProgress;
+	
+	/**
+	 * C'est la partie sur laquelle on joue. C'est cette partie qui est modifiée par le mouvement des pions.
+	 */
 	private Game			partieCourante;
+	
+	/**
+	 *  Affichage utilisé par la partie courante (Graphique ou non)
+	 */
 	public Affichage		affichage;
+	
+	/**
+	 * Module pour annuler/refaire un ou plusieurs coups
+	 */
 	private UndoRedo<Game>	undoRedo;
+	
+	/**
+	 * Booleen permettant d'eviter que la partie ne soit en pause au lancement
+	 */
 	public boolean			premierJeu;
+	public NetworkManager	networkManager;
 
 	public Engine()
 	{
@@ -61,6 +86,13 @@ public class Engine implements EngineServices {
 		}
 	}
 
+	/**
+	 * Methode permettant de changer de joueur en cours de partie
+	 * @param g Partie sur laquelle on joue et que l'on veut modifiee
+	 * @param pB Joueur blanc
+	 * @param pN Joueur noir
+	 * @param jCourant Joueur dont c'est le tour
+	 */
 	private void changerPartieCourante(Game g, Player pB, Player pN, Pion jCourant)
 	{
 		if (partieCourante != null)
@@ -137,14 +169,14 @@ public class Engine implements EngineServices {
 		{
 			partieCourante = g;
 		}
-		System.out.println("/////VERIF////"+Tools.getTypePartie(g)+" "+Tools.getTypeOfPlayer(g.joueurBlanc)+" "+Tools.getTypeOfPlayer(g.joueurNoir)+" "+this.getPremierJoueur());
+		System.out.println("/////VERIF////" + Tools.getTypePartie(g) + " " + Tools.getTypeOfPlayer(g.joueurBlanc) + " " + Tools.getTypeOfPlayer(g.joueurNoir) + " " + this.getPremierJoueur());
 	}
 
 	@Override
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
 		System.out.println("Nouvelle partie demandee");
-		Game g = new Game(this.affichage, this.undoRedo, premierJoueur, p1, p2, size);
+		Game g = new Game(this, this.undoRedo, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
 		changerPartieCourante(g, p1, p2, (premierJoueur == 0) ? Pion.Blanc : Pion.Noir);
@@ -163,7 +195,6 @@ public class Engine implements EngineServices {
 		}
 	}
 
-
 	@Override
 	public void annuler()
 	{
@@ -173,7 +204,6 @@ public class Engine implements EngineServices {
 			changerPartieCourante(this.undoRedo.undo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 		}
 	}
-
 
 	@Override
 	public void refaire()
@@ -196,7 +226,6 @@ public class Engine implements EngineServices {
 	{
 		return undoRedo.canRedo();
 	}
-
 
 	@Override
 	public void sauvegarderPartie(String path)
@@ -231,7 +260,7 @@ public class Engine implements EngineServices {
 		{
 			ois = new ObjectInputStream(new FileInputStream(fichier));
 			Game g = (Game) ois.readObject();
-			g.display = this.affichage;
+			g.leMoteur = this;
 			g.combo = new ArrayList<Case>();
 			g.joueurBlanc.leMoteur = this;
 			g.joueurNoir.leMoteur = this;
@@ -360,19 +389,80 @@ public class Engine implements EngineServices {
 	public void changerLeJoueur(Player precedent, Player nouveau)
 	{
 		Game g = new Game(partieCourante);
-		if(this.partieCourante.joueurBlanc == precedent){
+		if (this.partieCourante.joueurBlanc == precedent)
+		{
 			g.joueurBlanc = nouveau;
 			g.joueurNoir = partieCourante.joueurNoir;
-		}
-		else {
+		} else
+		{
 			g.joueurNoir = nouveau;
 			g.joueurBlanc = partieCourante.joueurNoir;
 		}
-		if(this.partieCourante.joueurCourant == precedent)
+		if (this.partieCourante.joueurCourant == precedent)
 			g.joueurCourant = nouveau;
 		else
 			g.joueurCourant = partieCourante.joueurCourant;
-		changerPartieCourante(g,g.joueurBlanc,g.joueurNoir,((g.joueurBlanc==g.joueurCourant) ? Pion.Blanc : Pion.Noir));
+		changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, ((g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir));
+	}
+
+	@Override
+	public void hebergerPartie(int port)
+	{
+		if (this.networkManager != null)
+		{
+			try
+			{
+				this.networkManager.terminerPartieReseau();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		this.networkManager = new NetworkManager(this, port, null);
+		this.networkManager.hebergerPartie();
+		this.networkManager.start();
+
+	}
+
+	@Override
+	public void rejoindrePartie(int port, String ip)
+	{
+		if (this.networkManager != null)
+		{
+			try
+			{
+				this.networkManager.terminerPartieReseau();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		this.networkManager = new NetworkManager(this, port, ip);
+		this.networkManager.rejoindrePartie();
+		this.networkManager.start();
+
+	}
+
+	@Override
+	public NetworkManager getNetworkManager()
+	{
+		return this.networkManager;
+	}
+
+	@Override
+	public Affichage getCurrentDisplay()
+	{
+		return this.affichage;
+	}
+
+	@Override
+	public void envoyerCoup(Coup c)
+	{
+		if(this.networkManager != null)
+			this.networkManager.sendCoup(c);
 	}
 
 }

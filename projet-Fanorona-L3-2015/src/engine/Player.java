@@ -6,10 +6,25 @@ import java.util.ArrayList;
 public abstract class Player extends Thread implements Serializable {
 
 	private static final long		serialVersionUID	= -745601135784423811L;
+	
+	/**
+	 * Indique si le joueur est un humain ou un ordinateur
+	 */
 	public final boolean			aiPlayer;
+	
+	/**
+	 * Nom du joueur
+	 */
 	public String					name;
+	
 	public transient EngineServices	leMoteur;
+	
 	private boolean					stopped;
+	
+	/**
+	 * Avatar du joueur, sous oformae de chemin de fichier
+	 */
+	public String					avatar;
 
 	public Player(EngineServices leMoteur, boolean isAI, String name)
 	{
@@ -79,14 +94,12 @@ public abstract class Player extends Thread implements Serializable {
 			try
 			{
 				leMoteur.getCurrentGame().jouer(name);
-				System.out.println(name + " ********************************************");
 			} catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		System.out.println(name + "////////////////////////////////////////");
 	}
 
 }

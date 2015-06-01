@@ -1,5 +1,6 @@
 package engine;
 
+import network.NetworkPlayer;
 import AI.*;
 
 public class Tools {
@@ -53,6 +54,8 @@ public class Tools {
 			return PlayerType.IAMoyenne;
 		if (p instanceof HardAI)
 			return PlayerType.IADifficile;
+		if (p instanceof NetworkPlayer)
+			return PlayerType.Reseau;
 
 		throw new RuntimeException();
 	}
@@ -68,7 +71,9 @@ public class Tools {
 			return PlayerType.IAMoyenne;
 		if (p == 3)
 			return PlayerType.IADifficile;
-
+		if (p == 4)
+			return PlayerType.Reseau;
+		
 		throw new RuntimeException();
 	}
 
@@ -79,7 +84,8 @@ public class Tools {
 	 */
 	public static Configuration getTypePartie(Game g)
 	{
-		if (getTypeOfPlayer(g.joueurBlanc) == PlayerType.Humain && getTypeOfPlayer(g.joueurNoir) == PlayerType.Humain)
+		if ((getTypeOfPlayer(g.joueurBlanc) == PlayerType.Humain && getTypeOfPlayer(g.joueurNoir) == PlayerType.Humain) || 
+				(getTypeOfPlayer(g.joueurBlanc) == PlayerType.Reseau ||  getTypeOfPlayer(g.joueurNoir) == PlayerType.Reseau))
 			return Configuration.HumainVSHumain;
 		if (g.joueurBlanc.aiPlayer && g.joueurNoir.aiPlayer)
 			return Configuration.IAvsIA;
