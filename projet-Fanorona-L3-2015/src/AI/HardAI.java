@@ -1,12 +1,13 @@
 package AI;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 import engine.*;
 
-public class HardAI extends Player {
+public class HardAI extends Player implements Serializable {
 	/**
 	 * 
 	 */
@@ -20,12 +21,16 @@ public class HardAI extends Player {
 		premieresCasesPrises = new ArrayList<Case>();
 	}
 	
+	public int eval(Noeud n){
+		return n.nbPionsJoueur-n.nbPionsAdversaire;
+	}
+	
 	public int alphaBeta(Noeud n, Case[] listeCases, int alpha, int beta, boolean noeudMin, int profondeur, Pion couleurJoueur, ArrayList<Case> combo, boolean comboEnCours) {
 		int val = 0;
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, n, couleurJoueur);
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		if(profondeur == 0 || n.nbPionsAdversaire == 0 || n.nbPionsJoueur == 0) { /* Si on est sur une feuille ou qu'on a atteint la profondeur maximale */
-			return n.nbPionsJoueur-n.nbPionsAdversaire;
+			return eval(n);
 		}
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
@@ -44,17 +49,20 @@ public class HardAI extends Player {
 					if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0){
 						Noeud noeudPercussion = new Noeud(n);
 						Noeud noeudAspiration = new Noeud(n);
-						capturer(noeudPercussion, true, pionsACapturerRapprochement);
-						capturer(noeudAspiration, true, pionsACapturerEloignement);
+						ArrayList<Case> pionsACapturerRapprochement2 = determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+						ArrayList<Case> pionsACapturerEloignement2 = determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+						
+						capturer(noeudPercussion, true, pionsACapturerRapprochement2);
+						capturer(noeudAspiration, true, pionsACapturerEloignement2);
 						
 						noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
-						listeCases2[0] = n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						listeCases2[0] = noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						Case[] listeCases3 = new Case[1];
-						listeCases3[0] = n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						listeCases3[0] = noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						
 						ArrayList<Case> comboPercussion = new ArrayList<Case>(combo);
 						ArrayList<Case> comboAspiration = new ArrayList<Case>(combo);
@@ -73,7 +81,8 @@ public class HardAI extends Player {
 						ArrayList<Case> combo2 = new ArrayList<Case>(combo);
 						if(evaluationNbCapturésPercussion > 0) {
 							/* Capture et mise a jour du pion bougé */
-							capturer(nouveauNoeud, true, pionsACapturerRapprochement);
+							ArrayList<Case> pionsACapturerRapprochement2 = determinerPionsACapturerRapprochement(directionCoup, nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+							capturer(nouveauNoeud, true, pionsACapturerRapprochement2);
 							nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 							nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 							/* On détermine les nouveaux pions jouables */
@@ -84,7 +93,8 @@ public class HardAI extends Player {
 						}
 						else if (evaluationNbCapturésAspiration > 0) {
 							/* Capture et mise a jour du pion bougé */
-							capturer(nouveauNoeud, true, pionsACapturerEloignement);
+							ArrayList<Case> pionsACapturerEloignement2 = determinerPionsACapturerEloignement(directionCoup, nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+							capturer(nouveauNoeud, true, pionsACapturerEloignement2);
 							nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 							nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 							/* On détermine les nouveaux pions jouables */
@@ -133,8 +143,11 @@ public class HardAI extends Player {
 					if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0) {
 						Noeud noeudPercussion = new Noeud(n);
 						Noeud noeudAspiration = new Noeud(n);
-						capturer(noeudPercussion, false, pionsACapturerRapprochement);
-						capturer(noeudAspiration, false, pionsACapturerEloignement);
+						ArrayList<Case> pionsACapturerRapprochement2 = determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+						ArrayList<Case> pionsACapturerEloignement2 = determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+						
+						capturer(noeudPercussion, false, pionsACapturerRapprochement2);
+						capturer(noeudAspiration, false, pionsACapturerEloignement2);
 						
 						noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
@@ -142,9 +155,9 @@ public class HardAI extends Player {
 						noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						
 						Case[] listeCases2 = new Case[1];
-						listeCases2[0] = n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						listeCases2[0] = noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						Case[] listeCases3 = new Case[1];
-						listeCases3[0] = n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+						listeCases3[0] = noeudAspiration.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						
 						ArrayList<Case> comboPercussion = new ArrayList<Case>(combo);
 						ArrayList<Case> comboAspiration = new ArrayList<Case>(combo);
@@ -163,7 +176,8 @@ public class HardAI extends Player {
 						ArrayList<Case> combo2 = new ArrayList<Case>(combo);
 						if(evaluationNbCapturésPercussion > 0) {
 							/* Capture et mise a jour du pion bougé */
-							capturer(nouveauNoeud, false, pionsACapturerRapprochement);
+							ArrayList<Case> pionsACapturerRapprochement2 = determinerPionsACapturerRapprochement(directionCoup, nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+							capturer(nouveauNoeud, false, pionsACapturerRapprochement2);
 							nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 							nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 							/* On détermine les nouveaux pions jouables */
@@ -174,7 +188,8 @@ public class HardAI extends Player {
 						}
 						else if (evaluationNbCapturésAspiration > 0) {
 							/* Capture et mise a jour du pion bougé */
-							capturer(nouveauNoeud, false, pionsACapturerEloignement);
+							ArrayList<Case> pionsACapturerEloignement2 = determinerPionsACapturerEloignement(directionCoup, nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+							capturer(nouveauNoeud, false, pionsACapturerEloignement2);
 							nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 							nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 							/* On détermine les nouveaux pions jouables */
@@ -395,7 +410,7 @@ public class HardAI extends Player {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-		int profondeur = 8;
+		int profondeur = 6;
 		//long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
 		Noeud n = new Noeud(partieCourante);
@@ -420,15 +435,18 @@ public class HardAI extends Player {
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, n.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, n.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
 				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
-				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
-				
+				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();				
 				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 				 * des deux captures est la meilleure */				
 				if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0) { // Capture avec un choix
 					Noeud noeudPercussion = new Noeud(n);
 					Noeud noeudAspiration = new Noeud(n);
-					capturer(noeudPercussion, false, pionsACapturerRapprochement);
-					capturer(noeudAspiration, false, pionsACapturerEloignement);
+					
+					ArrayList<Case> pionsACapturerRapprochement2 = determinerPionsACapturerRapprochement(directionCoup, noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+					ArrayList<Case> pionsACapturerEloignement2 = determinerPionsACapturerEloignement(directionCoup, noeudAspiration.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+					
+					capturer(noeudPercussion, false, pionsACapturerRapprochement2);
+					capturer(noeudAspiration, false, pionsACapturerEloignement2);
 					
 					noeudPercussion.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 					noeudPercussion.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
@@ -464,7 +482,8 @@ public class HardAI extends Player {
 					combo.add(nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne]);
 					combo.add(nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					if(evaluationNbCapturésPercussion > 0) {
-						capturer(nouveauNoeud, false, pionsACapturerRapprochement);
+						ArrayList<Case> pionsACapturerRapprochement2 = determinerPionsACapturerRapprochement(directionCoup, nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
+						capturer(nouveauNoeud, false, pionsACapturerRapprochement2);
 						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
@@ -473,7 +492,8 @@ public class HardAI extends Player {
 						res = alphaBeta(nouveauNoeud, listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 					}
 					else if(evaluationNbCapturésAspiration > 0) {
-						capturer(nouveauNoeud, false, pionsACapturerEloignement);
+						ArrayList<Case> pionsACapturerEloignement2 = determinerPionsACapturerEloignement(directionCoup, nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
+						capturer(nouveauNoeud, false, pionsACapturerEloignement2);
 						nouveauNoeud.plateau[coupCourant.depart.ligne][coupCourant.depart.colonne].pion = null;
 						nouveauNoeud.plateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].pion = couleurJoueur;
 						Case[] listeCases2 = new Case[1];
@@ -489,9 +509,12 @@ public class HardAI extends Player {
 						pionsJouables = lesPionsJouables(nouveauNoeud, couleurAdversaire);
 						Case[] listeCases2 = new Case[pionsJouables.size()];
 						combo.clear();
-						res = alphaBeta(nouveauNoeud,pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo, false);
+						res = alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo, false);
 					}
 				}
+				// PRINT
+				//Coup p = coupCourant;
+				//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 			}
 			else if(leMoteur.enCombo()){
 				Noeud nouveauNoeud = new Noeud(n);
@@ -501,9 +524,7 @@ public class HardAI extends Player {
 				Case[] listeCases2 = new Case[pionsJouables.size()];
 				res = alphaBeta(nouveauNoeud, pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
 			}
-			// PRINT
-			//Coup p = coupCourant;
-			//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+			
 			
 			if(res > meilleurRes){
 				meilleurRes = res;

@@ -3,6 +3,7 @@ package IHM;
 import java.util.ArrayList;
 
 import engine.Case;
+import engine.Coup;
 import engine.Player;
 
 /**
@@ -65,4 +66,17 @@ public interface Affichage {
 	 * @param reussi : Indique si le chargement a reussi
 	 */
 	public void chargementReussi(boolean reussi);
+	
+	
+	/**
+	 * Affiche le coup qui vient d'etre joue et qui est valide
+	 * @param c Le coup joue
+	 */
+	public void afficherCoupJoue(Coup c);
+	
+	/**
+	 * Affiche les pions qui ont ete captures par le coup effectue
+	 * @param list La liste des pions captures
+	 */
+	public void afficherPionsCaptures(ArrayList<Case> list);
 }

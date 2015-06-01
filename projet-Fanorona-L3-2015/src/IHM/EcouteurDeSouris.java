@@ -18,36 +18,8 @@ public class EcouteurDeSouris implements MouseListener{
 		if(!aire.fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !aire.fenetre.engine.getCurrentGame().isPaused()){
 			int buttonDown = e.getButton();
 			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
-				Coordonnee p=new Coordonnee(-1,-1);	
-				p.colonne=e.getX()-(aire.decalageL-aire.segment);
-				p.ligne=e.getY()-(aire.decalageH-aire.segment);
-				int nbCoteLargeur=p.colonne/aire.segment;
-				int nbCoteHauteur=p.ligne/aire.segment;
-				System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
-				System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
-							
-				Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.segment,nbCoteLargeur*aire.segment);// haut gauche
-				Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.segment,(nbCoteLargeur+1)*aire.segment);//haut droit
-				Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.segment,nbCoteLargeur*aire.segment);//bas gauche
-				Coordonnee p4=new Coordonnee((nbCoteHauteur+1)*aire.segment,(nbCoteLargeur+1)*aire.segment);//bas droit
 				Coordonnee pfinal=new Coordonnee(-1,-1);
-				
-				if(distance(p,p1)<=(aire.tailleJeton/2)){
-					pfinal.colonne=nbCoteLargeur-1;
-					pfinal.ligne=nbCoteHauteur-1;
-				}
-				else if(distance(p,p2)<=(aire.tailleJeton/2)){
-					pfinal.colonne=nbCoteLargeur;
-					pfinal.ligne=nbCoteHauteur-1;
-				}
-				else if(distance(p,p3)<=(aire.tailleJeton/2)){
-					pfinal.colonne=nbCoteLargeur-1;
-					pfinal.ligne=nbCoteHauteur;		
-				}
-				else if(distance(p,p4)<=(aire.tailleJeton/2)){
-					pfinal.colonne=nbCoteLargeur;
-					pfinal.ligne=nbCoteHauteur;
-				}
+				pfinal=position(e.getX(),e.getY());
 				if(pfinal.colonne!=-1 && pfinal.ligne!=-1){
 					if(aire.pionCliquer){
 							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,pfinal);
@@ -85,17 +57,22 @@ public class EcouteurDeSouris implements MouseListener{
 			
 		}
 	}
+	
 	public void mouseEntered(MouseEvent e) {
+	
 	}
+	
+	
 	public void mouseExited(MouseEvent e) {
+	
 	}
+	
 	public void mousePressed(MouseEvent e) {
-		/*
-		 	System.out.println(e.getX());
-		 	System.out.println(e.getY());
-		 */
+		
 	}
+	
 	public void mouseReleased(MouseEvent e) {
+	
 	}
 	
 	public int sqr(int a) {
@@ -106,4 +83,38 @@ public class EcouteurDeSouris implements MouseListener{
         return (int)Math.sqrt(sqr(p2.colonne - p1.colonne) + sqr(p2.ligne - p1.ligne));
     } 
 
+    public Coordonnee position(int x,int y){
+    	Coordonnee p=new Coordonnee(-1,-1);	
+		p.colonne=x-(aire.decalageL-aire.segment);
+		p.ligne=y-(aire.decalageH-aire.segment);
+		int nbCoteLargeur=p.colonne/aire.segment;
+		int nbCoteHauteur=p.ligne/aire.segment;
+		System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
+		System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
+					
+		Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.segment,nbCoteLargeur*aire.segment);// haut gauche
+		Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.segment,(nbCoteLargeur+1)*aire.segment);//haut droit
+		Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.segment,nbCoteLargeur*aire.segment);//bas gauche
+		Coordonnee p4=new Coordonnee((nbCoteHauteur+1)*aire.segment,(nbCoteLargeur+1)*aire.segment);//bas droit
+		Coordonnee pfinal=new Coordonnee(-1,-1);
+		
+		if(distance(p,p1)<=(aire.tailleJeton/2)){
+			pfinal.colonne=nbCoteLargeur-1;
+			pfinal.ligne=nbCoteHauteur-1;
+		}
+		else if(distance(p,p2)<=(aire.tailleJeton/2)){
+			pfinal.colonne=nbCoteLargeur;
+			pfinal.ligne=nbCoteHauteur-1;
+		}
+		else if(distance(p,p3)<=(aire.tailleJeton/2)){
+			pfinal.colonne=nbCoteLargeur-1;
+			pfinal.ligne=nbCoteHauteur;		
+		}
+		else if(distance(p,p4)<=(aire.tailleJeton/2)){
+			pfinal.colonne=nbCoteLargeur;
+			pfinal.ligne=nbCoteHauteur;
+		}
+		return pfinal;
+    	
+    }
 }
