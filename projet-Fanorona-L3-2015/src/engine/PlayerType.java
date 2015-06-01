@@ -2,5 +2,5 @@ package engine;
 
 public enum PlayerType
 {
-	Humain, IAFacile, IAMoyenne, IADifficile
+	Humain, IAFacile, IAMoyenne, IADifficile, Reseau
 }
