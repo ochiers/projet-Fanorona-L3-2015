@@ -224,7 +224,7 @@ public class Fenetre implements Runnable,Affichage {
 		
 		frame.setJMenuBar(menuBar);
  		frame.add(panelAccueil);
-	//	frame.setResizable(false);
+		//frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -306,7 +306,7 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_options_preferences implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			frame3.setVisible(true);
+			preference.setVisible(true);
 	    }               
 
 	}
