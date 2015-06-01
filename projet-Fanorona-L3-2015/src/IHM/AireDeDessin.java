@@ -31,7 +31,7 @@ public class AireDeDessin extends JComponent {
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
-        segment=Fenetre.frame.getWidth()*4/60;
+        segment=fenetre.frame.getWidth()*4/60;
         segment = 85;
         halo=Color.green;
         haloChoix=Color.blue;
