@@ -1,5 +1,6 @@
 package network;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,6 +11,8 @@ import java.net.Socket;
 import engine.Coordonnee;
 import engine.Coup;
 import engine.EngineServices;
+import engine.Player;
+import engine.Tools;
 
 public class NetworkManager extends Thread {
 
@@ -19,11 +22,14 @@ public class NetworkManager extends Thread {
 	public Socket			socketEnvoiPrincipal;
 	public InputStream		reception;
 	public OutputStream		envoi;
-	public EngineServices	engine;
+	public EngineServices	leMoteur;
+	public Coup				coupRecu;
+	public Coordonnee		coordonneeRecu;
+	private boolean			enReception;
 
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
-		this.engine = e;
+		this.leMoteur = e;
 		this.ip = ip;
 		this.port = port;
 	}
@@ -88,20 +94,58 @@ public class NetworkManager extends Thread {
 
 	/**
 	 * Envoie de la configuration de la machine principale vers la deuxi�me.
+	 * 
+	 * @throws IOException
 	 */
-	public void sendRequete(RequestType req)
+	public void sendRequete(int req) throws IOException
 	{
-		
+		this.envoi.write(req);
 	}
 
 	/**
 	 * Méthode permettant de recevoir la configuration partagée entre les 2 ordinateurs.
+	 * 
+	 * @throws IOException
 	 */
-	public RequestType receiveRequete()
+	public boolean receiveRequete() throws IOException
 	{
-		RequestType res = null;
-		
-		return null;
+		int req = this.reception.read();
+		switch (req)
+		{
+			case RequestType.EnvoiCoup:
+				coupRecu = receiveCoup();
+				break;
+			case RequestType.Annuler:
+				leMoteur.annuler();
+				break;
+			case RequestType.FinDuTour:
+				leMoteur.finirSonTour();
+				break;
+			case RequestType.NouvellePartie:
+			case RequestType.Quitter:
+				terminerPartieReseau();
+				leMoteur.stopper();
+				return false;
+			case RequestType.Recommencer:
+				Player p1 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurBlanc())), leMoteur.getJoueurBlanc().name);
+				Player p2 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurNoir())), leMoteur.getJoueurNoir().name);
+				leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
+				break;
+			case RequestType.Refaire:
+				leMoteur.refaire();
+				break;
+			case RequestType.EnvoiCase :
+				coordonneeRecu = receiveCoordonnee();
+		}
+		return true;
+	}
+
+	public void terminerPartieReseau() throws IOException
+	{
+		this.reception.close();
+		this.envoi.close();
+		this.socketEnvoiPrincipal.close();
+		this.socketServeurPrincipal.close();
 	}
 
 	/**
@@ -111,6 +155,7 @@ public class NetworkManager extends Thread {
 	{
 		try
 		{
+			this.sendRequete(RequestType.EnvoiCoup);
 			this.envoi.write(c.depart.colonne);
 			attenteNotif();
 			this.envoi.write(c.depart.ligne);
@@ -120,26 +165,26 @@ public class NetworkManager extends Thread {
 			this.envoi.write(c.arrivee.ligne);
 		} catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Réception du coup envoyé sur le réseau.
 	 */
-	public Coup receiveCoup()
+	public synchronized Coup receiveCoup()
 	{
 		Coup c = null;
+		enReception = true;
 		try
 		{
 			int col1, lig1, col2, lig2;
 			col1 = col2 = lig1 = lig2 = -1;
 
-			while(col1 == -1){
+			while (col1 == -1)
 				col1 = this.reception.read();
-			}
-			
 			this.envoi.write(852);
-			while(lig1 == -1)
+			while (lig1 == -1)
 				lig1 = this.reception.read();
 			this.envoi.write(852);
 			while (col2 == -1)
@@ -149,14 +194,43 @@ public class NetworkManager extends Thread {
 				lig2 = this.reception.read();
 			this.envoi.write(852);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
-		}
-		catch (Exception e){
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
+		enReception = false;
+		notifyAll();
 		return c;
 
 	}
 
+	public synchronized Coordonnee receiveCoordonnee()
+	{
+		Coordonnee c = null;
+		enReception = true;
+		try
+		{
+			int col1, lig1;
+			col1 = lig1 = -1;
+
+			while (col1 == -1)
+				col1 = this.reception.read();
+			this.envoi.write(852);
+			while (lig1 == -1)
+				lig1 = this.reception.read();
+			this.envoi.write(852);
+			
+			c = new Coordonnee(lig1,col1);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		enReception = false;
+		notifyAll();
+		return c;
+
+	}
+	
 	public void attenteNotif() throws InterruptedException, IOException
 	{
 
@@ -170,7 +244,7 @@ public class NetworkManager extends Thread {
 	public static void main(String args[]) throws IOException
 	{
 
-		NetworkManager net = new NetworkManager(null,12345, args[0]);
+		NetworkManager net = new NetworkManager(null, 12345, args[0]);
 		if (args[1].equals("client"))
 		{
 			net.rejoindrePartie();
@@ -183,5 +257,63 @@ public class NetworkManager extends Thread {
 			net.socketServeurPrincipal.close();
 		}
 
+	}
+
+	public void run()
+	{
+
+		try
+		{
+			while (receiveRequete())
+			{
+				try
+				{
+					Thread.sleep(50);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+	public synchronized Coup getCoupRecu()
+	{
+		while (enReception)
+			try
+			{
+				wait();
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
+		Coup res = null;
+		if (coupRecu != null)
+			res = coupRecu;
+		coupRecu = null;
+		return res;
+	}
+
+	public synchronized Coordonnee getCoordonnee()
+	{
+		while (enReception)
+			try
+			{
+				wait();
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
+		Coordonnee res = null;
+		if (coordonneeRecu != null)
+			res = coordonneeRecu;
+		coordonneeRecu = null;
+		return res;
 	}
 }
