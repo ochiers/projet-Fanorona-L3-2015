@@ -150,8 +150,10 @@ public class NetworkManager {
 	
 	public void attenteNotif() throws InterruptedException, IOException{
 		
-		while(this.reception.read() != -1)
+		while(this.reception.read() == -1)
+		{
 			Thread.sleep(50);
+		}
 		
 	}
 	
