@@ -13,14 +13,15 @@ import javax.swing.JTextField;
 import AI.HumanPlayer;
 import network.NetworkPlayer;
 import engine.Engine;
-import engine.EngineServices;
 import engine.Player;
 import engine.Tools;
 
 public class RejoindrePartieReseauIHM extends JFrame {
 
+	private static final long	serialVersionUID	= 1L;
+	
+	private static Engine		leMoteur;
 	public static JFrame		frame;
-	public static Engine		leMoteur;
 
 	private static String		titleFrame	= "Rejoindre une partie en réseau";
 	private static int			width		= 280;
@@ -34,7 +35,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 	public RejoindrePartieReseauIHM(Engine moteur)
 	{
-		this.leMoteur = moteur;
+		RejoindrePartieReseauIHM.setLeMoteur(moteur);
 	}
 
 	public static void init()
@@ -85,6 +86,16 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		init();
 	}
 
+	public static Engine getLeMoteur()
+	{
+		return leMoteur;
+	}
+
+	public static void setLeMoteur(Engine leMoteur)
+	{
+		RejoindrePartieReseauIHM.leMoteur = leMoteur;
+	}
+
 }
 
 class rejoindreListener implements ActionListener {
@@ -92,7 +103,7 @@ class rejoindreListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Engine moteur = RejoindrePartieReseauIHM.leMoteur;
+		Engine moteur = RejoindrePartieReseauIHM.getLeMoteur();
 		String ip = RejoindrePartieReseauIHM.txt_saisieIp.getText();
 		if (Tools.isValidIP(ip))
 		{
