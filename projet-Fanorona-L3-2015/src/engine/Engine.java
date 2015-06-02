@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import network.NetworkManager;
+import network.NetworkPlayer;
 import AI.*;
 import IHM.Affichage;
 
@@ -461,7 +462,7 @@ public class Engine implements EngineServices {
 	@Override
 	public void envoyerCoup(Coup c)
 	{
-		if(this.networkManager != null)
+		if(this.networkManager != null && this.getJoueurCourant() instanceof NetworkPlayer)
 			this.networkManager.setaEnvoyer(c);
 	}
 
