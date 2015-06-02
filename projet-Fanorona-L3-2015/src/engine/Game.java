@@ -233,7 +233,7 @@ public class Game implements Serializable {
 	public synchronized void jouer(String nameJoueur) throws InterruptedException
 	{
 
-		System.err.println(nameJoueur + " rentre ne section critique");
+		System.err.println(nameJoueur + " rentre en section critique, nom du joueur courant : " + joueurCourant.name);
 		while (!stopped && !nameJoueur.equals(joueurCourant.name))
 		{
 			wait();
