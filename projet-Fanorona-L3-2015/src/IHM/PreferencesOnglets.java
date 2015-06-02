@@ -11,6 +11,8 @@ import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
@@ -22,6 +24,7 @@ public class PreferencesOnglets extends JPanel {
     int pBh = 30;
     
     Fenetre fenetre;
+    ImageIcon iconSave;
     
 	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
@@ -32,9 +35,10 @@ public class PreferencesOnglets extends JPanel {
         tabbedPane.setPreferredSize(new Dimension(width, height));
         ImageIcon icon = new ImageIcon("src/images/iconFano.jpg");
         
-        ChoixFond panel1 = new ChoixFond();
+        ChoixFond panel1 = new ChoixFond(fenetre);
         tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+      //  iconSave=fenetre.panelAccueil.getImage().
         
         ChoixNoms panel2 = new ChoixNoms();
     		// ajout fond
@@ -78,6 +82,37 @@ public class PreferencesOnglets extends JPanel {
         fenetre.frame3.pack();
         fenetre.frame3.setVisible(false);
     }
+    
+    class ItemAction_ok implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	    	fenetre.frame3.setVisible(false);
+	    }               
+
+	}
+    
+  /*  class ItemAction_annuler implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println("Image 1 "+img1.getIcon().toString() );
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img1.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	     
+	      fenetre.frame.repaint();
+	      fenetre.frame3.setVisible(false);
+	    }               
+
+	}
+    
+    class ItemAction_reset implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println("Image 1 "+img1.getIcon().toString() );
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img1.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.frame.repaint();
+	      fenetre.frame3.setVisible(false);
+	    }               
+
+	}*/
     
    /* public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

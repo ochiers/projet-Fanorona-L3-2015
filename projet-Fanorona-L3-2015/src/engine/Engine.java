@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import network.NetworkManager;
+import network.NetworkPlayer;
 import AI.*;
 import IHM.Affichage;
 
@@ -68,7 +69,7 @@ public class Engine implements EngineServices {
 			{
 				while (!gameInProgress)
 				{
-					System.out.print("Attente d'une partie");
+					//System.out.print("Attente d'une partie");
 					Thread.sleep(500);
 				}
 				partieCourante.pause();
@@ -169,13 +170,13 @@ public class Engine implements EngineServices {
 		{
 			partieCourante = g;
 		}
-		System.out.println("/////VERIF////" + Tools.getTypePartie(g) + " " + Tools.getTypeOfPlayer(g.joueurBlanc) + " " + Tools.getTypeOfPlayer(g.joueurNoir) + " " + this.getPremierJoueur());
+		//System.out.println("/////VERIF////" + Tools.getTypePartie(g) + " " + Tools.getTypeOfPlayer(g.joueurBlanc) + " " + Tools.getTypeOfPlayer(g.joueurNoir) + " " + this.getPremierJoueur());
 	}
 
 	@Override
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
-		System.out.println("Nouvelle partie demandee");
+		//System.out.println("Nouvelle partie demandee");
 		Game g = new Game(this, this.undoRedo, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
@@ -461,8 +462,12 @@ public class Engine implements EngineServices {
 	@Override
 	public void envoyerCoup(Coup c)
 	{
-		if(this.networkManager != null)
-			this.networkManager.sendCoup(c);
+		System.out.println("envoi ?");
+		if(this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)){
+			System.out.println("envoye de " +c);
+			this.networkManager.setaEnvoyer(c);
+			
+		}
 	}
 
 }

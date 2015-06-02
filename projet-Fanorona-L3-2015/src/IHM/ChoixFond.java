@@ -3,6 +3,8 @@ package IHM;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -12,11 +14,21 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class ChoixFond extends JPanel {
+	Fenetre fenetre;
+	JButton img1;
+	JButton img2;
+	JButton img3;
+	JButton img4;
+	JButton img5;
+	JButton img6;
+	JButton img7;
+	JButton img8;
+	JButton imgDef;
 	
-	public ChoixFond() {
+	public ChoixFond(Fenetre f) {
 
 		super(new GridLayout(3,3));	//super constructeur par defaut
-		
+		fenetre=f;
 		int width = 233;
 		int height = 173;
 		
@@ -31,19 +43,19 @@ public class ChoixFond extends JPanel {
 		ImageIcon image8 = new ImageIcon("src/images/iconimage8.jpg");
 		ImageIcon imageDefaut = new ImageIcon("src/images/iconimageDefault.jpg");
 			// ajout boutons
-		JButton img1 = new JButton((Icon)image1);
-		JButton img2 = new JButton((Icon)image2);
-		JButton img3 = new JButton((Icon)image3);
-		JButton img4 = new JButton((Icon)image4);
-		JButton img5 = new JButton((Icon)image5);
-		JButton img6 = new JButton((Icon)image6);
-		JButton img7 = new JButton((Icon)image7);
-		JButton img8 = new JButton((Icon)image8);
-		JButton imgDef = new JButton((Icon)imageDefaut);
+		img1 = new JButton((Icon)image1);
+		img2 = new JButton((Icon)image2);
+		img3 = new JButton((Icon)image3);
+		img4 = new JButton((Icon)image4);
+		img5 = new JButton((Icon)image5);
+		img6 = new JButton((Icon)image6);
+		img7 = new JButton((Icon)image7);
+		img8 = new JButton((Icon)image8);
+		imgDef = new JButton((Icon)imageDefaut);
 
-		/*	// ajout listener
-		img1.addActionListener(new Listener1());
-		img2.addActionListener(new Listener2());
+			// ajout listener
+		img1.addActionListener(new ItemAction_img1());
+	/*	img2.addActionListener(new Listener2());
 		img3.addActionListener(new Listener3());
 		img4.addActionListener(new Listener4());
 		img5.addActionListener(new Listener5());
@@ -62,7 +74,17 @@ public class ChoixFond extends JPanel {
 		add(imgDef);
 	}
 	
-    private static void createAndShow() {
+	class ItemAction_img1 implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println("Image 1 "+img1.getIcon().toString() );
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img1.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.frame.repaint();
+	    }               
+
+	}
+	
+  /*  private static void createAndShow() {
 		int pw = 699;
 		int ph = 549;
 		
@@ -77,7 +99,7 @@ public class ChoixFond extends JPanel {
 	
 	    frame.pack();
 	    frame.setVisible(true);
-	}
+	}*/
 	
 	/*public static void main(String[] args) {
 	    javax.swing.SwingUtilities.invokeLater(new Runnable() {

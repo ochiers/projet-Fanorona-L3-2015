@@ -29,6 +29,7 @@ public class NetworkPlayer extends Player {
 			try
 			{
 				Thread.sleep(50);
+				//System.out.print("jattend");
 			} catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block

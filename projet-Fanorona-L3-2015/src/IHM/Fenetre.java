@@ -311,7 +311,8 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_options_preferences implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			preference.setVisible(true);
+			System.out.println("test");
+			frame3.setVisible(true);
 	    }               
 
 	}
