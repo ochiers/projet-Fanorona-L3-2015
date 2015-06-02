@@ -24,13 +24,13 @@ public class PreferencesOnglets extends JPanel {
     int pBh = 30;
     
     Fenetre fenetre;
-    ImageIcon iconSave;
+    ImagePanel iconSave;
     
 	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
 		
 		fenetre = f;
-		
+		iconSave=fenetre.panelAccueil;
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setPreferredSize(new Dimension(width, height));
         ImageIcon icon = new ImageIcon("src/images/iconFano.jpg");
@@ -38,7 +38,7 @@ public class PreferencesOnglets extends JPanel {
         ChoixFond panel1 = new ChoixFond(fenetre);
         tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-      //  iconSave=fenetre.panelAccueil.getImage().
+        
         
         ChoixNoms panel2 = new ChoixNoms();
     		// ajout fond
@@ -55,11 +55,11 @@ public class PreferencesOnglets extends JPanel {
 	    JPanel panelBouton = new JPanel(new GridLayout(1,3));
 	    	//mettre 3 boutons
 	    JButton ok = new JButton(" VALIDER ");
-	    	ok.addActionListener(new okListener());
+	    	ok.addActionListener(new ItemAction_ok());
 	    JButton annuler = new JButton(" ANNULER ");
-	    	annuler.addActionListener(new cancelListener());
+	    	annuler.addActionListener(new ItemAction_annuler());
 	    JButton reset = new JButton(" REMETTRE PAR DEFAUT ");
-	    	reset.addActionListener(new resetListener());
+	    	reset.addActionListener(new ItemAction_reset());
 	    panelBouton.add(ok);
 	    panelBouton.add(annuler);
 	    panelBouton.add(reset);
@@ -74,7 +74,6 @@ public class PreferencesOnglets extends JPanel {
     }
     
     public void  majPref() {
-        fenetre.frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //Ajouts
         fenetre.frame3.add(this, BorderLayout.CENTER);
@@ -91,14 +90,14 @@ public class PreferencesOnglets extends JPanel {
 
 	}
     
-  /*  class ItemAction_annuler implements ActionListener{
+    //Ne Marche pas
+    class ItemAction_annuler implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      System.out.println("Image 1 "+img1.getIcon().toString() );
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img1.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
-	     
-	      fenetre.frame.repaint();
-	      fenetre.frame3.setVisible(false);
+	    	System.out.println("Image panel: "+fenetre.panelAccueil.getImage().toString()+"    "+iconSave.getImage().toString());
+		      fenetre.panelAccueil=new ImagePanel(iconSave.getImage(), fenetre.fw, fenetre.fh); // panelAccueil et iconSave sont deja egale ...
+		      fenetre.frame.repaint();
+		      fenetre.frame3.setVisible(false);
 	    }               
 
 	}
@@ -106,13 +105,13 @@ public class PreferencesOnglets extends JPanel {
     class ItemAction_reset implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      System.out.println("Image 1 "+img1.getIcon().toString() );
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img1.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/iconimageDefault.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      
 	      fenetre.frame.repaint();
 	      fenetre.frame3.setVisible(false);
 	    }               
 
-	}*/
+	}
     
    /* public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
