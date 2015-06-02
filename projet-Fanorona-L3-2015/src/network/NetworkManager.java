@@ -61,7 +61,7 @@ public class NetworkManager extends Thread {
 	 * 
 	 */
 	public void hebergerPartie()
-	{	
+	{
 		System.out.println("Partie en réseau ---------------------------------- ");
 		try
 		{
@@ -119,38 +119,42 @@ public class NetworkManager extends Thread {
 	 */
 	public boolean receiveRequete() throws IOException
 	{
-		System.out.println("Reception requete ************************************************************************* ");
-		int req = this.reception.read();
-		switch (req)
+		if (this.reception.available() > 0)
 		{
-			case RequestType.EnvoiCoup:
-				coupRecu = receiveCoup();
-				break;
-			case RequestType.Annuler:
-				leMoteur.annuler();
-				break;
-			case RequestType.FinDuTour:
-				leMoteur.finirSonTour();
-				break;
-			case RequestType.NouvellePartie:
-			case RequestType.Quitter:
-				terminerPartieReseau();
-				leMoteur.stopper();
-				return false;
-			case RequestType.Recommencer:
-				Player p1 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurBlanc())), leMoteur.getJoueurBlanc().name);
-				Player p2 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurNoir())), leMoteur.getJoueurNoir().name);
-				leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
-				break;
-			case RequestType.Refaire:
-				leMoteur.refaire();
-				break;
-			case RequestType.EnvoiCase:
-				coordonneeRecu = receiveCoordonnee();
+			System.out.println("Reception requete ************************************************************************* ");
+			System.out.flush();
+			int req = this.reception.read();
+			switch (req)
+			{
+				case RequestType.EnvoiCoup:
+					coupRecu = receiveCoup();
+					break;
+				case RequestType.Annuler:
+					leMoteur.annuler();
+					break;
+				case RequestType.FinDuTour:
+					leMoteur.finirSonTour();
+					break;
+				case RequestType.NouvellePartie:
+				case RequestType.Quitter:
+					terminerPartieReseau();
+					leMoteur.stopper();
+					return false;
+				case RequestType.Recommencer:
+					Player p1 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurBlanc())), leMoteur.getJoueurBlanc().name);
+					Player p2 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurNoir())), leMoteur.getJoueurNoir().name);
+					leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
+					break;
+				case RequestType.Refaire:
+					leMoteur.refaire();
+					break;
+				case RequestType.EnvoiCase:
+					coordonneeRecu = receiveCoordonnee();
+			}
+			System.out.println("Reception terminee ************************************************************************* ");
 		}
-		System.out.println("Reception terminee ************************************************************************* ");
 		return true;
-		
+
 	}
 
 	public void terminerPartieReseau() throws IOException
@@ -232,7 +236,7 @@ public class NetworkManager extends Thread {
 
 	public synchronized Coordonnee receiveCoordonnee()
 	{
-		
+
 		Coordonnee c = null;
 		enReception = true;
 		try
@@ -276,6 +280,7 @@ public class NetworkManager extends Thread {
 	{
 		try
 		{
+			System.out.println("RESEAU TERMINE");
 			while (envoyerCoup() && receiveRequete())
 			{
 				try
