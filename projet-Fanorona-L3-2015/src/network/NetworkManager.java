@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Stack;
 
 import engine.Case;
 import engine.Coordonnee;
@@ -55,11 +56,11 @@ public class NetworkManager extends Thread {
 	/**
 	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le reseau
 	 */
-	public Coup				coupRecu;
+	public Stack<Coup>				coupsRecu;
 	/**
 	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le reseau
 	 */
-	public Coordonnee		coordonneeRecu;
+	public Stack<Coordonnee>		coordonneesRecu;
 	
 	/**
 	 * Le coup qui doit etre envoyé sur le reseau
@@ -75,6 +76,8 @@ public class NetworkManager extends Thread {
 		this.leMoteur = e;
 		this.ip = ip;
 		this.port = port;
+		this.coupsRecu = new Stack<Coup>();
+		this.coordonneesRecu = new Stack<Coordonnee>();
 	}
 	
 	/**
@@ -122,8 +125,10 @@ public class NetworkManager extends Thread {
 	{
 		this.reception.close();
 		this.envoi.close();
-		this.socketEnvoiPrincipal.close();
-		this.socketServeurPrincipal.close();
+		if(socketEnvoiPrincipal != null)
+			this.socketEnvoiPrincipal.close();
+		if(socketServeurPrincipal != null)
+			this.socketServeurPrincipal.close();
 	}
 
 	/**
@@ -152,12 +157,11 @@ public class NetworkManager extends Thread {
 	{
 		if (this.reception.available() > 0)
 		{
-			System.out.flush();
 			int req = this.reception.read();
 			switch (req)
 			{
 				case RequestType.EnvoiCoup:
-					coupRecu = receiveCoup();
+					coupsRecu.push(receiveCoup());
 					break;
 				case RequestType.Annuler:
 					leMoteur.annuler(false);
@@ -179,7 +183,7 @@ public class NetworkManager extends Thread {
 					leMoteur.refaire(false);
 					break;
 				case RequestType.EnvoiCase:
-					coordonneeRecu = receiveCoordonnee();
+					coordonneesRecu.add(receiveCoordonnee());
 			}
 		}
 		return true;
@@ -256,20 +260,19 @@ public class NetworkManager extends Thread {
 
 	public Coup getCoupRecu()
 	{
-
 		Coup res = null;
-		if (coupRecu != null)
-			res = coupRecu;
-		coupRecu = null;
+		if (!coupsRecu.empty())
+			res = coupsRecu.pop();
+		System.out.println("Coup recu : " + res);
+		
 		return res;
 	}
 
 	public Coordonnee getCoordonnee()
 	{
 		Coordonnee res = null;
-		if (coordonneeRecu != null)
-			res = coordonneeRecu;
-		coordonneeRecu = null;
+		if (!coordonneesRecu.empty())
+			res = coordonneesRecu.pop();
 		return res;
 	}
 

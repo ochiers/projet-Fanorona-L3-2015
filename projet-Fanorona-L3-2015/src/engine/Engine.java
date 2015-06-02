@@ -202,6 +202,7 @@ public class Engine implements EngineServices {
 		if (partieCourante != null)
 		{
 			this.partieCourante.finir();
+			this.gameInProgress = false;
 		}
 	}
 
@@ -491,6 +492,25 @@ public class Engine implements EngineServices {
 			this.networkManager.setCoordoneeAEnvoyer(c);
 
 		}
+	}
+
+	@Override
+	public void quitter()
+	{
+		this.stopper();
+		getNetworkManager().sendRequete(RequestType.Quitter);
+		try
+		{
+			getNetworkManager().terminerPartieReseau();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.flush();
+		System.err.flush();
+		System.out.println("~~~~~ Application terminee ~~~~~");
+		System.exit(0);
 	}
 
 }
