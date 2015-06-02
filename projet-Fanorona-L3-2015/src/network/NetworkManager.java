@@ -222,7 +222,7 @@ public class NetworkManager extends Thread {
 			while (lig2 == -1)
 				lig2 = this.reception.read();
 			System.out.print('d');
-			this.envoi.write(100);
+			//this.envoi.write(100);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
 		} catch (Exception e)
 		{

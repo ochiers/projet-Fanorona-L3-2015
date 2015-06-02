@@ -462,8 +462,12 @@ public class Engine implements EngineServices {
 	@Override
 	public void envoyerCoup(Coup c)
 	{
-		if(this.networkManager != null && this.getJoueurCourant() instanceof NetworkPlayer)
+		System.out.println("envoi ?");
+		if(this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)){
+			System.out.println("envoyé !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			this.networkManager.setaEnvoyer(c);
+			
+		}
 	}
 
 }
