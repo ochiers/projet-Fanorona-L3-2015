@@ -4,9 +4,7 @@ import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import AI.HumanPlayer;
-import IHM.Affichage;
 
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la methode jouer()
@@ -395,11 +393,16 @@ public class Game implements Serializable {
 	 * 
 	 * @param c
 	 *            Le coup joué
-	 * @param pionJoue
+	 * @param pionJoue Pion avec lequel on joue
+	 * @param listCombo Liste contenant les anciennes positions du pion
 	 * @return Vrai -> si on peut faire le combo, Faux sinon
 	 */
 	private boolean comboValide(Coup c, Case pionJoue, ArrayList<Case> listCombo)
 	{
+		System.out.println("----------------------------------------------------------------------------------");
+		System.out.println("Coup joué : " + c);
+		System.out.println("Pion : " + pionJoue);
+		System.out.println("----------------------------------------------------------------------------------");
 		boolean res = true;
 		if (c == null || c.arrivee == null || c.depart == null)
 			return false;
@@ -562,7 +565,7 @@ public class Game implements Serializable {
 			Case courante = depart;
 			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
-			if (courante.getCaseAt(d).estVide())
+			if (courante.getCaseAt(d) != null && courante.getCaseAt(d).estVide())
 			{
 				while (courante != null)
 				{
