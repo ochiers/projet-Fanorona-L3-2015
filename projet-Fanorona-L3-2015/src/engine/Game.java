@@ -400,10 +400,6 @@ public class Game implements Serializable {
 	 */
 	private boolean comboValide(Coup c, Case pionJoue, ArrayList<Case> listCombo)
 	{
-		System.out.println("----------------------------------------------------------------------------------");
-		System.out.println("Coup joué : " + c);
-		System.out.println("Pion : " + pionJoue);
-		System.out.println("----------------------------------------------------------------------------------");
 		boolean res = true;
 		if (c == null || c.arrivee == null || c.depart == null)
 			return false;
