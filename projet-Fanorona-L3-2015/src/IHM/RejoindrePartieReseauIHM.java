@@ -62,7 +62,10 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 		bt_annuler = new JButton("Annuler");
 		bt_annuler.setBounds(150, 120, 100, 40);
-
+		
+		bt_rejoindre.addActionListener(new rejoindreListener());
+		bt_annuler.addActionListener(new annulerListener());
+		
 		pan.add(explicationIP);
 		pan.add(txt_saisieIp);
 
