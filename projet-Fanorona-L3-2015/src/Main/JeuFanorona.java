@@ -16,6 +16,7 @@ public class JeuFanorona {
 		Player p1=new HumanPlayer(e,false,"clem");
 		//Player p1=new EasyAI(e,true,"player1");
 		Player p2=new NetworkPlayer(e,false,"seb");
+		//Player p2=new HumanPlayer(e,false,"seb");
 		Fenetre f= new Fenetre(e);
 		e.setDisplay(f);
 		e.hebergerPartie(12345);

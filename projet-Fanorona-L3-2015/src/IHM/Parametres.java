@@ -97,6 +97,10 @@ public class Parametres {
 				}
 			}
 		}
+		else{
+			fenetre.lvlPC1=fenetre.defaut;
+			fenetre.lvlPC2=fenetre.defaut;
+		}
 		saveCommencer=fenetre.commencer;
 		saveMode=fenetre.mode;
 		savelvlPC1=fenetre.lvlPC1;
