@@ -212,5 +212,8 @@ public interface EngineServices {
 	
 	public Affichage getCurrentDisplay();
 
-	public void envoyerCoup(Coup c);
+	public void envoyerCoupSurReseau(Coup c);
+	
+	public void envoyerChoixCaseSurReseau(Coordonnee c);
+	
 }
