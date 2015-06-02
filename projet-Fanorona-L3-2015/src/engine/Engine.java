@@ -464,7 +464,7 @@ public class Engine implements EngineServices {
 	{
 		System.out.println("envoi ?");
 		if(this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)){
-			System.out.println("envoyé !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.out.println("envoye de " +c);
 			this.networkManager.setaEnvoyer(c);
 			
 		}
