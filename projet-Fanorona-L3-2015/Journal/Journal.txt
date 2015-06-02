@@ -97,3 +97,9 @@ Lundi 1 juin
 	Après-midi :
 		- Remplacements des copies de noeud par un système utilisant une pile (IA moyenne et difficile).
 		
+Mardi 2 juin
+	Matin :
+		- Debug de nouveaux soucis rencontrés avec les IA moyenne et difficile, remplacement des get() par des iterator.
+	Après-midi :
+		
+		

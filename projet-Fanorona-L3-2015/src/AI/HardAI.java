@@ -414,8 +414,8 @@ public class HardAI extends Player implements Serializable {
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
 		int profondeur = 6;
-//		if(this.nbPionsAdversaire < 6)
-//			profondeur = 10;
+		if(this.nbPionsAdversaire < 6)
+			profondeur = 15;
 		this.matrice = laMatrice;
 		//long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
@@ -438,6 +438,7 @@ public class HardAI extends Player implements Serializable {
 			Coup coupCourant = it.next();
 			Case premiereCasePrise = null;
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
+				System.out.println("test");
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee);
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, matrice[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
@@ -468,11 +469,11 @@ public class HardAI extends Player implements Serializable {
 					annuler(false, couleurJoueur);
 					
 					if(res1>res2){
-						premiereCasePrise = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
+						premiereCasePrise = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
 						res = res1;
 					}
 					else {
-						premiereCasePrise = partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
+						premiereCasePrise = matrice[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 						res = res2;
 					}
 				}
@@ -486,7 +487,7 @@ public class HardAI extends Player implements Serializable {
 						capturer(coupCourant, false, pionsACapturerRapprochement, couleurJoueur);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						premiereCasePrise = partieCourante.matricePlateau[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
+						premiereCasePrise = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
 						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 						annuler(false, couleurJoueur);
 					}
@@ -494,7 +495,7 @@ public class HardAI extends Player implements Serializable {
 						capturer(coupCourant, false, pionsACapturerEloignement, couleurJoueur);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						premiereCasePrise = partieCourante.matricePlateau[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
+						premiereCasePrise = matrice[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
 						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
 						annuler(false, couleurJoueur);
 					} 
@@ -512,8 +513,20 @@ public class HardAI extends Player implements Serializable {
 					}
 				}
 				// PRINT
-				Coup p = coupCourant;
-				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+				//Coup p = coupCourant;
+				//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+			
+				if(res > meilleurRes){
+					meilleurRes = res;
+					meilleurCoups.clear();
+					premieresCasesPrises.clear();
+					meilleurCoups.add(coupCourant);
+					premieresCasesPrises.add(premiereCasePrise);
+				}
+				if(res == meilleurRes){
+					meilleurCoups.add(coupCourant);
+					premieresCasesPrises.add(premiereCasePrise);
+				}
 			}
 			else if(leMoteur.enCombo()){
 				ArrayList<Case> pionsJouables;
@@ -522,23 +535,11 @@ public class HardAI extends Player implements Serializable {
 				Case[] listeCases2 = new Case[pionsJouables.size()];
 				res = alphaBeta(pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
 			}
-			
-			if(res > meilleurRes){
-				meilleurRes = res;
-				meilleurCoups.clear();
-				premieresCasesPrises.clear();
-				meilleurCoups.add(coupCourant);
-				premieresCasesPrises.add(premiereCasePrise);
-			}
-			if(res == meilleurRes){
-				meilleurCoups.add(coupCourant);
-				premieresCasesPrises.add(premiereCasePrise);
-			}
 		}
 		Random r = new Random();
 		int rand = r.nextInt(meilleurCoups.size());
 		choix = premieresCasesPrises.get(rand);
-		//System.out.println("Coup renvoyé " + meilleurCoups.get(rand));
+		System.out.println("Coup renvoyé " + meilleurCoups.get(rand));
 		//System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
 		return meilleurCoups.get(rand);
 	}
