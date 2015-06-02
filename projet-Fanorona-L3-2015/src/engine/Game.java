@@ -393,11 +393,16 @@ public class Game implements Serializable {
 	 * 
 	 * @param c
 	 *            Le coup joué
-	 * @param pionJoue
+	 * @param pionJoue Pion avec lequel on joue
+	 * @param listCombo Liste contenant les anciennes positions du pion
 	 * @return Vrai -> si on peut faire le combo, Faux sinon
 	 */
 	private boolean comboValide(Coup c, Case pionJoue, ArrayList<Case> listCombo)
 	{
+		System.out.println("----------------------------------------------------------------------------------");
+		System.out.println("Coup joué : " + c);
+		System.out.println("Pion : " + pionJoue);
+		System.out.println("----------------------------------------------------------------------------------");
 		boolean res = true;
 		if (c == null || c.arrivee == null || c.depart == null)
 			return false;
