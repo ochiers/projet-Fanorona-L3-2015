@@ -3,60 +3,89 @@ package network;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Stack;
 
+import engine.Case;
 import engine.Coordonnee;
 import engine.Coup;
 import engine.EngineServices;
 import engine.Player;
 import engine.Tools;
 
+/**
+ * Mini moteur rataché au moteur pricipal, sert d'interface avec le reseau
+ * @author soulierc
+ *
+ */
 public class NetworkManager extends Thread {
 
+	/**
+	 * L'ip de l'ordinateur distant si on s'est connecté
+	 */
 	public String			ip;
+	/**
+	 * Le port de la connection actuelle
+	 */
 	public int				port;
+	/**
+	 * Le socket serveur acceptant les connections.
+	 */
 	public ServerSocket		socketServeurPrincipal;
+	/**
+	 * Le socket de la connection permettant les echanges
+	 */
 	public Socket			socketEnvoiPrincipal;
+	/**
+	 * Le flux d'entree
+	 */
 	public InputStream		reception;
+	/**
+	 * Le flux de sortie
+	 */
 	public OutputStream		envoi;
+	/**
+	 * Le moteur du jeu
+	 */
 	public EngineServices	leMoteur;
-	public Coup				coupRecu;
-	public Coordonnee		coordonneeRecu;
-	private boolean			enReception;
+	/**
+	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le reseau
+	 */
+	public Stack<Coup>				coupsRecu;
+	/**
+	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le reseau
+	 */
+	public Stack<Coordonnee>		coordonneesRecu;
+	
+	/**
+	 * Le coup qui doit etre envoyé sur le reseau
+	 */
+	private Coup			coupAEnvoyer;
+	/**
+	 * La coordonnee qui doit etre envoyee sur le reseau
+	 */
+	private Coordonnee		coordonneeAEnvoyer;
 
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
 		this.leMoteur = e;
 		this.ip = ip;
 		this.port = port;
+		this.coupsRecu = new Stack<Coup>();
+		this.coordonneesRecu = new Stack<Coordonnee>();
 	}
-
-	// TODO 1. Etablir la connexion
-	// TODO 2. Envoyer la configuration
-	// TODO 3. Envoyer un coup valide au moteur distant
-	// TODO 4. Envoyer le coup au joueur (moteur -> joueur)
-
-	// TODO Système de requêtes : Envoie d'une annulation/refaire
-
-	// Comment déterminer celui qui commence ?
-	// Le moteur analyse en local les coups tenter par le joueur humain puis
-	// l'envoie sur le r�seau. Seul des coups valides sont envoyés.
-	// Comment annuler et refaire en réseau ? Requête ?
-
-	/*
-	 * Serveur Principal : Seb L'autre ordi : Clem Seb ouvre un socket d'écoute Clem s'y connecte et envoie un numéro de port Seb ouvre un socket d'envoi Seb envoie la configuration dont celui qui commence
-	 */
-
+	
 	/**
 	 * L'ordinateur qui execute cette fonction est le serveur principal.
 	 * 
 	 */
 	public void hebergerPartie()
 	{
-
 		try
 		{
 			socketServeurPrincipal = new ServerSocket(port);
@@ -92,14 +121,31 @@ public class NetworkManager extends Thread {
 		}
 	}
 
+	public void terminerPartieReseau() throws IOException
+	{
+		this.reception.close();
+		this.envoi.close();
+		if(socketEnvoiPrincipal != null)
+			this.socketEnvoiPrincipal.close();
+		if(socketServeurPrincipal != null)
+			this.socketServeurPrincipal.close();
+	}
+
 	/**
 	 * Envoie de la configuration de la machine principale vers la deuxi�me.
 	 * 
 	 * @throws IOException
 	 */
-	public void sendRequete(int req) throws IOException
+	public void sendRequete(int req)
 	{
-		this.envoi.write(req);
+		try
+		{
+			this.envoi.write(req);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -107,62 +153,53 @@ public class NetworkManager extends Thread {
 	 * 
 	 * @throws IOException
 	 */
-	public boolean receiveRequete() throws IOException
+	private boolean receiveRequete() throws IOException
 	{
-		int req = this.reception.read();
-		switch (req)
+		if (this.reception.available() > 0)
 		{
-			case RequestType.EnvoiCoup:
-				coupRecu = receiveCoup();
-				break;
-			case RequestType.Annuler:
-				leMoteur.annuler();
-				break;
-			case RequestType.FinDuTour:
-				leMoteur.finirSonTour();
-				break;
-			case RequestType.NouvellePartie:
-			case RequestType.Quitter:
-				terminerPartieReseau();
-				leMoteur.stopper();
-				return false;
-			case RequestType.Recommencer:
-				Player p1 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurBlanc())), leMoteur.getJoueurBlanc().name);
-				Player p2 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurNoir())), leMoteur.getJoueurNoir().name);
-				leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
-				break;
-			case RequestType.Refaire:
-				leMoteur.refaire();
-				break;
-			case RequestType.EnvoiCase :
-				coordonneeRecu = receiveCoordonnee();
+			int req = this.reception.read();
+			switch (req)
+			{
+				case RequestType.EnvoiCoup:
+					coupsRecu.push(receiveCoup());
+					break;
+				case RequestType.Annuler:
+					leMoteur.annuler(false);
+					break;
+				case RequestType.FinDuTour:
+					leMoteur.finirSonTour();
+					break;
+				case RequestType.NouvellePartie:
+				case RequestType.Quitter:
+					terminerPartieReseau();
+					leMoteur.stopper();
+					return false;
+				case RequestType.Recommencer:
+					Player p1 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurBlanc())), leMoteur.getJoueurBlanc().name);
+					Player p2 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurNoir())), leMoteur.getJoueurNoir().name);
+					leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
+					break;
+				case RequestType.Refaire:
+					leMoteur.refaire(false);
+					break;
+				case RequestType.EnvoiCase:
+					coordonneesRecu.add(receiveCoordonnee());
+			}
 		}
 		return true;
-	}
 
-	public void terminerPartieReseau() throws IOException
-	{
-		this.reception.close();
-		this.envoi.close();
-		this.socketEnvoiPrincipal.close();
-		this.socketServeurPrincipal.close();
 	}
 
 	/**
 	 * Envoie du coup valide du joueur humain.
 	 */
-	public void sendCoup(Coup c)
+	private void sendObject(Object c, int req)
 	{
 		try
 		{
-			this.sendRequete(RequestType.EnvoiCoup);
-			this.envoi.write(c.depart.colonne);
-			attenteNotif();
-			this.envoi.write(c.depart.ligne);
-			attenteNotif();
-			this.envoi.write(c.arrivee.colonne);
-			attenteNotif();
-			this.envoi.write(c.arrivee.ligne);
+			this.sendRequete(req);
+			ObjectOutputStream out = new ObjectOutputStream(envoi);
+			out.writeObject(c);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -172,102 +209,101 @@ public class NetworkManager extends Thread {
 	/**
 	 * Réception du coup envoyé sur le réseau.
 	 */
-	public synchronized Coup receiveCoup()
+	private Coup receiveCoup()
 	{
 		Coup c = null;
-		enReception = true;
 		try
 		{
-			int col1, lig1, col2, lig2;
-			col1 = col2 = lig1 = lig2 = -1;
-
-			while (col1 == -1)
-				col1 = this.reception.read();
-			this.envoi.write(852);
-			while (lig1 == -1)
-				lig1 = this.reception.read();
-			this.envoi.write(852);
-			while (col2 == -1)
-				col2 = this.reception.read();
-			this.envoi.write(852);
-			while (lig2 == -1)
-				lig2 = this.reception.read();
-			this.envoi.write(852);
-			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		enReception = false;
-		notifyAll();
-		return c;
-
-	}
-
-	public synchronized Coordonnee receiveCoordonnee()
-	{
-		Coordonnee c = null;
-		enReception = true;
-		try
-		{
-			int col1, lig1;
-			col1 = lig1 = -1;
-
-			while (col1 == -1)
-				col1 = this.reception.read();
-			this.envoi.write(852);
-			while (lig1 == -1)
-				lig1 = this.reception.read();
-			this.envoi.write(852);
+			ObjectInputStream in = new ObjectInputStream(reception);
+			c = (Coup) in.readObject();
 			
-			c = new Coordonnee(lig1,col1);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		enReception = false;
-		notifyAll();
+
+		System.out.println("Coup recu ******************************** : " + c);
 		return c;
 
 	}
-	
-	public void attenteNotif() throws InterruptedException, IOException
+
+
+	private Coordonnee receiveCoordonnee()
 	{
 
-		while (this.reception.read() == -1)
+		Coordonnee c = null;
+		try
 		{
-			Thread.sleep(50);
+			ObjectInputStream in = new ObjectInputStream(reception);
+			c = (Coordonnee) in.readObject();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
 		}
+		return c;
 
 	}
 
-	public static void main(String args[]) throws IOException
+	private void envoyerCoordonnee()
 	{
+		if (coordonneeAEnvoyer != null)
+			sendObject(coordonneeAEnvoyer, RequestType.EnvoiCase);
+		coordonneeAEnvoyer = null;
+	}
 
-		NetworkManager net = new NetworkManager(null, 12345, args[0]);
-		if (args[1].equals("client"))
-		{
-			net.rejoindrePartie();
-			net.sendCoup(new Coup(new Coordonnee(5, 9), new Coordonnee(4, 8)));
-			net.socketEnvoiPrincipal.close();
-		} else
-		{
-			net.hebergerPartie();
-			net.receiveCoup();
-			net.socketServeurPrincipal.close();
-		}
+	private void envoyerCoup()
+	{
+		if (coupAEnvoyer != null)
+			sendObject(coupAEnvoyer, RequestType.EnvoiCoup);
+		coupAEnvoyer = null;
+	}
 
+	public Coup getCoupRecu()
+	{
+		Coup res = null;
+		if (!coupsRecu.empty())
+			res = coupsRecu.pop();
+		System.out.println("Coup recu : " + res);
+		
+		return res;
+	}
+
+	public Coordonnee getCoordonnee()
+	{
+		Coordonnee res = null;
+		if (!coordonneesRecu.empty())
+			res = coordonneesRecu.pop();
+		return res;
+	}
+
+	/**
+	 * Donne le coup a envoyer sur le reseau
+	 * @param aEnvoyer Un coup
+	 */
+	public void setCoupAEnvoyer(Coup aEnvoyer)
+	{
+		this.coupAEnvoyer = aEnvoyer;
+	}
+
+	/**
+	 * Donne la coordonnee a envoyer sur le reseau
+	 * @param aEnvoyer Une coordonnee
+	 */
+	public void setCoordoneeAEnvoyer(Coordonnee aEnvoyer)
+	{
+		this.coordonneeAEnvoyer = aEnvoyer;
 	}
 
 	public void run()
 	{
-
 		try
 		{
 			while (receiveRequete())
 			{
 				try
 				{
+					envoyerCoordonnee();
+					envoyerCoup();
 					Thread.sleep(50);
 				} catch (InterruptedException e)
 				{
@@ -278,42 +314,6 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-
 	}
 
-	public synchronized Coup getCoupRecu()
-	{
-		while (enReception)
-			try
-			{
-				wait();
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-
-		Coup res = null;
-		if (coupRecu != null)
-			res = coupRecu;
-		coupRecu = null;
-		return res;
-	}
-
-	public synchronized Coordonnee getCoordonnee()
-	{
-		while (enReception)
-			try
-			{
-				wait();
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-
-		Coordonnee res = null;
-		if (coordonneeRecu != null)
-			res = coordonneeRecu;
-		coordonneeRecu = null;
-		return res;
-	}
 }

@@ -150,12 +150,12 @@ public interface EngineServices {
 	/**
 	 * Annule un demi-coup, la partie est en pause apres cette action
 	 */
-	public void annuler();
+	public void annuler(boolean notifReseau);
 
 	/**
 	 * Refait un demi-coup deja annulé, la partie est en pause apres cette action
 	 */
-	public void refaire();
+	public void refaire(boolean notifReseau);
 
 	/**
 	 * Arrete la partie courante, le moteur sera en attente d'une nouvelle partie
@@ -212,5 +212,9 @@ public interface EngineServices {
 	
 	public Affichage getCurrentDisplay();
 
-	public void envoyerCoup(Coup c);
+	public void envoyerCoupSurReseau(Coup c);
+	
+	public void envoyerChoixCaseSurReseau(Coordonnee c);
+	
+	public void quitter();
 }

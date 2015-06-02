@@ -7,16 +7,20 @@ public class Tools {
 
 	/**
 	 * Cree un nouveau joueur
-	 * @param e Le moteur associé
-	 * @param p Le type de joueur
-	 * @param nom Le nom du joueur
+	 * 
+	 * @param e
+	 *            Le moteur associé
+	 * @param p
+	 *            Le type de joueur
+	 * @param nom
+	 *            Le nom du joueur
 	 * @return
 	 */
 	public static Player createPlayer(EngineServices e, PlayerType p, String nom)
 	{
-		if(e == null || p == null || nom == null)
+		if (e == null || p == null || nom == null)
 			throw new RuntimeException("IMPOSSIBLE DE CREE LE JOUEUR");
-		
+
 		Player res;
 		switch (p)
 		{
@@ -40,7 +44,9 @@ public class Tools {
 
 	/**
 	 * Donne le type d'un joueur
-	 * @param p Le joueur
+	 * 
+	 * @param p
+	 *            Le joueur
 	 * @return Le type de p (appartien a PlayerType)
 	 */
 	public static PlayerType getTypeOfPlayer(Player p)
@@ -59,7 +65,7 @@ public class Tools {
 
 		throw new RuntimeException();
 	}
-	
+
 	public static PlayerType getTypeOfPlayer(int p)
 	{
 
@@ -73,19 +79,19 @@ public class Tools {
 			return PlayerType.IADifficile;
 		if (p == 4)
 			return PlayerType.Reseau;
-		
+
 		throw new RuntimeException();
 	}
 
 	/**
 	 * Donne la configuration d'une partie donnée
+	 * 
 	 * @param g
 	 * @return
 	 */
 	public static Configuration getTypePartie(Game g)
 	{
-		if ((getTypeOfPlayer(g.joueurBlanc) == PlayerType.Humain && getTypeOfPlayer(g.joueurNoir) == PlayerType.Humain) || 
-				(getTypeOfPlayer(g.joueurBlanc) == PlayerType.Reseau ||  getTypeOfPlayer(g.joueurNoir) == PlayerType.Reseau))
+		if ((getTypeOfPlayer(g.joueurBlanc) == PlayerType.Humain && getTypeOfPlayer(g.joueurNoir) == PlayerType.Humain) || (getTypeOfPlayer(g.joueurBlanc) == PlayerType.Reseau || getTypeOfPlayer(g.joueurNoir) == PlayerType.Reseau))
 			return Configuration.HumainVSHumain;
 		if (g.joueurBlanc.aiPlayer && g.joueurNoir.aiPlayer)
 			return Configuration.IAvsIA;
@@ -94,7 +100,7 @@ public class Tools {
 
 		throw new RuntimeException();
 	}
-	
+
 	public static Configuration getTypePartie(int g)
 	{
 		if (g == 0)
@@ -103,8 +109,13 @@ public class Tools {
 			return Configuration.HumainVSIA;
 		if (g == 2)
 			return Configuration.IAvsIA;
-		
+
 		throw new RuntimeException();
+	}
+
+	public static boolean isValidIP(String ip)
+	{
+		return ip.matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
 	}
 
 }

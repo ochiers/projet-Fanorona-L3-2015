@@ -25,16 +25,18 @@ public class NetworkPlayer extends Player {
 	public Coup play(Case[][] laMatrice, Case[] listeCoups)
 	{
 		Coup c = null;
-		while((c = leMoteur.getNetworkManager().getCoupRecu()) == null)
+		while(c == null)
 			try
 			{
+				c = leMoteur.getNetworkManager().getCoupRecu();
 				Thread.sleep(50);
+				//System.out.print("jattend");
 			} catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+		System.out.println("Coup recu OPKKKKKKKKKKKKKKKKKKKKKK");
 		return c;
 	}
 

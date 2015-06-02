@@ -82,7 +82,7 @@ Jeudi 28 mai
 		- Correction de bugs lies a la gestion des enchainements, premiere version fonctionnelle des IA moyenne et difficile.
 		- Suite a l'audit de code, modfication de celui-ci et optimisation.
 		
-Venrdredi 29 mai
+Vendredi 29 mai
 	Matin :
 		- Debug IA qui ne fonctionne pas tout à fait comme prévu.
 		- 
@@ -90,6 +90,16 @@ Venrdredi 29 mai
 		- Debug avec succès des IA moyenne et difficile. Il reste maintenant à améliorer la fonction d'évaluation et le temps de calcul.		
 		- Dossier de validation (algorithme alpha-beta).
 		
+Lundi 1 juin
+	Matin :
+		- Rencontre avec notre tuteur pour faire un point sur l'avancement du projet.
+		- Ajout de l'évitement des coups perdants à l'IA facile.
+	Après-midi :
+		- Remplacements des copies de noeud par un système utilisant une pile (IA moyenne et difficile).
 		
-		
+Mardi 2 juin
+	Matin :
+		- Debug de nouveaux soucis rencontrés avec les IA moyenne et difficile, remplacement des get() par des iterator.
+	Après-midi :
+		- Debug et tests IA.
 		

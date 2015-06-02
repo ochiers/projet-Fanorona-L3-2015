@@ -2,8 +2,17 @@ package engine;
 
 import java.io.Serializable;
 
+/**
+ * Represente un coup joué par un joueur sous forme d'une point de depart et d'arrivee
+ * @author soulierc
+ *
+ */
 public class Coup implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= 3522894575528978575L;
 	public Coordonnee	depart;
 	public Coordonnee	arrivee;
 
