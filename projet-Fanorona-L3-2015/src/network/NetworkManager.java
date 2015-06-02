@@ -3,6 +3,8 @@ package network;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -157,22 +159,13 @@ public class NetworkManager extends Thread {
 	/**
 	 * Envoie du coup valide du joueur humain.
 	 */
-	public void sendCoup(Coup c)
+	public void sendObject(Object c, int req)
 	{
 		try
 		{
-			this.sendRequete(RequestType.EnvoiCoup);
-			System.out.println("envoi1");
-			this.envoi.write(c.depart.colonne);
-			attenteNotif();
-			System.out.println("envoi2");
-			this.envoi.write(c.depart.ligne);
-			attenteNotif();
-			System.out.println("envoi3");
-			this.envoi.write(c.arrivee.colonne);
-			attenteNotif();
-			System.out.println("envoi4");
-			this.envoi.write(c.arrivee.ligne);
+			this.sendRequete(req);
+			ObjectOutputStream out = new ObjectOutputStream(envoi);
+			out.writeObject(c);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -187,22 +180,9 @@ public class NetworkManager extends Thread {
 		Coup c = null;
 		try
 		{
-			int col1, lig1, col2, lig2;
-			col1 = col2 = lig1 = lig2 = -1;
-
-			while (col1 == -1)
-				col1 = this.reception.read();
-			System.out.println(this.envoi);
-			this.envoi.write(80);
-			while (lig1 == -1)
-				lig1 = this.reception.read();
-			this.envoi.write(80);
-			while (col2 == -1)
-				col2 = this.reception.read();
-			this.envoi.write(80);
-			while (lig2 == -1)
-				lig2 = this.reception.read();
-			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
+			ObjectInputStream in = new ObjectInputStream(reception);
+			c = (Coup) in.readObject();
+			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -213,22 +193,6 @@ public class NetworkManager extends Thread {
 
 	}
 
-	private void sendCoordonee(Coordonnee coordonnee)
-	{
-		try
-		{
-			this.sendRequete(RequestType.EnvoiCase);
-			System.out.println("envoi1");
-			this.envoi.write(coordonnee.colonne);
-			attenteNotif();
-			System.out.println("envoi2");
-			this.envoi.write(coordonnee.ligne);
-	
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
 
 	public Coordonnee receiveCoordonnee()
 	{
@@ -236,16 +200,8 @@ public class NetworkManager extends Thread {
 		Coordonnee c = null;
 		try
 		{
-			int col1, lig1;
-			col1 = lig1 = -1;
-
-			while (col1 == -1)
-				col1 = this.reception.read();
-			this.envoi.write(852);
-			while (lig1 == -1)
-				lig1 = this.reception.read();
-
-			c = new Coordonnee(lig1, col1);
+			ObjectInputStream in = new ObjectInputStream(reception);
+			c = (Coordonnee) in.readObject();
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -257,14 +213,14 @@ public class NetworkManager extends Thread {
 	private void envoyerCoordonnee()
 	{
 		if (coordonneeAEnvoyer != null)
-			sendCoordonee(coordonneeAEnvoyer);
+			sendObject(coordonneeAEnvoyer, RequestType.EnvoiCase);
 		coordonneeAEnvoyer = null;
 	}
 
 	private void envoyerCoup()
 	{
 		if (coupAEnvoyer != null)
-			sendCoup(coupAEnvoyer);
+			sendObject(coupAEnvoyer, RequestType.EnvoiCoup);
 		coupAEnvoyer = null;
 	}
 
