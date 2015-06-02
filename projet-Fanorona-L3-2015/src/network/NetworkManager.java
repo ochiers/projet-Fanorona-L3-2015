@@ -234,7 +234,7 @@ public class NetworkManager extends Thread {
 	{
 		try
 		{
-			this.sendRequete(RequestType.EnvoiCoup);
+			this.sendRequete(RequestType.EnvoiCase);
 			System.out.println("envoi1");
 			this.envoi.write(coordonnee.colonne);
 			attenteNotif();
