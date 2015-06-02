@@ -498,10 +498,12 @@ public class Engine implements EngineServices {
 	public void quitter()
 	{
 		this.stopper();
-		getNetworkManager().sendRequete(RequestType.Quitter);
+		if(getNetworkManager() != null)
+			getNetworkManager().sendRequete(RequestType.Quitter);
 		try
 		{
-			getNetworkManager().terminerPartieReseau();
+			if(getNetworkManager() != null)
+				getNetworkManager().terminerPartieReseau();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
