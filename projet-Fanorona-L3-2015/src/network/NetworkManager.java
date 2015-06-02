@@ -108,9 +108,16 @@ public class NetworkManager extends Thread {
 	 * 
 	 * @throws IOException
 	 */
-	public void sendRequete(int req) throws IOException
+	public void sendRequete(int req)
 	{
-		this.envoi.write(req);
+		try
+		{
+			this.envoi.write(req);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -130,7 +137,7 @@ public class NetworkManager extends Thread {
 					coupRecu = receiveCoup();
 					break;
 				case RequestType.Annuler:
-					leMoteur.annuler();
+					leMoteur.annuler(false);
 					break;
 				case RequestType.FinDuTour:
 					leMoteur.finirSonTour();
@@ -146,7 +153,7 @@ public class NetworkManager extends Thread {
 					leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
 					break;
 				case RequestType.Refaire:
-					leMoteur.refaire();
+					leMoteur.refaire(false);
 					break;
 				case RequestType.EnvoiCase:
 					coordonneeRecu = receiveCoordonnee();

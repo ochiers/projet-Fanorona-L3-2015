@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import network.NetworkManager;
 import network.NetworkPlayer;
+import network.RequestType;
 import AI.*;
 import IHM.Affichage;
 
@@ -51,6 +52,8 @@ public class Engine implements EngineServices {
 	 */
 	public boolean			premierJeu;
 	public NetworkManager	networkManager;
+	private boolean			reqAnnuler;
+	private boolean			reqRefaire;
 
 	public Engine()
 	{
@@ -205,21 +208,27 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void annuler()
+	public void annuler(boolean notifReseau)
 	{
 		if (undoRedo.canUndo())
 		{
-			System.err.println("Annuler");
+			if (this.networkManager != null && notifReseau )
+			{
+				networkManager.sendRequete(RequestType.Annuler);
+			}
 			changerPartieCourante(this.undoRedo.undo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 		}
 	}
 
 	@Override
-	public void refaire()
+	public void refaire(boolean notifReseau)
 	{
 		if (undoRedo.canRedo())
 		{
-			System.err.println("Refaire");
+			if (this.networkManager != null && notifReseau )
+			{
+				networkManager.sendRequete(RequestType.Refaire);
+			}
 			changerPartieCourante(this.undoRedo.redo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
 		}
 	}

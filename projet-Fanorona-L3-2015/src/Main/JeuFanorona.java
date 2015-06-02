@@ -18,9 +18,9 @@ public class JeuFanorona {
 		Player p2=new NetworkPlayer(e,false,"clem");
 		Fenetre f= new Fenetre(e);
 		e.setDisplay(f);
-		e.rejoindrePartie(12345, "152.77.82.223");
+		e.hebergerPartie(12345);
 		// System.err.close();
-		e.nouvellePartie(p2, p1,0, new Dimension(9,5));
+		e.nouvellePartie(p1, p2,0, new Dimension(9,5));
 		SwingUtilities.invokeLater(f);
 		Thread.sleep(200);
 		e.begin();
