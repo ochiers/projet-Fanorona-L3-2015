@@ -4,9 +4,7 @@ import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import AI.HumanPlayer;
-import IHM.Affichage;
 
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la methode jouer()
@@ -562,7 +560,7 @@ public class Game implements Serializable {
 			Case courante = depart;
 			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
-			if (courante.getCaseAt(d).estVide())
+			if (courante.getCaseAt(d) != null && courante.getCaseAt(d).estVide())
 			{
 				while (courante != null)
 				{
