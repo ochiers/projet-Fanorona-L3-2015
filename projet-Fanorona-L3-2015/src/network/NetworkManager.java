@@ -58,7 +58,6 @@ public class NetworkManager extends Thread {
 	 */
 	public void hebergerPartie()
 	{
-		System.out.println("Partie en réseau ---------------------------------- ");
 		try
 		{
 			socketServeurPrincipal = new ServerSocket(port);
@@ -80,7 +79,6 @@ public class NetworkManager extends Thread {
 	 */
 	public void rejoindrePartie()
 	{
-		System.out.println("Partie en réseau à rejoindre---------------------------------- ");
 		try
 		{
 			InetAddress addr = InetAddress.getByName(ip);
@@ -93,7 +91,6 @@ public class NetworkManager extends Thread {
 		{
 			System.err.println(e);
 		}
-		System.out.println("Partie en réseau rejointe ---------------------------------- ");
 	}
 
 	public void terminerPartieReseau() throws IOException
@@ -111,9 +108,7 @@ public class NetworkManager extends Thread {
 	 */
 	public void sendRequete(int req) throws IOException
 	{
-		System.out.println("Envoie de requete ---------------------------------- ");
 		this.envoi.write(req);
-		System.out.println("Requete envoie ---------------------------------- ");
 	}
 
 	/**
@@ -125,7 +120,6 @@ public class NetworkManager extends Thread {
 	{
 		if (this.reception.available() > 0)
 		{
-			System.out.println("Reception requete ************************************************************************* ");
 			System.out.flush();
 			int req = this.reception.read();
 			switch (req)
@@ -155,7 +149,6 @@ public class NetworkManager extends Thread {
 				case RequestType.EnvoiCase:
 					coordonneeRecu = receiveCoordonnee();
 			}
-			System.out.println("Reception terminee ************************************************************************* ");
 		}
 		return true;
 
@@ -166,7 +159,6 @@ public class NetworkManager extends Thread {
 	 */
 	public void sendCoup(Coup c)
 	{
-		System.out.println("Envoi coup ************************************************************************* ");
 		try
 		{
 			this.sendRequete(RequestType.EnvoiCoup);
@@ -185,7 +177,6 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-		System.out.println("Coup recu ************************************************************************* ");
 	}
 
 	/**
@@ -193,7 +184,6 @@ public class NetworkManager extends Thread {
 	 */
 	public Coup receiveCoup()
 	{
-		System.out.println("Reception coup ************************************************************************* ");
 		Coup c = null;
 		try
 		{
@@ -202,30 +192,23 @@ public class NetworkManager extends Thread {
 
 			while (col1 == -1)
 				col1 = this.reception.read();
-			System.out.print('a');
 			System.out.println(this.envoi);
-			Thread.sleep(500);
-			this.envoi.write(100);
-			System.out.print("a'");
+			this.envoi.write(80);
 			while (lig1 == -1)
 				lig1 = this.reception.read();
-			System.out.print('b');
-			this.envoi.write(100);
+			this.envoi.write(80);
 			while (col2 == -1)
 				col2 = this.reception.read();
-			System.out.print('c');
-			this.envoi.write(100);
+			this.envoi.write(80);
 			while (lig2 == -1)
 				lig2 = this.reception.read();
-			System.out.print('d');
-			// this.envoi.write(100);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		System.out.println("Coup recu ************************************************************************* : " + c);
+		System.out.println("Coup recu ******************************** : " + c);
 		return c;
 
 	}
@@ -317,29 +300,24 @@ public class NetworkManager extends Thread {
 	public void attenteNotif() throws InterruptedException, IOException
 	{
 	
-		System.out.print("JATTEND");
+		System.out.print("J'attend");
 		int recu = -1;
 		while (recu == -1)
 		{
 			recu = this.reception.read();
-			// System.out.print(recu);
-			// Thread.sleep(50);
 		}
-		System.out.print("JATTEND plus");
 	}
 
 	public void run()
 	{
 		try
 		{
-			System.out.println("RESEAU TERMINE");
 			while (receiveRequete())
 			{
 				try
 				{
 					envoyerCoordonnee();
 					envoyerCoup();
-					
 					Thread.sleep(50);
 				} catch (InterruptedException e)
 				{
@@ -350,7 +328,6 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-		System.out.println("RESEAU TERMINE");
 	}
 
 }
