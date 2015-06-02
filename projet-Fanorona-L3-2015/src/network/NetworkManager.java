@@ -249,7 +249,6 @@ public class NetworkManager extends Thread {
 			this.envoi.write(852);
 			while (lig1 == -1)
 				lig1 = this.reception.read();
-			this.envoi.write(852);
 
 			c = new Coordonnee(lig1, col1);
 		} catch (Exception e)
