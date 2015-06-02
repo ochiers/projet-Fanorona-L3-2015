@@ -226,6 +226,7 @@ public class Fenetre implements Runnable,Affichage {
  		frame.add(panelAccueil);
 		//frame.setResizable(false);
 		frame.setVisible(true);
+		frame.addWindowListener(new EcouteurDeFenetre(engine));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
