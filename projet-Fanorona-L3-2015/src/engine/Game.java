@@ -233,7 +233,8 @@ public class Game implements Serializable {
 	public synchronized void jouer(String nameJoueur) throws InterruptedException
 	{
 
-		System.err.println(nameJoueur + " rentre ne section critique");
+		System.err.println(nameJoueur + " rentre en section critique, nom du joueur courant : " + joueurCourant.name);
+
 		while (!stopped && !nameJoueur.equals(joueurCourant.name))
 		{
 			wait();
@@ -246,7 +247,7 @@ public class Game implements Serializable {
 			Thread.sleep(50);
 		if (!finish && !stopped)
 		{
-			System.err.println(nameJoueur + " debloqu�");
+			System.err.println(nameJoueur + " debloqué");
 
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
 			boolean doitManger = true;

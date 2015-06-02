@@ -61,6 +61,8 @@ public class AireDeDessin extends JComponent {
         majNomJoueurs();
         
         dessinGrille(drawable);//grille
+ //       Coordonnee p=positionGrille(new Coordonnee(2,2));
+ //       drawArrow(drawable,p.colonne,p.ligne,50,70);
      /*   if(animation){
         	dessinGrilleJeton(drawable);
         	animation(drawable);
@@ -191,8 +193,9 @@ public class AireDeDessin extends JComponent {
    
    public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 		drawable.setPaint(halo);
+		double newTaille=tailleJeton*1.25;
 		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*1.2)/2), (int)(segment+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-		drawable.fillOval((int)(decalageL+p.colonne*segment-(tailleJeton*1.2)/2), (int)(decalageH+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		drawable.fillOval((int)(decalageL+p.colonne*segment-newTaille/2), (int)(decalageH+p.ligne*segment-newTaille/2), (int)newTaille, (int)newTaille);
 		drawable.setPaint(Color.black);
 		//System.out.println("haloPION: "+p.ligne+" "+p.colonne);
 	}
@@ -348,15 +351,36 @@ public class AireDeDessin extends JComponent {
      	}
     	return choix;
     } 
+   
+    public void drawArrow(Graphics2D g,int x,int y,int largeur,int hauteur){
+	    g.setPaint(Color.red);
+		largeur = largeur / 3;
+		hauteur = hauteur / 3;
+		
+		g.fillRect (x -largeur/2, y,largeur, 2 * hauteur);
+		
+		int abcisses[] = new int[] { x-largeur/2,
+					     x-largeur/2 + (3 * largeur),
+					     x-largeur/2 + (largeur * 3 / 2)};
+		int ordonnes[] = new int[] { y + (2 * hauteur),
+					     y + (2 * hauteur),
+					     y + (3 * hauteur)};
+		
+		g.fillPolygon (abcisses, ordonnes, 3);
+		g.setPaint(Color.black);
+
+	}
+	
+
     
-/*    public Coordonnee positionGrille(Coordonnee c){
+    public Coordonnee positionGrille(Coordonnee c){
     	Coordonnee p = new Coordonnee(-1,-1);
     	p.ligne=decalageH+c.ligne*segment;
     	p.colonne=decalageL+c.colonne*segment;
-    	System.out.println("////////NEW COOR "+p.ligne+" "+p.colonne);
+    	//System.out.println("////////NEW COOR "+p.ligne+" "+p.colonne);
     	return p;
     }
-*/    
+    
 /*    public void animation(Graphics2D drawable) {
     	if(nombreImage==3){
     		try {

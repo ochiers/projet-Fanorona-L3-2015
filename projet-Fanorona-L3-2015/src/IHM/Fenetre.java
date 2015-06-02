@@ -311,7 +311,8 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_options_preferences implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			preference.setVisible(true);
+			System.out.println("test");
+			frame3.setVisible(true);
 	    }               
 
 	}
@@ -344,7 +345,7 @@ public class Fenetre implements Runnable,Affichage {
 
 		public void actionPerformed(ActionEvent e) {
 			if(monDessin.finPartie)monDessin.finPartie=false;
-			engine.annuler();
+			engine.annuler(true);
 	    }               
 
 	}
@@ -352,7 +353,7 @@ public class Fenetre implements Runnable,Affichage {
 	class ItemAction_refaire implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			engine.refaire();
+			engine.refaire(true);
 	    }               
 
 	}
