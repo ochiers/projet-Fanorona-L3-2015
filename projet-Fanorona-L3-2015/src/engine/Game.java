@@ -4,9 +4,7 @@ import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import AI.HumanPlayer;
-import IHM.Affichage;
 
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la methode jouer()
@@ -285,7 +283,7 @@ public class Game implements Serializable {
 				notifyAll();
 				return;
 			}
-			this.leMoteur.envoyerCoup(c);
+			this.leMoteur.envoyerCoupSurReseau(c);
 			boolean rejouer = faireCoup(c);
 			enCombo = rejouer;
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
@@ -329,7 +327,7 @@ public class Game implements Serializable {
 				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
 				System.out.println("PION JOUE " + pionCombo);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
-				this.leMoteur.envoyerCoup(c2);
+				this.leMoteur.envoyerCoupSurReseau(c2);
 				rejouer = faireCoup(c2);
 				
 				System.out.println("PEUT REJOUE ? " + rejouer);
@@ -468,7 +466,9 @@ public class Game implements Serializable {
 				Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
 				while (!rapprochement.contains(choix) && !eloignement.contains(choix))
 					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-
+				
+				leMoteur.envoyerChoixCaseSurReseau(choix.position);
+				
 				if (rapprochement.contains(choix))
 				{
 					leMoteur.getCurrentDisplay().afficherPionsCaptures(rapprochement);
@@ -560,7 +560,7 @@ public class Game implements Serializable {
 			Case courante = depart;
 			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
-			if (courante.getCaseAt(d).estVide())
+			if (courante.getCaseAt(d) != null && courante.getCaseAt(d).estVide())
 			{
 				while (courante != null)
 				{

@@ -30,22 +30,22 @@ public class Engine implements EngineServices {
 	 * Booleen permettant de connaitre l'etat courant du jeu. A savoir s'il est en pause ou non
 	 */
 	public boolean			gameInProgress;
-	
+
 	/**
 	 * C'est la partie sur laquelle on joue. C'est cette partie qui est modifiée par le mouvement des pions.
 	 */
 	private Game			partieCourante;
-	
+
 	/**
-	 *  Affichage utilisé par la partie courante (Graphique ou non)
+	 * Affichage utilisé par la partie courante (Graphique ou non)
 	 */
 	public Affichage		affichage;
-	
+
 	/**
 	 * Module pour annuler/refaire un ou plusieurs coups
 	 */
 	private UndoRedo<Game>	undoRedo;
-	
+
 	/**
 	 * Booleen permettant d'eviter que la partie ne soit en pause au lancement
 	 */
@@ -69,7 +69,7 @@ public class Engine implements EngineServices {
 			{
 				while (!gameInProgress)
 				{
-					//System.out.print("Attente d'une partie");
+					// System.out.print("Attente d'une partie");
 					Thread.sleep(500);
 				}
 				partieCourante.pause();
@@ -89,10 +89,15 @@ public class Engine implements EngineServices {
 
 	/**
 	 * Methode permettant de changer de joueur en cours de partie
-	 * @param g Partie sur laquelle on joue et que l'on veut modifiee
-	 * @param pB Joueur blanc
-	 * @param pN Joueur noir
-	 * @param jCourant Joueur dont c'est le tour
+	 * 
+	 * @param g
+	 *            Partie sur laquelle on joue et que l'on veut modifiee
+	 * @param pB
+	 *            Joueur blanc
+	 * @param pN
+	 *            Joueur noir
+	 * @param jCourant
+	 *            Joueur dont c'est le tour
 	 */
 	private void changerPartieCourante(Game g, Player pB, Player pN, Pion jCourant)
 	{
@@ -117,34 +122,40 @@ public class Engine implements EngineServices {
 			 */
 			if (nouvJoueurs)
 			{
-				switch (pB.getNiveau())
+				switch (Tools.getTypeOfPlayer(pB))
 				{
-					case "Humain":
+					case Humain:
 						partieCourante.joueurBlanc = new HumanPlayer(pB);
 						break;
-					case "IA Facile":
+					case IAFacile:
 						partieCourante.joueurBlanc = new EasyAI(this, true, pB.name);
 						break;
-					case "IA Moyenne":
+					case IAMoyenne:
 						partieCourante.joueurBlanc = new MediumAI(this, true, pB.name);
 						break;
-					case "IA Difficile":
+					case IADifficile:
 						partieCourante.joueurBlanc = new HardAI(this, true, pB.name);
 						break;
+					case Reseau:
+						partieCourante.joueurBlanc = new NetworkPlayer(this, false, pB.name);
+						break;
 				}
-				switch (pN.getNiveau())
+				switch (Tools.getTypeOfPlayer(pN))
 				{
-					case "Humain":
+					case Humain:
 						partieCourante.joueurNoir = new HumanPlayer(pN);
 						break;
-					case "IA Facile":
+					case IAFacile:
 						partieCourante.joueurNoir = new EasyAI(this, true, pN.name);
 						break;
-					case "IA Moyenne":
+					case IAMoyenne:
 						partieCourante.joueurNoir = new MediumAI(this, true, pN.name);
 						break;
-					case "IA Difficile":
+					case IADifficile:
 						partieCourante.joueurNoir = new HardAI(this, true, pN.name);
+						break;
+					case Reseau:
+						partieCourante.joueurNoir = new NetworkPlayer(this, false, pN.name);
 						break;
 				}
 			} else
@@ -161,7 +172,6 @@ public class Engine implements EngineServices {
 				Thread.sleep(500);
 			} catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			gameInProgress = true;
@@ -170,13 +180,11 @@ public class Engine implements EngineServices {
 		{
 			partieCourante = g;
 		}
-		//System.out.println("/////VERIF////" + Tools.getTypePartie(g) + " " + Tools.getTypeOfPlayer(g.joueurBlanc) + " " + Tools.getTypeOfPlayer(g.joueurNoir) + " " + this.getPremierJoueur());
 	}
 
 	@Override
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
-		//System.out.println("Nouvelle partie demandee");
 		Game g = new Game(this, this.undoRedo, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
@@ -243,7 +251,6 @@ public class Engine implements EngineServices {
 
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			this.affichage.sauvegardeReussie(false);
 			e.printStackTrace();
 		}
@@ -255,7 +262,6 @@ public class Engine implements EngineServices {
 	{
 		File fichier = new File(path);
 
-		// ouverture d'un flux sur un fichier
 		ObjectInputStream ois = null;
 		try
 		{
@@ -382,7 +388,6 @@ public class Engine implements EngineServices {
 	@Override
 	public boolean getPremierJoueur()
 	{
-		// TODO Auto-generated method stub
 		return this.partieCourante.premierJoueur;
 	}
 
@@ -416,7 +421,6 @@ public class Engine implements EngineServices {
 				this.networkManager.terminerPartieReseau();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -437,7 +441,6 @@ public class Engine implements EngineServices {
 				this.networkManager.terminerPartieReseau();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -460,13 +463,26 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void envoyerCoup(Coup c)
+	public void envoyerCoupSurReseau(Coup c)
 	{
 		System.out.println("envoi ?");
-		if(this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)){
-			System.out.println("envoye de " +c);
-			this.networkManager.setaEnvoyer(c);
-			
+		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
+		{
+			System.out.println("envoye de " + c);
+			this.networkManager.setCoupAEnvoyer(c);
+
+		}
+	}
+
+	@Override
+	public void envoyerChoixCaseSurReseau(Coordonnee c)
+	{
+
+		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
+		{
+			System.out.println("envoye de " + c);
+			this.networkManager.setCoordoneeAEnvoyer(c);
+
 		}
 	}
 

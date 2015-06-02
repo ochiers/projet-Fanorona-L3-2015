@@ -3,11 +3,14 @@ package network;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import engine.Case;
 import engine.Coordonnee;
 import engine.Coup;
 import engine.EngineServices;
@@ -25,13 +28,8 @@ public class NetworkManager extends Thread {
 	public EngineServices	leMoteur;
 	public Coup				coupRecu;
 	public Coordonnee		coordonneeRecu;
-	private boolean			enReception;
-	private Coup			aEnvoyer;
-
-	public void setaEnvoyer(Coup aEnvoyer)
-	{
-		this.aEnvoyer = aEnvoyer;
-	}
+	private Coup			coupAEnvoyer;
+	private Coordonnee		coordonneeAEnvoyer;
 
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
@@ -62,7 +60,6 @@ public class NetworkManager extends Thread {
 	 */
 	public void hebergerPartie()
 	{
-		System.out.println("Partie en réseau ---------------------------------- ");
 		try
 		{
 			socketServeurPrincipal = new ServerSocket(port);
@@ -84,7 +81,6 @@ public class NetworkManager extends Thread {
 	 */
 	public void rejoindrePartie()
 	{
-		System.out.println("Partie en réseau à rejoindre---------------------------------- ");
 		try
 		{
 			InetAddress addr = InetAddress.getByName(ip);
@@ -97,7 +93,14 @@ public class NetworkManager extends Thread {
 		{
 			System.err.println(e);
 		}
-		System.out.println("Partie en réseau rejointe ---------------------------------- ");
+	}
+
+	public void terminerPartieReseau() throws IOException
+	{
+		this.reception.close();
+		this.envoi.close();
+		this.socketEnvoiPrincipal.close();
+		this.socketServeurPrincipal.close();
 	}
 
 	/**
@@ -107,9 +110,7 @@ public class NetworkManager extends Thread {
 	 */
 	public void sendRequete(int req) throws IOException
 	{
-		System.out.println("Envoie de requete ---------------------------------- ");
 		this.envoi.write(req);
-		System.out.println("Requete envoie ---------------------------------- ");
 	}
 
 	/**
@@ -121,7 +122,6 @@ public class NetworkManager extends Thread {
 	{
 		if (this.reception.available() > 0)
 		{
-			System.out.println("Reception requete ************************************************************************* ");
 			System.out.flush();
 			int req = this.reception.read();
 			switch (req)
@@ -151,45 +151,25 @@ public class NetworkManager extends Thread {
 				case RequestType.EnvoiCase:
 					coordonneeRecu = receiveCoordonnee();
 			}
-			System.out.println("Reception terminee ************************************************************************* ");
 		}
 		return true;
 
 	}
 
-	public void terminerPartieReseau() throws IOException
-	{
-		this.reception.close();
-		this.envoi.close();
-		this.socketEnvoiPrincipal.close();
-		this.socketServeurPrincipal.close();
-	}
-
 	/**
 	 * Envoie du coup valide du joueur humain.
 	 */
-	public void sendCoup(Coup c)
+	public void sendObject(Object c, int req)
 	{
-		System.out.println("Envoi coup ************************************************************************* ");
 		try
 		{
-			this.sendRequete(RequestType.EnvoiCoup);
-			System.out.println("envoi1");
-			this.envoi.write(c.depart.colonne);
-			attenteNotif();
-			System.out.println("envoi2");
-			this.envoi.write(c.depart.ligne);
-			attenteNotif();
-			System.out.println("envoi3");
-			this.envoi.write(c.arrivee.colonne);
-			attenteNotif();
-			System.out.println("envoi4");
-			this.envoi.write(c.arrivee.ligne);
+			this.sendRequete(req);
+			ObjectOutputStream out = new ObjectOutputStream(envoi);
+			out.writeObject(c);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		System.out.println("Coup recu ************************************************************************* ");
 	}
 
 	/**
@@ -197,112 +177,51 @@ public class NetworkManager extends Thread {
 	 */
 	public Coup receiveCoup()
 	{
-		System.out.println("Reception coup ************************************************************************* ");
 		Coup c = null;
 		try
 		{
-			int col1, lig1, col2, lig2;
-			col1 = col2 = lig1 = lig2 = -1;
-
-			while (col1 == -1)
-				col1 = this.reception.read();
-			System.out.print('a');
-			System.out.println(this.envoi);
-			Thread.sleep(500);
-			this.envoi.write(100);
-			System.out.print("a'");
-			while (lig1 == -1)
-				lig1 = this.reception.read();
-			System.out.print('b');
-			this.envoi.write(100);
-			while (col2 == -1)
-				col2 = this.reception.read();
-			System.out.print('c');
-			this.envoi.write(100);
-			while (lig2 == -1)
-				lig2 = this.reception.read();
-			System.out.print('d');
-			//this.envoi.write(100);
-			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
+			ObjectInputStream in = new ObjectInputStream(reception);
+			c = (Coup) in.readObject();
+			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		System.out.println("Coup recu ************************************************************************* : " + c);
+		System.out.println("Coup recu ******************************** : " + c);
 		return c;
 
 	}
 
-	public synchronized Coordonnee receiveCoordonnee()
+
+	public Coordonnee receiveCoordonnee()
 	{
 
 		Coordonnee c = null;
-		enReception = true;
 		try
 		{
-			int col1, lig1;
-			col1 = lig1 = -1;
-
-			while (col1 == -1)
-				col1 = this.reception.read();
-			this.envoi.write(852);
-			while (lig1 == -1)
-				lig1 = this.reception.read();
-
-			c = new Coordonnee(lig1, col1);
+			ObjectInputStream in = new ObjectInputStream(reception);
+			c = (Coordonnee) in.readObject();
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		enReception = false;
-		notifyAll();
 		return c;
 
 	}
 
-	public void attenteNotif() throws InterruptedException, IOException
+	private void envoyerCoordonnee()
 	{
-
-		System.out.print("JATTEND");
-		int recu = -1;
-		while (recu == -1)
-		{
-			recu = this.reception.read();
-			// System.out.print(recu);
-			// Thread.sleep(50);
-		}
-		System.out.print("JATTEND plus");
+		if (coordonneeAEnvoyer != null)
+			sendObject(coordonneeAEnvoyer, RequestType.EnvoiCase);
+		coordonneeAEnvoyer = null;
 	}
 
-	public void run()
+	private void envoyerCoup()
 	{
-		try
-		{
-			System.out.println("RESEAU TERMINE");
-			while (envoyerCoup() && receiveRequete())
-			{
-				try
-				{
-					Thread.sleep(50);
-				} catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		System.out.println("RESEAU TERMINE");
-	}
-
-	private boolean envoyerCoup()
-	{
-		if (aEnvoyer != null)
-			sendCoup(aEnvoyer);
-		aEnvoyer = null;
-		return true;
+		if (coupAEnvoyer != null)
+			sendObject(coupAEnvoyer, RequestType.EnvoiCoup);
+		coupAEnvoyer = null;
 	}
 
 	public Coup getCoupRecu()
@@ -323,4 +242,48 @@ public class NetworkManager extends Thread {
 		coordonneeRecu = null;
 		return res;
 	}
+
+	public void setCoupAEnvoyer(Coup aEnvoyer)
+	{
+		this.coupAEnvoyer = aEnvoyer;
+	}
+
+	public void setCoordoneeAEnvoyer(Coordonnee aEnvoyer)
+	{
+		this.coordonneeAEnvoyer = aEnvoyer;
+	}
+
+	public void attenteNotif() throws InterruptedException, IOException
+	{
+	
+		System.out.print("J'attend");
+		int recu = -1;
+		while (recu == -1)
+		{
+			recu = this.reception.read();
+		}
+	}
+
+	public void run()
+	{
+		try
+		{
+			while (receiveRequete())
+			{
+				try
+				{
+					envoyerCoordonnee();
+					envoyerCoup();
+					Thread.sleep(50);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 }

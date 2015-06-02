@@ -97,7 +97,6 @@ public class Case implements Serializable {
 
 		switch (d)
 		{
-
 			case Nord:
 				return this.nord;
 			case NordEst:
@@ -139,7 +138,6 @@ public class Case implements Serializable {
 
 	public String toString()
 	{
-
 		return "Case (" + position.ligne + ", " + position.colonne + ") : " + pion;
 	}
 
@@ -153,7 +151,6 @@ public class Case implements Serializable {
 		else
 			c.pion = null;
 		return c;
-
 	}
 
 }
