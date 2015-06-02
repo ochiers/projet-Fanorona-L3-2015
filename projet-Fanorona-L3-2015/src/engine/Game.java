@@ -285,7 +285,7 @@ public class Game implements Serializable {
 				notifyAll();
 				return;
 			}
-			this.leMoteur.envoyerCoup(c);
+			this.leMoteur.envoyerCoupSurReseau(c);
 			boolean rejouer = faireCoup(c);
 			enCombo = rejouer;
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
@@ -329,7 +329,7 @@ public class Game implements Serializable {
 				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
 				System.out.println("PION JOUE " + pionCombo);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
-				this.leMoteur.envoyerCoup(c2);
+				this.leMoteur.envoyerCoupSurReseau(c2);
 				rejouer = faireCoup(c2);
 				
 				System.out.println("PEUT REJOUE ? " + rejouer);
@@ -468,7 +468,9 @@ public class Game implements Serializable {
 				Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
 				while (!rapprochement.contains(choix) && !eloignement.contains(choix))
 					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-
+				
+				leMoteur.envoyerChoixCaseSurReseau(choix.position);
+				
 				if (rapprochement.contains(choix))
 				{
 					leMoteur.getCurrentDisplay().afficherPionsCaptures(rapprochement);

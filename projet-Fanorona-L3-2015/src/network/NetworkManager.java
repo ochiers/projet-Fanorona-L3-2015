@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import engine.Case;
 import engine.Coordonnee;
 import engine.Coup;
 import engine.EngineServices;
@@ -25,13 +26,8 @@ public class NetworkManager extends Thread {
 	public EngineServices	leMoteur;
 	public Coup				coupRecu;
 	public Coordonnee		coordonneeRecu;
-	private boolean			enReception;
-	private Coup			aEnvoyer;
-
-	public void setaEnvoyer(Coup aEnvoyer)
-	{
-		this.aEnvoyer = aEnvoyer;
-	}
+	private Coup			coupAEnvoyer;
+	private Coordonnee		coordonneeAEnvoyer;
 
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
@@ -100,6 +96,14 @@ public class NetworkManager extends Thread {
 		System.out.println("Partie en réseau rejointe ---------------------------------- ");
 	}
 
+	public void terminerPartieReseau() throws IOException
+	{
+		this.reception.close();
+		this.envoi.close();
+		this.socketEnvoiPrincipal.close();
+		this.socketServeurPrincipal.close();
+	}
+
 	/**
 	 * Envoie de la configuration de la machine principale vers la deuxi�me.
 	 * 
@@ -155,14 +159,6 @@ public class NetworkManager extends Thread {
 		}
 		return true;
 
-	}
-
-	public void terminerPartieReseau() throws IOException
-	{
-		this.reception.close();
-		this.envoi.close();
-		this.socketEnvoiPrincipal.close();
-		this.socketServeurPrincipal.close();
 	}
 
 	/**
@@ -222,7 +218,7 @@ public class NetworkManager extends Thread {
 			while (lig2 == -1)
 				lig2 = this.reception.read();
 			System.out.print('d');
-			//this.envoi.write(100);
+			// this.envoi.write(100);
 			c = new Coup(new Coordonnee(lig1, col1), new Coordonnee(lig2, col2));
 		} catch (Exception e)
 		{
@@ -234,11 +230,27 @@ public class NetworkManager extends Thread {
 
 	}
 
-	public synchronized Coordonnee receiveCoordonnee()
+	private void sendCoordonee(Coordonnee coordonnee)
+	{
+		try
+		{
+			this.sendRequete(RequestType.EnvoiCoup);
+			System.out.println("envoi1");
+			this.envoi.write(coordonnee.colonne);
+			attenteNotif();
+			System.out.println("envoi2");
+			this.envoi.write(coordonnee.ligne);
+	
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public Coordonnee receiveCoordonnee()
 	{
 
 		Coordonnee c = null;
-		enReception = true;
 		try
 		{
 			int col1, lig1;
@@ -255,54 +267,22 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-		enReception = false;
-		notifyAll();
 		return c;
 
 	}
 
-	public void attenteNotif() throws InterruptedException, IOException
+	private void envoyerCoordonnee()
 	{
-
-		System.out.print("JATTEND");
-		int recu = -1;
-		while (recu == -1)
-		{
-			recu = this.reception.read();
-			// System.out.print(recu);
-			// Thread.sleep(50);
-		}
-		System.out.print("JATTEND plus");
+		if (coordonneeAEnvoyer != null)
+			sendCoordonee(coordonneeAEnvoyer);
+		coordonneeAEnvoyer = null;
 	}
 
-	public void run()
+	private void envoyerCoup()
 	{
-		try
-		{
-			System.out.println("RESEAU TERMINE");
-			while (envoyerCoup() && receiveRequete())
-			{
-				try
-				{
-					Thread.sleep(50);
-				} catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		System.out.println("RESEAU TERMINE");
-	}
-
-	private boolean envoyerCoup()
-	{
-		if (aEnvoyer != null)
-			sendCoup(aEnvoyer);
-		aEnvoyer = null;
-		return true;
+		if (coupAEnvoyer != null)
+			sendCoup(coupAEnvoyer);
+		coupAEnvoyer = null;
 	}
 
 	public Coup getCoupRecu()
@@ -323,4 +303,54 @@ public class NetworkManager extends Thread {
 		coordonneeRecu = null;
 		return res;
 	}
+
+	public void setCoupAEnvoyer(Coup aEnvoyer)
+	{
+		this.coupAEnvoyer = aEnvoyer;
+	}
+
+	public void setCoordoneeAEnvoyer(Coordonnee aEnvoyer)
+	{
+		this.coordonneeAEnvoyer = aEnvoyer;
+	}
+
+	public void attenteNotif() throws InterruptedException, IOException
+	{
+	
+		System.out.print("JATTEND");
+		int recu = -1;
+		while (recu == -1)
+		{
+			recu = this.reception.read();
+			// System.out.print(recu);
+			// Thread.sleep(50);
+		}
+		System.out.print("JATTEND plus");
+	}
+
+	public void run()
+	{
+		try
+		{
+			System.out.println("RESEAU TERMINE");
+			while (receiveRequete())
+			{
+				try
+				{
+					envoyerCoordonnee();
+					envoyerCoup();
+					
+					Thread.sleep(50);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("RESEAU TERMINE");
+	}
+
 }

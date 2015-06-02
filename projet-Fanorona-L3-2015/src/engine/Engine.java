@@ -460,12 +460,23 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void envoyerCoup(Coup c)
+	public void envoyerCoupSurReseau(Coup c)
 	{
 		System.out.println("envoi ?");
 		if(this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)){
 			System.out.println("envoye de " +c);
-			this.networkManager.setaEnvoyer(c);
+			this.networkManager.setCoupAEnvoyer(c);
+			
+		}
+	}
+
+	@Override
+	public void envoyerChoixCaseSurReseau(Coordonnee c)
+	{
+		
+		if(this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)){
+			System.out.println("envoye de " +c);
+			this.networkManager.setCoordoneeAEnvoyer(c);
 			
 		}
 	}
