@@ -17,18 +17,57 @@ import engine.EngineServices;
 import engine.Player;
 import engine.Tools;
 
+/**
+ * Mini moteur rataché au moteur pricipal, sert d'interface avec le reseau
+ * @author soulierc
+ *
+ */
 public class NetworkManager extends Thread {
 
+	/**
+	 * L'ip de l'ordinateur distant si on s'est connecté
+	 */
 	public String			ip;
+	/**
+	 * Le port de la connection actuelle
+	 */
 	public int				port;
+	/**
+	 * Le socket serveur acceptant les connections.
+	 */
 	public ServerSocket		socketServeurPrincipal;
+	/**
+	 * Le socket de la connection permettant les echanges
+	 */
 	public Socket			socketEnvoiPrincipal;
+	/**
+	 * Le flux d'entree
+	 */
 	public InputStream		reception;
+	/**
+	 * Le flux de sortie
+	 */
 	public OutputStream		envoi;
+	/**
+	 * Le moteur du jeu
+	 */
 	public EngineServices	leMoteur;
+	/**
+	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le reseau
+	 */
 	public Coup				coupRecu;
+	/**
+	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le reseau
+	 */
 	public Coordonnee		coordonneeRecu;
+	
+	/**
+	 * Le coup qui doit etre envoyé sur le reseau
+	 */
 	private Coup			coupAEnvoyer;
+	/**
+	 * La coordonnee qui doit etre envoyee sur le reseau
+	 */
 	private Coordonnee		coordonneeAEnvoyer;
 
 	public NetworkManager(EngineServices e, int port, String ip)
@@ -37,23 +76,7 @@ public class NetworkManager extends Thread {
 		this.ip = ip;
 		this.port = port;
 	}
-
-	// TODO 1. Etablir la connexion
-	// TODO 2. Envoyer la configuration
-	// TODO 3. Envoyer un coup valide au moteur distant
-	// TODO 4. Envoyer le coup au joueur (moteur -> joueur)
-
-	// TODO Système de requêtes : Envoie d'une annulation/refaire
-
-	// Comment déterminer celui qui commence ?
-	// Le moteur analyse en local les coups tenter par le joueur humain puis
-	// l'envoie sur le r�seau. Seul des coups valides sont envoyés.
-	// Comment annuler et refaire en réseau ? Requête ?
-
-	/*
-	 * Serveur Principal : Seb L'autre ordi : Clem Seb ouvre un socket d'écoute Clem s'y connecte et envoie un numéro de port Seb ouvre un socket d'envoi Seb envoie la configuration dont celui qui commence
-	 */
-
+	
 	/**
 	 * L'ordinateur qui execute cette fonction est le serveur principal.
 	 * 
@@ -125,7 +148,7 @@ public class NetworkManager extends Thread {
 	 * 
 	 * @throws IOException
 	 */
-	public boolean receiveRequete() throws IOException
+	private boolean receiveRequete() throws IOException
 	{
 		if (this.reception.available() > 0)
 		{
@@ -166,7 +189,7 @@ public class NetworkManager extends Thread {
 	/**
 	 * Envoie du coup valide du joueur humain.
 	 */
-	public void sendObject(Object c, int req)
+	private void sendObject(Object c, int req)
 	{
 		try
 		{
@@ -182,7 +205,7 @@ public class NetworkManager extends Thread {
 	/**
 	 * Réception du coup envoyé sur le réseau.
 	 */
-	public Coup receiveCoup()
+	private Coup receiveCoup()
 	{
 		Coup c = null;
 		try
@@ -201,7 +224,7 @@ public class NetworkManager extends Thread {
 	}
 
 
-	public Coordonnee receiveCoordonnee()
+	private Coordonnee receiveCoordonnee()
 	{
 
 		Coordonnee c = null;
@@ -250,25 +273,22 @@ public class NetworkManager extends Thread {
 		return res;
 	}
 
+	/**
+	 * Donne le coup a envoyer sur le reseau
+	 * @param aEnvoyer Un coup
+	 */
 	public void setCoupAEnvoyer(Coup aEnvoyer)
 	{
 		this.coupAEnvoyer = aEnvoyer;
 	}
 
+	/**
+	 * Donne la coordonnee a envoyer sur le reseau
+	 * @param aEnvoyer Une coordonnee
+	 */
 	public void setCoordoneeAEnvoyer(Coordonnee aEnvoyer)
 	{
 		this.coordonneeAEnvoyer = aEnvoyer;
-	}
-
-	public void attenteNotif() throws InterruptedException, IOException
-	{
-	
-		System.out.print("J'attend");
-		int recu = -1;
-		while (recu == -1)
-		{
-			recu = this.reception.read();
-		}
 	}
 
 	public void run()

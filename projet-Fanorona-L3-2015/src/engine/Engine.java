@@ -52,8 +52,6 @@ public class Engine implements EngineServices {
 	 */
 	public boolean			premierJeu;
 	public NetworkManager	networkManager;
-	private boolean			reqAnnuler;
-	private boolean			reqRefaire;
 
 	public Engine()
 	{
