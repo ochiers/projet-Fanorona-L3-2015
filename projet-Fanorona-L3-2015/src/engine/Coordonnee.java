@@ -10,9 +10,6 @@ import java.io.Serializable;
  */
 public class Coordonnee implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= -2185563985578894357L;
 	public int					ligne;
 	public int					colonne;
@@ -25,10 +22,8 @@ public class Coordonnee implements Serializable {
 	 */
 	public Coordonnee(int ligne, int colonne)
 	{
-
 		this.ligne = ligne;
 		this.colonne = colonne;
-
 	}
 
 	/**
@@ -48,20 +43,17 @@ public class Coordonnee implements Serializable {
 	 */
 	public int getColonne()
 	{
-
 		return this.colonne;
 	}
 
 	public boolean equals(Object o)
 	{
-
 		if (o != null && o instanceof Coordonnee)
 		{
 			Coordonnee c = (Coordonnee) o;
 			return c.ligne == this.ligne && c.colonne == this.colonne;
 		}
 		return false;
-
 	}
 
 	public String toString()
