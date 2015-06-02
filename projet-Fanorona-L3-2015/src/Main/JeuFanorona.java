@@ -16,9 +16,8 @@ public class JeuFanorona {
 		EngineServices e = new Engine();
 		Fenetre f = new Fenetre(e);
 		e.setDisplay(f);
-		Player p1 = new HumanPlayer(e, false, "seb");
-		Player p2 = new EasyAI(e, true, "player1");
-		boolean client = false;
+		Player p1 = null;
+		Player p2 = null;
 		if (argv.length > 0)
 		{
 			if (argv[0].equals("--help") || argv[0].equals("-h"))
@@ -28,21 +27,26 @@ public class JeuFanorona {
 				if (argv.length == 3 && argv[1].toLowerCase().equals("server"))
 				{
 					e.hebergerPartie(Integer.parseInt(argv[2]));
+					p1 = new HumanPlayer(e, false, "Joueur");
 					p2 = new NetworkPlayer(e, false, "Player at " + e.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
 				} else if (argv.length == 4 && argv[1].toLowerCase().equals("client"))
 					if (Tools.isValidIP(argv[3]) || argv[3].toLowerCase().equals("localhost"))
 					{
+						p1 = new NetworkPlayer(e, false, "Player at " + argv[3]);
+						p2 = new HumanPlayer(e, false, "Joueur");
 						e.rejoindrePartie(Integer.parseInt(argv[2]), argv[3]);
-						p2 = new NetworkPlayer(e, false, "Player at " + argv[3]);
-						client = true;
 					} else
 						System.err.println("L'adresse ip fournie est invalide");
 				else
 					usage();
 			}
 		}
-		
-		e.nouvellePartie(p1, p2, (client)?0:1, new Dimension(9, 5));
+		if (p1 == null && p2 == null)
+		{
+			p1 = new HumanPlayer(e, false, "Clem");
+			p2 = new EasyAI(e, true, "Solveur");
+		}
+		e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 		SwingUtilities.invokeLater(f);
 		Thread.sleep(200);
 		e.begin();
