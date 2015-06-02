@@ -329,7 +329,7 @@ public class Game implements Serializable {
 				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
 				System.out.println("PION JOUE " + pionCombo);
 				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
-				this.leMoteur.envoyerCoup(c);
+				this.leMoteur.envoyerCoup(c2);
 				rejouer = faireCoup(c2);
 				
 				System.out.println("PEUT REJOUE ? " + rejouer);

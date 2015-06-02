@@ -229,7 +229,7 @@ public class NetworkManager extends Thread {
 			e.printStackTrace();
 		}
 
-		System.out.println("Coup recu ************************************************************************* ");
+		System.out.println("Coup recu ************************************************************************* : " + c);
 		return c;
 
 	}
