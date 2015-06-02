@@ -101,5 +101,5 @@ Mardi 2 juin
 	Matin :
 		- Debug de nouveaux soucis rencontrés avec les IA moyenne et difficile, remplacement des get() par des iterator.
 	Après-midi :
-		
+		- Debug et tests IA.
 		

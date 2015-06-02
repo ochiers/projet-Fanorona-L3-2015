@@ -17,6 +17,8 @@ public class MediumAI extends Player implements Serializable {
 	Stack<DemiCoup> pileCoups;
 	public int nbPionsJoueur;
 	public int nbPionsAdversaire;
+	public int profondeurInitiale;
+	int facteurBranchement;
 	
 	ArrayList<Case> premieresCasesPrises; /* La première case prise par chaque coup stocké dans la liste des meilleurs coups */
 	Case choix; /* La première case qu'on capture avec le coup choisi à la fin de la méthode play */
@@ -28,10 +30,17 @@ public class MediumAI extends Player implements Serializable {
 		nbPionsAdversaire = 22;
 		nbPionsJoueur = 22;
 		pileCoups = new Stack<DemiCoup>();
+		profondeurInitiale = 2;
 	}
 	
-	public int eval(){
-		return nbPionsJoueur-nbPionsAdversaire;
+	public int eval(int profondeur, boolean noeudMin){
+		facteurBranchement++;
+		if(profondeurInitiale == 4){
+			if(noeudMin)
+				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10;
+			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10;
+		}
+		else return nbPionsJoueur-nbPionsAdversaire;
 	}
 	
 	public int alphaBeta(Case[] listeCases, int alpha, int beta, boolean noeudMin, int profondeur, Pion couleurJoueur, ArrayList<Case> combo, boolean comboEnCours) {
@@ -39,7 +48,7 @@ public class MediumAI extends Player implements Serializable {
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, couleurJoueur);
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		if(profondeur == 0 || nbPionsAdversaire == 0 || nbPionsJoueur == 0) { /* Si on est sur une feuille ou qu'on a atteint la profondeur maximale */
-			return eval();
+			return eval(profondeur, noeudMin);
 		}
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
@@ -100,7 +109,7 @@ public class MediumAI extends Player implements Serializable {
 						}
 						else {
 							if(!comboEnCours){
-								capturer(coupCourant, true, new ArrayList<Case>(), couleurAdversaire);
+								capturer(coupCourant, true, new ArrayList<Case>(), couleurJoueur);
 							}
 							combo2.clear();
 							pionsJouables = lesPionsJouables(couleurAdversaire);
@@ -413,7 +422,8 @@ public class MediumAI extends Player implements Serializable {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-		int profondeur = 2;
+		if(this.nbPionsAdversaire < 6)
+			profondeurInitiale = 4;
 		this.matrice = laMatrice;
 		//long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
@@ -436,7 +446,6 @@ public class MediumAI extends Player implements Serializable {
 			Coup coupCourant = it.next();
 			Case premiereCasePrise = null;
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
-				System.out.println("test");
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee);
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, matrice[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
@@ -454,7 +463,7 @@ public class MediumAI extends Player implements Serializable {
 					comboPercussion.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					Case[] listeCases2 = new Case[1];
 					listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-					int res1 = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, comboPercussion, true);
+					int res1 = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeurInitiale, couleurJoueur, comboPercussion, true);
 					annuler(false, couleurJoueur);
 					
 					/* Modification plateau et appel récursif pour la capture par aspiration */
@@ -463,7 +472,7 @@ public class MediumAI extends Player implements Serializable {
 					comboAspiration.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 					Case[] listeCases3 = new Case[1];
 					listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-					int res2 = alphaBeta(listeCases3, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, comboAspiration, true);
+					int res2 = alphaBeta(listeCases3, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeurInitiale, couleurJoueur, comboAspiration, true);
 					annuler(false, couleurJoueur);
 					
 					if(res1>res2){
@@ -486,7 +495,7 @@ public class MediumAI extends Player implements Serializable {
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						premiereCasePrise = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne].getCaseAt(directionCoup);
-						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
+						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeurInitiale, couleurJoueur, combo, true);
 						annuler(false, couleurJoueur);
 					}
 					else if(evaluationNbCapturésAspiration > 0) {
@@ -494,7 +503,7 @@ public class MediumAI extends Player implements Serializable {
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 						premiereCasePrise = matrice[coupCourant.depart.ligne][coupCourant.depart.colonne].getCaseAt(Direction.oppose(directionCoup));
-						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeur, couleurJoueur, combo, true);
+						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeurInitiale, couleurJoueur, combo, true);
 						annuler(false, couleurJoueur);
 					} 
 					else {
@@ -504,15 +513,15 @@ public class MediumAI extends Player implements Serializable {
 						pionsJouables = lesPionsJouables(couleurAdversaire);
 						Case[] listeCases2 = new Case[pionsJouables.size()];
 						combo.clear();
-						res = alphaBeta(pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo, false);
+						res = alphaBeta(pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeurInitiale-1, couleurAdversaire, combo, false);
 						if(partieCourante.combo.isEmpty()){
 							annuler(false, couleurJoueur);
 						}
 					}
 				}
 				// PRINT
-				//Coup p = coupCourant;
-				//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+				Coup p = coupCourant;
+				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 			
 				if(res > meilleurRes){
 					meilleurRes = res;
@@ -526,25 +535,27 @@ public class MediumAI extends Player implements Serializable {
 					premieresCasesPrises.add(premiereCasePrise);
 				}
 			}
-			else if(leMoteur.enCombo()){
-				ArrayList<Case> pionsJouables;
-				ArrayList<Case> combo2 = new ArrayList<Case>();
-				pionsJouables = lesPionsJouables(couleurAdversaire);
-				Case[] listeCases2 = new Case[pionsJouables.size()];
-				res = alphaBeta(pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
-			}
+//			else if(leMoteur.enCombo()){
+//				ArrayList<Case> pionsJouables;
+//				ArrayList<Case> combo2 = new ArrayList<Case>();
+//				pionsJouables = lesPionsJouables(couleurAdversaire);
+//				Case[] listeCases2 = new Case[pionsJouables.size()];
+//				res = alphaBeta(pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
+//			}
 		}
 		Random r = new Random();
 		int rand = r.nextInt(meilleurCoups.size());
 		choix = premieresCasesPrises.get(rand);
-		System.out.println("Coup renvoyé " + meilleurCoups.get(rand));
+		//System.out.println("Coup renvoyé " + meilleurCoups.get(rand));
 		//System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
+		//System.out.println("Nb feuilles " + this.facteurBranchement);
+		facteurBranchement = 0;
 		return meilleurCoups.get(rand);
 	}
 
 	@Override
 	public String getNiveau() {
-		return "IA Difficile";
+		return "IA Moyenne";
 	}
 
 	@Override
