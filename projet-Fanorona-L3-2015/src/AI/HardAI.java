@@ -43,8 +43,9 @@ public class HardAI extends Player implements Serializable {
 		}
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
-			for(int i  = 0; i < listeCoups.size(); i++){ /* On joue chaque coup possible */
-				Coup coupCourant = listeCoups.get(i);
+			Iterator<Coup> it = listeCoups.iterator();
+			while(it.hasNext()) {
+				Coup coupCourant = it.next();
 				if(!coupImpossible(coupCourant, combo)) {
 					/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 					Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */				
@@ -124,8 +125,9 @@ public class HardAI extends Player implements Serializable {
 		}
 		else { /* tour de l'IA */
 			val = Integer.MIN_VALUE;
-			for(int i  = 0; i < listeCoups.size(); i++){ /* Pour chaque voisin de la case c, on va jouer le coup c -> voisin */
-				Coup coupCourant = listeCoups.get(i);
+			Iterator<Coup> it = listeCoups.iterator();
+			while(it.hasNext()) {
+				Coup coupCourant = it.next();
 				if(!coupImpossible(coupCourant, combo)) {
 					/* On joue le coup avec les deux types de capture (percussion et absorption) sur des copies du plateau de jeu pour ne pas modifier l'état de la partie */
 					Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */
@@ -382,8 +384,9 @@ public class HardAI extends Player implements Serializable {
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
 		for(int i =0; i < listeCases.length; i++){
 			ArrayList<Case> voisins = voisins(listeCases[i]);
-			for(int j = 0; j < voisins.size(); j++){
-				Coup c = new Coup(listeCases[i].position, voisins.get(j).position);
+			Iterator<Case> it = voisins.iterator();
+			while(it.hasNext()) {
+				Coup c = new Coup(listeCases[i].position, it.next().position);
 				listeCoups.add(c);
 				Direction d = determinerDirection(c.depart, c.arrivee);
 				Case prisePercussion = matrice[c.arrivee.ligne][c.arrivee.colonne].getCaseAt(d);
@@ -398,8 +401,9 @@ public class HardAI extends Player implements Serializable {
 	}
 	
 	public boolean coupImpossible(Coup c, ArrayList<Case> listeCasesInterdites){
-		for(int j = 0; j<listeCasesInterdites.size(); j++){
-			if(c.arrivee.equals(listeCasesInterdites.get(j).position)){
+		Iterator<Case> it = listeCasesInterdites.iterator();
+		while(it.hasNext()){
+			if(c.arrivee.equals(it.next().position)){
 				return true;
 			}
 		}
@@ -410,23 +414,28 @@ public class HardAI extends Player implements Serializable {
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
 		int profondeur = 6;
+//		if(this.nbPionsAdversaire < 6)
+//			profondeur = 10;
 		this.matrice = laMatrice;
 		//long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
 		Pion couleurJoueur = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
+		this.nbPionsJoueur = (couleurJoueur == Pion.Blanc) ? partieCourante.nombrePionBlanc : partieCourante.nombrePionNoir;
+		this.nbPionsAdversaire = (couleurJoueur == Pion.Blanc) ? partieCourante.nombrePionNoir : partieCourante.nombrePionBlanc;
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, couleurJoueur);
 		int meilleurRes = Integer.MIN_VALUE;
-		int res = 0;
+		int res = 0;	
 		
-//		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-		for(int i = 0; i < listeCoups.size(); i++){
-			Coup coupCourant = listeCoups.get(i);
+		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Iterator<Coup> it = listeCoups.iterator();
+		while(it.hasNext()) {
+			Coup coupCourant = it.next();
 			Case premiereCasePrise = null;
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee);
@@ -503,8 +512,8 @@ public class HardAI extends Player implements Serializable {
 					}
 				}
 				// PRINT
-				//Coup p = coupCourant;
-				//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+				Coup p = coupCourant;
+				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 			}
 			else if(leMoteur.enCombo()){
 				ArrayList<Case> pionsJouables;
@@ -529,7 +538,7 @@ public class HardAI extends Player implements Serializable {
 		Random r = new Random();
 		int rand = r.nextInt(meilleurCoups.size());
 		choix = premieresCasesPrises.get(rand);
-		//System.out.println(meilleurCoups.get(rand));
+		//System.out.println("Coup renvoyé " + meilleurCoups.get(rand));
 		//System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
 		return meilleurCoups.get(rand);
 	}
