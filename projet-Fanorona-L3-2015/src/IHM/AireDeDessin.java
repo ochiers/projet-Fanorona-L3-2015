@@ -71,7 +71,7 @@ public class AireDeDessin extends JComponent {
 		}*/
     	int plateauW = plateau.getImage().getWidth(null);
     	int plateauH = plateau.getImage().getHeight(null);
-    	System.out.println(" width " + plateauW + " height " + plateauH);
+    	System.out.println(" width " + width + " height " + height);
     	float etirW = width / plateauW;
     	float etirH = height / plateauH;
     	float etir = etirW < etirH ? etirW : etirH;
