@@ -381,11 +381,13 @@ public class AireDeDessin extends JComponent {
     
     
     public void dessinJeton(Graphics2D drawable,Pion pion, int x,int y, double segment){
-    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1); else drawable.setPaint(fenetre.pion2);
-    	int rayon = (int)(segment/3.5);
-    	drawable.fillOval(x-rayon, y-rayon, 2*rayon, 2*rayon);
-    	drawable.setPaint(Color.black);
-    	drawable.drawOval(x-rayon, y-rayon, 2*rayon, 2*rayon);
+    	if(pion != null){
+	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);else drawable.setPaint(fenetre.pion2);
+	    	int rayon = (int)(segment/3.5);
+	    	drawable.fillOval(x-rayon, y-rayon, 2*rayon, 2*rayon);
+	    	drawable.setPaint(Color.black);
+	    	drawable.drawOval(x-rayon, y-rayon, 2*rayon, 2*rayon);
+    	}
     }
     
     public void choixManger(Graphics2D drawable){
