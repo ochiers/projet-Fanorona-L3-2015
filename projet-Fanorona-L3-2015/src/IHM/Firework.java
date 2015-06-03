@@ -133,8 +133,8 @@ public final class Firework extends JFrame {
 		}
 	}
 
-	public Fireworks() {
-		super("Swing Fireworks");
+	public Firework() {
+		super("Swing Firework");
 
 		this.mainPanel = new JPanel() {
 			protected void paintComponent(Graphics g) {

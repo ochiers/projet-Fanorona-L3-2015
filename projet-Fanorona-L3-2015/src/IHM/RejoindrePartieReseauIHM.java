@@ -37,23 +37,21 @@ public class RejoindrePartieReseauIHM extends JFrame {
 	public static JTextField	txt_saisieIp;
 	public static JTextField	txt_saisiePort;
 
-	public RejoindrePartieReseauIHM(Engine moteur)
-	{
+	public RejoindrePartieReseauIHM(Engine moteur){
 		RejoindrePartieReseauIHM.setLeMoteur(moteur);
 	}
 
-	public static void init()
-	{
+	public static void init(){
 		frame = new JFrame(titleFrame);
 		frame.setSize(width, height);
 
 		JPanel pan = new JPanel();
 		pan.setLayout(null);
 
-		JLabel explicationIP = new JLabel("Adresse IP visée : ");
+		JLabel explicationIP = new JLabel("Adresse IP visee : ");
 		explicationIP.setBounds(20, 20, 150, 40);
 
-		JLabel explicationPort = new JLabel("Port visé : ");
+		JLabel explicationPort = new JLabel("Port vise : ");
 		explicationPort.setBounds(75, 70, 100, 40);
 
 		txt_saisieIp = new JTextField("192.168.0.2", 15);
@@ -85,18 +83,15 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		frame.setVisible(true);
 	}
 
-	public static void main(String argv[])
-	{
+	public static void main(String argv[]){
 		init();
 	}
 
-	public static Engine getLeMoteur()
-	{
+	public static Engine getLeMoteur(){
 		return leMoteur;
 	}
 
-	public static void setLeMoteur(Engine leMoteur)
-	{
+	public static void setLeMoteur(Engine leMoteur){
 		RejoindrePartieReseauIHM.leMoteur = leMoteur;
 	}
 
@@ -105,12 +100,10 @@ public class RejoindrePartieReseauIHM extends JFrame {
 class rejoindreListener implements ActionListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e){
 		Engine moteur = RejoindrePartieReseauIHM.getLeMoteur();
 		String ip = RejoindrePartieReseauIHM.txt_saisieIp.getText();
-		if (Tools.isValidIP(ip))
-		{
+		if (Tools.isValidIP(ip)){
 			Player p1 = new NetworkPlayer(moteur, false, "Player at " + ip);
 			Player p2 = new HumanPlayer(moteur, false, "Joueur");
 			try
@@ -129,8 +122,7 @@ class rejoindreListener implements ActionListener {
 class annulerListener implements ActionListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e){
 		RejoindrePartieReseauIHM.frame.setVisible(false);
 	}
 

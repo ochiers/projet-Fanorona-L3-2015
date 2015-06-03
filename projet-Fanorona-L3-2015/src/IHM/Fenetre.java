@@ -181,17 +181,22 @@ public class Fenetre implements Runnable,Affichage {
 		JLabel score2 = new JLabel(" Pions restants ");
 		tour1 = new JLabel(" A votre tour ! ");
 		tour2 = new JLabel(" A votre tour ! ");
- 		
+		
 			//joueur 1
 		JPanel panelOuest = new JPanel();
-		panelOuest.setLayout(new BoxLayout(panelOuest, 1));
-		panelOuest.setOpaque(false);
-		panelOuest.add(j1);
-		panelOuest.add(idj1);
-		panelOuest.add(levelj1);
-		panelOuest.add(scoreInt1);
-		panelOuest.add(score1);
-		panelOuest.add(tour1);
+		JPanel ouest = new JPanel();
+		ouest.setLayout(new BoxLayout(ouest, 1));
+		ouest.setBackground(Color.GRAY);
+		ouest.setSize(panelOuest.getWidth(), panelOuest.getHeight()/2);
+		
+		ouest.setOpaque(true);
+		ouest.add(j1);
+		ouest.add(idj1);
+		ouest.add(levelj1);
+		ouest.add(scoreInt1);
+		ouest.add(score1);
+		ouest.add(tour1);
+		panelOuest.add(ouest);
  		
 			//joueur 2
  		JPanel panelEst = new JPanel();
@@ -312,6 +317,7 @@ public class Fenetre implements Runnable,Affichage {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("test");
+			preference.save=panelAccueil.getImage();
 			frame3.setVisible(true);
 	    }               
 		
@@ -395,7 +401,6 @@ public class Fenetre implements Runnable,Affichage {
 	// METHODE AFFICHAGE
 	
 	public void afficherJeu(){
-		//System.out.println("11111111");
 		monDessin.repaint();
 	}
 
