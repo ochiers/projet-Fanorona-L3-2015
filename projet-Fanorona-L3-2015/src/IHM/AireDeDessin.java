@@ -61,40 +61,22 @@ public class AireDeDessin extends JComponent {
         decalageL = (int)(1.55*segment);
     	int width = this.getSize().width;
     	int height = this.getSize().height;
-    	/*
-    	if ((width < 561) || (height < 338)){
-    		System.out.println(" trop petit ");
-    		fenetre.frame.setSize(fenetre.wmin, fenetre.hmin);
-    		width = 561;
-    		height = 338;
-    	}
-    	else if (width >= height){ height = (int)((60.25*width)/100); }
-    	else if (height >= width){ width = (int)((165.98*height)/100); }
-    	else if ((width > 996) || (height > 600)){
-    		System.out.println(" trop grand ");
-    		fenetre.frame.setSize(fenetre.wmax, fenetre.hmax);
-    		width = 996;
-			height = 600;
-		}*/
     	int plateauW = plateau.getImage().getWidth(null);
     	int plateauH = plateau.getImage().getHeight(null);
     	float etirW = width  / (float)plateauW;
     	float etirH = height / (float)plateauH;
     	float etir = etirW < etirH ? etirW : etirH;
-    	int originePlateauX = 0
-    	  , originePlateauY = 0;
-    	System.out.println(" width " + width + " height " + height + " PW " + (int)(etir*plateauW));
+    	int originePlateauX = 0;
+    	int originePlateauY = 0;
+    	//System.out.println(" width " + width + " height " + height + " PW " + (int)(etir*plateauW));
     	drawable.drawImage(plateau.getImage(), originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), null);
-    	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
-
+    	
 //        drawable.setPaint(Color.black);
        
         majScore();
         majAQuiLeTour();
         majBouton();
         majNomJoueurs();
-        
-        //dessinGrille(drawable);//grille
 
         if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !finPartie){
         	if(!pionCliquer && doitChoisir){
