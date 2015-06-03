@@ -12,6 +12,7 @@ public class HardAI extends Player implements Serializable {
 	/**
 	 * 
 	 */
+	private static final int profondeurBis = 8;
 	private static final long serialVersionUID = 1L;
 	private Case[][] matrice;
 	Stack<DemiCoup> pileCoups;
@@ -35,7 +36,7 @@ public class HardAI extends Player implements Serializable {
 	
 	public int eval(int profondeur, boolean noeudMin){
 		facteurBranchement++;
-		if(profondeurInitiale == 8){
+		if(profondeurInitiale == profondeurBis){
 			if(noeudMin)
 				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10;
 			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10;
@@ -233,6 +234,36 @@ public class HardAI extends Player implements Serializable {
 		return res;
 	}
 	
+	public boolean coupPerdantPercussion(Case c, Pion couleurAdversaire){
+		if((c.nord != null && c.nord.estVide() && c.nord.nord != null && c.nord.nord.pion == couleurAdversaire) ||
+				(c.nordOuest != null && c.nordOuest.estVide() && c.nordOuest.nordOuest != null && c.nordOuest.nordOuest.pion == couleurAdversaire) ||
+				(c.ouest != null && c.ouest.estVide() && c.ouest.ouest != null && c.ouest.ouest.pion == couleurAdversaire) ||
+				(c.sudOuest != null && c.sudOuest.estVide() && c.sudOuest.sudOuest != null && c.sudOuest.sudOuest.pion == couleurAdversaire) ||
+				(c.sud != null && c.sud.estVide() && c.sud.sud != null && c.sud.sud.pion == couleurAdversaire) ||
+				(c.sudEst != null && c.sudEst.estVide() && c.sudEst.sudEst != null && c.sudEst.sudEst.pion == couleurAdversaire) ||
+				(c.est != null && c.est.estVide() && c.est.est != null && c.est.est.pion == couleurAdversaire) ||
+				(c.nordEst != null && c.nordEst.estVide() && c.nordEst.nordEst != null && c.nordEst.nordEst.pion == couleurAdversaire)
+				){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean coupPerdantAspiration(Case c, Pion couleurAdversaire){
+		if((c.nord != null && c.nord.pion == couleurAdversaire && c.nord.nord != null && c.nord.nord.estVide()) ||
+				(c.nordOuest != null && c.nordOuest.pion == couleurAdversaire && c.nordOuest.nordOuest != null && c.nordOuest.nordOuest.estVide()) ||
+				(c.ouest != null && c.ouest.pion == couleurAdversaire && c.ouest.ouest != null && c.ouest.ouest.estVide()) ||
+				(c.sudOuest != null && c.sudOuest.pion == couleurAdversaire && c.sudOuest.sudOuest != null && c.sudOuest.sudOuest.estVide()) ||
+				(c.sud != null && c.sud.pion == couleurAdversaire && c.sud.sud != null && c.sud.sud.estVide()) ||
+				(c.sudEst != null && c.sudEst.pion == couleurAdversaire && c.sudEst.sudEst != null && c.sudEst.sudEst.estVide()) ||
+				(c.est != null && c.est.pion == couleurAdversaire && c.est.est != null && c.est.est.estVide()) ||
+				(c.nordEst != null && c.nordEst.pion == couleurAdversaire && c.nordEst.nordEst != null && c.nordEst.nordEst.estVide())
+				){
+			return true;
+		}
+		return false;
+	}
+	
 	private int annuler(boolean tourAdversaire, Pion couleurJoueur)
 	{
 		DemiCoup coupAAnnuler = this.pileCoups.pop();
@@ -422,19 +453,21 @@ public class HardAI extends Player implements Serializable {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-		if(this.nbPionsAdversaire < 6)
-			profondeurInitiale = 8;
+		if(this.nbPionsAdversaire < 6 || this.nbPionsJoueur < 6)
+			profondeurInitiale = profondeurBis;
 		this.matrice = laMatrice;
-		//long tempsAvant = System.nanoTime();
+		long tempsAvant = System.nanoTime();
 		Game partieCourante = leMoteur.getCurrentGame();
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
+		ArrayList<Coup> coupsNonPerdants = new ArrayList<Coup>();
 		Pion couleurJoueur = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		this.nbPionsJoueur = (couleurJoueur == Pion.Blanc) ? partieCourante.nombrePionBlanc : partieCourante.nombrePionNoir;
 		this.nbPionsAdversaire = (couleurJoueur == Pion.Blanc) ? partieCourante.nombrePionNoir : partieCourante.nombrePionBlanc;
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, couleurJoueur);
 		int meilleurRes = Integer.MIN_VALUE;
-		int res = 0;	
+		int res = 0;
+		ArrayList<Case> premieresCasesPrisesNonPerdants = new ArrayList<Case>();;
 		
 		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
 			Thread.sleep(1000);
@@ -521,33 +554,41 @@ public class HardAI extends Player implements Serializable {
 				}
 				// PRINT
 				Coup p = coupCourant;
+				
 				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
-			
-				if(res > meilleurRes){
+				Case arrivee = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+				if(res > meilleurRes) {
+					if(!(coupPerdantPercussion(arrivee, couleurAdversaire) || coupPerdantAspiration(arrivee, couleurAdversaire)) && profondeurInitiale == profondeurBis) {
+						premieresCasesPrisesNonPerdants.clear();
+						coupsNonPerdants.clear();
+						premieresCasesPrisesNonPerdants.add(premiereCasePrise);
+						coupsNonPerdants.add(coupCourant);
+					}
 					meilleurRes = res;
 					meilleurCoups.clear();
 					premieresCasesPrises.clear();
 					meilleurCoups.add(coupCourant);
 					premieresCasesPrises.add(premiereCasePrise);
 				}
-				if(res == meilleurRes){
+				if(res == meilleurRes) {
+					if(!(coupPerdantPercussion(arrivee, couleurAdversaire) || coupPerdantAspiration(arrivee, couleurAdversaire)) && profondeurInitiale == profondeurBis) {
+						premieresCasesPrisesNonPerdants.add(premiereCasePrise);
+						coupsNonPerdants.add(coupCourant);
+					}
 					meilleurCoups.add(coupCourant);
 					premieresCasesPrises.add(premiereCasePrise);
 				}
 			}
-//			else if(leMoteur.enCombo()){
-//				ArrayList<Case> pionsJouables;
-//				ArrayList<Case> combo2 = new ArrayList<Case>();
-//				pionsJouables = lesPionsJouables(couleurAdversaire);
-//				Case[] listeCases2 = new Case[pionsJouables.size()];
-//				res = alphaBeta(pionsJouables.toArray(listeCases2), Integer.MIN_VALUE, Integer.MAX_VALUE, true, profondeur-1, couleurAdversaire, combo2, false);
-//			}
+		}
+		if(coupsNonPerdants.size() > 0) {
+			premieresCasesPrises = premieresCasesPrisesNonPerdants;
+			meilleurCoups = coupsNonPerdants;
 		}
 		Random r = new Random();
 		int rand = r.nextInt(meilleurCoups.size());
 		choix = premieresCasesPrises.get(rand);
 		//System.out.println("Coup renvoyé " + meilleurCoups.get(rand));
-		//System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
+		System.out.println("Temps mis : " + (System.nanoTime()-tempsAvant));
 		//System.out.println("Nb feuilles " + this.facteurBranchement);
 		facteurBranchement = 0;
 		return meilleurCoups.get(rand);
