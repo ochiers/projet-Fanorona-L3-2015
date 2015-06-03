@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import network.NetworkManager;
@@ -204,9 +205,9 @@ public interface EngineServices {
 	 */
 	public void changerLeJoueur(Player precedent, Player nouveau);
 
-	public void hebergerPartie(int port);
+	public void hebergerPartie(int port)  throws IOException;
 	
-	public void rejoindrePartie(int port, String ip);
+	public void rejoindrePartie(int port, String ip) throws IOException ;
 	
 	public NetworkManager getNetworkManager();
 	

@@ -143,17 +143,17 @@ public class EcouteurDeSouris implements MouseListener{
 
     public Coordonnee position(int x,int y){
     	Coordonnee p=new Coordonnee(-1,-1);	
-		p.colonne=x-(aire.decalageL-aire.segment);
-		p.ligne=y-(aire.decalageH-aire.segment);
-		int nbCoteLargeur=p.colonne/aire.segment;
-		int nbCoteHauteur=p.ligne/aire.segment;
+		p.colonne=x-((int)(aire.CoordonneesPlateau[0]*aire.etir-aire.segment));
+		p.ligne=y-((int)(aire.CoordonneesPlateau[1]*aire.etir-aire.segment));
+		int nbCoteLargeur=p.colonne/(int)aire.segment;
+		int nbCoteHauteur=p.ligne/(int)aire.segment;
 		System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
 		System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
 					
-		Coordonnee p1=new Coordonnee(nbCoteHauteur*aire.segment,nbCoteLargeur*aire.segment);// haut gauche
-		Coordonnee p2=new Coordonnee(nbCoteHauteur*aire.segment,(nbCoteLargeur+1)*aire.segment);//haut droit
-		Coordonnee p3=new Coordonnee((nbCoteHauteur+1)*aire.segment,nbCoteLargeur*aire.segment);//bas gauche
-		Coordonnee p4=new Coordonnee((nbCoteHauteur+1)*aire.segment,(nbCoteLargeur+1)*aire.segment);//bas droit
+		Coordonnee p1=new Coordonnee((int)(nbCoteHauteur*aire.segment),(int)(nbCoteLargeur*aire.segment));// haut gauche
+		Coordonnee p2=new Coordonnee((int)(nbCoteHauteur*aire.segment),(int)((nbCoteLargeur+1)*aire.segment));//haut droit
+		Coordonnee p3=new Coordonnee((int)((nbCoteHauteur+1)*aire.segment),(int)(nbCoteLargeur*aire.segment));//bas gauche
+		Coordonnee p4=new Coordonnee((int)((nbCoteHauteur+1)*aire.segment),(int)((nbCoteLargeur+1)*aire.segment));//bas droit
 		Coordonnee pfinal=new Coordonnee(-1,-1);
 		
 		if(distance(p,p1)<=(aire.tailleJeton/2)){
@@ -172,6 +172,7 @@ public class EcouteurDeSouris implements MouseListener{
 			pfinal.colonne=nbCoteLargeur;
 			pfinal.ligne=nbCoteHauteur;
 		}
+		System.out.println("/////pfinal/////// "+pfinal.ligne+" "+pfinal.colonne);
 		return pfinal;
     	
     }
