@@ -53,6 +53,7 @@ public class AireDeDessin extends JComponent {
         decalageL = (int)(1.55*segment);
     	int width = this.getSize().width;
     	int height = this.getSize().height;
+    	
     	if ((width < 561) || (height < 338)){
     		System.out.println(" trop petit ");
     		fenetre.frame.setSize(fenetre.wmin, fenetre.hmin);
@@ -67,10 +68,11 @@ public class AireDeDessin extends JComponent {
     		width = 996;
 			height = 600;
 		}
+    	tailleJeton=segment/(int)2.5;
     	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);
     	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
-        drawable.setPaint(Color.black);
+//        drawable.setPaint(Color.black);
        
         majScore();
         majAQuiLeTour();

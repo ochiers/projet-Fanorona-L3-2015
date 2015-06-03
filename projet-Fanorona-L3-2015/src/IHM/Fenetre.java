@@ -312,6 +312,7 @@ public class Fenetre implements Runnable,Affichage {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("test");
+			preference.save=panelAccueil.getImage();
 			frame3.setVisible(true);
 	    }               
 		
@@ -395,7 +396,6 @@ public class Fenetre implements Runnable,Affichage {
 	// METHODE AFFICHAGE
 	
 	public void afficherJeu(){
-		//System.out.println("11111111");
 		monDessin.repaint();
 	}
 

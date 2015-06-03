@@ -79,7 +79,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img1 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img1.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -88,7 +88,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img2 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img2.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image2.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -97,7 +97,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img3 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img3.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image3.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -106,7 +106,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img4 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img4.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image4.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -115,7 +115,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img5 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img5.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image5.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -124,7 +124,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img6 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img6.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image6.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -133,7 +133,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img7 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img7.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image7.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -142,7 +142,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img8 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(img8.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image8.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 
@@ -151,7 +151,7 @@ public class ChoixFond extends JPanel {
 	class ItemAction_imgDef implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon(imgDef.getIcon().toString()).getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fenetre.fw, fenetre.fh);
 	      fenetre.frame.repaint();
 	    }               
 

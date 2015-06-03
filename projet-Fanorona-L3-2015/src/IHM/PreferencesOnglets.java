@@ -11,6 +11,7 @@ import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,13 +25,14 @@ public class PreferencesOnglets extends JPanel {
     int pBh = 30;
     
     Fenetre fenetre;
-    ImagePanel iconSave;
+//    ImagePanel iconSave;
+    Image save;
     
 	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
 		
 		fenetre = f;
-		iconSave=fenetre.panelAccueil;
+		
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setPreferredSize(new Dimension(width, height));
         ImageIcon icon = new ImageIcon("src/images/iconFano.jpg");
@@ -94,8 +96,8 @@ public class PreferencesOnglets extends JPanel {
     class ItemAction_annuler implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	    	System.out.println("Image panel: "+fenetre.panelAccueil.getImage().toString()+"    "+iconSave.getImage().toString());
-		      fenetre.panelAccueil=new ImagePanel(iconSave.getImage(), fenetre.fw, fenetre.fh); // panelAccueil et iconSave sont deja egale ...
+	  //  	System.out.println("Image panel: "+fenetre.panelAccueil.getImage().toString()+"    "+iconSave.getImage().toString());
+		      fenetre.panelAccueil=new ImagePanel(save, fenetre.fw, fenetre.fh); // panelAccueil et iconSave sont deja egale ...
 		      fenetre.frame.repaint();
 		      fenetre.frame3.setVisible(false);
 	    }               
