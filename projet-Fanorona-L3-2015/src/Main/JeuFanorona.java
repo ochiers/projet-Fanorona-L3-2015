@@ -14,18 +14,12 @@ public class JeuFanorona {
 	{
 
 		EngineServices e=new Engine();
-		Player p1=new HumanPlayer(e,false,"clem");
-		//Player p1=new EasyAI(e,true,"player1");
-		//Player p2=new NetworkPlayer(e,false,"seb");
-		Player p2=new EasyAI(e,true,"player2");
+		Player p1=null;
+		Player p2=null;
 		Fenetre f= new Fenetre(e);
 		e.setDisplay(f);
-		//e.hebergerPartie(12345);
-		// System.err.close();
-		e.nouvellePartie(p1, p2,0, new Dimension(9,5));
 
-		//Player p1 = null;
-		//Player p2 = null;
+		
 		if (argv.length > 0)
 		{
 			if (argv[0].equals("--help") || argv[0].equals("-h"))
