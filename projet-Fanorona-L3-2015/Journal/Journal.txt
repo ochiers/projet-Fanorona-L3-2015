@@ -114,7 +114,7 @@ Mercredi 3 juin
 		- 
 	Apr√®s-midi :
 		- Debugguage de la fenetre de victoire, reste ‡ modifier pour un faire un affichage de l'interface. Suite du code pour les
-		  halos et le centrage du plateau.
+		  halos. Le centrage du plateau de jeu fonctionne sauf pour halos.
 		
 		
 		

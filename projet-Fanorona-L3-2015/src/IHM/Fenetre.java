@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import engine.*;
 
@@ -74,6 +75,7 @@ public class Fenetre implements Runnable,Affichage {
 	int wmax = 1280;
 	int hmax = 720;
 	
+	int iconPion1, iconPion2;
 	
 	public Fenetre(EngineServices e){
 		engine=e;
@@ -182,74 +184,38 @@ public class Fenetre implements Runnable,Affichage {
 		JLabel score2 = new JLabel(" Pions restants ", SwingConstants.CENTER);
 		tour1 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
 		tour2 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
+		DessinPion monPion1 = new DessinPion(this, pion1, iconPion1);
+		DessinPion monPion2 = new DessinPion(this, pion2, iconPion2);
 		
 			//joueur 1
-		JPanel panelOuest = new JPanel(new GridLayout(5,1));
-		panelOuest.setOpaque(false);
-		//panel vide
-		JPanel vide1 = new JPanel();
-		vide1.setOpaque(false);
-		//nom joueur et niveau
-		JPanel play1 = new JPanel();
-		play1.setLayout(new BoxLayout(play1, 1));
-		play1.setBackground(Color.LIGHT_GRAY);
-		play1.add(j1);
-		play1.add(idj1);
-		play1.add(levelj1);
-		//score
-		JPanel pions1 = new JPanel();
-		pions1.setLayout(new BoxLayout(pions1, 1));
-		pions1.setBackground(Color.GRAY);
-		pions1.setSize(panelOuest.getWidth(), panelOuest.getHeight()/2);
-		pions1.add(scoreInt1);
-		pions1.add(score1);
-		//annonce tour
-		JPanel turn1 = new JPanel();
-		turn1.setBackground(Color.LIGHT_GRAY);
-		turn1.add(tour1);
-		//panel vide
-		JPanel vide2 = new JPanel();
-		vide2.setOpaque(false);
-		//ajout panel ouest
+		JPanel panelOuest = new JPanel(new GridLayout(9,1));
+		iconPion1 = panelOuest.getWidth();
+		JLabel vide1 = new JLabel();
+		panelOuest.setBackground(new Color(255, 255, 255, 128));
+		panelOuest.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
 		panelOuest.add(vide1);
-		panelOuest.add(play1);
-		panelOuest.add(pions1);
-		panelOuest.add(turn1);
-		panelOuest.add(vide2);
+		panelOuest.add(j1);
+		panelOuest.add(idj1);
+		panelOuest.add(levelj1);
+		panelOuest.add(monPion1);
+		panelOuest.add(scoreInt1);
+		panelOuest.add(score1);
+		panelOuest.add(tour1);
  		
 			//joueur 2
-		JPanel panelEst = new JPanel(new GridLayout(5,1));
-		panelEst.setOpaque(false);
-		//panel vide
-		JPanel empty1 = new JPanel();
-		empty1.setOpaque(false);
-		//nom joueur et niveau
-		JPanel play2 = new JPanel();
-		play2.setLayout(new BoxLayout(play2, 1));
-		play2.setBackground(Color.LIGHT_GRAY);
-		play2.add(j2);
-		play2.add(idj2);
-		play2.add(levelj2);
-		//score
-		JPanel pions2 = new JPanel();
-		pions2.setLayout(new BoxLayout(pions2, 1));
-		pions2.setBackground(Color.GRAY);
-		pions2.setSize(panelEst.getWidth(), panelEst.getHeight()/2);
-		pions2.add(scoreInt2);
-		pions2.add(score2);
-		//annonce tour
-		JPanel turn2 = new JPanel();
-		turn2.setBackground(Color.LIGHT_GRAY);
-		turn2.add(tour2);
-		//panel vide
-		JPanel empty2 = new JPanel();
-		empty2.setOpaque(false);
-		//ajout panel ouest
-		panelEst.add(empty1);
-		panelEst.add(play2);
-		panelEst.add(pions2);
-		panelEst.add(turn2);
-		panelEst.add(empty2);
+		JPanel panelEst = new JPanel(new GridLayout(9,1));
+		iconPion2 = panelEst.getWidth();
+		JLabel vide2 = new JLabel();
+		panelEst.setBackground(new Color(255, 255, 255, 128));
+		panelEst.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
+		panelEst.add(vide2);
+		panelEst.add(j2);
+		panelEst.add(idj2);
+		panelEst.add(levelj2);
+		panelEst.add(monPion2);
+		panelEst.add(scoreInt2);
+		panelEst.add(score2);
+		panelEst.add(tour2);
  		
  			//ajout au panel accueil
  		panelAccueil.add(monDessin, BorderLayout.CENTER);

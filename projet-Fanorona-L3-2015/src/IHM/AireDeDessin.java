@@ -38,7 +38,6 @@ public class AireDeDessin extends JComponent {
     double tailleHalo;
 	int originePlateauX = 0;
 	int originePlateauY = 0;
-	int distPionX, distPionY;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -63,7 +62,7 @@ public class AireDeDessin extends JComponent {
         tailleHalo=1.4;
     }
 
-    public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
     	Graphics2D drawable = (Graphics2D) g; 
 		fenetre.fw = fenetre.frame.getWidth();
 		fenetre.fh = fenetre.frame.getHeight();
@@ -117,7 +116,6 @@ public class AireDeDessin extends JComponent {
         
   //      testdegrader(drawable);
         centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
- 
     }
     
     private void centrerPlateau(int width, int height, int pw, int ph) {
