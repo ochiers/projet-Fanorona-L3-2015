@@ -82,12 +82,12 @@ public class NetworkManager extends Thread {
 	
 	/**
 	 * L'ordinateur qui execute cette fonction est le serveur principal.
+	 * @throws IOException 
 	 * 
 	 */
-	public void hebergerPartie()
+	public void hebergerPartie() throws IOException
 	{
-		try
-		{
+		
 			socketServeurPrincipal = new ServerSocket(port);
 
 			System.out.println("Serveur en ecoute sur le port : " + socketServeurPrincipal.getLocalPort());
@@ -96,29 +96,20 @@ public class NetworkManager extends Thread {
 			reception = socketEnvoiPrincipal.getInputStream();
 			envoi = socketEnvoiPrincipal.getOutputStream();
 
-		} catch (Exception e)
-		{
-			System.err.println(e);
-		}
 	}
 
 	/**
 	 * Client
+	 * @throws IOException 
 	 */
-	public void rejoindrePartie()
+	public void rejoindrePartie() throws IOException
 	{
-		try
-		{
 			InetAddress addr = InetAddress.getByName(ip);
 			socketEnvoiPrincipal = new Socket(addr, port);
 
 			this.envoi = socketEnvoiPrincipal.getOutputStream();
 			this.reception = socketEnvoiPrincipal.getInputStream();
 
-		} catch (Exception e)
-		{
-			System.err.println(e);
-		}
 	}
 
 	public void terminerPartieReseau() throws IOException

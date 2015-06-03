@@ -425,8 +425,10 @@ public class Game implements Serializable {
 			return false;
 
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
-		for (int i = 0; i < pionsPossibles.size(); i++)
-			l.add(pionsPossibles.get(i).position);
+		Iterator<Case> it = pionsPossibles.iterator();
+		while(it.hasNext())
+			l.add(it.next().position);
+		
 		Direction d = determinerDirection(c.depart, c.arrivee);
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];

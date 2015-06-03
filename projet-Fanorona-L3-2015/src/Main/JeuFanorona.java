@@ -1,6 +1,7 @@
 package Main;
 
 import java.awt.Dimension;
+import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
@@ -13,39 +14,49 @@ public class JeuFanorona {
 	public static void main(String argv[]) throws InterruptedException
 	{
 
-		EngineServices e=new Engine();
-		Player p1=null;
-		Player p2=null;
-		Fenetre f= new Fenetre(e);
+		EngineServices e = new Engine();
+		Player p1 = null;
+		Player p2 = null;
+		Fenetre f = new Fenetre(e);
 		e.setDisplay(f);
 
-		
 		if (argv.length > 0)
 		{
 			if (argv[0].equals("--help") || argv[0].equals("-h"))
 				usage();
 			else if (argv[0].equals("--net"))
 			{
-				if (argv.length >= 3 && argv[1].toLowerCase().equals("server"))
+				try
 				{
-					e.hebergerPartie(Integer.parseInt(argv[2]));
-					p1 = new HumanPlayer(e, false, "Joueur");
-					p2 = new NetworkPlayer(e, false, "Player at " + e.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-				} else if (argv.length >= 4 && argv[1].toLowerCase().equals("client"))
-					if (Tools.isValidIP(argv[3]) || argv[3].toLowerCase().equals("localhost"))
+					if (argv.length >= 3 && argv[1].toLowerCase().equals("server"))
 					{
-						p1 = new NetworkPlayer(e, false, "Player at " + argv[3]);
-						p2 = new HumanPlayer(e, false, "Joueur");
-						e.rejoindrePartie(Integer.parseInt(argv[2]), argv[3]);
-					} else
-						System.err.println("L'adresse ip fournie est invalide");
-				else
-					usage();
-			}
-			for (int i =0; i<argv.length; i++)
-				if(argv[i].equals("-/v")){
+
+						e.hebergerPartie(Integer.parseInt(argv[2]));
+						p1 = new HumanPlayer(e, false, "Joueur");
+						p2 = new NetworkPlayer(e, false, "Player at " + e.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
+
+					} else if (argv.length >= 4 && argv[1].toLowerCase().equals("client"))
+						if (Tools.isValidIP(argv[3]) || argv[3].toLowerCase().equals("localhost"))
+						{
+							p1 = new NetworkPlayer(e, false, "Player at " + argv[3]);
+							p2 = new HumanPlayer(e, false, "Joueur");
+							e.rejoindrePartie(Integer.parseInt(argv[2]), argv[3]);
+						} else
+						{
+							System.err.println("L'adresse ip fournie est invalide");
+						}
+				} catch (NumberFormatException | IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			} else
+				usage();
+
+			for (int i = 0; i < argv.length; i++)
+				if (argv[i].equals("-/v"))
+				{
 					System.out.close();
-					System.err.close();					
+					System.err.close();
 				}
 		}
 		if (p1 == null && p2 == null)
