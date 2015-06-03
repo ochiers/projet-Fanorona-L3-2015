@@ -1,5 +1,10 @@
 package engine;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 import network.NetworkPlayer;
 import AI.*;
 
@@ -118,4 +123,36 @@ public class Tools {
 		return ip.matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
 	}
 
+	/**
+	 * Permet d'obtenir l'ip de la machine
+	 * @return Une chaine sous forme xxx.xxx.xxx.xxx
+	 */
+	public static String getIp()
+	{
+		String ipOrdi = "";
+		Enumeration<NetworkInterface> e;
+
+		try
+		{
+			e = NetworkInterface.getNetworkInterfaces();
+
+			while (e.hasMoreElements())
+			{
+				NetworkInterface n = (NetworkInterface) e.nextElement();
+				Enumeration<InetAddress> ee = n.getInetAddresses();
+				while (ee.hasMoreElements())
+				{
+					String i = ((InetAddress) ee.nextElement()).toString().replace("/", "");
+					if (!i.toString().contains("127.0.0.1") && Tools.isValidIP(i))
+						ipOrdi = i;
+				}
+			}
+		} catch (SocketException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return ipOrdi;
+	}
 }
