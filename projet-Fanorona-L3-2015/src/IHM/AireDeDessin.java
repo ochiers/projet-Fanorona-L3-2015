@@ -1,8 +1,7 @@
 package IHM;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
+import java.awt.PageAttributes.OriginType;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -37,6 +36,9 @@ public class AireDeDessin extends JComponent {
 //    int nombreImage=1;
     float etir;
     double tailleHalo;
+	int originePlateauX = 0;
+	int originePlateauY = 0;
+	int distPionX, distPionY;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -47,7 +49,6 @@ public class AireDeDessin extends JComponent {
         halo=new Color(0,255,0,255);
         haloChoix=Color.blue;
         comboColor=Color.orange;
-        
         setPreferredSize(new Dimension((int)(10*segment),(int)(6*segment)));
         pCourant=new Coordonnee(-1,-1);
         plateau = new ImageIcon("src/images/Fano9x5.jpg");
@@ -80,8 +81,6 @@ public class AireDeDessin extends JComponent {
     	segment =etir*    (CoordonneesPlateau[2] - CoordonneesPlateau[0])/8.0;
     	tailleJeton = (int)(segment/1.75);
     //	System.out.println("//////taillejeton2//"+tailleJeton+" "+segment);
-    	int originePlateauX = 0;
-    	int originePlateauY = 0;
     	//System.out.println(" width " + width + " height " + height + " PW " + (int)(etir*plateauW));
     	drawable.drawImage(plateau.getImage(), originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), null);
     	
@@ -113,9 +112,7 @@ public class AireDeDessin extends JComponent {
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
         
-    //    Coordonnee p=new Coordonnee(2,4);
-    //    testdegrader(drawable,p);
-
+      //  centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
  
     }
     
@@ -136,18 +133,20 @@ public class AireDeDessin extends JComponent {
     		
     	}
 		drawable.setPaint(Color.black);
+    }
     
+    private void centrerPlateau(int width, int height, int pw, int ph) {
+		if (width>=height){
+			originePlateauX = (width/2)-(pw/2);
+			originePlateauY = (height/2)-(ph/2);
+		}
+		else {
+			originePlateauX = 0;
+			originePlateauY = (height/2)-(ph/2);
+		}
+	}
+
     	
-    	
-   /* 	drawable.setPaint(new Color(red,green,blue,alpha));
-    	int newTaille=tailleJeton+10;
-    	drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-newTaille/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-newTaille/2), (int)newTaille, (int)newTaille);
-    	drawable.setPaint(new Color(red,green,blue,255));
-    	newTaille=tailleJeton;
-    	drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-newTaille/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-newTaille/2), (int)newTaille, (int)newTaille);
-    	
-    	drawable.setPaint(Color.black);
-  */  }
       
     public void majScore(){
     	fenetre.scoreInt1.setText(""+fenetre.engine.getCurrentGame().nombrePionBlanc);
@@ -345,7 +344,9 @@ public class AireDeDessin extends JComponent {
     	Case[][] matrice = fenetre.engine.getCurrentGame().matricePlateau;
     	for(int i=0;i<matrice.length;i++){
     		for(int j=0;j<matrice[i].length;j++){
-    			dessinJeton( drawable, matrice[i][j].pion, (int)(CoordonneesPlateau[0]*etir + j*segment), (int)(CoordonneesPlateau[1]*etir + i*segment));
+    			int startX = (int)(CoordonneesPlateau[0]*etir + j*segment) + originePlateauX;
+    			int startY = (int)(CoordonneesPlateau[1]*etir + i*segment) + originePlateauY;
+    			dessinJeton( drawable, matrice[i][j].pion, startX, startY);
     			/*
     			if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Blanc)
     				dessinJeton(drawable,fenetre.pion1,decalageL-(tailleJeton/2)+j*segment,decalageH-(tailleJeton/2)+i*segment);
@@ -359,7 +360,8 @@ public class AireDeDessin extends JComponent {
    
     public void dessinJeton(Graphics2D drawable,Pion pion, int x,int y){
     	if(pion != null){
-	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);else drawable.setPaint(fenetre.pion2);
+	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);
+	    	else drawable.setPaint(fenetre.pion2);
 	  //  	int tailleJeton = (int)(segment/3.5);
 	    	drawable.fillOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
 	    	drawable.setPaint(Color.black);

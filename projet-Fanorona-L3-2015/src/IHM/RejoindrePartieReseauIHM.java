@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,7 +15,7 @@ import javax.swing.JTextField;
 
 import AI.HumanPlayer;
 import network.NetworkPlayer;
-import engine.Engine;
+import engine.EngineServices;
 import engine.Player;
 import engine.Tools;
 
@@ -24,26 +23,27 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 	private static final long	serialVersionUID	= 1L;
 	
-	private static Engine		leMoteur;
-	public static JFrame		frame;
+	private EngineServices		leMoteur;
+	public JFrame		frame;
 
-	private static String		titleFrame	= "Rejoindre une partie en réseau";
-	private static int			width		= 280;
-	private static int			height		= 200;
+	private String		titleFrame	= "Rejoindre une partie en réseau";
+	private int			width		= 280;
+	private int			height		= 200;
 
-	public static JButton		bt_rejoindre;
-	public static JButton		bt_annuler;
+	public JButton		bt_rejoindre;
+	public JButton		bt_annuler;
 
-	public static JTextField	txt_saisieIp;
-	public static JTextField	txt_saisiePort;
+	public JTextField	txt_saisieIp;
+	public JTextField	txt_saisiePort;
 
-	public RejoindrePartieReseauIHM(Engine moteur){
-		RejoindrePartieReseauIHM.setLeMoteur(moteur);
+	public RejoindrePartieReseauIHM(EngineServices moteur){
+		this.setLeMoteur(moteur);
+		init();
 	}
 
-	public static void init(){
-		frame = new JFrame(titleFrame);
-		frame.setSize(width, height);
+	public void init(){
+		this.setTitle(titleFrame);
+		this.setSize(width, height);
 
 		JPanel pan = new JPanel();
 		pan.setLayout(null);
@@ -66,8 +66,8 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		bt_annuler = new JButton("Annuler");
 		bt_annuler.setBounds(150, 120, 100, 40);
 		
-		bt_rejoindre.addActionListener(new rejoindreListener());
-		bt_annuler.addActionListener(new annulerListener());
+		bt_rejoindre.addActionListener(new rejoindreListener(this));
+		bt_annuler.addActionListener(new annulerListener(this));
 		
 		pan.add(explicationIP);
 		pan.add(txt_saisieIp);
@@ -78,41 +78,46 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		pan.add(bt_rejoindre);
 		pan.add(bt_annuler);
 
-		frame.add(pan);
-		frame.setLocation(width, height);
-		frame.setVisible(true);
+		this.add(pan);
+		this.setLocation(width, height);
+		this.setVisible(true);
 	}
 
-	public static void main(String argv[]){
-		init();
-	}
 
-	public static Engine getLeMoteur(){
+	public EngineServices getLeMoteur(){
 		return leMoteur;
 	}
 
-	public static void setLeMoteur(Engine leMoteur){
-		RejoindrePartieReseauIHM.leMoteur = leMoteur;
+	public void setLeMoteur(EngineServices leMoteur){
+		this.leMoteur = leMoteur;
 	}
 
 }
 
 class rejoindreListener implements ActionListener {
 
+	RejoindrePartieReseauIHM r;
+	
+	public rejoindreListener(RejoindrePartieReseauIHM r)
+	{
+		this.r =r;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e){
-		Engine moteur = RejoindrePartieReseauIHM.getLeMoteur();
-		String ip = RejoindrePartieReseauIHM.txt_saisieIp.getText();
+		String ip = r.txt_saisieIp.getText();
 		if (Tools.isValidIP(ip)){
-			Player p1 = new NetworkPlayer(moteur, false, "Player at " + ip);
-			Player p2 = new HumanPlayer(moteur, false, "Joueur");
+			Player p1 = new NetworkPlayer(r.getLeMoteur(), false, "Player at " + ip);
+			Player p2 = new HumanPlayer(r.getLeMoteur(), false, "Joueur");
 			try
 			{
-				moteur.rejoindrePartie(Integer.parseInt(RejoindrePartieReseauIHM.txt_saisiePort.getText()), ip);
-				moteur.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
+				r.getLeMoteur().rejoindrePartie(Integer.parseInt(r.txt_saisiePort.getText()), ip);
+				r.getLeMoteur().nouvellePartie(p1, p2, 0, new Dimension(9, 5));
+				
+				System.out.println("OK");
 			} catch (NumberFormatException | IOException e1)
 			{
-				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" +  RejoindrePartieReseauIHM.txt_saisiePort, "Connection impossible", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" +  r.txt_saisiePort, "Connection impossible", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
 		}
@@ -121,9 +126,16 @@ class rejoindreListener implements ActionListener {
 
 class annulerListener implements ActionListener {
 
+	RejoindrePartieReseauIHM r;
+	
+	public annulerListener(RejoindrePartieReseauIHM rejoindrePartieReseauIHM)
+	{
+		this.r = rejoindrePartieReseauIHM;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e){
-		RejoindrePartieReseauIHM.frame.setVisible(false);
+		r.setVisible(false);
 	}
 
 }

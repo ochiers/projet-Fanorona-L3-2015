@@ -432,7 +432,7 @@ public class Game implements Serializable {
 		Direction d = determinerDirection(c.depart, c.arrivee);
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
-		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee);
+		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee && depart.getCaseAt(d) != null && depart.getCaseAt(d) == arrivee);
 		if (doitManger)
 			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;

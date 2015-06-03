@@ -20,6 +20,7 @@ import engine.Tools;
 
 /**
  * Mini moteur rataché au moteur pricipal, sert d'interface avec le reseau
+ * 
  * @author soulierc
  *
  */
@@ -28,48 +29,50 @@ public class NetworkManager extends Thread {
 	/**
 	 * L'ip de l'ordinateur distant si on s'est connecté
 	 */
-	public String			ip;
+	public String				ip;
 	/**
 	 * Le port de la connection actuelle
 	 */
-	public int				port;
+	public int					port;
 	/**
 	 * Le socket serveur acceptant les connections.
 	 */
-	public ServerSocket		socketServeurPrincipal;
+	public ServerSocket			socketServeurPrincipal;
 	/**
 	 * Le socket de la connection permettant les echanges
 	 */
-	public Socket			socketEnvoiPrincipal;
+	public Socket				socketEnvoiPrincipal;
 	/**
 	 * Le flux d'entree
 	 */
-	public InputStream		reception;
+	public InputStream			reception;
 	/**
 	 * Le flux de sortie
 	 */
-	public OutputStream		envoi;
+	public OutputStream			envoi;
 	/**
 	 * Le moteur du jeu
 	 */
-	public EngineServices	leMoteur;
+	public EngineServices		leMoteur;
 	/**
 	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le reseau
 	 */
-	public Stack<Coup>				coupsRecu;
+	public Stack<Coup>			coupsRecu;
 	/**
 	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le reseau
 	 */
-	public Stack<Coordonnee>		coordonneesRecu;
-	
+	public Stack<Coordonnee>	coordonneesRecu;
+
 	/**
 	 * Le coup qui doit etre envoyé sur le reseau
 	 */
-	private Coup			coupAEnvoyer;
+	private Coup				coupAEnvoyer;
 	/**
 	 * La coordonnee qui doit etre envoyee sur le reseau
 	 */
-	private Coordonnee		coordonneeAEnvoyer;
+	private Coordonnee			coordonneeAEnvoyer;
+
+	public Multicast			serveurMulticast;
 
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
@@ -79,36 +82,38 @@ public class NetworkManager extends Thread {
 		this.coupsRecu = new Stack<Coup>();
 		this.coordonneesRecu = new Stack<Coordonnee>();
 	}
-	
+
 	/**
 	 * L'ordinateur qui execute cette fonction est le serveur principal.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 * 
 	 */
 	public void hebergerPartie() throws IOException
 	{
-		
-			socketServeurPrincipal = new ServerSocket(port);
 
-			System.out.println("Serveur en ecoute sur le port : " + socketServeurPrincipal.getLocalPort());
+		socketServeurPrincipal = new ServerSocket(port);
 
-			socketEnvoiPrincipal = socketServeurPrincipal.accept();
-			reception = socketEnvoiPrincipal.getInputStream();
-			envoi = socketEnvoiPrincipal.getOutputStream();
+		System.out.println("Serveur en ecoute sur " + Tools.getIp() + ":" + socketServeurPrincipal.getLocalPort());
 
+		socketEnvoiPrincipal = socketServeurPrincipal.accept();
+		reception = socketEnvoiPrincipal.getInputStream();
+		envoi = socketEnvoiPrincipal.getOutputStream();
+		this.serveurMulticast = new Multicast("224.3.3.3", 4785, port, true);
 	}
 
 	/**
 	 * Client
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	public void rejoindrePartie() throws IOException
 	{
-			InetAddress addr = InetAddress.getByName(ip);
-			socketEnvoiPrincipal = new Socket(addr, port);
+		InetAddress addr = InetAddress.getByName(ip);
+		socketEnvoiPrincipal = new Socket(addr, port);
 
-			this.envoi = socketEnvoiPrincipal.getOutputStream();
-			this.reception = socketEnvoiPrincipal.getInputStream();
+		this.envoi = socketEnvoiPrincipal.getOutputStream();
+		this.reception = socketEnvoiPrincipal.getInputStream();
 
 	}
 
@@ -116,9 +121,9 @@ public class NetworkManager extends Thread {
 	{
 		this.reception.close();
 		this.envoi.close();
-		if(socketEnvoiPrincipal != null)
+		if (socketEnvoiPrincipal != null)
 			this.socketEnvoiPrincipal.close();
-		if(socketServeurPrincipal != null)
+		if (socketServeurPrincipal != null)
 			this.socketServeurPrincipal.close();
 	}
 
@@ -207,7 +212,7 @@ public class NetworkManager extends Thread {
 		{
 			ObjectInputStream in = new ObjectInputStream(reception);
 			c = (Coup) in.readObject();
-			
+
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -217,7 +222,6 @@ public class NetworkManager extends Thread {
 		return c;
 
 	}
-
 
 	private Coordonnee receiveCoordonnee()
 	{
@@ -254,7 +258,7 @@ public class NetworkManager extends Thread {
 		Coup res = null;
 		if (!coupsRecu.empty())
 			res = coupsRecu.pop();
-		
+
 		return res;
 	}
 
@@ -268,7 +272,9 @@ public class NetworkManager extends Thread {
 
 	/**
 	 * Donne le coup a envoyer sur le reseau
-	 * @param aEnvoyer Un coup
+	 * 
+	 * @param aEnvoyer
+	 *            Un coup
 	 */
 	public void setCoupAEnvoyer(Coup aEnvoyer)
 	{
@@ -277,7 +283,9 @@ public class NetworkManager extends Thread {
 
 	/**
 	 * Donne la coordonnee a envoyer sur le reseau
-	 * @param aEnvoyer Une coordonnee
+	 * 
+	 * @param aEnvoyer
+	 *            Une coordonnee
 	 */
 	public void setCoordoneeAEnvoyer(Coordonnee aEnvoyer)
 	{
