@@ -46,8 +46,8 @@ public class AireDeDessin extends JComponent {
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
     //    halo=Color.green;
-        halo=new Color(0,255,0,255);
-        haloChoix=Color.blue;
+        halo=Color.green;
+        haloChoix=Color.yellow;
         comboColor=Color.orange;
         setPreferredSize(new Dimension((int)(10*segment),(int)(6*segment)));
         pCourant=new Coordonnee(-1,-1);
