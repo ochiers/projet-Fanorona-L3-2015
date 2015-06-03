@@ -35,7 +35,6 @@ public class AireDeDessin extends JComponent {
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
-        segment  = (int)((fenetre.fw*3.99)/60);	//TODO
         decalageH = (int)(1.4*segment);
         decalageL = (int)(1.55*segment);
         halo=Color.green;
