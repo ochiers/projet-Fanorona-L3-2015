@@ -69,6 +69,9 @@ public class AireDeDessin extends JComponent {
     		width = 996;
 			height = 600;
 		}
+    	int a = plateau.getImage().getWidth(null);
+    	int b = plateau.getImage().getHeight(null);
+    	System.out.println(" width " + a + " height " + b);
     	drawable.drawImage(plateau.getImage(), 0, 0, (int)width, (int)height, null);
     	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
