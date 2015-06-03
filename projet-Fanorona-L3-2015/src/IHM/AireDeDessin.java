@@ -11,6 +11,7 @@ import engine.*;
 @SuppressWarnings("serial")
 public class AireDeDessin extends JComponent {
     Fenetre fenetre;
+    ImageIcon plateau;
     int tailleJeton;
     int segment;
     boolean pionCliquer=false;
@@ -42,6 +43,7 @@ public class AireDeDessin extends JComponent {
         tailleJeton=segment/(int)2.5;
         setPreferredSize(new Dimension(10*segment,6*segment));
         pCourant=new Coordonnee(-1,-1);
+        plateau = new ImageIcon("src/images/Fano9x5.jpg");
     }
 
     public void paintComponent(Graphics g) {
@@ -67,7 +69,7 @@ public class AireDeDessin extends JComponent {
     		width = 996;
 			height = 600;
 		}
-    	drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), 0, 0, (int)width, (int)height, null);
+    	drawable.drawImage(plateau.getImage(), 0, 0, (int)width, (int)height, null);
     	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
         drawable.setPaint(Color.black);
