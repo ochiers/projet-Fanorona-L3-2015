@@ -218,4 +218,6 @@ public interface EngineServices {
 	public void envoyerChoixCaseSurReseau(Coordonnee c);
 	
 	public void quitter();
+	
+	public void playOnlyOnce();
 }
