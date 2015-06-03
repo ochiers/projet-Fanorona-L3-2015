@@ -38,7 +38,6 @@ public class AireDeDessin extends JComponent {
     double tailleHalo;
 	int originePlateauX = 0;
 	int originePlateauY = 0;
-	int distPionX, distPionY;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -46,8 +45,8 @@ public class AireDeDessin extends JComponent {
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
     //    halo=Color.green;
-        halo=new Color(0,255,0,255);
-        haloChoix=Color.blue;
+        halo=Color.green;
+        haloChoix=Color.yellow;
         comboColor=Color.orange;
         setPreferredSize(new Dimension((int)(10*segment),(int)(6*segment)));
         pCourant=new Coordonnee(-1,-1);
@@ -63,7 +62,7 @@ public class AireDeDessin extends JComponent {
         tailleHalo=1.5;
     }
 
-    public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
     	Graphics2D drawable = (Graphics2D) g; 
 		fenetre.fw = fenetre.frame.getWidth();
 		fenetre.fh = fenetre.frame.getHeight();
@@ -111,7 +110,7 @@ public class AireDeDessin extends JComponent {
 	        	halo(drawable,pCourant,Color.cyan);
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
-        
+  //      testdegrader(drawable);
       //  centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
  
     }

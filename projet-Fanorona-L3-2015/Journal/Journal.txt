@@ -115,7 +115,8 @@ Mercredi 3 juin
 	Après-midi :
 		- Debugguage de la fenetre de victoire, reste � modifier pour un faire un affichage de l'interface. Suite du code pour les
 		  halos et le centrage du plateau.
-		- Debug mécanique anti-suicide immediat.
+		- Debug mécanique anti-suicide immediat de l'IA + tentative de réaliser un executable lançant x parties pour avoir des stats.
+
 		
 		
 		
