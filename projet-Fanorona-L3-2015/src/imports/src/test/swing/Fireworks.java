@@ -1,6 +1,4 @@
-// https://kenai.com/projects/trident/sources/source/content/src/test/swing/Fireworks.java?rev=123
-
-package IHM;
+package test.swing;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -25,24 +23,28 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.Timeline.RepeatBehavior;
 import org.pushingpixels.trident.TimelineScenario;
+import org.pushingpixels.trident.Timeline.RepeatBehavior;
 import org.pushingpixels.trident.callback.TimelineScenarioCallback;
 import org.pushingpixels.trident.ease.Spline;
 import org.pushingpixels.trident.swing.SwingRepaintTimeline;
 
-import imports.src.org.pushingpixels.trident.*;
-
-public final class Firework extends JFrame {
+public final class Fireworks extends JFrame {
 	private Set<VolleyExplosion> volleys;
+
 	private Map<VolleyExplosion, TimelineScenario> volleyScenarios;
+
 	private JPanel mainPanel;
 
 	public class SingleExplosion {
 		float x;
+
 		float y;
+
 		float radius;
+
 		float opacity;
+
 		Color color;
 
 		public SingleExplosion(Color color, float x, float y, float radius) {
@@ -71,18 +73,23 @@ public final class Firework extends JFrame {
 
 		public void paint(Graphics g) {
 			Graphics2D g2d = (Graphics2D) g.create();
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
 			g2d.setComposite(AlphaComposite.SrcOver.derive(this.opacity));
 			g2d.setColor(this.color);
-			g2d.fill(new Ellipse2D.Float(this.x - this.radius, this.y - this.radius, 2 * radius, 2 * radius));
+			g2d.fill(new Ellipse2D.Float(this.x - this.radius, this.y
+					- this.radius, 2 * radius, 2 * radius));
 			g2d.dispose();
 		}
 	}
 
 	public class VolleyExplosion {
 		private int x;
+
 		private int y;
+
 		private Color color;
+
 		private Set<SingleExplosion> circles;
 
 		public VolleyExplosion(int x, int y, Color color) {
@@ -102,27 +109,38 @@ public final class Firework extends JFrame {
 				float radius = (float) (2 + 2 * Math.random());
 				for (float delta = 0.6f; delta <= 1.0f; delta += 0.2f) {
 					float circleRadius = radius * delta;
+
 					double degrees = 20.0 * (i + Math.random());
 					float radians = (float) (2.0 * Math.PI * degrees / 360.0);
+
 					float initDist = delta * dist / 10.0f;
 					float finalDist = delta * dist;
-					float initX = (float) (this.x + initDist * Math.cos(radians));
-					float initY = (float) (this.y + initDist * Math.sin(radians));
-					float finalX = (float) (this.x + finalDist * Math.cos(radians));
-					float finalY = (float) (this.y + finalDist * Math.sin(radians));
-					SingleExplosion circle = new SingleExplosion(this.color, initX, initY, circleRadius);
+					float initX = (float) (this.x + initDist
+							* Math.cos(radians));
+					float initY = (float) (this.y + initDist
+							* Math.sin(radians));
+					float finalX = (float) (this.x + finalDist
+							* Math.cos(radians));
+					float finalY = (float) (this.y + finalDist
+							* Math.sin(radians));
+
+					SingleExplosion circle = new SingleExplosion(this.color,
+							initX, initY, circleRadius);
 					Timeline timeline = new Timeline(circle);
 					timeline.addPropertyToInterpolate("x", initX, finalX);
 					timeline.addPropertyToInterpolate("y", initY, finalY);
 					timeline.addPropertyToInterpolate("opacity", 1.0f, 0.0f);
-					timeline.setDuration(duration - 200 + randomizer.nextInt(400));
+					timeline.setDuration(duration - 200
+							+ randomizer.nextInt(400));
 					timeline.setEase(new Spline(0.4f));
+
 					synchronized (this.circles) {
 						circles.add(circle);
 					}
 					scenario.addScenarioActor(timeline);
 				}
 			}
+
 			return scenario;
 		}
 
@@ -135,30 +153,38 @@ public final class Firework extends JFrame {
 		}
 	}
 
-	public Firework() {
-		super("Swing Firework");
+	public Fireworks() {
+		super("Swing Fireworks");
 
 		this.mainPanel = new JPanel() {
+			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				synchronized (volleys) {
-					for (VolleyExplosion exp : volleys) exp.paint(g);
+					for (VolleyExplosion exp : volleys)
+						exp.paint(g);
 				}
 			}
 		};
 		this.mainPanel.setBackground(Color.black);
 		this.mainPanel.setPreferredSize(new Dimension(480, 320));
+
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
+
 		this.volleys = new HashSet<VolleyExplosion>();
 		this.volleyScenarios = new HashMap<VolleyExplosion, TimelineScenario>();
+
 		this.mainPanel.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				synchronized (volleys) {
-					for (TimelineScenario scenario : volleyScenarios.values()) scenario.suspend();
+					for (TimelineScenario scenario : volleyScenarios.values())
+						scenario.suspend();
 				}
 			}
 
+			@Override
 			public void mouseReleased(MouseEvent e) {
 				synchronized (volleys) {
 					for (TimelineScenario scenario : volleyScenarios.values())
@@ -166,11 +192,14 @@ public final class Firework extends JFrame {
 				}
 			}
 		});
+
 		mainPanel.addComponentListener(new ComponentAdapter() {
+			@Override
 			public void componentResized(ComponentEvent e) {
 				if ((mainPanel.getWidth() == 0) || (mainPanel.getHeight() == 0))
 					return;
 				new Thread() {
+					@Override
 					public void run() {
 						while (true) {
 							addExplosions(5);
@@ -179,6 +208,7 @@ public final class Firework extends JFrame {
 				}.start();
 			}
 		});
+
 		this.add(mainPanel);
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -202,6 +232,7 @@ public final class Firework extends JFrame {
 				volleys.add(exp);
 				TimelineScenario scenario = exp.getExplosionScenario();
 				scenario.addCallback(new TimelineScenarioCallback() {
+					@Override
 					public void onTimelineScenarioDone() {
 						synchronized (volleys) {
 							volleys.remove(exp);
@@ -214,14 +245,18 @@ public final class Firework extends JFrame {
 				scenario.play();
 			}
 		}
-		try { latch.await(); }
-		catch (Exception exc) {}
+
+		try {
+			latch.await();
+		} catch (Exception exc) {
+		}
 	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
-				new Firework().setVisible(true);
+				new Fireworks().setVisible(true);
 			}
 		});
 	}
