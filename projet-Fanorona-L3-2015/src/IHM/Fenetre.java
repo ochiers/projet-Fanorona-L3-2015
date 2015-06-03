@@ -185,7 +185,7 @@ public class Fenetre implements Runnable,Affichage {
 			//joueur 1
 		JPanel panelOuest = new JPanel();
 		JPanel ouest = new JPanel();
-		ouest.setLayout(new BoxLayout(panelOuest, 1));
+		ouest.setLayout(new BoxLayout(ouest, 1));
 		ouest.setBackground(Color.GRAY);
 		ouest.setSize(panelOuest.getWidth(), panelOuest.getHeight()/2);
 		
