@@ -81,7 +81,8 @@ public class Fenetre implements Runnable,Affichage {
 	
 	public void run(){		
 		System.out.println("//////////////////////////////////////////////////////");
-		frame.setSize(842, 507);
+	//	frame.setSize(842, 507);
+		frame.setSize(1200, 700);
 		//frame.setSize(wmax,hmax);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));

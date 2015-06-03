@@ -34,6 +34,7 @@ public class AireDeDessin extends JComponent {
 //    boolean animation=false;
 //    int nombreImage=1;
     float etir;
+    double tailleHalo;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -41,7 +42,7 @@ public class AireDeDessin extends JComponent {
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
     //    halo=Color.green;
-        halo=new Color(0,255,0,255);
+        halo=new Color(255,255,255,128);
         haloChoix=Color.blue;
         comboColor=Color.orange;
         
@@ -56,6 +57,7 @@ public class AireDeDessin extends JComponent {
         segment =0;
         tailleJeton=1;
         etir = 1;
+        tailleHalo=1.4;
     }
 
     public void paintComponent(Graphics g) {
@@ -111,10 +113,21 @@ public class AireDeDessin extends JComponent {
 	        	jetonCliquer(drawable);//rond cyan
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
-
+        
+  //      testdegrader(drawable);
 
  
     }
+    
+    public void testdegrader(Graphics2D drawable){
+    	 GradientPaint redtowhite = new GradientPaint(0, 0, Color.red, 200, 200,
+    		        Color.blue);
+    	 drawable.setPaint(redtowhite);
+    	 drawable.fillOval(0, 0, 200, 200);
+ //   	 drawable.fill(new RoundRectangle2D.Double(x, y, 200, 200, 10, 10));
+    	 drawable.setPaint(Color.black);
+    }
+    
     
     public void majScore(){
     	fenetre.scoreInt1.setText(""+fenetre.engine.getCurrentGame().nombrePionBlanc);
@@ -195,8 +208,8 @@ public class AireDeDessin extends JComponent {
    
 	public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 		drawable.setPaint(haloChoix);
-		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*1.2)/2), (int)(segment+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-(tailleJeton*1.2)/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*tailleHalo)/2), (int)(segment+p.ligne*segment-(tailleJeton*tailleHalo)/2), (int)(tailleJeton*tailleHalo), (int)(tailleJeton*tailleHalo));
+		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-(tailleJeton*tailleHalo)/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-(tailleJeton*tailleHalo)/2), (int)(tailleJeton*tailleHalo), (int)(tailleJeton*tailleHalo));
 		drawable.setPaint(Color.black);
 	}
    
@@ -211,8 +224,8 @@ public class AireDeDessin extends JComponent {
    
 	public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 		drawable.setPaint(halo);
-		double newTaille=tailleJeton*1.25;
-		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*1.2)/2), (int)(segment+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		double newTaille=tailleJeton*tailleHalo;
+		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*tailleHalo)/2), (int)(segment+p.ligne*segment-(tailleJeton*tailleHalo)/2), (int)(tailleJeton*tailleHalo), (int)(tailleJeton*tailleHalo));
 		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-newTaille/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-newTaille/2), (int)newTaille, (int)newTaille);
 		drawable.setPaint(Color.black);
 		//System.out.println("haloPION: "+p.ligne+" "+p.colonne);
