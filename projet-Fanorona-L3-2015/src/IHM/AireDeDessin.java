@@ -38,7 +38,6 @@ public class AireDeDessin extends JComponent {
     double tailleHalo;
 	int originePlateauX = 0;
 	int originePlateauY = 0;
-	int distPionX, distPionY;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -63,7 +62,7 @@ public class AireDeDessin extends JComponent {
         tailleHalo=1.5;
     }
 
-    public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
     	Graphics2D drawable = (Graphics2D) g; 
 		fenetre.fw = fenetre.frame.getWidth();
 		fenetre.fh = fenetre.frame.getHeight();
@@ -111,7 +110,7 @@ public class AireDeDessin extends JComponent {
 	        	halo(drawable,pCourant,Color.cyan);
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
-        
+  //      testdegrader(drawable);
       //  centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
  
     }
