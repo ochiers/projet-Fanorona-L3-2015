@@ -36,7 +36,6 @@ public class NetworkPlayer extends Player {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		System.out.println("Coup recu OPKKKKKKKKKKKKKKKKKKKKKK");
 		return c;
 	}
 

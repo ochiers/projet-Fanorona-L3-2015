@@ -26,12 +26,12 @@ public class JeuFanorona {
 				usage();
 			else if (argv[0].equals("--net"))
 			{
-				if (argv.length == 3 && argv[1].toLowerCase().equals("server"))
+				if (argv.length >= 3 && argv[1].toLowerCase().equals("server"))
 				{
 					e.hebergerPartie(Integer.parseInt(argv[2]));
 					p1 = new HumanPlayer(e, false, "Joueur");
 					p2 = new NetworkPlayer(e, false, "Player at " + e.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-				} else if (argv.length == 4 && argv[1].toLowerCase().equals("client"))
+				} else if (argv.length >= 4 && argv[1].toLowerCase().equals("client"))
 					if (Tools.isValidIP(argv[3]) || argv[3].toLowerCase().equals("localhost"))
 					{
 						p1 = new NetworkPlayer(e, false, "Player at " + argv[3]);
@@ -42,6 +42,11 @@ public class JeuFanorona {
 				else
 					usage();
 			}
+			for (int i =0; i<argv.length; i++)
+				if(argv[i].equals("-/v")){
+					System.out.close();
+					System.err.close();					
+				}
 		}
 		if (p1 == null && p2 == null)
 		{
@@ -60,6 +65,7 @@ public class JeuFanorona {
 		System.out.println("\n--- Usage ---");
 		System.out.println("\t -h or --help : Print this help");
 		System.out.println("\t --net <server || client> <port> [ip] : host a game on the given port or establish a connection to the given ip and port");
+		System.out.println("\t -v Allow debug in console, effective by default. -/v to desactivate");
 		System.out.println("--- ----- ---  \n");
 	}
 }

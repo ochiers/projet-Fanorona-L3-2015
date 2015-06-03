@@ -263,7 +263,6 @@ public class NetworkManager extends Thread {
 		Coup res = null;
 		if (!coupsRecu.empty())
 			res = coupsRecu.pop();
-		System.out.println("Coup recu : " + res);
 		
 		return res;
 	}
