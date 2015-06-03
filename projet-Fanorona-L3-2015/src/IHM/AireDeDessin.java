@@ -55,7 +55,7 @@ public class AireDeDessin extends JComponent {
         decalageL = (int)(1.55*segment);
     	int width = this.getSize().width;
     	int height = this.getSize().height;
-    	if ((width < 561) || (height < 338)){
+    	/*if ((width < 561) || (height < 338)){
     		System.out.println(" trop petit ");
     		fenetre.frame.setSize(fenetre.wmin, fenetre.hmin);
     		width = 561;
@@ -68,7 +68,7 @@ public class AireDeDessin extends JComponent {
     		fenetre.frame.setSize(fenetre.wmax, fenetre.hmax);
     		width = 996;
 			height = 600;
-		}
+		}*/
     	int plateauW = plateau.getImage().getWidth(null);
     	int plateauH = plateau.getImage().getHeight(null);
     	System.out.println(" width " + plateauW + " height " + plateauH);
