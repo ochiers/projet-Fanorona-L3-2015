@@ -76,16 +76,16 @@ Mercredi 27 mai
 Jeudi 28 mai
 	Matin :
 		- Audit code.
-		- Ajouts modifs pour la gestion des enchaînements dans les IA moyenne et difficile + corrections de bugs.
+		- Ajouts modifs pour la gestion des enchainements dans les IA moyenne et difficile + corrections de bugs.
 		- Ajout d'une fenetre de choix pour l'IHM.
 	Apres-midi :
 		- Correction de bugs lies a la gestion des enchainements, premiere version fonctionnelle des IA moyenne et difficile.
-		- Suite a l'audit de code, modfication de celui-ci et optimisation.
+		- Suite a l'audit de code, modfication de celui-ci et optimisation. (des 3 parties)
 		
 Vendredi 29 mai
 	Matin :
 		- Debug IA qui ne fonctionne pas tout à fait comme prévu.
-		- 
+		- Essais redimensonnenment de la fenetre de jeu (non fructueu)
 	Apres-midi :
 		- Debug avec succès des IA moyenne et difficile. Il reste maintenant à améliorer la fonction d'évaluation et le temps de calcul.		
 		- Dossier de validation (algorithme alpha-beta).
@@ -93,13 +93,38 @@ Vendredi 29 mai
 Lundi 1 juin
 	Matin :
 		- Rencontre avec notre tuteur pour faire un point sur l'avancement du projet.
-		- Ajout de l'évitement des coups perdants à l'IA facile.
+		- Ajout de l'evitement des coups perdants à l'IA facile.
 	Après-midi :
 		- Remplacements des copies de noeud par un système utilisant une pile (IA moyenne et difficile).
+		- Entrevue avec notre tuteur, discussion des points faible de notre IHM.
+		- Amphi soutenance.
 		
 Mardi 2 juin
 	Matin :
 		- Debug de nouveaux soucis rencontrés avec les IA moyenne et difficile, remplacement des get() par des iterator.
+		- Ajout fenetre de victoire avec feux d'artifices... non modifi�, non fonctionnel
 	Après-midi :
 		- Debug et tests IA.
+		- ajout de la pop up de connexion pour jeu en reseau, non reliee a l'interface actuelle.
+		
+Mercredi 3 juin
+	Matin :
+		- Entrevue avec notre tuteur, Mise en place de redimensionnage de la fenetre fonctionnel. Essais halos translucides.
+		  Essais pour centrer le plateaud e jeu lors du redimensionnement.
+		- 
+	Après-midi :
+		- Debugguage de la fenetre de victoire, reste � modifier pour un faire un affichage de l'interface. Suite du code pour les
+		  halos et le centrage du plateau.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
