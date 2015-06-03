@@ -81,7 +81,8 @@ public class Fenetre implements Runnable,Affichage {
 	
 	public void run(){		
 		System.out.println("//////////////////////////////////////////////////////");
-		frame.setSize(842, 507);
+	//	frame.setSize(842, 507);
+		frame.setSize(1200, 700);
 		//frame.setSize(wmax,hmax);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
@@ -169,18 +170,18 @@ public class Fenetre implements Runnable,Affichage {
 		panelSud.add(suggestion);
 		
 			//affichages joueurs
-		JLabel j1 = new JLabel(" # Joueur 1 ");
-		idj1 = new JLabel(" Erreur ");
-		levelj1 = new JLabel(" Erreur ");
-		JLabel j2 = new JLabel(" # Joueur 2 ");
-		idj2 = new JLabel(" Erreur ");
-		levelj2 = new JLabel(" Erreur ");
-		scoreInt1 = new JLabel("");
-		scoreInt2 = new JLabel("");	
-		JLabel score1 = new JLabel(" Pions restants ");
-		JLabel score2 = new JLabel(" Pions restants ");
-		tour1 = new JLabel(" A votre tour ! ");
-		tour2 = new JLabel(" A votre tour ! ");
+		JLabel j1 = new JLabel(" # Joueur 1 ", SwingConstants.CENTER );
+		idj1 = new JLabel(" Erreur ", SwingConstants.CENTER);
+		levelj1 = new JLabel(" Erreur ", SwingConstants.CENTER);
+		JLabel j2 = new JLabel(" # Joueur 2 ", SwingConstants.CENTER);
+		idj2 = new JLabel(" Erreur ", SwingConstants.CENTER);
+		levelj2 = new JLabel(" Erreur ", SwingConstants.CENTER);
+		scoreInt1 = new JLabel("  ", SwingConstants.CENTER);
+		scoreInt2 = new JLabel("  ", SwingConstants.CENTER);	
+		JLabel score1 = new JLabel(" Pions restants ", SwingConstants.CENTER);
+		JLabel score2 = new JLabel(" Pions restants ", SwingConstants.CENTER);
+		tour1 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
+		tour2 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
 		
 			//joueur 1
 		JPanel panelOuest = new JPanel(new GridLayout(5,1));
@@ -226,20 +227,20 @@ public class Fenetre implements Runnable,Affichage {
 		JPanel play2 = new JPanel();
 		play2.setLayout(new BoxLayout(play2, 1));
 		play2.setBackground(Color.LIGHT_GRAY);
-		play2.add(j1);
-		play2.add(idj1);
-		play2.add(levelj1);
+		play2.add(j2);
+		play2.add(idj2);
+		play2.add(levelj2);
 		//score
 		JPanel pions2 = new JPanel();
 		pions2.setLayout(new BoxLayout(pions2, 1));
 		pions2.setBackground(Color.GRAY);
 		pions2.setSize(panelEst.getWidth(), panelEst.getHeight()/2);
-		pions2.add(scoreInt1);
-		pions2.add(score1);
+		pions2.add(scoreInt2);
+		pions2.add(score2);
 		//annonce tour
 		JPanel turn2 = new JPanel();
 		turn2.setBackground(Color.LIGHT_GRAY);
-		turn2.add(tour1);
+		turn2.add(tour2);
 		//panel vide
 		JPanel empty2 = new JPanel();
 		empty2.setOpaque(false);

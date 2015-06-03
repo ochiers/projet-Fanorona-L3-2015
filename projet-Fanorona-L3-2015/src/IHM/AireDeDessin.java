@@ -34,13 +34,15 @@ public class AireDeDessin extends JComponent {
 //    boolean animation=false;
 //    int nombreImage=1;
     float etir;
+    double tailleHalo;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
 //        segment  = (int)((fenetre.fw*3.99)/60);	//TODO
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
-        halo=Color.green;
+    //    halo=Color.green;
+        halo=new Color(255,255,255,128);
         haloChoix=Color.blue;
         comboColor=Color.orange;
         
@@ -55,6 +57,7 @@ public class AireDeDessin extends JComponent {
         segment =0;
         tailleJeton=1;
         etir = 1;
+        tailleHalo=1.4;
     }
 
     public void paintComponent(Graphics g) {
@@ -74,7 +77,7 @@ public class AireDeDessin extends JComponent {
     	etir = etirW < etirH ? etirW : etirH;
     	segment =etir*    (CoordonneesPlateau[2] - CoordonneesPlateau[0])/8.0;
     	tailleJeton = (int)(segment/1.75);
-    	System.out.println("//////taillejeton2//"+tailleJeton+" "+segment);
+    //	System.out.println("//////taillejeton2//"+tailleJeton+" "+segment);
     	int originePlateauX = 0;
     	int originePlateauY = 0;
     	//System.out.println(" width " + width + " height " + height + " PW " + (int)(etir*plateauW));
@@ -110,43 +113,21 @@ public class AireDeDessin extends JComponent {
 	        	jetonCliquer(drawable);//rond cyan
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
+        
+  //      testdegrader(drawable);
 
-
- //       Coordonnee p=positionGrille(new Coordonnee(2,2));
- //       drawArrow(drawable,p.colonne,p.ligne,50,70);
-     /*   if(animation){
-        	dessinGrilleJeton(drawable);
-        	animation(drawable);
-        }else{
-        */	/*
-	        if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !finPartie){
-	        	if(!pionCliquer && doitChoisir){
-		        	choixManger(drawable);//halo bleu
-		        }
-	        	if(!fenetre.engine.getCurrentGame().enCombo){
-		        	//System.out.println("pas en combo---------------------");
-			        if(!pionCliquer && !doitChoisir)
-			        	pionJouable(drawable);//halo vert
-		        }
-		        else{
-		        	//System.out.println("est en combo---------------------");
-		        	cheminCombo(drawable);
-		        	//pionCliquer=true;
-		        	pionJouableCombo(drawable); 
-		        	//pCourant.ligne=pionCombo.position.ligne;
-		        	//pCourant.colonne=pionCombo.position.colonne;
-	
-		        } 
-		       // dessinGrilleJeton(drawable,Color.black,Color.white); // A MODIFIER POUR CHOIX
-		        dessinGrilleJeton(drawable);
-		        if(pionCliquer){
-		        	jetonCliquer(drawable);//rond cyan
-		        	
-		        }
-	    	}else dessinGrilleJeton(drawable);
-   //     }*/
-      //  positionPossible(drawable);
+ 
     }
+    
+    public void testdegrader(Graphics2D drawable){
+    	 GradientPaint redtowhite = new GradientPaint(0, 0, Color.red, 200, 200,
+    		        Color.blue);
+    	 drawable.setPaint(redtowhite);
+    	 drawable.fillOval(0, 0, 200, 200);
+ //   	 drawable.fill(new RoundRectangle2D.Double(x, y, 200, 200, 10, 10));
+    	 drawable.setPaint(Color.black);
+    }
+    
     
     public void majScore(){
     	fenetre.scoreInt1.setText(""+fenetre.engine.getCurrentGame().nombrePionBlanc);
@@ -220,20 +201,19 @@ public class AireDeDessin extends JComponent {
     
 	public void jetonCliquer(Graphics2D drawable){	//MODIFIE 
 		drawable.setPaint(Color.cyan);
-		System.out.println("//////taillejeton/// "+tailleJeton);
-		//drawable.fillOval(segment+pCourant.colonne*segment-tailleJeton/4, segment+pCourant.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+	//	System.out.println("//////CYAN/// "+(int)(CoordonneesPlateau[0]*etir+pCourant.colonne*segment-tailleJeton/4)+"  "+ (int)(CoordonneesPlateau[1]*etir+pCourant.ligne*segment-tailleJeton/4));
 		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+pCourant.colonne*segment-tailleJeton/4), (int)(CoordonneesPlateau[1]*etir+pCourant.ligne*segment-tailleJeton/4), tailleJeton/2, tailleJeton/2);
 		drawable.setPaint(Color.black);
 	}
    
-   public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){	//MODIFIE 
-	   drawable.setPaint(haloChoix);
-	   //drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*1.2)/2), (int)(segment+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-	   drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-(tailleJeton*1.2)/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
-	   drawable.setPaint(Color.black);
-   }
+	public void jetonHaloChoix(Graphics2D drawable,Coordonnee p){	//MODIFIE 
+		drawable.setPaint(haloChoix);
+		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*tailleHalo)/2), (int)(segment+p.ligne*segment-(tailleJeton*tailleHalo)/2), (int)(tailleJeton*tailleHalo), (int)(tailleJeton*tailleHalo));
+		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-(tailleJeton*tailleHalo)/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-(tailleJeton*tailleHalo)/2), (int)(tailleJeton*tailleHalo), (int)(tailleJeton*tailleHalo));
+		drawable.setPaint(Color.black);
+	}
    
-   public void pionJouable(Graphics2D drawable){
+	public void pionJouable(Graphics2D drawable){
 	   if(pionPossible!=null){
 		   for(int i=0;i<pionPossible.size();i++){
 			   jetonHalo(drawable,pionPossible.get(i).position);
@@ -242,28 +222,28 @@ public class AireDeDessin extends JComponent {
 	   }
    }
    
-   public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
+	public void jetonHalo(Graphics2D drawable,Coordonnee p){	//MODIFIE 
 		drawable.setPaint(halo);
-		double newTaille=tailleJeton*1.25;
-		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*1.2)/2), (int)(segment+p.ligne*segment-(tailleJeton*1.2)/2), (int)(tailleJeton*1.2), (int)(tailleJeton*1.2));
+		double newTaille=tailleJeton*tailleHalo;
+		//drawable.fillOval((int)(segment+p.colonne*segment-(tailleJeton*tailleHalo)/2), (int)(segment+p.ligne*segment-(tailleJeton*tailleHalo)/2), (int)(tailleJeton*tailleHalo), (int)(tailleJeton*tailleHalo));
 		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-newTaille/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-newTaille/2), (int)newTaille, (int)newTaille);
 		drawable.setPaint(Color.black);
 		//System.out.println("haloPION: "+p.ligne+" "+p.colonne);
 	}
    
-   public void pionJouableCombo(Graphics2D drawable){
+	public void pionJouableCombo(Graphics2D drawable){
 	   if(pionCombo!=null){
 		   jetonHalo(drawable,pionCombo.position);
 	  // }
-	   drawable.setPaint(Color.cyan);
+//	   drawable.setPaint(Color.red);
 		//drawable.fillOval(segment+pCourant.colonne*segment-tailleJeton/4, segment+pCourant.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-		drawable.fillOval(CoordonneesPlateau[0]+(int)(pionCombo.position.colonne*segment)-tailleJeton/4, CoordonneesPlateau[1]+(int)(pionCombo.position.ligne*segment)-tailleJeton/4, tailleJeton/2, tailleJeton/2);
+//		drawable.fillOval((int)(CoordonneesPlateau[0]*etir+pionCombo.position.colonne*segment-tailleJeton/4), (int)(CoordonneesPlateau[1]*etir+pionCombo.position.ligne*segment-tailleJeton/4), tailleJeton/2, tailleJeton/2);
 		drawable.setPaint(Color.black);
 		//System.out.println("comboPION: "+pionCombo.position.ligne+" "+pionCombo.position.colonne);
    	}
    }
    
-   public void cheminCombo(Graphics2D drawable){	//MODIFIE
+	public void cheminCombo(Graphics2D drawable){	//MODIFIE
 	   drawable.setPaint(comboColor);
 	   for(int i=0;i<combo.size();i++){
 		   //System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
@@ -273,33 +253,14 @@ public class AireDeDessin extends JComponent {
 	   drawable.setPaint(Color.black);
    }
    
-   public void positionPossible(Graphics2D drawable){
+	public void positionPossible(Graphics2D drawable){
 	   ArrayList<Case> listCase = fenetre.engine.getCurrentGame().matricePlateau[2][4].voisins();
 	   for(int i=0;i<listCase.size();i++){
 		   //System.out.println("--Voisin: "+listCase.get(i).position.ligne+" "+listCase.get(i).position.colonne);
 	   }
    }
-    
-    /*public void dessinGrille(Graphics2D drawable){
-    		//ligne verticale
-    	for(int i=0;i<=8;i++)
-    		drawable.drawLine(segment+i*segment, segment, segment+i*segment,segment+4*segment);
-    		//ligne Horizontale
-    	for(int i=0;i<=4;i++)
-    		drawable.drawLine(segment, segment+i*segment, segment+8*segment, segment+i*segment);  	
-    		//diagonale decroissante
-    	drawable.drawLine(segment,segment+2*segment,segment+2*segment,segment+4*segment);
-    	for(int i=0;i<3;i++)
-    		drawable.drawLine(segment+(2*i*segment),segment,segment+(2*i*segment)+4*segment,segment+4*segment);
-    	drawable.drawLine(segment+6*segment,segment,segment+8*segment,segment+2*segment);
-    		//diagonale croissante
-    	drawable.drawLine(segment,segment+2*segment,segment+2*segment,segment);
-    	for(int i=0;i<3;i++)
-    		drawable.drawLine(segment+(2*i*segment),segment+4*segment,segment+(2*i*segment)+4*segment,segment);
-    	drawable.drawLine(segment+6*segment,segment+4*segment,segment+8*segment,segment+2*segment);
-    }*/
    
-   public void dessinGrille(Graphics2D drawable){
+	public void dessinGrille(Graphics2D drawable){
 		//ligne verticale
 	for(int i=0;i<=8;i++)
 		drawable.drawLine(CoordonneesPlateau[0]+(int)(i*segment), CoordonneesPlateau[1], CoordonneesPlateau[0]+(int)(i*segment),CoordonneesPlateau[1]+(int)(4*segment));
@@ -317,33 +278,6 @@ public class AireDeDessin extends JComponent {
 		drawable.drawLine(CoordonneesPlateau[0]+(int)(2*i*segment),CoordonneesPlateau[1]+(int)(4*segment),CoordonneesPlateau[0]+(int)(2*i*segment)+(int)(4*segment),CoordonneesPlateau[1]);
 	drawable.drawLine(CoordonneesPlateau[0]+(int)(6*segment),CoordonneesPlateau[1]+(int)(4*segment),CoordonneesPlateau[0]+(int)(8*segment),CoordonneesPlateau[1]+(int)(2*segment));
 }
-   
-
-    /*public void dessinGrilleJeton(Graphics2D drawable,Color c1,Color c2){
-    	
-    	for(int i=0;i<fenetre.engine.getCurrentGame().matricePlateau.length;i++){
-    		for(int j=0;j<fenetre.engine.getCurrentGame().matricePlateau[0].length;j++){
-    			if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Blanc)
-    				dessinJeton(drawable,c1,segment-(tailleJeton/2)+j*segment,segment-(tailleJeton/2)+i*segment);
-    			else if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Noir)
-    				dessinJeton(drawable,c2,segment-(tailleJeton/2)+j*segment,segment-(tailleJeton/2)+i*segment);
-    			else{}
-    		}
-    	}
-   }*/
-
-   /* public void dessinGrilleJeton(Graphics2D drawable){
-    	
-    	for(int i=0;i<fenetre.engine.getCurrentGame().matricePlateau.length;i++){
-    		for(int j=0;j<fenetre.engine.getCurrentGame().matricePlateau[0].length;j++){
-    			if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Blanc)
-    				dessinJeton(drawable,fenetre.pion1,segment-(tailleJeton/2)+j*segment,segment-(tailleJeton/2)+i*segment);
-    			else if(fenetre.engine.getCurrentGame().matricePlateau[i][j].pion==Pion.Noir)
-    				dessinJeton(drawable,fenetre.pion2,segment-(tailleJeton/2)+j*segment,segment-(tailleJeton/2)+i*segment);
-    			else{}
-    		}
-    	}    	
- 	}*/
     
     public void dessinGrilleJeton( Graphics2D drawable, int originePlateauX, int originePlateauY, int plateauW, int plateauH, float etir) {
     //	double segment = etir*    (CoordonneesPlateau[2] - CoordonneesPlateau[0])/8.0;
@@ -361,8 +295,7 @@ public class AireDeDessin extends JComponent {
     		}
     	}    	
  	}
-    
-    
+   
     public void dessinJeton(Graphics2D drawable,Pion pion, int x,int y){
     	if(pion != null){
 	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);else drawable.setPaint(fenetre.pion2);
@@ -429,8 +362,6 @@ public class AireDeDessin extends JComponent {
 
 	}
 	
-
-    
     public Coordonnee positionGrille(Coordonnee c){
     	Coordonnee p = new Coordonnee(-1,-1);
     	p.ligne=CoordonneesPlateau[1]+(int)(c.ligne*segment);
@@ -439,39 +370,6 @@ public class AireDeDessin extends JComponent {
     	return p;
     }
     
-/*    public void animation(Graphics2D drawable) {
-    	if(nombreImage==3){
-    		try {
-    			Thread.sleep(1000);
-    		} catch (InterruptedException e) {
-    			System.out.println("//////////BUG1//////////");
-    			e.printStackTrace();
-    		}
-    		animation=false;
-    		nombreImage=1;
-    		repaint();
-    	}
-    	else{
-    	System.out.println("///////ANIMATION///////");
-    	Coordonnee p1=positionGrille(pCourant);
-    	Coordonnee p2=positionGrille(pfinal);
-    	
-    	int x=p2.colonne-p1.colonne;
-    	int y=p2.ligne-p1.ligne;
-    	System.out.println("///////COO///////"+(p1.ligne+(y/3*nombreImage))+" "+(p1.colonne+(x/3*nombreImage)));
-    	drawable.setPaint(Color.black);
-    	try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			System.out.println("//////////BUG2//////////");
-			e.printStackTrace();
-		}
-    	drawable.fillOval(p1.colonne+(x/3*nombreImage), p1.ligne+(y/3*nombreImage), tailleJeton, tailleJeton);
-    	nombreImage++;
-    	repaint();
-    	}
-    	
-    }*/
 }
 
  class ImagePanel extends JPanel {

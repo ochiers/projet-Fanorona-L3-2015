@@ -25,11 +25,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.TimelineScenario;
 import org.pushingpixels.trident.Timeline.RepeatBehavior;
+import org.pushingpixels.trident.TimelineScenario;
 import org.pushingpixels.trident.callback.TimelineScenarioCallback;
 import org.pushingpixels.trident.ease.Spline;
 import org.pushingpixels.trident.swing.SwingRepaintTimeline;
+
+import imports.src.org.pushingpixels.trident.*;
 
 public final class Firework extends JFrame {
 	private Set<VolleyExplosion> volleys;

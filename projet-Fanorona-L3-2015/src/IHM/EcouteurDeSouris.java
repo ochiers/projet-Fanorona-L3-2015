@@ -52,7 +52,7 @@ public class EcouteurDeSouris implements MouseListener{
 				}
 			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
 			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
-				if(!aire.fenetre.engine.getCurrentGame().enCombo)
+				//if(!aire.fenetre.engine.getCurrentGame().enCombo)
 					aire.pionCliquer=false;
 				aire.repaint();
 		    }
@@ -99,7 +99,7 @@ public class EcouteurDeSouris implements MouseListener{
 				}
 			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
 			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
-				if(!aire.fenetre.engine.getCurrentGame().enCombo)
+				//if(!aire.fenetre.engine.getCurrentGame().enCombo)
 					aire.pionCliquer=false;
 				aire.repaint();
 		    }
@@ -125,7 +125,7 @@ public class EcouteurDeSouris implements MouseListener{
 				}
 			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
 			} else if(buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
-				if(!aire.fenetre.engine.getCurrentGame().enCombo)
+				//if(!aire.fenetre.engine.getCurrentGame().enCombo)
 					aire.pionCliquer=false;
 				aire.repaint();
 		    }
@@ -147,8 +147,8 @@ public class EcouteurDeSouris implements MouseListener{
 		p.ligne=y-((int)(aire.CoordonneesPlateau[1]*aire.etir-aire.segment));
 		int nbCoteLargeur=p.colonne/(int)aire.segment;
 		int nbCoteHauteur=p.ligne/(int)aire.segment;
-		System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
-		System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
+	//	System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
+	//	System.out.println(" ( " + nbCoteLargeur + " , " + nbCoteHauteur + " ) ");
 					
 		Coordonnee p1=new Coordonnee((int)(nbCoteHauteur*aire.segment),(int)(nbCoteLargeur*aire.segment));// haut gauche
 		Coordonnee p2=new Coordonnee((int)(nbCoteHauteur*aire.segment),(int)((nbCoteLargeur+1)*aire.segment));//haut droit
@@ -172,7 +172,7 @@ public class EcouteurDeSouris implements MouseListener{
 			pfinal.colonne=nbCoteLargeur;
 			pfinal.ligne=nbCoteHauteur;
 		}
-		System.out.println("/////pfinal/////// "+pfinal.ligne+" "+pfinal.colonne);
+	//	System.out.println("/////pfinal/////// "+pfinal.ligne+" "+pfinal.colonne);
 		return pfinal;
     	
     }
