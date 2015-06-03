@@ -34,7 +34,6 @@ public class UndoRedo<T> implements Serializable{
 
 	public void addItem(T t) {
 		annuler.push(t);
-		System.out.println("ajout dans le undo taille : " +this.annuler.size());
 		refaire.removeAll(refaire);
 	}
 

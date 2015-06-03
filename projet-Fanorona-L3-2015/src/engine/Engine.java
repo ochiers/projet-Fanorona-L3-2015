@@ -410,7 +410,7 @@ public class Engine implements EngineServices {
 		} else
 		{
 			g.joueurNoir = nouveau;
-			g.joueurBlanc = partieCourante.joueurNoir;
+			g.joueurBlanc = partieCourante.joueurBlanc;
 		}
 		if (this.partieCourante.joueurCourant == precedent)
 			g.joueurCourant = nouveau;

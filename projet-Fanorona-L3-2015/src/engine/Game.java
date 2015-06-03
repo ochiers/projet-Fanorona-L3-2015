@@ -258,7 +258,6 @@ public class Game implements Serializable {
 				doitManger = false;
 			}
 
-			afficherList(pionsPossibles, "PIONS POSSIBLES");
 			leMoteur.getCurrentDisplay().afficherPionsPossibles(pionsPossibles);
 
 			combo = new ArrayList<Case>();
@@ -299,7 +298,6 @@ public class Game implements Serializable {
 					l.remove(pionCombo);
 				if (l.size() <= 0)
 				{
-					System.out.println("Plus de possibilites");
 					break;
 				}
 				leMoteur.getCurrentDisplay().afficherPionDuCombo(pionCombo);
@@ -752,9 +750,6 @@ public class Game implements Serializable {
 			if (coupsPourPriseParUnPion(coupsPossibles, tmp).size() > 0)
 				res.add(tmp);
 		}
-		for (int i = 0; i < res.size(); i++)
-			System.out.print(res.get(i));
-
 		return res;
 	}
 
