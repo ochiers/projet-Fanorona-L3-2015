@@ -111,7 +111,7 @@ public class AireDeDessin extends JComponent {
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
   //      testdegrader(drawable);
-        centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
+      //  centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
  
     }
     
