@@ -102,7 +102,7 @@ Lundi 1 juin
 Mardi 2 juin
 	Matin :
 		- Debug de nouveaux soucis rencontrés avec les IA moyenne et difficile, remplacement des get() par des iterator.
-		- Ajout fenetre de victoire avec feux d'artifices... non modifi�, non fonctionnel
+		- Ajout fenetre de victoire avec feux d'artifices... non modifi�, non fonctionnel
 	Après-midi :
 		- Debug et tests IA.
 		- ajout de la pop up de connexion pour jeu en reseau, non reliee a l'interface actuelle.
@@ -111,10 +111,11 @@ Mercredi 3 juin
 	Matin :
 		- Entrevue avec notre tuteur, Mise en place de redimensionnage de la fenetre fonctionnel. Essais halos translucides.
 		  Essais pour centrer le plateaud e jeu lors du redimensionnement.
-		- 
+		- Ajout mécanique anti-suicide immediat aux IA moyenne et difficile.
 	Après-midi :
 		- Debugguage de la fenetre de victoire, reste � modifier pour un faire un affichage de l'interface. Suite du code pour les
 		  halos. Le centrage du plateau de jeu fonctionne sauf pour halos.
+		- Debug mécanique anti-suicide immediat.
 		
 		
 		

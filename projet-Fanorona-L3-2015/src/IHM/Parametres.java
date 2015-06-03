@@ -186,23 +186,29 @@ public class Parametres {
 			fenetre.lvlPC1=savelvlPC1;
 			fenetre.lvlPC2=savelvlPC2;
 			fenetre.commencer=saveCommencer;
-		/*	Player humain1= Tools.createPlayer(fenetre.engine, PlayerType.Humain, fenetre.nameJ1);
+			Player humain1= Tools.createPlayer(fenetre.engine, PlayerType.Humain, fenetre.nameJ1);
 			Player humain2= Tools.createPlayer(fenetre.engine, PlayerType.Humain, fenetre.nameJ2);
 			Player pc1= Tools.createPlayer(fenetre.engine, fenetre.lvlPC1, "Ordi");
 			Player pc2= Tools.createPlayer(fenetre.engine, fenetre.lvlPC2, "Ordi");
 			
 			if(fenetre.mode.ordinal()==0){
-				fenetre.engine.getCurrentGame().joueurBlanc=humain1;
-				fenetre.engine.getCurrentGame().joueurNoir=humain2;
+				fenetre.engine.changerLeJoueur(fenetre.engine.getCurrentGame().joueurBlanc,humain1);
+				fenetre.engine.changerLeJoueur(fenetre.engine.getCurrentGame().joueurNoir,humain2);
+				//fenetre.engine.getCurrentGame().joueurBlanc=humain1;
+				//fenetre.engine.getCurrentGame().joueurNoir=humain2;
 			}else if(fenetre.mode.ordinal()==1){
-				fenetre.engine.getCurrentGame().joueurBlanc=humain1;
-				fenetre.engine.getCurrentGame().joueurNoir=pc1;
+				fenetre.engine.changerLeJoueur(fenetre.engine.getCurrentGame().joueurBlanc,humain1);
+				fenetre.engine.changerLeJoueur(fenetre.engine.getCurrentGame().joueurNoir,pc1);
+			//	fenetre.engine.getCurrentGame().joueurBlanc=humain1;
+			//	fenetre.engine.getCurrentGame().joueurNoir=pc1;
 			}else if(fenetre.mode.ordinal()==2){
-				fenetre.engine.getCurrentGame().joueurBlanc=pc1;
-				fenetre.engine.getCurrentGame().joueurNoir=pc2;
+				fenetre.engine.changerLeJoueur(fenetre.engine.getCurrentGame().joueurBlanc,pc1);
+				fenetre.engine.changerLeJoueur(fenetre.engine.getCurrentGame().joueurNoir,pc2);
+			//	fenetre.engine.getCurrentGame().joueurBlanc=pc1;
+			//	fenetre.engine.getCurrentGame().joueurNoir=pc2;
 			}
-			*/
 			
+			//fenetre.engine.changerLeJoueur(, );
 			fenetre.frame2.setVisible(false);
 			fenetre.afficherJeu();
 

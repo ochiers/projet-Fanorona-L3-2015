@@ -52,21 +52,7 @@ class Recepteur extends Thread {
 				if (texte.contains("QuiEstLa?") && isHost)
 				{
 					System.out.println("Requete recue, j'emet ...");
-					String ipOrdi = InetAddress.getLocalHost().toString();
-					Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
-					while(e.hasMoreElements())
-					{
-					    NetworkInterface n = (NetworkInterface) e.nextElement();
-					    Enumeration ee = n.getInetAddresses();
-					    while (ee.hasMoreElements())
-					    {
-					        InetAddress i = (InetAddress) ee.nextElement();
-					        if(!i.toString().contains("127.0.0.1") && Tools.isValidIP(i.toString()))
-					        	ipOrdi = i.toString();
-					    }
-					}
-
-					multiCast.emeteur.aEmettre = nom + "Je suis #" + InetAddress.getLocalHost().toString() + ":" + portGame;
+					multiCast.emeteur.aEmettre = nom + "Je suis #" + Tools.getIp() + ":" + portGame;
 				} else if (texte.contains("#"))
 					multiCast.dicoveredHosts.add(texte.split("#")[1]);
 
