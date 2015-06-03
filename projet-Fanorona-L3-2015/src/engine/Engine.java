@@ -420,7 +420,7 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void hebergerPartie(int port)
+	public void hebergerPartie(int port) throws IOException
 	{
 		if (this.networkManager != null)
 		{
@@ -440,17 +440,11 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void rejoindrePartie(int port, String ip)
+	public void rejoindrePartie(int port, String ip) throws IOException
 	{
 		if (this.networkManager != null)
 		{
-			try
-			{
-				this.networkManager.terminerPartieReseau();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			this.networkManager.terminerPartieReseau();
 		}
 		this.networkManager = new NetworkManager(this, port, ip);
 		this.networkManager.rejoindrePartie();

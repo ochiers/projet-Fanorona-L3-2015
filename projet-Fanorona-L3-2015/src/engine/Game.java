@@ -307,9 +307,9 @@ public class Game implements Serializable {
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
 				copiePlateau = copyMatrice(matricePlateau);
-				Coup c2 = this.joueurCourant.play(copiePlateau, t);
-				while (!finirSonTour && !joueurCourant.isStopped() && !comboValide(c2, pionCombo, combo))
-					c2 = this.joueurCourant.play(copiePlateau, t);
+				Coup coupCombo = this.joueurCourant.play(copiePlateau, t);
+				while (!finirSonTour && !joueurCourant.isStopped() && !comboValide(coupCombo, pionCombo, combo))
+					coupCombo = this.joueurCourant.play(copiePlateau, t);
 				if (finirSonTour)
 					break;
 				/*
@@ -325,13 +325,10 @@ public class Game implements Serializable {
 					notifyAll();
 					return;
 				}
-				pionCombo = matricePlateau[c2.arrivee.ligne][c2.arrivee.colonne];
-				System.out.println("PION JOUE " + pionCombo);
-				combo.add(matricePlateau[c2.depart.ligne][c2.depart.colonne]);
-				this.leMoteur.envoyerCoupSurReseau(c2);
-				rejouer = faireCoup(c2);
-				
-				System.out.println("PEUT REJOUE ? " + rejouer);
+				pionCombo = matricePlateau[coupCombo.arrivee.ligne][coupCombo.arrivee.colonne];
+				combo.add(matricePlateau[coupCombo.depart.ligne][coupCombo.depart.colonne]);
+				this.leMoteur.envoyerCoupSurReseau(coupCombo);
+				rejouer = faireCoup(coupCombo);
 				enCombo = rejouer;
 			}
 			combo.clear();
@@ -428,8 +425,10 @@ public class Game implements Serializable {
 			return false;
 
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
-		for (int i = 0; i < pionsPossibles.size(); i++)
-			l.add(pionsPossibles.get(i).position);
+		Iterator<Case> it = pionsPossibles.iterator();
+		while(it.hasNext())
+			l.add(it.next().position);
+		
 		Direction d = determinerDirection(c.depart, c.arrivee);
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];

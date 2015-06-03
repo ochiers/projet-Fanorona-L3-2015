@@ -1,12 +1,16 @@
 package IHM;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -102,8 +106,15 @@ class rejoindreListener implements ActionListener {
 		if (Tools.isValidIP(ip)){
 			Player p1 = new NetworkPlayer(moteur, false, "Player at " + ip);
 			Player p2 = new HumanPlayer(moteur, false, "Joueur");
-			moteur.rejoindrePartie(Integer.parseInt(RejoindrePartieReseauIHM.txt_saisiePort.getText()), ip);
-			moteur.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
+			try
+			{
+				moteur.rejoindrePartie(Integer.parseInt(RejoindrePartieReseauIHM.txt_saisiePort.getText()), ip);
+				moteur.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
+			} catch (NumberFormatException | IOException e1)
+			{
+				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" +  RejoindrePartieReseauIHM.txt_saisiePort, "Connection impossible", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
 		}
 	}
 }
