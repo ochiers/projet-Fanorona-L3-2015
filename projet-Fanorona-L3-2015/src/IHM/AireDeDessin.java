@@ -75,7 +75,7 @@ public class AireDeDessin extends JComponent {
     	float etirW = width / plateauW;
     	float etirH = height / plateauH;
     	float etir = etirW < etirH ? etirW : etirH;
-    	drawable.drawImage(plateau.getImage(), 0, 0, (int)(width*etir), (int)(height*etir), null);
+    	drawable.drawImage(plateau.getImage(), 0, 0, (int)((float)plateauW*etir), (int)((float)plateauH*etir), null);
     	//drawable.drawImage(new ImageIcon("src/images/Fano9x5.jpg").getImage(), (int)(0.78*fenetre.fw/6), (int)(0.17*fenetre.fh/6), (int)(4.4*fenetre.fw/6), (int)(4.68*fenetre.fh/6), null);
 
         drawable.setPaint(Color.black);
