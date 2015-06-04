@@ -70,7 +70,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		txt_saisiePort = new JTextField("12345", 5);
 		txt_saisiePort.setBounds(150, 70, 100, 40);
 
-		Multicast m = new Multicast("224.2.2.3", 8965, 12345, false);
+		Multicast m = new Multicast("224.3.3.3", 12344, 12345, false);
 		ArrayList<String> l = m.trouverDesParties(2000);
 		Iterator<String> it_l = l.iterator();
 		DefaultListModel<String> modelData = new DefaultListModel<String>();
@@ -141,6 +141,8 @@ class rejoindreListener implements ActionListener {
 			{
 				String[] selectionParse = selection.split(":");
 				ip = selectionParse[0];
+				if(!Tools.isValidIP(ip))
+					System.err.println("L'ip n'est pas bonne, " + ip);
 				port = Integer.parseInt(selectionParse[1]);
 			}
 

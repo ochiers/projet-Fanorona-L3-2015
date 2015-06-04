@@ -394,10 +394,7 @@ public class Game implements Serializable {
 		joueurBlanc.join();
 		joueurNoir.join();
 		if (finish)
-		{
-			System.out.println("victoire de " + joueurCourant);
 			leMoteur.getCurrentDisplay().afficherVictoire(winner);
-		}
 	}
 
 	/**

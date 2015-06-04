@@ -160,7 +160,7 @@ public class Multicast {
 		{
 			e.printStackTrace();
 		}
-		System.out.println(this.dicoveredHosts);
+		System.out.println("Liste obtenue" + this.dicoveredHosts);
 		return this.dicoveredHosts;
 	}
 
