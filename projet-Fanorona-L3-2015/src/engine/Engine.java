@@ -105,7 +105,7 @@ public class Engine implements EngineServices {
 		if (partieCourante != null)
 		{
 			gameInProgress = false;
-			partieCourante.finir(); // On arrete la partie courante qui se
+			partieCourante.finir(true); // On arrete la partie courante qui se
 									// deroule
 									// dans le thread principal
 
@@ -201,7 +201,7 @@ public class Engine implements EngineServices {
 	{
 		if (partieCourante != null)
 		{
-			this.partieCourante.finir();
+			this.partieCourante.finir(true);
 			this.gameInProgress = false;
 		}
 	}
@@ -467,7 +467,6 @@ public class Engine implements EngineServices {
 	@Override
 	public void envoyerCoupSurReseau(Coup c)
 	{
-		System.out.println("envoi ?");
 		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
 		{
 			System.out.println("envoye de " + c);
@@ -479,7 +478,6 @@ public class Engine implements EngineServices {
 	@Override
 	public void envoyerChoixCaseSurReseau(Coordonnee c)
 	{
-
 		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
 		{
 			System.out.println("envoye de " + c);
@@ -507,6 +505,25 @@ public class Engine implements EngineServices {
 		System.err.flush();
 		System.out.println("~~~~~ Application terminee ~~~~~");
 		System.exit(0);
+	}
+
+	@Override
+	public void playOnlyOnce()
+	{
+		try
+		{
+			while(!gameInProgress)
+				Thread.sleep(60);
+			partieCourante.reprendre();
+			partieCourante.commencer();
+			//System.out.println("FINI");
+			
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

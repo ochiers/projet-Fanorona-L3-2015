@@ -7,22 +7,26 @@ import java.util.Iterator;
 import AI.HumanPlayer;
 
 /**
- * Classe representant une partie. Pour lancer le jeu il faut faire appel a la methode jouer()
+ * Classe representant une partie. Pour lancer le jeu il faut faire appel a la
+ * methode jouer()
  * 
  * @author soulierc
  *
  */
-public class Game implements Serializable {
+public class Game implements Serializable
+{
 
 	private static final long			serialVersionUID	= -1634914624217639082L;
 
 	/**
-	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer la partie
+	 * Indique que e jeu est arreter, le passage a true a pour effet de terminer
+	 * la partie
 	 */
 	public boolean						stopped;
 
 	/**
-	 * Indique que la partie s'est terminee normalement avec un vainqueur, la partie est arretée apres cela
+	 * Indique que la partie s'est terminee normalement avec un vainqueur, la
+	 * partie est arretée apres cela
 	 */
 	public boolean						finish;
 
@@ -32,7 +36,8 @@ public class Game implements Serializable {
 	private boolean						paused;
 
 	/**
-	 * Indique si un combo est en cours, le pion correspondant est dans l'attribu this.pionCombo
+	 * Indique si un combo est en cours, le pion correspondant est dans
+	 * l'attribu this.pionCombo
 	 */
 	public boolean						enCombo;
 
@@ -52,7 +57,8 @@ public class Game implements Serializable {
 	public Player						joueurNoir;
 
 	/**
-	 * Le joueur qui a gagner, est renseigné uniquement quand la partie c'est terminee normalement (this.finish == true)
+	 * Le joueur qui a gagner, est renseigné uniquement quand la partie c'est
+	 * terminee normalement (this.finish == true)
 	 */
 	private Player						winner;
 
@@ -87,7 +93,8 @@ public class Game implements Serializable {
 	public transient EngineServices		leMoteur;
 
 	/**
-	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on ne peut pas revenir sur une case deja jouee
+	 * Liste des coups du combo courant, sert à respecter la regle qui dit qu'on
+	 * ne peut pas revenir sur une case deja jouee
 	 */
 	public transient ArrayList<Case>	combo;
 
@@ -102,14 +109,16 @@ public class Game implements Serializable {
 	public Case							pionCombo;
 
 	/**
-	 * Permet de savoir si le joueur veut terminer son tour (uniquement possible durant un combo enCombo==True)
+	 * Permet de savoir si le joueur veut terminer son tour (uniquement possible
+	 * durant un combo enCombo==True)
 	 */
 	private boolean						finirSonTour;
 
 	public boolean						premierJoueur;
 
 	/**
-	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc et noirs et un plateu de largeur*hauteur
+	 * Cree une nouvelle partie avec un module d'affichage, deux joueurs blanc
+	 * et noirs et un plateu de largeur*hauteur
 	 * 
 	 * @param affichage
 	 *            L'affichage du jeu
@@ -123,7 +132,8 @@ public class Game implements Serializable {
 	 * @param p2
 	 *            Joueur Noir
 	 * @param size
-	 *            Taille du plateau size.height = nombre de lignes size.width = nombre de colonnes
+	 *            Taille du plateau size.height = nombre de lignes size.width =
+	 *            nombre de colonnes
 	 */
 	public Game(EngineServices leMoteur, UndoRedo<Game> undoRedo, int joueurQuiCommence, Player p1, Player p2, Dimension size)
 	{
@@ -226,7 +236,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a été arretée
+	 * Joue une partie jusqu'a ce qu'un joueur ai gagné ou que la partie a été
+	 * arretée
 	 * 
 	 * @throws InterruptedException
 	 */
@@ -253,7 +264,6 @@ public class Game implements Serializable {
 			boolean doitManger = true;
 			if (pionsPossibles.size() == 0)
 			{
-				System.err.println("Aucun pion ne peut manger");
 				pionsPossibles = this.lesPionsJouables();
 				doitManger = false;
 			}
@@ -271,12 +281,14 @@ public class Game implements Serializable {
 			}
 
 			/*
-			 * Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause
+			 * Apres que le joueur ai joue on test si le jeu n'a pas ete arrete
+			 * ou mis en pause
 			 */
 			while (!stopped && paused)
 				Thread.sleep(50);
 			/*
-			 * S'il a ete arrete alors il faut debloquer tout le monde pour terminer la methode play pour que les threads joueurs se termient
+			 * S'il a ete arrete alors il faut debloquer tout le monde pour
+			 * terminer la methode play pour que les threads joueurs se termient
 			 */
 			if (stopped)
 			{
@@ -311,12 +323,15 @@ public class Game implements Serializable {
 				if (finirSonTour)
 					break;
 				/*
-				 * Apres que le joueur ai joue on test si le jeu n'a pas ete arrete ou mis en pause
+				 * Apres que le joueur ai joue on test si le jeu n'a pas ete
+				 * arrete ou mis en pause
 				 */
 				while (!stopped && paused)
 					Thread.sleep(50);
 				/*
-				 * S'il a ete arrete alors il faut debloquer tout le monde pour terminer la methode play pour que les threads joueurs se termient
+				 * S'il a ete arrete alors il faut debloquer tout le monde pour
+				 * terminer la methode play pour que les threads joueurs se
+				 * termient
 				 */
 				if (stopped)
 				{
@@ -339,13 +354,14 @@ public class Game implements Serializable {
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			finish = testVictoire();
 			leMoteur.getCurrentDisplay().afficherJeu();
-			System.err.println(nameJoueur + " a fini");
+			System.err.println(nameJoueur + " a fini, jeu gagné ? : " + finish);
 
 			/*
-			 * Si un joueur a gagner alors il faut areter tous les threads joueurs
+			 * Si un joueur a gagner alors il faut areter tous les threads
+			 * joueurs
 			 */
 			if (finish)
-				finir();
+				finir(false);
 		}
 		/* On reveil le thread du joueur suivant pour qu'il joue */
 		notifyAll();
@@ -358,7 +374,6 @@ public class Game implements Serializable {
 	 */
 	public void commencer() throws InterruptedException
 	{
-		System.err.println("Debut de la partie");
 		joueurBlanc.setStopped(false);
 		joueurNoir.setStopped(false);
 		joueurBlanc.start();
@@ -367,21 +382,18 @@ public class Game implements Serializable {
 		ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
 		if (pionsPossibles.size() == 0)
 		{
-			System.err.println("Aucun pion ne peut manger");
 			pionsPossibles = this.lesPionsJouables();
 		}
 		leMoteur.getCurrentDisplay().afficherPionsPossibles(pionsPossibles);
 
 		joueurBlanc.join();
 		joueurNoir.join();
-		System.err.println("Partie terminee");
 		if (finish)
 		{
-			System.out.println("victoire");
+			// System.out.println("victoire");
 			winner = joueurCourant;
 			leMoteur.getCurrentDisplay().afficherVictoire(winner);
 		}
-
 	}
 
 	/**
@@ -389,8 +401,10 @@ public class Game implements Serializable {
 	 * 
 	 * @param c
 	 *            Le coup joué
-	 * @param pionJoue Pion avec lequel on joue
-	 * @param listCombo Liste contenant les anciennes positions du pion
+	 * @param pionJoue
+	 *            Pion avec lequel on joue
+	 * @param listCombo
+	 *            Liste contenant les anciennes positions du pion
 	 * @return Vrai -> si on peut faire le combo, Faux sinon
 	 */
 	private boolean comboValide(Coup c, Case pionJoue, ArrayList<Case> listCombo)
@@ -424,13 +438,13 @@ public class Game implements Serializable {
 
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
 		Iterator<Case> it = pionsPossibles.iterator();
-		while(it.hasNext())
+		while (it.hasNext())
 			l.add(it.next().position);
-		
+
 		Direction d = determinerDirection(c.depart, c.arrivee);
 		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
 		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
-		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee && depart.getCaseAt(d) != null && depart.getCaseAt(d) == arrivee);
+		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee && d != null && depart.getCaseAt(d) == arrivee);
 		if (doitManger)
 			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;
@@ -441,7 +455,8 @@ public class Game implements Serializable {
 	 * 
 	 * @param c
 	 *            Le coup joué par le joueur
-	 * @return True -> le joueur peut rejouer, False -> le joueur ne peut pas rejouer
+	 * @return True -> le joueur peut rejouer, False -> le joueur ne peut pas
+	 *         rejouer
 	 */
 	private boolean faireCoup(Coup c)
 	{
@@ -465,9 +480,9 @@ public class Game implements Serializable {
 				Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
 				while (!rapprochement.contains(choix) && !eloignement.contains(choix))
 					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-				
+
 				leMoteur.envoyerChoixCaseSurReseau(choix.position);
-				
+
 				if (rapprochement.contains(choix))
 				{
 					leMoteur.getCurrentDisplay().afficherPionsCaptures(rapprochement);
@@ -495,7 +510,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Methode permettant de retirer reelement les pions de la liste passee en parametres du plateau du jeu
+	 * Methode permettant de retirer reelement les pions de la liste passee en
+	 * parametres du plateau du jeu
 	 * 
 	 * @param l
 	 *            La liste de case a liberer
@@ -519,7 +535,8 @@ public class Game implements Serializable {
 	 * @param d
 	 *            La direction dans la quelle capturer
 	 * @param depart
-	 *            La case de debut de la capture (cette case doit etre vide on commence la capture la case d'apres)
+	 *            La case de debut de la capture (cette case doit etre vide on
+	 *            commence la capture la case d'apres)
 	 * @return Une liste de cases qui correspond aux pions supprimes
 	 */
 	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction d, Case depart)
@@ -548,7 +565,8 @@ public class Game implements Serializable {
 	 * @param d
 	 *            La direction dans la quelle capturer
 	 * @param depart
-	 *            La case de debut de la capture (cette case doit etre vide on commence la capture sur la case opposee)
+	 *            La case de debut de la capture (cette case doit etre vide on
+	 *            commence la capture sur la case opposee)
 	 * @return Une liste de cases qui correspond aux pions supprimes
 	 */
 	private ArrayList<Case> determinerPionsACapturerEloignement(Direction d, Case depart)
@@ -575,7 +593,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Fonction determinant si un des joueur a capturer tous les pions de l'autre
+	 * Fonction determinant si un des joueur a capturer tous les pions de
+	 * l'autre
 	 * 
 	 * @return True si victoire, False sinon
 	 */
@@ -632,7 +651,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Donne les cases possibles (etant vides) pour un pion se trouvant sur la case c
+	 * Donne les cases possibles (etant vides) pour un pion se trouvant sur la
+	 * case c
 	 * 
 	 * @param c
 	 *            La case de depart du pion
@@ -706,7 +726,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Fonction renvoyant les pions du joueur courant qui peuvent se deplacer (en mangeant ou nom)
+	 * Fonction renvoyant les pions du joueur courant qui peuvent se deplacer
+	 * (en mangeant ou nom)
 	 * 
 	 * @return Une liste de pions
 	 */
@@ -733,7 +754,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Fonction donnant les pions du joueur courant qui peuvent manger ce coup ci
+	 * Fonction donnant les pions du joueur courant qui peuvent manger ce coup
+	 * ci
 	 * 
 	 * @return Une liste de pions
 	 */
@@ -757,7 +779,8 @@ public class Game implements Serializable {
 	 * Donne les cases que si on y va dessus on mange
 	 * 
 	 * @param coupsPossibles
-	 *            Tous les coups possibles de deplacement pour le pion sur case c
+	 *            Tous les coups possibles de deplacement pour le pion sur case
+	 *            c
 	 * @param c
 	 *            La case sur laquelle ce trouve le pion qui va manger
 	 * @return
@@ -772,14 +795,18 @@ public class Game implements Serializable {
 			{
 				/* Aspiration - Eloignement */
 				/*
-				 * Pour chaque direction, on test si la case est vide, qu'elle est un coup possibles, et que la case opposée soit un pion ennemi
+				 * Pour chaque direction, on test si la case est vide, qu'elle
+				 * est un coup possibles, et que la case opposée soit un pion
+				 * ennemi
 				 */
 				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)) != null && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
 					res.add(c.getCaseAt(d));
 
 				/* Percussion - Rapprochement */
 				/*
-				 * Pour chaque direction, on vérifie que la case visée soit vide, qu'elle soit un coup possible et que la case suivante dans la même direction soit un pion ennemi
+				 * Pour chaque direction, on vérifie que la case visée soit
+				 * vide, qu'elle soit un coup possible et que la case suivante
+				 * dans la même direction soit un pion ennemi
 				 */
 				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
 					res.add(c.getCaseAt(d));
@@ -797,8 +824,11 @@ public class Game implements Serializable {
 	 * @return Vrai si la case est vide, Faux sinon
 	 */
 	/*
-	 * public boolean estJouable(Coordonnee p) { Pion courant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir; boolean res = false; if (matricePlateau[p.ligne][p.colonne].pion == courant) { for (Case case1 : matricePlateau[p.ligne][p.colonne].voisins()) { res = res || case1.estVide(); } }
-	 * return res; }
+	 * public boolean estJouable(Coordonnee p) { Pion courant = (joueurCourant
+	 * == joueurBlanc) ? Pion.Blanc : Pion.Noir; boolean res = false; if
+	 * (matricePlateau[p.ligne][p.colonne].pion == courant) { for (Case case1 :
+	 * matricePlateau[p.ligne][p.colonne].voisins()) { res = res ||
+	 * case1.estVide(); } } return res; }
 	 */
 
 	/**
@@ -811,7 +841,9 @@ public class Game implements Serializable {
 	 * @return Vrai si p appartien aux voisins de q
 	 */
 	/*
-	 * public boolean estVoisin(Coordonnee p, Coordonnee q) { Case c1 = matricePlateau[p.ligne][p.colonne]; Case c2 = matricePlateau[q.ligne][q.colonne]; return c1.voisins().contains(c2); }
+	 * public boolean estVoisin(Coordonnee p, Coordonnee q) { Case c1 =
+	 * matricePlateau[p.ligne][p.colonne]; Case c2 =
+	 * matricePlateau[q.ligne][q.colonne]; return c1.voisins().contains(c2); }
 	 */
 
 	public void afficherList(ArrayList<Case> l, String str)
@@ -825,13 +857,18 @@ public class Game implements Serializable {
 
 	/**
 	 * Arrete le jeu, tue les joueurs
+	 * 
+	 * @param b
 	 */
-	public void finir()
+	public void finir(boolean b)
 	{
 		this.joueurBlanc.setStopped(true);
 		this.joueurNoir.setStopped(true);
-		this.joueurBlanc.stop();
-		this.joueurNoir.stop();
+		if (b)
+		{
+			this.joueurBlanc.stop();
+			this.joueurNoir.stop();
+		}
 		this.stopped = true;
 	}
 
@@ -899,7 +936,8 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Permet au joueur courant de finir son tour (uniquement possible durant un combo this.enCombo==True)
+	 * Permet au joueur courant de finir son tour (uniquement possible durant un
+	 * combo this.enCombo==True)
 	 */
 	public void finirSonTour()
 	{

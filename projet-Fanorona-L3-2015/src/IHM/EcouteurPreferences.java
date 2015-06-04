@@ -92,12 +92,12 @@ public class EcouteurPreferences implements ActionListener{
 			if(e.getSource() == pref.accepter){
 				pref.fenetre.pion1=pref.save1;
 				pref.fenetre.pion2=pref.save2;
-				Fenetre.frame3.setVisible(false);
+			//	Fenetre.frame3.setVisible(false);
 				pref.fenetre.afficherJeu();
 			}
 			else if(e.getSource() == pref.annuler){
 				pref.resetBouton();
-				Fenetre.frame3.setVisible(false);
+			//	Fenetre.frame3.setVisible(false);
 			}
 		}
 

@@ -65,7 +65,7 @@ public class Preferences {
 			
 	public void majPref(){
 		
-		Fenetre.frame3.setSize(500, 500);
+		//Fenetre.frame3.setSize(500, 500);
 		JPanel panelAccueil3 = new JPanel(new GridLayout(3,2));
 		JPanel panelFond = new JPanel(new GridLayout(0,1));
 		JPanel panelJoueurs = new JPanel(new GridLayout(0,1));
@@ -273,9 +273,9 @@ public class Preferences {
 		panelAccueil3.add(panelPions2);
 		panelAccueil3.add(panelBoutons);
 		
-		Fenetre.frame3.add(panelAccueil3);
+		/*Fenetre.frame3.add(panelAccueil3);
 		Fenetre.frame3.setResizable(false);
-		Fenetre.frame3.setVisible(false);
+		Fenetre.frame3.setVisible(false);*/
 	}
 	
 	public void desactiveLautrePion(){
