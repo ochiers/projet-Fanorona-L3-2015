@@ -179,7 +179,7 @@ public class Parametres {
 	}
 	
 	class ItemAction_accepter implements ActionListener{
-
+		//TODO relancer partie en automatique
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Bouton Accepter");
 			fenetre.mode=saveMode;

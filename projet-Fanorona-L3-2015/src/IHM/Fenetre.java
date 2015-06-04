@@ -20,6 +20,7 @@ public class Fenetre implements Runnable, Affichage {
 	Parametres			parametre;
 	PreferencesOnglets	preference;
 	AireDeDessin		monDessin;
+	Firework			victoire = new Firework(this);
 	EngineServices		engine;
 	Dimension			size	= new Dimension(9, 5);
 
@@ -78,7 +79,8 @@ public class Fenetre implements Runnable, Affichage {
 	int					wmax	= 1280;
 	int					hmax	= 720;
 
-	int					iconPion1, iconPion2;
+	int					taillePion;
+	JPanel				panelVictoire;
 
 	public Fenetre(EngineServices e)
 	{
@@ -97,6 +99,10 @@ public class Fenetre implements Runnable, Affichage {
 		fh = frame.getHeight();
 		panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);
 		panelAccueil.setLayout(new BorderLayout(20, 10));
+		panelVictoire = new JPanel();
+		panelVictoire.setSize(panelAccueil.getSize());
+		panelVictoire.setOpaque(false);
+		panelVictoire.setVisible(false);
 
 		// grille
 		monDessin = new AireDeDessin(this);
@@ -201,12 +207,12 @@ public class Fenetre implements Runnable, Affichage {
 		JLabel score2 = new JLabel(" Pions restants ", SwingConstants.CENTER);
 		tour1 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
 		tour2 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
-		DessinPion monPion1 = new DessinPion(this, pion1, iconPion1);
-		DessinPion monPion2 = new DessinPion(this, pion2, iconPion2);
+		DessinPion monPion1 = new DessinPion(this, pion1, taillePion);
+		DessinPion monPion2 = new DessinPion(this, pion2, taillePion);
 
 		// joueur 1
 		JPanel panelOuest = new JPanel(new GridLayout(9, 1));
-		iconPion1 = panelOuest.getWidth();
+		taillePion = panelOuest.getWidth();
 		JLabel vide1 = new JLabel();
 		panelOuest.setBackground(new Color(255, 255, 255, 128));
 		panelOuest.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
@@ -221,7 +227,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		// joueur 2
 		JPanel panelEst = new JPanel(new GridLayout(9, 1));
-		iconPion2 = panelEst.getWidth();
+		taillePion = panelEst.getWidth();
 		JLabel vide2 = new JLabel();
 		panelEst.setBackground(new Color(255, 255, 255, 128));
 		panelEst.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
@@ -491,8 +497,13 @@ public class Fenetre implements Runnable, Affichage {
 	public void afficherVictoire(Player p)
 	{
 		monDessin.finPartie = true;
-		System.out.println("VICTOIRE");
 		monDessin.repaint();
+		victoire.setVisible(true);
+		String winner = (this.engine.getWinner()).name;
+		System.out.println("VICTOIRE"+ winner);
+		panelVictoire.add(victoire);
+		panelVictoire.setVisible(true);
+		frame.add(panelVictoire);
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)

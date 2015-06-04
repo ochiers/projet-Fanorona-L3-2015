@@ -67,7 +67,6 @@ public class AireDeDessin extends JComponent {
 		fenetre.fw = fenetre.frame.getWidth();
 		fenetre.fh = fenetre.frame.getHeight();
    //     segment  = (int)((fenetre.fw*3.99)/60);
-        
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
     	int width = this.getSize().width;
@@ -112,9 +111,9 @@ public class AireDeDessin extends JComponent {
 	        	halo(drawable,pCourant,Color.cyan);
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
-  //      testdegrader(drawable);
-      //  centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
-       
+
+        //testdegrader(drawable);
+        centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
     }
     
     public void halo(Graphics2D drawable,Coordonnee p,Color c){
@@ -126,12 +125,11 @@ public class AireDeDessin extends JComponent {
     	int newTaille=(int)(tailleJeton*tailleHalo);
     	double diff=alpha/(newTaille-tailleJeton);
     	drawable.setPaint(new Color(red,green,blue,alpha));
-		
     	for(int i=tailleJeton;i<newTaille;i++){
     		alpha=(int)(255-(i-tailleJeton)*diff);
     		drawable.setPaint(new Color(red,green,blue,alpha));
-    		drawable.drawOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-i/2), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-i/2), (int)i, (int)i);
-    		
+    		drawable.drawOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-i/2+originePlateauX), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-i/2+originePlateauY), (int)i, (int)i);	
+    		//TODO MODIF avec originePlateauX et originePlateauY
     	}
 		drawable.setPaint(Color.black);
     }
