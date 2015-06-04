@@ -1,4 +1,5 @@
-// https://kenai.com/projects/trident/sources/source/content/src/test/swing/Fireworks.java?rev=123
+/* https://kenai.com/projects/trident/sources/source/content/src/test/swing/Fireworks.java?rev=123
+   Code source modifié selon nos besoin et preferences */
 
 package IHM;
 
@@ -31,9 +32,8 @@ import org.pushingpixels.trident.callback.TimelineScenarioCallback;
 import org.pushingpixels.trident.ease.Spline;
 import org.pushingpixels.trident.swing.SwingRepaintTimeline;
 
-import org.pushingpixels.trident.*;
-
-public final class Firework extends JFrame {
+@SuppressWarnings("serial")
+public final class Firework extends JPanel {
 	private Set<VolleyExplosion> volleys;
 	private Map<VolleyExplosion, TimelineScenario> volleyScenarios;
 	private JPanel mainPanel;
@@ -96,7 +96,7 @@ public final class Firework extends JFrame {
 			TimelineScenario scenario = new TimelineScenario.Parallel();
 
 			Random randomizer = new Random();
-			int duration = 1000 + randomizer.nextInt(1000);
+			int duration = 10000 + randomizer.nextInt(10000);
 			for (int i = 0; i < 18; i++) {
 				float dist = (float) (50 + 10 * Math.random());
 				float radius = (float) (2 + 2 * Math.random());
@@ -135,8 +135,9 @@ public final class Firework extends JFrame {
 		}
 	}
 
-	public Firework() {
-		super("Swing Firework");
+	//public Firework() {
+	public Firework(Fenetre fenetre) {
+		super();
 
 		this.mainPanel = new JPanel() {
 			protected void paintComponent(Graphics g) {
@@ -146,26 +147,13 @@ public final class Firework extends JFrame {
 				}
 			}
 		};
-		this.mainPanel.setBackground(Color.black);
+		this.mainPanel.setBackground(new Color(0, 0, 0, 0)); //transparent
 		this.mainPanel.setPreferredSize(new Dimension(480, 320));
+		//this.mainPanel.setPreferredSize(new Dimension(fenetre.fw, fenetre.fh));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();
 		this.volleyScenarios = new HashMap<VolleyExplosion, TimelineScenario>();
-		this.mainPanel.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				synchronized (volleys) {
-					for (TimelineScenario scenario : volleyScenarios.values()) scenario.suspend();
-				}
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				synchronized (volleys) {
-					for (TimelineScenario scenario : volleyScenarios.values())
-						scenario.resume();
-				}
-			}
-		});
 		mainPanel.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				if ((mainPanel.getWidth() == 0) || (mainPanel.getHeight() == 0))
@@ -173,16 +161,20 @@ public final class Firework extends JFrame {
 				new Thread() {
 					public void run() {
 						while (true) {
-							addExplosions(5);
+							addExplosions(4);
 						}
 					}
 				}.start();
 			}
 		});
+		//afficher winner
+		// ...
 		this.add(mainPanel);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.pack();
+		//this.setLocationRelativeTo(null);
+		//this.setResizable(false);
+		this.setVisible(false);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void addExplosions(int count) {
@@ -191,12 +183,12 @@ public final class Firework extends JFrame {
 		Random randomizer = new Random();
 		for (int i = 0; i < count; i++) {
 			int r = randomizer.nextInt(255);
-			int g = 100 + randomizer.nextInt(155);
-			int b = 50 + randomizer.nextInt(205);
+			int g = randomizer.nextInt(255);
+			int b = randomizer.nextInt(255);
 			Color color = new Color(r, g, b);
 
-			int x = 60 + randomizer.nextInt(mainPanel.getWidth() - 120);
-			int y = 60 + randomizer.nextInt(mainPanel.getHeight() - 120);
+			int x = 60 + randomizer.nextInt(mainPanel.getWidth() - 120); 	//pour ne pas toucher les
+			int y = 60 + randomizer.nextInt(mainPanel.getHeight() - 120);	// bords de la frame
 			final VolleyExplosion exp = new VolleyExplosion(x, y, color);
 			synchronized (volleys) {
 				volleys.add(exp);
@@ -218,12 +210,12 @@ public final class Firework extends JFrame {
 		catch (Exception exc) {}
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new Firework().setVisible(true);
 			}
 		});
-	}
+	}*/
 
 }
