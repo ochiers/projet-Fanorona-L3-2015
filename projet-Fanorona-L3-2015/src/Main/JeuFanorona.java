@@ -34,7 +34,6 @@ public class JeuFanorona {
 						e.hebergerPartie(Integer.parseInt(argv[2]));
 						p1 = new HumanPlayer(e, false, "Joueur");
 						p2 = new NetworkPlayer(e, false, "Player at " + e.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-						System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAdffddsfdfsdfs"+p2);
 					} else if (argv.length >= 4 && argv[1].toLowerCase().equals("client"))
 						if (Tools.isValidIP(argv[3]) || argv[3].toLowerCase().equals("localhost"))
 						{

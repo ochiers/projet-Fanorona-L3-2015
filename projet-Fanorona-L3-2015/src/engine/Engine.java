@@ -169,13 +169,13 @@ public class Engine implements EngineServices {
 			partieCourante.stopped = false;
 			partieCourante.leMoteur = this;
 			partieCourante.pause();
-			try
+			/*try
 			{
 				Thread.sleep(500);
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();
-			}
+			}*/
 			gameInProgress = true;
 			affichage.afficherJeu();
 		} else
@@ -420,6 +420,8 @@ public class Engine implements EngineServices {
 		else
 			g.joueurCourant = partieCourante.joueurCourant;
 		changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, ((g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir));
+		this.annuler(false);//oui, c'est du bricolage
+		this.refaire(false);//oui, c'est du bricolage
 	}
 
 	@Override

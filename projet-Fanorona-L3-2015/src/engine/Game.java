@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import AI.HumanPlayer;
 
 /**
@@ -248,7 +249,9 @@ public class Game implements Serializable
 
 		while (!stopped && !nameJoueur.equals(joueurCourant.name))
 		{
+			System.out.print(nameJoueur+" coincé");
 			wait();
+			System.out.print(nameJoueur + " décoincé");
 			while (!stopped && paused)
 				Thread.sleep(50);
 		}
@@ -862,6 +865,7 @@ public class Game implements Serializable
 	 * 
 	 * @param b
 	 */
+	@SuppressWarnings("deprecation")
 	public void finir(boolean b)
 	{
 		this.joueurBlanc.setStopped(true);
