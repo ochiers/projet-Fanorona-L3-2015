@@ -167,6 +167,7 @@ public class Engine implements EngineServices {
 			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
+			partieCourante.leMoteur = this;
 			partieCourante.pause();
 			try
 			{
@@ -186,7 +187,7 @@ public class Engine implements EngineServices {
 	@Override
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
 	{
-		Game g = new Game(this, this.undoRedo, premierJoueur, p1, p2, size);
+		Game g = new Game(this, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
 		changerPartieCourante(g, p1, p2, (premierJoueur == 0) ? Pion.Blanc : Pion.Noir);
@@ -280,6 +281,8 @@ public class Engine implements EngineServices {
 			g.joueurBlanc.leMoteur = this;
 			g.joueurNoir.leMoteur = this;
 			g.joueurCourant.leMoteur = this;
+			this.undoRedo.vider();
+			this.undoRedo = g.annulerRefaire;
 			Pion Jcourant = (g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir;
 			changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, Jcourant);
 		} catch (Exception e)
@@ -410,7 +413,7 @@ public class Engine implements EngineServices {
 		} else
 		{
 			g.joueurNoir = nouveau;
-			g.joueurBlanc = partieCourante.joueurNoir;
+			g.joueurBlanc = partieCourante.joueurBlanc;
 		}
 		if (this.partieCourante.joueurCourant == precedent)
 			g.joueurCourant = nouveau;
@@ -501,6 +504,11 @@ public class Engine implements EngineServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(!this.partieCourante.finish && !(partieCourante.joueurBlanc instanceof NetworkPlayer) && !(partieCourante.joueurNoir instanceof NetworkPlayer)){
+			this.sauvegarderPartie("./tempSave.tmp");
+		}
+		else
+			new File("./tempSave.tmp").delete();
 		System.out.flush();
 		System.err.flush();
 		System.out.println("~~~~~ Application terminee ~~~~~");
@@ -516,13 +524,42 @@ public class Engine implements EngineServices {
 				Thread.sleep(60);
 			partieCourante.reprendre();
 			partieCourante.commencer();
-			//System.out.println("FINI");
-			
 		} catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+
+	@Override
+	public UndoRedo<Game> getUndoRedo()
+	{
+		return this.undoRedo;
+	}
+
+	@Override
+	public boolean canLoardOldGame()
+	{
+		File f = new File("./tempSave.tmp");
+		return f.exists();
+	}
+
+	@Override
+	public void loadOldGame()
+	{
+		System.out.println("CHARGEMENT DE LA DERNIERE PARTIE");
+		this.chargerPartie("./tempSave.tmp");
+		this.undoRedo = partieCourante.annulerRefaire;
+		this.partieCourante.finish = false;
+		this.partieCourante.stopped = false;
+		this.premierJeu = true;
+		this.gameInProgress = true;
+	}
+
+	@Override
+	public void deleteNetworkManager()
+	{
+		this.networkManager = null;
 		
 	}
 
