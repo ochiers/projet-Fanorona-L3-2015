@@ -55,11 +55,13 @@ public class NetworkManager extends Thread {
 	 */
 	public EngineServices		leMoteur;
 	/**
-	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le reseau
+	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le
+	 * reseau
 	 */
 	public Stack<Coup>			coupsRecu;
 	/**
-	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le reseau
+	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le
+	 * reseau
 	 */
 	public Stack<Coordonnee>	coordonneesRecu;
 
@@ -119,8 +121,10 @@ public class NetworkManager extends Thread {
 
 	public void terminerPartieReseau() throws IOException
 	{
-		this.reception.close();
-		this.envoi.close();
+		if (this.reception != null)
+			this.reception.close();
+		if (this.envoi != null)
+			this.envoi.close();
 		if (socketEnvoiPrincipal != null)
 			this.socketEnvoiPrincipal.close();
 		if (socketServeurPrincipal != null)
@@ -145,7 +149,8 @@ public class NetworkManager extends Thread {
 	}
 
 	/**
-	 * Méthode permettant de recevoir la configuration partagée entre les 2 ordinateurs.
+	 * Méthode permettant de recevoir la configuration partagée entre les 2
+	 * ordinateurs.
 	 * 
 	 * @throws IOException
 	 */

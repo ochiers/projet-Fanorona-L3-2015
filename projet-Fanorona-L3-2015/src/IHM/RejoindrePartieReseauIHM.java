@@ -54,7 +54,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		JLabel explicationPort = new JLabel("Port vise : ");
 		explicationPort.setBounds(75, 70, 100, 40);
 
-		txt_saisieIp = new JTextField("192.168.0.2", 15);
+		txt_saisieIp = new JTextField("152.77.82.223", 15);
 		txt_saisieIp.setBounds(150, 20, 100, 40);
 
 		txt_saisiePort = new JTextField("12345", 5);
@@ -120,6 +120,7 @@ class rejoindreListener implements ActionListener {
 				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" +  r.txt_saisiePort, "Connection impossible", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
+			r.setVisible(false);
 		}
 	}
 }

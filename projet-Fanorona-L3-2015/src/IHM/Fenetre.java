@@ -3,11 +3,14 @@ package IHM;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import AI.HumanPlayer;
+import network.NetworkPlayer;
 import engine.*;
 
 public class Fenetre implements Runnable,Affichage {
@@ -20,10 +23,6 @@ public class Fenetre implements Runnable,Affichage {
 	EngineServices engine;
 	Dimension size = new Dimension(9,5);
 	
-/*	int lvlPC1;
-	int lvlPC2;
-	int mode;
-*/	
 	PlayerType lvlPC1;
 	PlayerType lvlPC2;
 	Configuration mode;
@@ -50,6 +49,7 @@ public class Fenetre implements Runnable,Affichage {
 	JMenu partie;
 	JMenu options;
 	JMenu aide;
+	JMenu reseau;
 	
 	JMenuItem partie_nouvellePartie;
 	JMenuItem partie_recommencer;
@@ -63,6 +63,9 @@ public class Fenetre implements Runnable,Affichage {
 	
 	JMenuItem aide_reglesDuJeu;
 	JMenuItem aide_aPropos;
+	
+	JMenuItem reseau_heberger;
+	JMenuItem reseau_rejoindre;
 	
 	JButton annuler;
 	JButton refaire;
@@ -133,6 +136,18 @@ public class Fenetre implements Runnable,Affichage {
 		options.add(options_preferences);
 		options.add(options_historiqueScores);
 		
+		// Menu Reseau
+		reseau = new JMenu(" Reseau ");
+		reseau_heberger = new JMenuItem(" Heberger une partie ");
+		reseau_rejoindre = new JMenuItem(" Rejoindre une partie ");	
+		
+		reseau_heberger.addActionListener(new ItemAction_reseau_heberger());
+		reseau_rejoindre.addActionListener(new ItemAction_reseau_rejoindre());
+
+		reseau.add(reseau_heberger);
+		reseau.add(reseau_rejoindre);
+		
+		
 			//menu3
 		aide = new JMenu(" Aide ");
 		aide_reglesDuJeu = new JMenuItem(" Regles du Jeu ");
@@ -147,6 +162,7 @@ public class Fenetre implements Runnable,Affichage {
 			//ajouts dans barre de menu
 		menuBar.add(partie);
 		menuBar.add(options);
+		menuBar.add(reseau);
 		menuBar.add(aide);
  		
 			//boutons commandes
@@ -405,6 +421,37 @@ public class Fenetre implements Runnable,Affichage {
 	    }               
 
 	}
+	
+	class ItemAction_reseau_heberger implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			try
+			{
+				engine.hebergerPartie(12345);
+			} catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			Player p1= new HumanPlayer(engine, false, "Joueur");
+			Player p2= new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
+			engine.nouvellePartie(p1,p2,0, size);
+			monDessin.finPartie=false;
+	    }               
+
+	}
+	class ItemAction_reseau_rejoindre implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			new RejoindrePartieReseauIHM(engine);
+			monDessin.finPartie=false;
+	    }               
+
+	}
+	
+	
+	
+	
+	
 	
 	// METHODE AFFICHAGE
 	
