@@ -14,8 +14,7 @@ import AI.HumanPlayer;
  * @author soulierc
  *
  */
-public class Game implements Serializable
-{
+public class Game implements Serializable {
 
 	private static final long			serialVersionUID	= -1634914624217639082L;
 
@@ -354,8 +353,9 @@ public class Game implements Serializable
 			if (!paused && !stopped)
 				annulerRefaire.addItem(new Game(this));
 
-			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
+			
 			finish = testVictoire();
+			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			leMoteur.getCurrentDisplay().afficherJeu();
 			System.err.println(nameJoueur + " a fini, jeu gagné ? : " + finish);
 
@@ -395,8 +395,8 @@ public class Game implements Serializable
 		joueurNoir.join();
 		if (finish)
 		{
-			// System.out.println("victoire");
-			winner = joueurCourant;
+			System.out.println("victoire de " + joueurCourant);
+			winner = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			leMoteur.getCurrentDisplay().afficherVictoire(winner);
 		}
 	}
