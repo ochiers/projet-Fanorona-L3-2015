@@ -135,7 +135,7 @@ public class Game implements Serializable
 	 *            Taille du plateau size.height = nombre de lignes size.width =
 	 *            nombre de colonnes
 	 */
-	public Game(EngineServices leMoteur, UndoRedo<Game> undoRedo, int joueurQuiCommence, Player p1, Player p2, Dimension size)
+	public Game(EngineServices leMoteur, int joueurQuiCommence, Player p1, Player p2, Dimension size)
 	{
 		this.stopped = false;
 		this.finish = false;
@@ -151,7 +151,7 @@ public class Game implements Serializable
 		this.nbLignes = size.height;
 		this.nombrePionBlanc = ((nbLignes * nbColonnes) - 1) / 2;
 		this.nombrePionNoir = this.nombrePionBlanc;
-		this.annulerRefaire = undoRedo;
+		this.annulerRefaire = leMoteur.getUndoRedo();
 		initialisation(nbLignes, nbColonnes);
 	}
 
@@ -384,6 +384,8 @@ public class Game implements Serializable
 		{
 			pionsPossibles = this.lesPionsJouables();
 		}
+		System.out.println(leMoteur);
+		System.out.println(leMoteur.getCurrentDisplay());
 		leMoteur.getCurrentDisplay().afficherPionsPossibles(pionsPossibles);
 
 		joueurBlanc.join();
