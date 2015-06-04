@@ -7,9 +7,7 @@ import java.io.DataOutputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.NetworkInterface;
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 import engine.Tools;
 
@@ -114,7 +112,7 @@ class Emetteur extends Thread {
 	}
 }
 
-class Multicast {
+public class Multicast {
 
 	public final String			ip;
 	public final int			portMultiCast;
@@ -148,6 +146,7 @@ class Multicast {
 
 	public ArrayList<String> trouverDesParties(int timeOut)
 	{
+		System.out.println("Recherche de parties ...");
 		try
 		{
 			int i = 0;
@@ -161,9 +160,11 @@ class Multicast {
 		{
 			e.printStackTrace();
 		}
+		System.out.println(this.dicoveredHosts);
 		return this.dicoveredHosts;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void terminer()
 	{
 		if (emeteur != null)
