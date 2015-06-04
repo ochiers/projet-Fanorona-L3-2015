@@ -467,11 +467,11 @@ public class MediumAI extends Player implements Serializable {
 		int meilleurRes = Integer.MIN_VALUE;
 		int res = 0;
 		
-		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		Iterator<Coup> it = listeCoups.iterator();
 		while(it.hasNext()) {
 			Coup coupCourant = it.next();
@@ -479,7 +479,7 @@ public class MediumAI extends Player implements Serializable {
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee);
 				Case arrivee = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-				Case depart = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+				Case depart = matrice[coupCourant.depart.ligne][coupCourant.depart.colonne];
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, arrivee, couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, depart, couleurJoueur);
 				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
@@ -553,8 +553,8 @@ public class MediumAI extends Player implements Serializable {
 					}
 				}
 				// PRINT
-				Coup p = coupCourant;
-				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+				//Coup p = coupCourant;
+				//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 				if(res > meilleurRes) {
 					premieresCasesPrisesNonPerdants.clear();
 					listeCoupsNonPerdants.clear();

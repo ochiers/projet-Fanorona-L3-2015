@@ -9,7 +9,7 @@ import AI.*;
 
 public class JeuFanoronaIAstats {
 	
-	public static final int nbTest = 200;
+	public static final int nbTest = 100;
 	public static final int[] finished = new int[nbTest];
 	
 	public static void main(String argv[]) throws InterruptedException {
@@ -22,6 +22,9 @@ public class JeuFanoronaIAstats {
 			listeParties[i] = m;
 			m.start();
 			m.join();
+			System.out.println(i + " a fini");
+			System.out.println("Nb victoires J1 : " + nbVictoiresJ1());
+			System.out.println("Nb victoires J2 : " + nbVictoiresJ2());
 		}
 
 		System.out.flush();
@@ -65,12 +68,12 @@ class Test extends Thread {
 
 	public void run() {
 		EngineServices e = new Engine();
-		Player p1 = new EasyAI(e, true, "Chuck Norris");
-		Player p2 = new EasyAI(e, true, "Guillaume de Sauza");
+		Player p1 = new HardAI(e, true, "Chuck Norris");
+		Player p2 = new HardAI(e, true, "Guillaume de Sauza");
 		AffichageVide f = new AffichageVide();
 		e.setDisplay(f);
 		//System.err.close();
-		e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
+		e.nouvellePartie(p1, p2, 1, new Dimension(9, 5));
 		e.playOnlyOnce();
 		Player vainqueur = e.getWinner();
 		if (vainqueur == p1){

@@ -33,11 +33,33 @@ public class HardAI extends Player implements Serializable {
 		profondeurCourante = 5;
 	}
 	
-	public int eval(int profondeur, boolean noeudMin){
+	public int eval(int profondeur, boolean noeudMin, Pion couleurJoueur) {
+//		Case caseCourante = this.matrice[0][0];
+//		Case caseCourante2 = this.matrice[4][0];
+//		int nbPionsBord = 0;
+//		for(int i = 0; i<this.matrice[0].length; i++) {
+//			if(caseCourante.pion == couleurJoueur)
+//				nbPionsBord++;
+//			if(caseCourante2.pion == couleurJoueur)
+//				nbPionsBord++;
+//			caseCourante2 = caseCourante2.est;
+//			caseCourante = caseCourante.est;
+//		}
+//		caseCourante = this.matrice[1][0];
+//		caseCourante2 = this.matrice[1][8];
+//		for(int i = 0; i<3; i++) {
+//			if(caseCourante.pion == couleurJoueur)
+//				nbPionsBord++;
+//			if(caseCourante2.pion == couleurJoueur)
+//				nbPionsBord++;
+//			caseCourante2 = caseCourante2.sud;
+//			caseCourante = caseCourante.sud;
+//		}
+		
 		if(profondeurCourante == profondeurBis){
 			if(noeudMin)
-				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10;
-			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10;
+				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10 /*+ nbPionsBord/2*/;
+			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10 /*- nbPionsBord/2*/;
 		}
 		else return nbPionsJoueur-nbPionsAdversaire;
 	}
@@ -47,7 +69,7 @@ public class HardAI extends Player implements Serializable {
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, couleurJoueur);
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		if(profondeur == 0 || nbPionsAdversaire == 0 || nbPionsJoueur == 0) { /* Si on est sur une feuille ou qu'on a atteint la profondeur maximale */
-			return eval(profondeur, noeudMin);
+			return eval(profondeur, noeudMin, couleurJoueur);
 		}
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
@@ -479,11 +501,11 @@ public class HardAI extends Player implements Serializable {
 			if(!coupImpossible(coupCourant, partieCourante.combo)) {
 				Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee);
 				Case arrivee = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-				Case depart = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
+				Case depart = matrice[coupCourant.depart.ligne][coupCourant.depart.colonne];
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, arrivee, couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, depart, couleurJoueur);
 				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
-				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();				
+				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
 				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 				 * des deux captures est la meilleure */								
 				if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0) {
@@ -596,7 +618,7 @@ public class HardAI extends Player implements Serializable {
 
 	@Override
 	public String getNiveau() {
-		return "IA Moyenne";
+		return "IA Difficile";
 	}
 
 	@Override
