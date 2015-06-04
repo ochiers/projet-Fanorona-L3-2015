@@ -23,8 +23,6 @@ public class DessinPion extends JComponent {
  
 	 public void paintComponent(Graphics g) {
 	    	Graphics2D drawable = (Graphics2D) g;
-	    	int width = this.getSize().width;
-	    	int height = this.getSize().height;
 	        dessinJeton(drawable, pionCouleur);
 	 }
 
