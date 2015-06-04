@@ -11,8 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,10 +19,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import org.pushingpixels.trident.Timeline;
 import org.pushingpixels.trident.Timeline.RepeatBehavior;
 import org.pushingpixels.trident.TimelineScenario;
@@ -96,10 +91,10 @@ public final class Firework extends JPanel {
 			TimelineScenario scenario = new TimelineScenario.Parallel();
 
 			Random randomizer = new Random();
-			int duration = 10000 + randomizer.nextInt(10000);
+			int duration = 1000 + randomizer.nextInt(1000); //vitesse pour eclater
 			for (int i = 0; i < 18; i++) {
-				float dist = (float) (50 + 10 * Math.random());
-				float radius = (float) (2 + 2 * Math.random());
+				float dist = (float) (100 + 10 * Math.random());
+				float radius = (float) (3 + 2 * Math.random());
 				for (float delta = 0.6f; delta <= 1.0f; delta += 0.2f) {
 					float circleRadius = radius * delta;
 					double degrees = 20.0 * (i + Math.random());

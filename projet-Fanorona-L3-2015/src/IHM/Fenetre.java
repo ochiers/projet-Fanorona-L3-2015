@@ -503,6 +503,7 @@ public class Fenetre implements Runnable, Affichage {
 		System.out.println("VICTOIRE"+ winner);
 		panelVictoire.add(victoire);
 		panelVictoire.setVisible(true);
+		panelAccueil.add(panelVictoire);
 		frame.add(panelVictoire);
 	}
 
