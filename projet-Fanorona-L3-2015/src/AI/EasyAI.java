@@ -135,11 +135,11 @@ public class EasyAI extends Player implements Serializable {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-		try { /* Sleep pour pouvoir visualiser les coups de l'IA */
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		//try { /* Sleep pour pouvoir visualiser les coups de l'IA */
+			//Thread.sleep(1000);
+		//} catch (InterruptedException e) {
+		//	e.printStackTrace();
+		//}
 		ArrayList<Coup> listeCoups = creerCoups(listeCases);
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
 		ArrayList<Coup> listeCoupsNonPerdants = new ArrayList<Coup>();
@@ -192,7 +192,7 @@ public class EasyAI extends Player implements Serializable {
 	@Override
 	public Case choisirDirectionAManger(ArrayList<Case> rapprochement,
 			ArrayList<Case> eloignement) {
-		System.out.println(choix);
+		//System.out.println(choix);
 		return choix;
 	}
 
