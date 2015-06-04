@@ -19,7 +19,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.pushingpixels.trident.Timeline;
 import org.pushingpixels.trident.Timeline.RepeatBehavior;
 import org.pushingpixels.trident.TimelineScenario;
@@ -163,7 +165,10 @@ public final class Firework extends JPanel {
 			}
 		});
 		//afficher winner
-		// ...
+		String winner = (fenetre.engine.getWinner()).name;
+		System.out.println(" WINNER : " + winner);
+		//JLabel win = new JLabel(" " + winner + " ");
+		//mainPanel.add(win);
 		this.add(mainPanel);
 		//this.pack();
 		//this.setLocationRelativeTo(null);

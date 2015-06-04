@@ -128,8 +128,7 @@ public class AireDeDessin extends JComponent {
     	for(int i=tailleJeton;i<newTaille;i++){
     		alpha=(int)(255-(i-tailleJeton)*diff);
     		drawable.setPaint(new Color(red,green,blue,alpha));
-    		drawable.drawOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-i/2+originePlateauX), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-i/2+originePlateauY), (int)i, (int)i);	
-    		//TODO MODIF avec originePlateauX et originePlateauY
+    		drawable.drawOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-i/2+originePlateauX), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-i/2+originePlateauY), (int)i, (int)i);
     	}
 		drawable.setPaint(Color.black);
     }
@@ -306,7 +305,7 @@ public class AireDeDessin extends JComponent {
 	   for(int i=0;i<combo.size();i++){
 		   //System.out.println("--combot: "+combo.get(i).position.ligne+" "+combo.get(i).position.colonne);
 		   //drawable.fillOval(segment+combo.get(i).position.colonne*segment-tailleJeton/4, segment+combo.get(i).position.ligne*segment-tailleJeton/4, tailleJeton/2, tailleJeton/2);
-		   drawable.fillOval((int)(CoordonneesPlateau[0]*etir+combo.get(i).position.colonne*segment-tailleJeton/4), (int)(CoordonneesPlateau[1]*etir+combo.get(i).position.ligne*segment-tailleJeton/4), tailleJeton/2, tailleJeton/2);
+		   drawable.fillOval((int)(CoordonneesPlateau[0]*etir+combo.get(i).position.colonne*segment-tailleJeton/4+originePlateauX), (int)(CoordonneesPlateau[1]*etir+combo.get(i).position.ligne*segment-tailleJeton/4+originePlateauY), tailleJeton/2, tailleJeton/2);
 	   }
 	   drawable.setPaint(Color.black);
    }

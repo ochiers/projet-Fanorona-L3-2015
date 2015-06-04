@@ -20,7 +20,6 @@ public class Fenetre implements Runnable, Affichage {
 	Parametres			parametre;
 	PreferencesOnglets	preference;
 	AireDeDessin		monDessin;
-	Firework			victoire = new Firework(this);
 	EngineServices		engine;
 	Dimension			size	= new Dimension(9, 5);
 
@@ -498,9 +497,10 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
+		Firework victoire = new Firework(this);
 		victoire.setVisible(true);
 		String winner = (this.engine.getWinner()).name;
-		System.out.println("VICTOIRE"+ winner);
+		//JLabel win = new JLabel(" " + winner + " ");
 		panelVictoire.add(victoire);
 		panelVictoire.setVisible(true);
 		panelAccueil.add(panelVictoire);
