@@ -222,4 +222,10 @@ public interface EngineServices {
 	public void playOnlyOnce();
 	
 	public UndoRedo<Game> getUndoRedo();
+	
+	public boolean canLoardOldGame();
+	
+	public void loadOldGame();
+	
+	public void deleteNetworkManager();
 }

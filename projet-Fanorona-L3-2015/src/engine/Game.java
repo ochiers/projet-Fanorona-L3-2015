@@ -253,7 +253,7 @@ public class Game implements Serializable
 				Thread.sleep(50);
 		}
 
-		System.err.println(joueurCourant);
+		System.err.println(joueurCourant.getClass().getCanonicalName() + " " + joueurCourant);
 		while (paused)
 			Thread.sleep(50);
 		if (!finish && !stopped)

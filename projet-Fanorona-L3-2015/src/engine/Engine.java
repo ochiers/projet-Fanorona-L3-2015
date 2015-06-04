@@ -504,6 +504,11 @@ public class Engine implements EngineServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(!this.partieCourante.finish && !(partieCourante.joueurBlanc instanceof NetworkPlayer) && !(partieCourante.joueurNoir instanceof NetworkPlayer)){
+			this.sauvegarderPartie("./tempSave.tmp");
+		}
+		else
+			new File("./tempSave.tmp").delete();
 		System.out.flush();
 		System.err.flush();
 		System.out.println("~~~~~ Application terminee ~~~~~");
@@ -530,6 +535,32 @@ public class Engine implements EngineServices {
 	public UndoRedo<Game> getUndoRedo()
 	{
 		return this.undoRedo;
+	}
+
+	@Override
+	public boolean canLoardOldGame()
+	{
+		File f = new File("./tempSave.tmp");
+		return f.exists();
+	}
+
+	@Override
+	public void loadOldGame()
+	{
+		System.out.println("CHARGEMENT DE LA DERNIERE PARTIE");
+		this.chargerPartie("./tempSave.tmp");
+		this.undoRedo = partieCourante.annulerRefaire;
+		this.partieCourante.finish = false;
+		this.partieCourante.stopped = false;
+		this.premierJeu = true;
+		this.gameInProgress = true;
+	}
+
+	@Override
+	public void deleteNetworkManager()
+	{
+		this.networkManager = null;
+		
 	}
 
 }

@@ -34,7 +34,7 @@ public class JeuFanorona {
 						e.hebergerPartie(Integer.parseInt(argv[2]));
 						p1 = new HumanPlayer(e, false, "Joueur");
 						p2 = new NetworkPlayer(e, false, "Player at " + e.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-
+						System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAdffddsfdfsdfs"+p2);
 					} else if (argv.length >= 4 && argv[1].toLowerCase().equals("client"))
 						if (Tools.isValidIP(argv[3]) || argv[3].toLowerCase().equals("localhost"))
 						{
@@ -48,6 +48,9 @@ public class JeuFanorona {
 				} catch (NumberFormatException | IOException e1)
 				{
 					e1.printStackTrace();
+					p1 = null;
+					p2 =null;
+					e.deleteNetworkManager();
 				}
 			} else
 				usage();
@@ -59,12 +62,16 @@ public class JeuFanorona {
 					System.err.close();
 				}
 		}
+		
 		if (p1 == null && p2 == null)
 		{
 			p1 = new HumanPlayer(e, false, "Clem");
 			p2 = new EasyAI(e, true, "Solveur");
 		}
-		e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
+		if(e.canLoardOldGame())
+			e.loadOldGame();
+		else
+			e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 
 		SwingUtilities.invokeLater(f);
 		Thread.sleep(200);
