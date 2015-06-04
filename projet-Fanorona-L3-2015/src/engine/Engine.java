@@ -382,6 +382,7 @@ public class Engine implements EngineServices {
 	public void pause()
 	{
 		this.partieCourante.pause();
+		this.affichage.afficherJeu();
 	}
 
 	@Override

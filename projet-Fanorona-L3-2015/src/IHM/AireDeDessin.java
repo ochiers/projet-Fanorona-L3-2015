@@ -89,11 +89,13 @@ public class AireDeDessin extends JComponent {
         majBouton();
         majNomJoueurs();
 
-        if(!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer && !finPartie){
+        if(!fenetre.engine.getJoueurCourant().aiPlayer && !finPartie){
+        	
+        	
         	if(!pionCliquer && doitChoisir){
         		choixManger(drawable);//halo bleu
 	        }
-        	if(!fenetre.engine.getCurrentGame().enCombo){
+        	if(!fenetre.engine.enCombo()){
 	        	//System.out.println("pas en combo---------------------");
 		        if(!pionCliquer && !doitChoisir)
 		        	pionJouable(drawable);//halo vert
@@ -109,6 +111,7 @@ public class AireDeDessin extends JComponent {
 	        	halo(drawable,pCourant,Color.cyan);
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
+
         //testdegrader(drawable);
         centrerPlateau(width, height, (int)(etir*plateauW), (int)(etir*plateauH));
     }
@@ -145,12 +148,12 @@ public class AireDeDessin extends JComponent {
     	
       
     public void majScore(){
-    	fenetre.scoreInt1.setText(""+fenetre.engine.getCurrentGame().nombrePionBlanc);
-        fenetre.scoreInt2.setText(""+fenetre.engine.getCurrentGame().nombrePionNoir);
+    	fenetre.scoreInt1.setText(""+fenetre.engine.getNombrePionsBlancs());
+        fenetre.scoreInt2.setText(""+fenetre.engine.getNombrePionsNoirs());
     }
 
     public void majAQuiLeTour(){
-    	if(fenetre.engine.getCurrentGame().joueurCourant.name.equals(fenetre.engine.getCurrentGame().joueurBlanc.name)){
+    	if(fenetre.engine.getJoueurCourant().name.equals(fenetre.engine.getJoueurBlanc().name)){
         	fenetre.tour1.setVisible(true);
         	fenetre.tour2.setVisible(false);
         }else{
@@ -175,9 +178,9 @@ public class AireDeDessin extends JComponent {
     }
     
     public void majNomJoueurs(){  	
-    	String level = fenetre.engine.getCurrentGame().joueurBlanc.getNiveau();
+    	String level = fenetre.engine.getJoueurBlanc().getNiveau();
 		if (level.equals("Humain")){
-			fenetre.idj1.setText(fenetre.engine.getCurrentGame().joueurBlanc.name);
+			fenetre.idj1.setText(fenetre.engine.getJoueurBlanc().name);
 			fenetre.levelj1.setText(" Bonne Chance ! ");
 			fenetre.levelj1.setVisible(false);
 		}else if (level.equals("IA Facile")){
@@ -194,9 +197,9 @@ public class AireDeDessin extends JComponent {
 			fenetre.levelj1.setVisible(true);
 		}
     	
-    	level = fenetre.engine.getCurrentGame().joueurNoir.getNiveau();
+    	level = fenetre.engine.getJoueurNoir().getNiveau();
 		if (level.equals("Humain")){
-			fenetre.idj2.setText(fenetre.engine.getCurrentGame().joueurNoir.name);
+			fenetre.idj2.setText(fenetre.engine.getJoueurNoir().name);
 			fenetre.levelj2.setText(" Bonne Chance ! ");
 			fenetre.levelj2.setVisible(false);
 		}else if (level.equals("IA Facile")){
@@ -309,7 +312,7 @@ public class AireDeDessin extends JComponent {
    }
    
 	public void positionPossible(Graphics2D drawable){
-	   ArrayList<Case> listCase = fenetre.engine.getCurrentGame().matricePlateau[2][4].voisins();
+	   ArrayList<Case> listCase = fenetre.engine.getPlateau()[2][4].voisins();
 	   for(int i=0;i<listCase.size();i++){
 		   //System.out.println("--Voisin: "+listCase.get(i).position.ligne+" "+listCase.get(i).position.colonne);
 	   }
@@ -337,7 +340,7 @@ public class AireDeDessin extends JComponent {
 	
     public void dessinGrilleJeton( Graphics2D drawable, int originePlateauX, int originePlateauY, int plateauW, int plateauH, float etir) {
     //	double segment = etir*    (CoordonneesPlateau[2] - CoordonneesPlateau[0])/8.0;
-    	Case[][] matrice = fenetre.engine.getCurrentGame().matricePlateau;
+    	Case[][] matrice = fenetre.engine.getPlateau();
     	for(int i=0;i<matrice.length;i++){
     		for(int j=0;j<matrice[i].length;j++){
     			int startX = (int)(CoordonneesPlateau[0]*etir + j*segment) + originePlateauX;

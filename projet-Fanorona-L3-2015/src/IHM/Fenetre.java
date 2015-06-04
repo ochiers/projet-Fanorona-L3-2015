@@ -418,12 +418,12 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			if (engine.getCurrentGame().isPaused())
 			{
-				engine.getCurrentGame().reprendre();
+				engine.reprendre();
 				stopper.setText(" Pause ");
 				// System.out.println("reprise");
 			} else
 			{
-				engine.getCurrentGame().pause();
+				engine.pause();
 				stopper.setText(" Reprendre ");
 				// System.out.println("en pause");
 			}
