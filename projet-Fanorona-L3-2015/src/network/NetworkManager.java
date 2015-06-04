@@ -95,13 +95,13 @@ public class NetworkManager extends Thread {
 	{
 
 		socketServeurPrincipal = new ServerSocket(port);
-
+		this.serveurMulticast = new Multicast("224.3.3.3", 12344, port, true);
 		System.out.println("Serveur en ecoute sur " + Tools.getIp() + ":" + socketServeurPrincipal.getLocalPort());
 
 		socketEnvoiPrincipal = socketServeurPrincipal.accept();
 		reception = socketEnvoiPrincipal.getInputStream();
 		envoi = socketEnvoiPrincipal.getOutputStream();
-		this.serveurMulticast = new Multicast("224.3.3.3", 4785, port, true);
+		
 	}
 
 	/**

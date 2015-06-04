@@ -418,12 +418,12 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			if (engine.getCurrentGame().isPaused())
 			{
-				engine.getCurrentGame().reprendre();
+				engine.reprendre();
 				stopper.setText(" Pause ");
 				// System.out.println("reprise");
 			} else
 			{
-				engine.getCurrentGame().pause();
+				engine.pause();
 				stopper.setText(" Reprendre ");
 				// System.out.println("en pause");
 			}
@@ -503,6 +503,7 @@ public class Fenetre implements Runnable, Affichage {
 		System.out.println("VICTOIRE"+ winner);
 		panelVictoire.add(victoire);
 		panelVictoire.setVisible(true);
+		panelAccueil.add(panelVictoire);
 		frame.add(panelVictoire);
 	}
 
