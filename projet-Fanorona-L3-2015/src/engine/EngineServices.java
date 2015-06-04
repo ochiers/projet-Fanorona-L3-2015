@@ -205,27 +205,74 @@ public interface EngineServices {
 	 */
 	public void changerLeJoueur(Player precedent, Player nouveau);
 
+	/**
+	 * Heberge une partie, attend qu'un client se connecte
+	 * @param port Le port d'ecoute
+	 * @throws IOException
+	 */
 	public void hebergerPartie(int port)  throws IOException;
 	
+	/**
+	 * Rejoin une partie sur le reseau
+	 * @param port Le port de destination
+	 * @param ip L'ip destination
+	 * @throws IOException
+	 */
 	public void rejoindrePartie(int port, String ip) throws IOException ;
 	
+	/**
+	 * Donne l'object qui sert d'iinterface avec le reseau
+	 * @return
+	 */
 	public NetworkManager getNetworkManager();
 	
+	/**
+	 * DOnne l'affichage utilisé par le moteur
+	 * @return
+	 */
 	public Affichage getCurrentDisplay();
 
+	/**
+	 * Envoie le coup joué sur le reseau, si une connection a ete prealablement établie
+	 * @param c
+	 */
 	public void envoyerCoupSurReseau(Coup c);
 	
+	/**
+	 * Idem envoyerCoupSurReseau mais avec une coordonnee
+	 * @param c
+	 */
 	public void envoyerChoixCaseSurReseau(Coordonnee c);
 	
+	/**
+	 * Quitte l'application proprement
+	 */
 	public void quitter();
 	
+	/**
+	 * Joue une seule partie jusqu'a la victoire puis termine l'application
+	 */
 	public void playOnlyOnce();
 	
+	/**
+	 * Donne l'objet qui gere la pile d'annuler/refaire
+	 * @return
+	 */
 	public UndoRedo<Game> getUndoRedo();
 	
+	/**
+	 * Indique si une partie a été sauvegarder lors de la derniere fermeture de l'application
+	 * @return
+	 */
 	public boolean canLoardOldGame();
 	
+	/**
+	 * Charge une partie qui a ete sauvegardée lors de la derniere fermeture de l'application
+	 */
 	public void loadOldGame();
 	
+	/**
+	 * Supprime l'interface reseau (clos les connections)
+	 */
 	public void deleteNetworkManager();
 }

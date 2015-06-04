@@ -555,6 +555,8 @@ public class Engine implements EngineServices {
 		this.undoRedo = partieCourante.annulerRefaire;
 		this.partieCourante.finish = false;
 		this.partieCourante.stopped = false;
+		this.partieCourante.enCombo = false;
+		this.partieCourante.combo = new ArrayList<Case>();
 		this.premierJeu = true;
 		this.gameInProgress = true;
 	}

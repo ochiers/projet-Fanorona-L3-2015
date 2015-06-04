@@ -2,5 +2,5 @@ package engine;
 
 public enum Configuration
 {
-	HumainVSHumain, HumainVSIA, IAvsIA
+	HumainVSHumain, HumainVSIA, IAvsIA, ANYvsReseau
 }
