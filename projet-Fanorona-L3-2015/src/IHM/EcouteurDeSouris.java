@@ -143,8 +143,8 @@ public class EcouteurDeSouris implements MouseListener{
 
     public Coordonnee position(int x,int y){
     	Coordonnee p=new Coordonnee(-1,-1);	
-		p.colonne=x-((int)(aire.CoordonneesPlateau[0]*aire.etir-aire.segment));
-		p.ligne=y-((int)(aire.CoordonneesPlateau[1]*aire.etir-aire.segment));
+		p.colonne=x-aire.originePlateauX-((int)(aire.CoordonneesPlateau[0]*aire.etir-aire.segment));
+		p.ligne=y-aire.originePlateauY-((int)(aire.CoordonneesPlateau[1]*aire.etir-aire.segment));
 		int nbCoteLargeur=p.colonne/(int)aire.segment;
 		int nbCoteHauteur=p.ligne/(int)aire.segment;
 	//	System.out.println(" ( " + p.colonne + " , " + p.ligne + " ) ");
