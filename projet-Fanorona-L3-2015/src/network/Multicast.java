@@ -53,7 +53,7 @@ class Recepteur extends Thread {
 					multiCast.emeteur.aEmettre = nom + "Je suis #" + Tools.getIp() + ":" + portGame;
 				} else if (texte.contains("#"))
 					multiCast.dicoveredHosts.add(texte.split("#")[1]);
-
+				System.out.println("ON A RECU UN TRUC");
 			} catch (Exception exc)
 			{
 				System.out.println(exc);

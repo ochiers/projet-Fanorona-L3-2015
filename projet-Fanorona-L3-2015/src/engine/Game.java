@@ -277,6 +277,7 @@ public class Game implements Serializable {
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Case[][] copiePlateau = copyMatrice(matricePlateau);
 			Coup c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
+			
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
 				c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
