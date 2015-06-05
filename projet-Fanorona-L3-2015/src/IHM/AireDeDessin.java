@@ -3,8 +3,11 @@ package IHM;
 import java.awt.*;
 import java.awt.PageAttributes.OriginType;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import engine.*;
@@ -40,9 +43,10 @@ public class AireDeDessin extends JComponent {
 	int originePlateauX = 0;
 	int originePlateauY = 0;
 	
+	BufferedImage imgBlanc, imgNoir; 
+	
 	boolean surbrillance=false;
 	Coordonnee pSurbrillance;
-	
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -50,6 +54,22 @@ public class AireDeDessin extends JComponent {
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
     //    halo=Color.green;
+        
+        try
+		{
+			imgBlanc = ImageIO.read(new File("./Ressources/pionBlanc.png"));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+        try
+		{
+			imgNoir = ImageIO.read(new File("./Ressources/pionNoir.png"));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+        
         halo=Color.green;
         haloChoix=Color.yellow;
         comboColor=Color.orange;
@@ -166,7 +186,7 @@ public class AireDeDessin extends JComponent {
 			originePlateauY = (height/2)-(ph/2);
 		}
 	}
-  
+
     public void majScore(){
     	fenetre.scoreInt1.setText(""+fenetre.engine.getNombrePionsBlancs());
         fenetre.scoreInt2.setText(""+fenetre.engine.getNombrePionsNoirs());
@@ -432,7 +452,13 @@ public class AireDeDessin extends JComponent {
 	    	drawable.fillOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
 	    	drawable.setPaint(Color.black);
 	    	drawable.drawOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
+	    	if(pion == Pion.Blanc){
+	    		drawable.drawImage(imgBlanc, x - tailleJeton/2, y - tailleJeton/2, tailleJeton, tailleJeton, null);
+	    	} else {
+	    		drawable.drawImage(imgNoir, x - tailleJeton/2, y - tailleJeton/2, tailleJeton, tailleJeton, null);
+	    	}
     	}
+    	
     }
     
     public void choixManger(Graphics2D drawable){
