@@ -5,10 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import network.NetworkPlayer;
 import engine.*;
 
@@ -22,33 +19,24 @@ public class Fenetre implements Runnable, Affichage {
 	EngineServices		engine;
 	Dimension			size	= new Dimension(9, 5);
 
-	PlayerType			lvlPC1;
-	PlayerType			lvlPC2;
+	PlayerType			lvlPC1, lvlPC2;
 	Configuration		mode;
 	boolean				commencer;
 	PlayerType			defaut	= PlayerType.IAMoyenne;
 
-	JLabel				scoreInt1;
-	JLabel				scoreInt2;
+	JLabel				scoreInt1, scoreInt2;
 
-	JLabel				tour1;
-	JLabel				tour2;
+	JLabel				tour1, tour2;
 	ImagePanel			panelAccueil;
 	int					fw, fh;
-	JLabel				idj1;
-	JLabel				levelj1;
-	JLabel				idj2;
-	JLabel				levelj2;
+	JLabel				idj1, idj2;
+	JLabel				levelj1, levelj2;
 	Color				pion1	= Color.black;
 	Color				pion2	= Color.white;
-	String				nameJ1;
-	String				nameJ2;
+	String				nameJ1, nameJ2;
 
 	JMenuBar			menuBar;
-	JMenu				partie;
-	JMenu				options;
-	JMenu				aide;
-	JMenu				reseau;
+	JMenu				partie, options, aide, reseau;
 
 	JMenuItem			partie_nouvellePartie;
 	JMenuItem			partie_recommencer;
@@ -455,11 +443,10 @@ public class Fenetre implements Runnable, Affichage {
 			try
 			{
 				engine.hebergerPartie(12345);
-			
-			Player p1 = new HumanPlayer(engine, false, "Joueur");
-			Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-			engine.nouvellePartie(p1, p2, 0, size);
-			monDessin.finPartie = false;
+				Player p1 = new HumanPlayer(engine, false, "Joueur");
+				Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
+				engine.nouvellePartie(p1, p2, 0, size);
+				monDessin.finPartie = false;
 			} catch (IOException e1)
 			{
 				e1.printStackTrace();
@@ -500,7 +487,6 @@ public class Fenetre implements Runnable, Affichage {
 		/*Firework victoire = new Firework(this);
 		victoire.setVisible(true);
 		String winner = (this.engine.getWinner()).name;
-		JLabel win = new JLabel(" " + winner + " ");
 		panelVictoire.add(victoire);
 		panelVictoire.setVisible(true);
 		frame.add(panelVictoire);*/

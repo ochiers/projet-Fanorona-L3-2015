@@ -41,6 +41,9 @@ public class Tools {
 			case IADifficile:
 				res = new HardAI(e, true, nom);
 				break;
+			case Reseau:
+				res = new NetworkPlayer(e, true, nom);
+				break;
 			default:
 				throw new RuntimeException("IMPOSSIBLE DE CREE LE JOUEUR");
 		}
