@@ -3,7 +3,10 @@ package IHM;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class DessinPion extends JComponent {
@@ -28,5 +31,10 @@ public class DessinPion extends JComponent {
     	drawable.fillOval(tailleJeton/2, tailleJeton/2, tailleJeton, tailleJeton);
     	drawable.setPaint(Color.black);
     	drawable.drawOval(tailleJeton/2, tailleJeton/2, tailleJeton, tailleJeton);
+    	if (pionCouleur == Color.white)
+    	{
+    		JLabel imgBlanc = new JLabel(new ImageIcon(filename));
+    	}
+    	
     }
 }
