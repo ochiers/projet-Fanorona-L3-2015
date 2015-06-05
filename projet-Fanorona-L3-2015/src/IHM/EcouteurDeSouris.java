@@ -1,13 +1,17 @@
 package IHM;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import AI.*;
 import engine.*;
 
 
-public class EcouteurDeSouris implements MouseListener{
+public class EcouteurDeSouris implements MouseListener,MouseMotionListener{
 	AireDeDessin aire;
 	
 	public EcouteurDeSouris(AireDeDessin a){
@@ -22,14 +26,10 @@ public class EcouteurDeSouris implements MouseListener{
 				aire.pfinal=position(e.getX(),e.getY());
 				if(aire.pfinal.colonne!=-1 && aire.pfinal.ligne!=-1){
 					if(aire.pionCliquer){
-					//	aire.animation=true;
-					//	aire.repaint();
 							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,aire.pfinal);
 							aire.pionCliquer=false;
-						/*	if(aire.pionCombo!=null){
-								aire.pionCombo.position.ligne=pfinal.ligne;
-								aire.pionCombo.position.colonne=pfinal.colonne;
-							}*/
+							aire.surbrillance=false;
+
 					}
 					else{
 						if(aire.doitChoisir){
@@ -48,6 +48,10 @@ public class EcouteurDeSouris implements MouseListener{
 							}
 						}
 					}
+					aire.repaint();
+				}
+				else{
+					aire.pionCliquer=false;
 					aire.repaint();
 				}
 			} else if(buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
@@ -119,6 +123,7 @@ public class EcouteurDeSouris implements MouseListener{
 
 							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,aire.pfinal);
 							aire.pionCliquer=false;
+							aire.surbrillance=false;
 					
 					}
 					aire.repaint();
@@ -131,6 +136,80 @@ public class EcouteurDeSouris implements MouseListener{
 		    }
 			
 		}
+	}
+	
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+			
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		if(aire.pionCliquer){
+			Coordonnee p =position(e.getX(),e.getY());
+			if(aire.surbrillance && aire.pSurbrillance.ligne == p.ligne && aire.pSurbrillance.colonne == p.colonne){
+				
+			}else{
+				if(p.colonne!=-1 && p.ligne!=-1){
+					
+					ArrayList<Case> emplacementPossible1 = aire.fenetre.engine.getCurrentGame().coupsPossiblesPourUnPion(aire.fenetre.engine.getCurrentGame().matricePlateau[aire.pfinal.ligne][aire.pfinal.colonne]);
+			    	ArrayList<Case> emplacementPossible= aire.fenetre.engine.getCurrentGame().coupsPourPriseParUnPion(emplacementPossible1, aire.fenetre.engine.getCurrentGame().matricePlateau[aire.pfinal.ligne][aire.pfinal.colonne]);
+			    	if(aire.combo!=null){
+			    		emplacementPossible=aire.coupReel(emplacementPossible,aire.combo);
+			    	//	System.out.println("pioncombo "+ combo.get(0).position.ligne+" "+combo.get(0).position.colonne + " taille: "+combo.size());
+			    	}
+			    	//System.out.println("test1");
+			    	if(emplacementPossible!=null){
+			    		//System.out.println("test2 "+emplacementPossible.size());
+			    		if(emplacementPossible.size()!=0){
+			    			for(int i=0;i<emplacementPossible.size();i++){
+			    			//	halo(drawable,emplacementPossible.get(i).position,coupPossible);
+			    			//	System.out.println("emplacement "+emplacementPossible.get(i).position);
+			    				if(emplacementPossible.get(i).position.ligne == p.ligne && emplacementPossible.get(i).position.colonne == p.colonne){
+			    					System.out.println("entree1");
+			    					aire.surbrillance=true;
+			    					aire.pSurbrillance=p;
+			    					aire.repaint();
+			    				}/*else{
+			    					if(aire.surbrillance){
+				    					System.out.println("sortie1");
+				    					aire.surbrillance=false;
+				    					aire.repaint();
+			    					}
+			    				}*/
+			    			}
+			    		}
+			    		else{
+			    			for(int i=0;i<emplacementPossible1.size();i++){
+			    				//halo(drawable,emplacementPossible1.get(i).position,coupPossible);
+			    				//System.out.println("emplacement "+emplacementPossible1.get(i).position);
+			    				if(emplacementPossible1.get(i).position.ligne == p.ligne && emplacementPossible1.get(i).position.colonne == p.colonne){
+			    					System.out.println("entree2");
+			    					aire.surbrillance=true;
+			    					aire.pSurbrillance=p;
+			    					aire.repaint();
+			    				}/*else{
+			    					if(aire.surbrillance){
+				    					System.out.println("sortie2");
+				    					aire.surbrillance=false;
+				    					aire.repaint();
+			    					}
+			    				}*/
+			    			}
+			    		}
+			    	}
+	
+				}
+				else{
+					
+					if(aire.surbrillance){
+						System.out.println("sortie3");
+						aire.surbrillance=false;
+						aire.repaint();
+					}
+				}
+			}
+		}
+			
 	}
 	
 	public int sqr(int a) {
@@ -176,4 +255,7 @@ public class EcouteurDeSouris implements MouseListener{
 		return pfinal;
     	
     }
+
+	
+   
 }

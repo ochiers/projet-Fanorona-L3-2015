@@ -106,6 +106,7 @@ public class Fenetre implements Runnable, Affichage {
 		// grille
 		monDessin = new AireDeDessin(this);
 		monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
+		monDessin.addMouseMotionListener(new EcouteurDeSouris(monDessin));
 
 		// barre de Menu
 		menuBar = new JMenuBar();
@@ -239,6 +240,7 @@ public class Fenetre implements Runnable, Affichage {
 		panelEst.add(score2);
 		panelEst.add(tour2);
 
+		
 		// ajout au panel accueil
 		panelAccueil.add(monDessin, BorderLayout.CENTER);
 		panelAccueil.add(panelOuest, BorderLayout.WEST);
@@ -255,6 +257,8 @@ public class Fenetre implements Runnable, Affichage {
 		preference = new PreferencesOnglets(this);
 		preference.majPref();
 
+
+		
 		// FENETRE
 		frame.setJMenuBar(menuBar);
 		frame.add(panelAccueil);
@@ -282,6 +286,8 @@ public class Fenetre implements Runnable, Affichage {
 			else if (mode.ordinal() == 2)
 				engine.nouvellePartie(pc1, pc2, (commencer ? 0 : 1), size);
 			monDessin.finPartie = false;
+			monDessin.pionCliquer=false;
+			monDessin.surbrillance=false;
 		}
 
 	}
@@ -590,6 +596,8 @@ public class Fenetre implements Runnable, Affichage {
 		parametre.box2.setSelectedIndex(lvlPC1.ordinal() - 1);
 		parametre.box3.setSelectedIndex(lvlPC2.ordinal() - 1);
 		parametre.box4.setSelectedIndex((commencer ? 0 : 1));
+		monDessin.pionCombo=engine.getPionCombo();
+		monDessin.combo=engine.getComboList();
 	}
 
 }
