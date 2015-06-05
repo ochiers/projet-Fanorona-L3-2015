@@ -5,8 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import AI.HumanPlayer;
-
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la
  * methode jouer()

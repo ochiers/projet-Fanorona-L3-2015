@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import AI.HumanPlayer;
 import network.NetworkPlayer;
 import engine.*;
 
@@ -456,14 +455,15 @@ public class Fenetre implements Runnable, Affichage {
 			try
 			{
 				engine.hebergerPartie(12345);
-			} catch (IOException e1)
-			{
-				e1.printStackTrace();
-			}
+			
 			Player p1 = new HumanPlayer(engine, false, "Joueur");
 			Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
 			engine.nouvellePartie(p1, p2, 0, size);
 			monDessin.finPartie = false;
+			} catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -503,7 +503,6 @@ public class Fenetre implements Runnable, Affichage {
 		//JLabel win = new JLabel(" " + winner + " ");
 		panelVictoire.add(victoire);
 		panelVictoire.setVisible(true);
-		panelAccueil.add(panelVictoire);
 		frame.add(panelVictoire);
 	}
 

@@ -101,7 +101,7 @@ public class NetworkManager extends Thread {
 		socketEnvoiPrincipal = socketServeurPrincipal.accept();
 		reception = socketEnvoiPrincipal.getInputStream();
 		envoi = socketEnvoiPrincipal.getOutputStream();
-		
+		this.serveurMulticast.terminer();
 	}
 
 	/**

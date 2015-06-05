@@ -495,9 +495,9 @@ public class Engine implements EngineServices {
 	@Override
 	public void quitter()
 	{
-		this.stopper();
 		if(getNetworkManager() != null)
 			getNetworkManager().sendRequete(RequestType.Quitter);
+		this.stopper();
 		try
 		{
 			if(getNetworkManager() != null)
