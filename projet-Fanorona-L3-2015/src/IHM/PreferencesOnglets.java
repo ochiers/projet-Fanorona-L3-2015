@@ -24,6 +24,8 @@ public class PreferencesOnglets extends JPanel {
     int pBw = 10;
     int pBh = 30;
     
+    ChoixNoms panel2;
+    
     Fenetre fenetre;
 //    ImagePanel iconSave;
     Image save;
@@ -42,7 +44,7 @@ public class PreferencesOnglets extends JPanel {
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
         
         
-        ChoixNoms panel2 = new ChoixNoms();
+        panel2 = new ChoixNoms();
     		// ajout fond
 	   // ImagePanel imagefond = new ImagePanel(new ImageIcon("src/images/players.jpg").getImage(), width, height);
 	    //panel2.add(imagefond);
@@ -87,6 +89,8 @@ public class PreferencesOnglets extends JPanel {
     class ItemAction_ok implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
+	    	fenetre.nameJ1 = panel2.name1.getText();
+	    	fenetre.nameJ2 = panel2.name2.getText();
 	    	fenetre.frame3.setVisible(false);
 	    }               
 
