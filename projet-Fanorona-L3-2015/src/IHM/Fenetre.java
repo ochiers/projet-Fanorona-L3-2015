@@ -422,7 +422,7 @@ public class Fenetre implements Runnable, Affichage {
 		public void actionPerformed(ActionEvent e)
 		{
 			monDessin.pionCliquer = false;
-			engine.getCurrentGame().finirSonTour();
+			engine.finirSonTour(true);
 		}
 
 	}

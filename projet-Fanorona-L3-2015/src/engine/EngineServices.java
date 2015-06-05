@@ -136,7 +136,7 @@ public interface EngineServices {
 	/**
 	 * Termine le tour du joueur courant, uniquement possible pendant un combo
 	 */
-	public void finirSonTour();
+	public void finirSonTour(boolean notifReseau);
 
 	/**
 	 * Met en pause la partie

@@ -373,9 +373,15 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void finirSonTour()
+	public void finirSonTour(boolean notifReseau)
 	{
+		System.out.println("FIN DU TOUUUUUUUUUUUUUUUUUR");
+		if (this.networkManager != null && notifReseau )
+		{
+			networkManager.sendRequete(RequestType.FinDuTour);
+		}
 		this.partieCourante.finirSonTour();
+		this.affichage.afficherJeu();
 	}
 
 	@Override
