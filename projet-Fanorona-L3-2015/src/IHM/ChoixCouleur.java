@@ -17,7 +17,6 @@ public class ChoixCouleur extends JPanel {
 	    int f1w = 700;
 	    int f1h = 225;
 
-	    @SuppressWarnings("static-access")
 		public ChoixCouleur() {
 	        super(new BorderLayout());	//super constructeur par defaut
 

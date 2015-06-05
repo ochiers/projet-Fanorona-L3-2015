@@ -257,19 +257,22 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			Player j1 = null;
 			Player j2 = null;
-
-			if (mode == Configuration.HumainVSHumain)
+			switch (mode)
 			{
-				j1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
-				j2 = Tools.createPlayer(engine, PlayerType.Humain, nameJ2);
-			} else if (mode == Configuration.HumainVSIA)
-			{
-				j1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
-				j2 = Tools.createPlayer(engine, lvlPC1, "Ordi");
-			} else if (mode == Configuration.IAvsIA)
-			{
-				j1 = Tools.createPlayer(engine, lvlPC1, "Ordi");
-				j2 = Tools.createPlayer(engine, lvlPC2, "Ordi");
+				case HumainVSHumain:
+					j1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
+					j2 = Tools.createPlayer(engine, PlayerType.Humain, nameJ2);
+					break;
+				case HumainVSIA:
+					j1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
+					j2 = Tools.createPlayer(engine, lvlPC1, "Ordi");
+					break;
+				case IAvsIA:
+					j1 = Tools.createPlayer(engine, lvlPC1, "Ordi");
+					j2 = Tools.createPlayer(engine, lvlPC2, "Ordi");
+					break;
+				default:
+					break;
 			}
 
 			engine.nouvellePartie(j1, j2, (commencer ? 0 : 1), size);
