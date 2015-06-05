@@ -172,8 +172,15 @@ public class Parametres {
 			fenetre.lvlPC1 = savelvlPC1;
 			fenetre.lvlPC2 = savelvlPC2;
 			fenetre.commencer = saveCommencer;
+			PlayerType tmp1 = savelvlPC1;
+			PlayerType tmp2 = savelvlPC2;
 			
-			Tools.changerDeJoueur(fenetre.engine, fenetre.mode, savelvlPC1, savelvlPC1, fenetre.nameJ1, fenetre.nameJ2);
+			if(Tools.getTypeOfPlayer(fenetre.engine.getJoueurBlanc()) == PlayerType.Reseau)
+				tmp1 = PlayerType.Reseau;
+			if(Tools.getTypeOfPlayer(fenetre.engine.getJoueurNoir()) == PlayerType.Reseau)
+				tmp2 = PlayerType.Reseau;
+			
+			Tools.changerDeJoueur(fenetre.engine, fenetre.mode, tmp1, tmp2, fenetre.nameJ1, fenetre.nameJ2);
 			
 			fenetre.frame2.setVisible(false);
 			fenetre.afficherJeu();

@@ -311,7 +311,8 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			JFileChooser save = new JFileChooser();
 			save.showSaveDialog(frame);
-			engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
+			if(save.getSelectedFile() != null)
+				engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 		}
 
 	}
@@ -625,7 +626,8 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			JFileChooser save = new JFileChooser();
 			save.showSaveDialog(frame);
-			engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
+			if(save.getSelectedFile() != null)
+				engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 			return true;
 		}
 		else if (res == JOptionPane.NO_OPTION)

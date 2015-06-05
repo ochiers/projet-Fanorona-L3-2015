@@ -184,6 +184,7 @@ public class Tools {
 				}
 				break;
 			case HumainVSIA:
+				System.out.println(Configuration.HumainVSIA +" " + p1 +" " + p2);
 				if (p1 == PlayerType.Reseau)
 				{
 					j1 = new NetworkPlayer(moteur, false, nomJ1);

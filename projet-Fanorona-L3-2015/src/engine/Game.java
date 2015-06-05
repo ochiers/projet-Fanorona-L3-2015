@@ -244,23 +244,23 @@ public class Game implements Serializable {
 	public synchronized void jouer(String nameJoueur) throws InterruptedException
 	{
 
-		System.err.println(nameJoueur + " rentre en section critique, nom du joueur courant : " + joueurCourant.name);
+		//System.err.println(nameJoueur + " rentre en section critique, nom du joueur courant : " + joueurCourant.name);
 
 		while (!stopped && !nameJoueur.equals(joueurCourant.name))
 		{
-			System.out.print(nameJoueur + " coincé");
+			//System.out.print(nameJoueur + " coincé");
 			wait();
-			System.out.print(nameJoueur + " décoincé");
+			//System.out.print(nameJoueur + " décoincé");
 			while (!stopped && paused)
 				Thread.sleep(50);
 		}
 
-		System.err.println(joueurCourant.getClass().getCanonicalName() + " " + joueurCourant);
+		//System.err.println(joueurCourant.getClass().getCanonicalName() + " " + joueurCourant);
 		while (paused)
 			Thread.sleep(50);
 		if (!finish && !stopped)
 		{
-			System.err.println(nameJoueur + " debloqué");
+			//System.err.println(nameJoueur + " debloqué");
 
 			ArrayList<Case> pionsPossibles = this.lesPionsQuiPeuventManger();
 			boolean doitManger = true;
@@ -357,7 +357,7 @@ public class Game implements Serializable {
 			finish = testVictoire();
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			leMoteur.getCurrentDisplay().afficherJeu();
-			System.err.println(nameJoueur + " a fini, jeu gagné ? : " + finish);
+			//System.err.println(nameJoueur + " a fini, jeu gagné ? : " + finish);
 
 			/*
 			 * Si un joueur a gagner alors il faut areter tous les threads
