@@ -3,6 +3,10 @@ package IHM;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,19 +17,24 @@ public class ChoixNoms extends JPanel {
 	
 	JTextField name1;
 	JTextField name2;
+	Fenetre fenetre; 
 	
-	public ChoixNoms() {
+	public ChoixNoms(Fenetre f) {
 
 		super(new BorderLayout());	//super constructeur par defaut
 		this.setLayout(null);
-		
+		fenetre=f;
 		int width = 233;
 		int height = 57;
 				
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
 		nom.setForeground(Color.white);
-		name1 = new JTextField(" Joueur 1 ");
-		name2 = new JTextField(" Joueur 2 ");
+		name1 = new JTextField(fenetre.nameJ1);
+		name2 = new JTextField(fenetre.nameJ2);
+		
+		name1.addActionListener(new ItemAction_name1());
+		name2.addActionListener(new ItemAction_name2());
+		
 			//positions
 		nom.setBounds(width, 50, width, height);
 		name1.setBounds(width, 150, width, height);
@@ -36,7 +45,25 @@ public class ChoixNoms extends JPanel {
 		add(name2);
 	}
 	
-    private static void createAndShow() {
+	class ItemAction_name1 implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			fenetre.frame.repaint();
+	    }               
+
+	}
+	
+	class ItemAction_name2 implements ActionListener{
+
+	    public void actionPerformed(ActionEvent e) {
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image1.jpg");
+	      fenetre.frame.repaint();
+	    }               
+
+	}
+	
+ /*   private static void createAndShow() {
 		int pw = 699;
 		int ph = 549;
 		
@@ -49,7 +76,7 @@ public class ChoixNoms extends JPanel {
 	    frame.setSize(new Dimension(pw, ph));
 	    frame.setVisible(true);
 	}
-	
+	*/
 //	public static void main(String[] args) {
 //	    javax.swing.SwingUtilities.invokeLater(new Runnable() {
 //	        public void run() { createAndShow(); }

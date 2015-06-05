@@ -140,7 +140,7 @@ public class AireDeDessin extends JComponent {
 	        	halo(drawable,pCourant,Color.cyan);
 	        	emplacementPossible(drawable);
 	        	if(surbrillance)
-	        		pionSurbrillance(drawable,pSurbrillance,fenetre.engine.getJoueurCourant()==fenetre.engine.getJoueurBlanc()?fenetre.pion1:fenetre.pion2);
+	        		pionSurbrillance(drawable,pSurbrillance,Color.white);
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
 
@@ -218,6 +218,8 @@ public class AireDeDessin extends JComponent {
     }
     
     public void majNomJoueurs(){  	
+    	fenetre.engine.getJoueurBlanc().name=fenetre.nameJ1;
+    	fenetre.engine.getJoueurNoir().name=fenetre.nameJ2;
     	String level = fenetre.engine.getJoueurBlanc().getNiveau();
 		if (level.equals("Humain")){
 			fenetre.idj1.setText(fenetre.engine.getJoueurBlanc().name);
@@ -449,9 +451,9 @@ public class AireDeDessin extends JComponent {
 	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);
 	    	else drawable.setPaint(fenetre.pion2);
 	  //  	int tailleJeton = (int)(segment/3.5);
-	    	drawable.fillOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
-	    	drawable.setPaint(Color.black);
-	    	drawable.drawOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
+	  //  	drawable.fillOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
+	  //  	drawable.setPaint(Color.black);
+	   // 	drawable.drawOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
 	    	if(pion == Pion.Blanc){
 	    		drawable.drawImage(imgBlanc, x - tailleJeton/2, y - tailleJeton/2, tailleJeton, tailleJeton, null);
 	    	} else {
