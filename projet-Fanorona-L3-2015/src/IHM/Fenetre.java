@@ -76,9 +76,7 @@ public class Fenetre implements Runnable, Affichage {
 	public void run()
 	{
 		System.out.println("//////////////////////////////////////////////////////");
-		// frame.setSize(842, 507);
 		frame.setSize(1200, 700);
-		// frame.setSize(wmax,hmax);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
@@ -182,10 +180,10 @@ public class Fenetre implements Runnable, Affichage {
 
 		// affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ", SwingConstants.CENTER);
-		idj1 = new JLabel(" Erreur ", SwingConstants.CENTER);
-		levelj1 = new JLabel(" Erreur ", SwingConstants.CENTER);
 		JLabel j2 = new JLabel(" # Joueur 2 ", SwingConstants.CENTER);
+		idj1 = new JLabel(" Erreur ", SwingConstants.CENTER);
 		idj2 = new JLabel(" Erreur ", SwingConstants.CENTER);
+		levelj1 = new JLabel(" Erreur ", SwingConstants.CENTER);
 		levelj2 = new JLabel(" Erreur ", SwingConstants.CENTER);
 		scoreInt1 = new JLabel("  ", SwingConstants.CENTER);
 		scoreInt2 = new JLabel("  ", SwingConstants.CENTER);
@@ -257,17 +255,28 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Player humain1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
-			Player humain2 = Tools.createPlayer(engine, PlayerType.Humain, nameJ2);
-			Player pc1 = Tools.createPlayer(engine, lvlPC1, "Ordi");
-			Player pc2 = Tools.createPlayer(engine, lvlPC2, "Ordi");
+			Player j1 = null;
+			Player j2 = null;
+			switch (mode)
+			{
+				case HumainVSHumain:
+					j1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
+					j2 = Tools.createPlayer(engine, PlayerType.Humain, nameJ2);
+					break;
+				case HumainVSIA:
+					j1 = Tools.createPlayer(engine, PlayerType.Humain, nameJ1);
+					j2 = Tools.createPlayer(engine, lvlPC1, "Ordi");
+					break;
+				case IAvsIA:
+					j1 = Tools.createPlayer(engine, lvlPC1, "Ordi");
+					j2 = Tools.createPlayer(engine, lvlPC2, "Ordi");
+					break;
+				default:
+					break;
+			}
 
-			if (mode.ordinal() == 0)
-				engine.nouvellePartie(humain1, humain2, (commencer ? 0 : 1), size);
-			else if (mode.ordinal() == 1)
-				engine.nouvellePartie(humain1, pc1, (commencer ? 0 : 1), size);
-			else if (mode.ordinal() == 2)
-				engine.nouvellePartie(pc1, pc2, (commencer ? 0 : 1), size);
+			engine.nouvellePartie(j1, j2, (commencer ? 0 : 1), size);
+
 			monDessin.finPartie = false;
 		}
 
@@ -277,8 +286,8 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Player p1 = Tools.createPlayer(engine, Tools.getTypeOfPlayer((engine.getCurrentGame().joueurBlanc)), engine.getCurrentGame().joueurBlanc.name);
-			Player p2 = Tools.createPlayer(engine, Tools.getTypeOfPlayer((engine.getCurrentGame().joueurNoir)), engine.getCurrentGame().joueurNoir.name);
+			Player p1 = Tools.createPlayer(engine, Tools.getTypeOfPlayer((engine.getJoueurBlanc())), engine.getJoueurBlanc().name);
+			Player p2 = Tools.createPlayer(engine, Tools.getTypeOfPlayer((engine.getJoueurNoir())), engine.getJoueurNoir().name);
 			engine.nouvellePartie(p1, p2, (commencer ? 0 : 1), size);
 			monDessin.finPartie = false;
 		}
@@ -483,12 +492,12 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		/*Firework victoire = new Firework(this);
-		victoire.setVisible(true);
-		String winner = (this.engine.getWinner()).name;
-		panelVictoire.add(victoire);
-		panelVictoire.setVisible(true);
-		frame.add(panelVictoire);*/
+		/*
+		 * Firework victoire = new Firework(this); victoire.setVisible(true);
+		 * String winner = (this.engine.getWinner()).name;
+		 * panelVictoire.add(victoire); panelVictoire.setVisible(true);
+		 * frame.add(panelVictoire);
+		 */
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
