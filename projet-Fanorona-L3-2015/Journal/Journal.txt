@@ -117,8 +117,20 @@ Mercredi 3 juin
 		  halos et le centrage du plateau.
 		- Debug mécanique anti-suicide immediat de l'IA + tentative de réaliser un executable lançant x parties pour avoir des stats.
 
+Jeudi 4 juin
+	Matin :
+		- Réalisation de l'exécutable pour lancer 100 parties afin d'avoir des stats et prouver le bien-fondé de nos IAs.
+		- Début obtention stats.
+	Après-midi :
+		- Fin obtention stats, IA cohérente.
+		- Ajout détection du nombre de pions sur les bords dans la fonction d'évaluation (en commentaire pour l'instant).
 		
-		
+Vendredi 5 juin
+	Matin :
+		- Entrevue avec notre tuteur.
+		- Réflexion sur les modifications à apporter à la fonction d'évaluation.
+	Après-midi :
+		- Trop chaud, weekend anticipé pour le groupe IA.
 		
 		
 		
