@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import AI.HumanPlayer;
+import network.NetworkPlayer;
 
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la
@@ -248,7 +248,7 @@ public class Game implements Serializable {
 
 		while (!stopped && !nameJoueur.equals(joueurCourant.name))
 		{
-			System.out.print(nameJoueur+" coincé");
+			System.out.print(nameJoueur + " coincé");
 			wait();
 			System.out.print(nameJoueur + " décoincé");
 			while (!stopped && paused)
@@ -277,7 +277,7 @@ public class Game implements Serializable {
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Case[][] copiePlateau = copyMatrice(matricePlateau);
 			Coup c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
-			
+
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
 				c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
@@ -354,7 +354,6 @@ public class Game implements Serializable {
 			if (!paused && !stopped)
 				annulerRefaire.addItem(new Game(this));
 
-			
 			finish = testVictoire();
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			leMoteur.getCurrentDisplay().afficherJeu();
@@ -944,10 +943,15 @@ public class Game implements Serializable {
 	 */
 	public void finirSonTour()
 	{
-		if (this.joueurCourant instanceof HumanPlayer)
+		if (Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Humain)
 		{
 			this.finirSonTour = true;
-			((HumanPlayer) this.joueurCourant).setCoup(null, null);
+				((HumanPlayer) this.joueurCourant).setCoup(null, null);
+			
+		}else if(Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Reseau) {
+			this.finirSonTour = true;
+			this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
 		}
+			
 	}
 }

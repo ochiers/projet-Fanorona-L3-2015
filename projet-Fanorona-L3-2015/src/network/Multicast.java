@@ -18,6 +18,7 @@ class Recepteur extends Thread {
 	public MulticastSocket	socketReception;
 	private boolean			isHost;
 	public int				portGame;
+	public boolean			stopped;
 
 	Recepteur(Multicast m, InetAddress groupeIP, int port, String nom, boolean isHost, int portGame) throws Exception
 	{
@@ -37,7 +38,7 @@ class Recepteur extends Thread {
 		byte[] contenuMessage;
 		String texte;
 
-		while (true)
+		while (!stopped)
 		{
 			contenuMessage = new byte[1024];
 			message = new DatagramPacket(contenuMessage, contenuMessage.length);
@@ -69,6 +70,7 @@ class Emetteur extends Thread {
 	public MulticastSocket	socketEmission;
 	public String			nom;
 	public String			aEmettre;
+	public boolean			stopped;
 
 	Emetteur(Multicast m, InetAddress groupeIP, int port, String nom) throws Exception
 	{
@@ -85,7 +87,7 @@ class Emetteur extends Thread {
 	{
 		try
 		{
-			while (true)
+			while (!stopped)
 			{
 				if (aEmettre != null)
 				{
@@ -170,16 +172,18 @@ public class Multicast {
 		if (emeteur != null)
 		{
 			emeteur.socketEmission.close();
-			emeteur.stop();
+			emeteur.stopped = true;
+			//emeteur.stop();
 		}
 		if (recepteur != null)
 		{
 			recepteur.socketReception.close();
-			recepteur.stop();
+			recepteur.stopped = true;
+			//recepteur.stop();
 		}
 	}
 
-	public static void main(String[] arg)
+	/*public static void main(String[] arg)
 	{
 
 		if (arg[0].equals("host"))
@@ -193,5 +197,5 @@ public class Multicast {
 			for (int i = 0; i < l.size(); i++)
 				System.out.println(l.get(i));
 		}
-	}
+	}*/
 }

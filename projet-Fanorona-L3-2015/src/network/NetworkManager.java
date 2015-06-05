@@ -16,6 +16,7 @@ import engine.Coordonnee;
 import engine.Coup;
 import engine.EngineServices;
 import engine.Player;
+import engine.PlayerType;
 import engine.Tools;
 
 /**
@@ -55,15 +56,15 @@ public class NetworkManager extends Thread {
 	 */
 	public EngineServices		leMoteur;
 	/**
-	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le
-	 * reseau
+	 * Variable-buffer qui contien le coup qui vient d'etre recu depuis le reseau
 	 */
 	public Stack<Coup>			coupsRecu;
 	/**
-	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le
-	 * reseau
+	 * Variable-buffer qui contien la coordonne qui vient d'etre recu depuis le reseau
 	 */
-	public Stack<Coordonnee>	coordonneesRecu;
+	public Stack<Coordonnee>	coordonneesRecues;
+
+	public int					confirmationRecue;
 
 	/**
 	 * Le coup qui doit etre envoyé sur le reseau
@@ -82,7 +83,8 @@ public class NetworkManager extends Thread {
 		this.ip = ip;
 		this.port = port;
 		this.coupsRecu = new Stack<Coup>();
-		this.coordonneesRecu = new Stack<Coordonnee>();
+		this.coordonneesRecues = new Stack<Coordonnee>();
+		this.confirmationRecue = -1;
 	}
 
 	/**
@@ -101,7 +103,7 @@ public class NetworkManager extends Thread {
 		socketEnvoiPrincipal = socketServeurPrincipal.accept();
 		reception = socketEnvoiPrincipal.getInputStream();
 		envoi = socketEnvoiPrincipal.getOutputStream();
-		
+		this.serveurMulticast.terminer();
 	}
 
 	/**
@@ -149,8 +151,7 @@ public class NetworkManager extends Thread {
 	}
 
 	/**
-	 * Méthode permettant de recevoir la configuration partagée entre les 2
-	 * ordinateurs.
+	 * Méthode permettant de recevoir la configuration partagée entre les 2 ordinateurs.
 	 * 
 	 * @throws IOException
 	 */
@@ -168,7 +169,7 @@ public class NetworkManager extends Thread {
 					leMoteur.annuler(false);
 					break;
 				case RequestType.FinDuTour:
-					leMoteur.finirSonTour();
+					leMoteur.finirSonTour(false);
 					break;
 				case RequestType.NouvellePartie:
 				case RequestType.Quitter:
@@ -184,7 +185,26 @@ public class NetworkManager extends Thread {
 					leMoteur.refaire(false);
 					break;
 				case RequestType.EnvoiCase:
-					coordonneesRecu.add(receiveCoordonnee());
+					coordonneesRecues.add(receiveCoordonnee());
+					break;
+				case RequestType.DemanderConfirmationAnnuler:
+					if (leMoteur.getCurrentDisplay().demanderConfirmation("Le joueur veut annuler un coup,\n autoriser ?"))
+						sendRequete(RequestType.ReponseOUI);
+					else
+						sendRequete(RequestType.ReponseNON);
+					break;
+				case RequestType.DemanderConfirmationRefaire:
+					if (leMoteur.getCurrentDisplay().demanderConfirmation("Le joueur veut refaire le coup,\n autoriser ?"))
+						sendRequete(RequestType.ReponseOUI);
+					else
+						sendRequete(RequestType.ReponseNON);
+					break;
+				case RequestType.ReponseOUI:
+					confirmationRecue = 1;
+					break;
+				case RequestType.ReponseNON:
+					confirmationRecue = 0;
+					break;
 			}
 		}
 		return true;
@@ -270,9 +290,23 @@ public class NetworkManager extends Thread {
 	public Coordonnee getCoordonnee()
 	{
 		Coordonnee res = null;
-		if (!coordonneesRecu.empty())
-			res = coordonneesRecu.pop();
+		if (!coordonneesRecues.empty())
+			res = coordonneesRecues.pop();
 		return res;
+	}
+
+	public int getConfirmation()
+	{
+		int res = -1;
+		if (confirmationRecue != -1)
+			res = confirmationRecue;
+		confirmationRecue = -1;
+		return res;
+	}
+
+	public void demanderConfirmation(int req)
+	{
+		this.sendRequete(req);
 	}
 
 	/**

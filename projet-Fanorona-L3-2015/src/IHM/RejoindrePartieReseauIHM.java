@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,9 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import AI.HumanPlayer;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import network.*;
 import engine.EngineServices;
+import engine.HumanPlayer;
 import engine.Player;
 import engine.Tools;
 
@@ -64,7 +68,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		JLabel explicationDetection = new JLabel("Détection de partie : ");
 		explicationDetection.setBounds(290, 5, 190, 20);
 
-		txt_saisieIp = new JTextField("152.77.82.223", 15);
+		txt_saisieIp = new JTextField("xxx.xxx.xxx.xxx", 15);
 		txt_saisieIp.setBounds(150, 20, 100, 40);
 
 		txt_saisiePort = new JTextField("12345", 5);
@@ -80,7 +84,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		list_detection.setBounds(290, 30, 180, 130);
 		list_detection.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list_detection.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-
+		list_detection.addListSelectionListener(new listChangeListener(this));
 		bt_rejoindre = new JButton("Rejoindre");
 		bt_rejoindre.setBounds(20, 120, 125, 40);
 
@@ -182,4 +186,23 @@ class annulerListener implements ActionListener {
 		r.setVisible(false);
 	}
 
+}
+
+class listChangeListener implements ListSelectionListener{
+
+	public RejoindrePartieReseauIHM r;
+	
+	public listChangeListener(RejoindrePartieReseauIHM r)
+	{
+		this.r=r;
+	}
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e)
+	{
+		String str[] = r.list_detection.getSelectedValue().split(":");
+		r.txt_saisieIp.setText(str[0]);
+		r.txt_saisiePort.setText(str[1]);
+	}
+	
 }

@@ -67,9 +67,7 @@ public class JeuFanorona {
 			p1 = new HumanPlayer(e, false, "Clem");
 			p2 = new EasyAI(e, true, "Solveur");
 		}
-		if(e.canLoardOldGame())
-			e.loadOldGame();
-		else
+		if(!e.loadOldGame())
 			e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 
 		SwingUtilities.invokeLater(f);

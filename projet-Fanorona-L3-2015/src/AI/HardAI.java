@@ -56,12 +56,14 @@ public class HardAI extends Player implements Serializable {
 //			caseCourante = caseCourante.sud;
 //		}
 		
-		if(profondeurCourante == profondeurBis){
-			if(noeudMin)
-				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10 /*+ nbPionsBord/2*/;
-			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10 /*- nbPionsBord/2*/;
-		}
-		else return nbPionsJoueur-nbPionsAdversaire;
+//		if(profondeurCourante == profondeurBis){
+//			if(noeudMin)
+//				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10 /*+ nbPionsBord/2*/;
+//			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10 /*- nbPionsBord/2*/;
+//		}
+//		else 
+			
+			return (nbPionsJoueur-nbPionsAdversaire)*100;
 	}
 	
 	public int alphaBeta(Case[] listeCases, int alpha, int beta, boolean noeudMin, int profondeur, Pion couleurJoueur, ArrayList<Case> combo, boolean comboEnCours) {
@@ -81,12 +83,12 @@ public class HardAI extends Player implements Serializable {
 					Direction directionCoup = determinerDirection(coupCourant.depart, coupCourant.arrivee); 	/* d = direction correspondant au coup */				
 					ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne], couleurJoueur);
 					ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, matrice[coupCourant.depart.ligne][coupCourant.depart.colonne], couleurJoueur);
-					int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
-					int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
+					int evaluationNbCapturesPercussion = pionsACapturerRapprochement.size();
+					int evaluationNbCapturesAspiration = pionsACapturerEloignement.size();
 					
 					/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 					 * des deux captures est la meilleure */
-					if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0){						
+					if(evaluationNbCapturesPercussion > 0 && evaluationNbCapturesAspiration > 0){						
 						ArrayList<Case> comboPercussion = new ArrayList<Case>(combo);
 						ArrayList<Case> comboAspiration = new ArrayList<Case>(combo);
 
@@ -112,7 +114,7 @@ public class HardAI extends Player implements Serializable {
 					else {
 						ArrayList<Case> pionsJouables;
 						ArrayList<Case> combo2 = new ArrayList<Case>(combo);
-						if(evaluationNbCapturésPercussion > 0) {
+						if(evaluationNbCapturesPercussion > 0) {
 							capturer(coupCourant, true, pionsACapturerRapprochement, couleurJoueur);
 							Case[] listeCases2 = new Case[1];
 							listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
@@ -120,7 +122,7 @@ public class HardAI extends Player implements Serializable {
 							val = java.lang.Math.min(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
 							annuler(true, couleurJoueur);
 						}
-						else if (evaluationNbCapturésAspiration > 0) {
+						else if (evaluationNbCapturesAspiration > 0) {
 							capturer(coupCourant, true, pionsACapturerEloignement, couleurJoueur);
 							Case[] listeCases2 = new Case[1];
 							listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
@@ -176,7 +178,7 @@ public class HardAI extends Player implements Serializable {
 						comboPercussion.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						int res1 = alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, comboPercussion, true);
+						int res1 = alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, comboPercussion, true)+profondeur;
 						annuler(false, couleurJoueur);
 						
 						/* Modification plateau et appel récursif pour la capture par aspiration */
@@ -184,7 +186,7 @@ public class HardAI extends Player implements Serializable {
 						comboAspiration.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 						Case[] listeCases3 = new Case[1];
 						listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						int res2 = alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, comboAspiration, true);
+						int res2 = alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, comboAspiration, true)+profondeur;
 						annuler(false, couleurJoueur);
 						
 						val = java.lang.Math.max(val, java.lang.Math.max(res1, res2));
@@ -199,7 +201,7 @@ public class HardAI extends Player implements Serializable {
 							Case[] listeCases2 = new Case[1];
 							listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 							combo2.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-							val = java.lang.Math.max(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
+							val = java.lang.Math.max(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true)+profondeur);
 							annuler(false, couleurJoueur);
 						}
 						else if (evaluationNbCapturésAspiration > 0) {
@@ -207,7 +209,7 @@ public class HardAI extends Player implements Serializable {
 							Case[] listeCases3 = new Case[1];
 							listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 							combo2.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-							val = java.lang.Math.max(val, alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
+							val = java.lang.Math.max(val, alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true)+profondeur);
 							annuler(false, couleurJoueur);
 						}
 						else {
@@ -504,11 +506,11 @@ public class HardAI extends Player implements Serializable {
 				Case depart = matrice[coupCourant.depart.ligne][coupCourant.depart.colonne];
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, arrivee, couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, depart, couleurJoueur);
-				int evaluationNbCapturésPercussion = pionsACapturerRapprochement.size();
-				int evaluationNbCapturésAspiration = pionsACapturerEloignement.size();
+				int evaluationNbCapturesPercussion = pionsACapturerRapprochement.size();
+				int evaluationNbCapturesAspiration = pionsACapturerEloignement.size();
 				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 				 * des deux captures est la meilleure */								
-				if(evaluationNbCapturésPercussion > 0 && evaluationNbCapturésAspiration > 0) {
+				if(evaluationNbCapturesPercussion > 0 && evaluationNbCapturesAspiration > 0) {
 					ArrayList<Case> comboPercussion = new ArrayList<Case>(partieCourante.combo);
 					ArrayList<Case> comboAspiration = new ArrayList<Case>(partieCourante.combo);
 					
@@ -545,7 +547,7 @@ public class HardAI extends Player implements Serializable {
 					ArrayList<Case> combo = new ArrayList<Case>(partieCourante.combo);
 					combo.add(matrice[coupCourant.depart.ligne][coupCourant.depart.colonne]);
 					combo.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-					if(evaluationNbCapturésPercussion > 0) {
+					if(evaluationNbCapturesPercussion > 0) {
 						capturer(coupCourant, false, pionsACapturerRapprochement, couleurJoueur);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
@@ -553,7 +555,7 @@ public class HardAI extends Player implements Serializable {
 						res = alphaBeta(listeCases2, Integer.MIN_VALUE, Integer.MAX_VALUE, false, profondeurCourante, couleurJoueur, combo, true);
 						annuler(false, couleurJoueur);
 					}
-					else if(evaluationNbCapturésAspiration > 0) {
+					else if(evaluationNbCapturesAspiration > 0) {
 						capturer(coupCourant, false, pionsACapturerEloignement, couleurJoueur);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];

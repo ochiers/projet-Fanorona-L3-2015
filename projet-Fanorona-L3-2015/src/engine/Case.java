@@ -12,9 +12,6 @@ import java.util.ArrayList;
  */
 public class Case implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= -438749539936809334L;
 
 	/* Les voisins de cette case */
@@ -94,7 +91,6 @@ public class Case implements Serializable {
 	 */
 	public Case getCaseAt(Direction d)
 	{
-
 		switch (d)
 		{
 			case Nord:
@@ -116,7 +112,6 @@ public class Case implements Serializable {
 			default:
 				return null;
 		}
-
 	}
 
 	public boolean equals(Object o)

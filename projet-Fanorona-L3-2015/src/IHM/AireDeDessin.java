@@ -46,7 +46,7 @@ public class AireDeDessin extends JComponent {
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
-//        segment  = (int)((fenetre.fw*3.99)/60);	//TODO
+//        segment  = (int)((fenetre.fw*3.99)/60);
 //        decalageH = (int)(1.4*segment);
 //        decalageL = (int)(1.55*segment);
     //    halo=Color.green;
@@ -499,66 +499,11 @@ public class AireDeDessin extends JComponent {
 	
     public Coordonnee positionGrille(Coordonnee c){
     	Coordonnee p = new Coordonnee(-1,-1);
-    	p.ligne=CoordonneesPlateau[1]+(int)(c.ligne*segment);
-    	p.colonne=CoordonneesPlateau[0]+(int)(c.colonne*segment);
+    	//TODO peut etre enlever originePlateauX et originePlateauY
+    	p.ligne=CoordonneesPlateau[1]+(int)(c.ligne*segment)+originePlateauX;
+    	p.colonne=CoordonneesPlateau[0]+(int)(c.colonne*segment)+originePlateauY;
     	//System.out.println("////////NEW COOR "+p.ligne+" "+p.colonne);
     	return p;
     }
     
 }
-
- class ImagePanel extends JPanel {
-	 
-	private static final long serialVersionUID = 1L;
-	static Image img;
-	private int width;
-	private int height;
- 
-	public ImagePanel(String img, int x, int y) {
-		//this(new ImageIcon(img).getImage(), x, y);
-		ImagePanel.img = new ImageIcon(img).getImage();
-		this.width = x;
-		this.height = y;
-	}
- 
-	public ImagePanel(Image img, int x, int y) {
-		ImagePanel.img = img;
-		this.width = x;
-		this.height = y;
-	}
- 
-	public ImagePanel(Icon icon, int x, int y) {
-		this.width = x;
-		this.height = y;
-		ImagePanel.img = iconToImage(icon);
-	}
-	
-	public Image getImage(){
-		return ImagePanel.img;
-	}
-
-	//fonction recuperee sur Internet
-	public static Image iconToImage(Icon icon) {
-        if (icon instanceof ImageIcon) {
-            return ((ImageIcon)icon).getImage();
-        } else {
-            int w = icon.getIconWidth();
-            int h = icon.getIconHeight();
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = ge.getDefaultScreenDevice();
-            GraphicsConfiguration gc = gd.getDefaultConfiguration();
-            BufferedImage image = gc.createCompatibleImage(w, h);
-            Graphics2D g = image.createGraphics();
-            icon.paintIcon(null, g, 0, 0);
-            g.dispose();
-            return image;
-        }
-    }
-	
-	public void paintComponent(Graphics g) {
-		g.drawImage(img, 0, 0, width, height, this);
-	}
-	
-
-}
-

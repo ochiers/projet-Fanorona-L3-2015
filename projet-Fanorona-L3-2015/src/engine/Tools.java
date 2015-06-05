@@ -41,6 +41,9 @@ public class Tools {
 			case IADifficile:
 				res = new HardAI(e, true, nom);
 				break;
+			case Reseau:
+				res = new NetworkPlayer(e, true, nom);
+				break;
 			default:
 				throw new RuntimeException("IMPOSSIBLE DE CREE LE JOUEUR");
 		}
@@ -125,6 +128,7 @@ public class Tools {
 
 	/**
 	 * Permet d'obtenir l'ip de la machine
+	 * 
 	 * @return Une chaine sous forme xxx.xxx.xxx.xxx
 	 */
 	public static String getIp()
@@ -154,5 +158,55 @@ public class Tools {
 		}
 
 		return ipOrdi;
+	}
+
+	public static void changerDeJoueur(EngineServices moteur, Configuration conf, PlayerType p1, PlayerType p2, String nomJ1, String nomJ2)
+	{
+
+		Player j1 = null;
+		Player j2 = null;
+		System.out.println("COnf : " + conf + ", p1 : "+ p1 + ", p2 : " + p2 );
+		switch (conf)
+		{
+			case HumainVSHumain:
+				if (p1 == PlayerType.Reseau)
+				{
+					j1 = new NetworkPlayer(moteur, false, nomJ1);
+					j2 = new HumanPlayer(moteur, false, nomJ2);
+				} else if (p2 == PlayerType.Reseau)
+				{
+					j2 = new NetworkPlayer(moteur, false, nomJ2);
+					j1 = new HumanPlayer(moteur, false, nomJ1);
+				} else
+				{
+					j1 = new HumanPlayer(moteur, false, nomJ1);
+					j2 = new HumanPlayer(moteur, false, nomJ2);
+				}
+				break;
+			case HumainVSIA:
+				if (p1 == PlayerType.Reseau)
+				{
+					j1 = new NetworkPlayer(moteur, false, nomJ1);
+					j2 = Tools.createPlayer(moteur, p2, nomJ2);
+				} else if (p2 == PlayerType.Reseau)
+				{
+					j2 = new NetworkPlayer(moteur, false, nomJ2);
+					j1 = Tools.createPlayer(moteur, p2, nomJ1);
+				} else
+				{
+					j1 = Tools.createPlayer(moteur, p1, nomJ1);
+					j2 = Tools.createPlayer(moteur, p2, nomJ2);
+				}
+				break;
+			case IAvsIA:
+				j1 = Tools.createPlayer(moteur, p1, nomJ1);
+				j2 = Tools.createPlayer(moteur, p2, nomJ2);
+				break;
+			default:
+				throw new RuntimeException();
+
+		}
+		moteur.changerLeJoueur(moteur.getJoueurBlanc(), j1);
+		moteur.changerLeJoueur(moteur.getJoueurNoir(), j2);
 	}
 }

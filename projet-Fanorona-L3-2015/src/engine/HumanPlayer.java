@@ -1,15 +1,10 @@
-package AI;
+package engine;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import engine.*;
-
 public class HumanPlayer extends Player implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= -8423735410841988573L;
 	private boolean hasPlayed;
 	private Coup coupJoue;
@@ -17,19 +12,15 @@ public class HumanPlayer extends Player implements Serializable {
 	public HumanPlayer(EngineServices leMoteur, boolean isAI, String name)
 	{
 		super(leMoteur, isAI, name);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public HumanPlayer(Player p)
 	{
 		super(p);
-		// TODO Auto-generated constructor stub
 	}
-
 
 	public void setCoup(Coordonnee depart, Coordonnee arrivee)
 	{
-		
 		this.coupJoue = new Coup(depart,arrivee);
 		this.hasPlayed = true;
 	}
@@ -44,7 +35,6 @@ public class HumanPlayer extends Player implements Serializable {
 	public String getNiveau()
 	{
 		return "Humain";
-		
 	}
 
 	@Override
@@ -55,19 +45,15 @@ public class HumanPlayer extends Player implements Serializable {
 		pointDirection = null;
 		while(!isStopped() && !hasPlayed && coupJoue == null)
 		{
-			//System.out.println(name + " attend " + this);
 			try {
-				Thread.sleep(500);
-				//System.out.println(name + " attend");
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		System.out.println(name + " a fait un coup");
 		return coupJoue;
 	}
-
 
 	@Override
 	public Case choisirDirectionAManger(ArrayList<Case> rapprochement, ArrayList<Case> eloignement)
@@ -77,23 +63,16 @@ public class HumanPlayer extends Player implements Serializable {
 		while(!hasPlayed){
 			try {
 				Thread.sleep(50);
-				//System.out.println(name + " attend");
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
-		return leMoteur.getCurrentGame().matricePlateau[this.pointDirection.ligne][this.pointDirection.colonne];
+		return leMoteur.getPlateau()[this.pointDirection.ligne][this.pointDirection.colonne];
 	}
-	
-
-
 
 	@Override
 	public Player clone()
 	{
-		
 		return new HumanPlayer(this);
 	}
 }
