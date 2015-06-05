@@ -3,10 +3,7 @@ package IHM;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JComponent;
-
-import engine.Pion;
 
 @SuppressWarnings("serial")
 public class DessinPion extends JComponent {

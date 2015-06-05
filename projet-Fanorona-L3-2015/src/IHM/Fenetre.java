@@ -452,7 +452,6 @@ public class Fenetre implements Runnable, Affichage {
 				e1.printStackTrace();
 			}
 		}
-
 	}
 
 	class ItemAction_reseau_rejoindre implements ActionListener {
