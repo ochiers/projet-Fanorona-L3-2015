@@ -484,13 +484,12 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		Firework victoire = new Firework(this);
+		/*Firework victoire = new Firework(this);
 		victoire.setVisible(true);
 		String winner = (this.engine.getWinner()).name;
-		// JLabel win = new JLabel(" " + winner + " ");
 		panelVictoire.add(victoire);
 		panelVictoire.setVisible(true);
-		frame.add(panelVictoire);
+		frame.add(panelVictoire);*/
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
