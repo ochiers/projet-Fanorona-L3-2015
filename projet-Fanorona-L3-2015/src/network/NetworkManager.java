@@ -168,7 +168,7 @@ public class NetworkManager extends Thread {
 					leMoteur.annuler(false);
 					break;
 				case RequestType.FinDuTour:
-					leMoteur.finirSonTour();
+					leMoteur.finirSonTour(false);
 					break;
 				case RequestType.NouvellePartie:
 				case RequestType.Quitter:

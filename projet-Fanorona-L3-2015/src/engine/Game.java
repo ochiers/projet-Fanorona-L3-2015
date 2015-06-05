@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import network.NetworkPlayer;
+
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la
  * methode jouer()
@@ -941,10 +943,13 @@ public class Game implements Serializable {
 	 */
 	public void finirSonTour()
 	{
-		if (this.joueurCourant instanceof HumanPlayer)
+		if (this.joueurCourant instanceof HumanPlayer || this.joueurCourant instanceof NetworkPlayer)
 		{
 			this.finirSonTour = true;
-			((HumanPlayer) this.joueurCourant).setCoup(null, null);
+			if (this.joueurCourant instanceof HumanPlayer)
+				((HumanPlayer) this.joueurCourant).setCoup(null, null);
+			else
+				this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
 		}
 	}
 }

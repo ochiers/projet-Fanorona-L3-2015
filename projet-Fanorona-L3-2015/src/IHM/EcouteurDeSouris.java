@@ -24,8 +24,9 @@ public class EcouteurDeSouris implements MouseListener{
 					if(aire.pionCliquer){
 					//	aire.animation=true;
 					//	aire.repaint();
-							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,aire.pfinal);
-							aire.pionCliquer=false;
+						if(aire.fenetre.engine.getJoueurCourant() instanceof HumanPlayer){
+							((HumanPlayer)aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant,aire.pfinal);
+							aire.pionCliquer=false;}
 						/*	if(aire.pionCombo!=null){
 								aire.pionCombo.position.ligne=pfinal.ligne;
 								aire.pionCombo.position.colonne=pfinal.colonne;
@@ -116,10 +117,10 @@ public class EcouteurDeSouris implements MouseListener{
 				aire.pfinal=position(e.getX(),e.getY());
 				if(aire.pfinal.colonne!=-1 && aire.pfinal.ligne!=-1){
 					if(aire.pionCliquer){
-
-							((HumanPlayer)aire.fenetre.engine.getCurrentGame().joueurCourant).setCoup(aire.pCourant,aire.pfinal);
+						if(aire.fenetre.engine.getJoueurCourant() instanceof HumanPlayer){
+							((HumanPlayer)aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant,aire.pfinal);
 							aire.pionCliquer=false;
-					
+						}
 					}
 					aire.repaint();
 				}
