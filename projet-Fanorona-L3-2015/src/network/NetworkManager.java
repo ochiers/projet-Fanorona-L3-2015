@@ -97,7 +97,7 @@ public class NetworkManager extends Thread {
 	{
 
 		socketServeurPrincipal = new ServerSocket(port);
-		this.serveurMulticast = new Multicast("224.3.3.3", 12344, port, true);
+		this.serveurMulticast = new Multicast(leMoteur,"224.3.3.3", 12344, port, true);
 		System.out.println("Serveur en ecoute sur " + Tools.getIp() + ":" + socketServeurPrincipal.getLocalPort());
 
 		socketEnvoiPrincipal = socketServeurPrincipal.accept();

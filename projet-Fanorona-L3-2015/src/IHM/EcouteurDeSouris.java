@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 import AI.*;
 import engine.*;
 

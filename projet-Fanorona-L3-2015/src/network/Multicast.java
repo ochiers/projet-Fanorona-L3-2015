@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.ArrayList;
 
+import engine.EngineServices;
 import engine.Tools;
 
 class Recepteur extends Thread {
@@ -52,12 +53,12 @@ class Recepteur extends Thread {
 				{
 					System.out.println("Requete recue, j'emet ...");
 					multiCast.emeteur.aEmettre = nom + "Je suis #" + Tools.getIp() + ":" + portGame;
-				} else if (texte.contains("#"))
-					multiCast.dicoveredHosts.add(texte.split("#")[1]);
-				System.out.println("ON A RECU UN TRUC");
+				} else if (texte.contains("#")){
+					multiCast.dicoveredHosts.add(multiCast.moteur.getJoueurCourant().name +" at " +texte.split("#")[1]);
+				}
 			} catch (Exception exc)
 			{
-				System.out.println(exc);
+				exc.printStackTrace();
 			}
 		}
 	}
@@ -123,12 +124,12 @@ public class Multicast {
 	public Emetteur				emeteur;
 	public Recepteur			recepteur;
 	public ArrayList<String>	dicoveredHosts;
-
-	public Multicast(String ipMulticast, int portMulticast, int portGame, boolean isHost)
+	public EngineServices moteur;
+	public Multicast(EngineServices m, String ipMulticast, int portMulticast, int portGame, boolean isHost)
 	{
 		if (!Tools.isValidIP(ipMulticast))
 			throw new RuntimeException();
-
+		this.moteur = m;
 		this.ip = ipMulticast;
 		this.portMultiCast = portMulticast;
 		this.portGame = portGame;
