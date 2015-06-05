@@ -43,7 +43,7 @@ public abstract class Player extends Thread implements Serializable {
 
 	public String toString()
 	{
-		return "ID:" + this.hashCode() + aiPlayer + " " + name;
+		return Tools.getTypeOfPlayer(this) + " : " + aiPlayer + " " + name;
 	}
 
 	public boolean isStopped()
