@@ -25,6 +25,7 @@ public class AireDeDessin extends JComponent {
     Color halo;
     Color haloChoix;
     Color comboColor;
+    Color coupPossible;
     boolean doitChoisir=false;
     boolean finPartie=false;
     ArrayList<Case> l1;
@@ -43,6 +44,9 @@ public class AireDeDessin extends JComponent {
 	int originePlateauY = 0;
 	
 	BufferedImage imgBlanc, imgNoir; 
+	
+	boolean surbrillance=false;
+	Coordonnee pSurbrillance;
     
     public AireDeDessin(Fenetre f) {
         fenetre=f;
@@ -69,6 +73,7 @@ public class AireDeDessin extends JComponent {
         halo=Color.green;
         haloChoix=Color.yellow;
         comboColor=Color.orange;
+        coupPossible=Color.cyan;
         setPreferredSize(new Dimension((int)(10*segment),(int)(6*segment)));
         pCourant=new Coordonnee(-1,-1);
         plateau = new ImageIcon("src/images/Fano9x5.jpg");
@@ -81,6 +86,8 @@ public class AireDeDessin extends JComponent {
         tailleJeton=1;
         etir = 1;
         tailleHalo=1.5;
+        
+        
     }
 
 	public void paintComponent(Graphics g) {
@@ -99,6 +106,7 @@ public class AireDeDessin extends JComponent {
     	etir = etirW < etirH ? etirW : etirH;
     	segment =etir*    (CoordonneesPlateau[2] - CoordonneesPlateau[0])/8.0;
     	tailleJeton = (int)(segment/1.75);
+    	fenetre.panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT);
     //	System.out.println("//////taillejeton2//"+tailleJeton+" "+segment);
     	//System.out.println(" width " + width + " height " + height + " PW " + (int)(etir*plateauW));
     	drawable.drawImage(plateau.getImage(), originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), null);
@@ -130,6 +138,9 @@ public class AireDeDessin extends JComponent {
 	        if(pionCliquer){
 	        	//halojetonCliquer(drawable);//rond cyan
 	        	halo(drawable,pCourant,Color.cyan);
+	        	emplacementPossible(drawable);
+	        	if(surbrillance)
+	        		pionSurbrillance(drawable,pSurbrillance,fenetre.engine.getJoueurCourant()==fenetre.engine.getJoueurBlanc()?fenetre.pion1:fenetre.pion2);
 	        }
     	}else dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int)(etir*plateauW), (int)(etir*plateauH), etir);
 
@@ -146,12 +157,23 @@ public class AireDeDessin extends JComponent {
     	int newTaille=(int)(tailleJeton*tailleHalo);
     	double diff=alpha/(newTaille-tailleJeton);
     	drawable.setPaint(new Color(red,green,blue,alpha));
-    	for(int i=tailleJeton;i<newTaille;i++){
+    	for(int i=tailleJeton+2;i<newTaille;i++){
     		alpha=(int)(255-(i-tailleJeton)*diff);
     		drawable.setPaint(new Color(red,green,blue,alpha));
     		drawable.drawOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-i/2+originePlateauX), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-i/2+originePlateauY), (int)i, (int)i);
     	}
 		drawable.setPaint(Color.black);
+    }
+    
+    public void pionSurbrillance(Graphics2D drawable,Coordonnee p,Color c){
+    	int red=c.getRed();
+    	int green=c.getGreen();
+    	int blue=c.getBlue();
+    	int alpha=128;
+    	drawable.setPaint(new Color(red,green,blue,alpha));
+    	drawable.fillOval((int)(CoordonneesPlateau[0]*etir+p.colonne*segment-tailleJeton/2+originePlateauX), (int)(CoordonneesPlateau[1]*etir+p.ligne*segment-tailleJeton/2+originePlateauY), (int)tailleJeton, (int)tailleJeton);
+		drawable.setPaint(Color.black);
+	//	System.out.println("test");
     }
     
     private void centrerPlateau(int width, int height, int pw, int ph) {
@@ -164,7 +186,7 @@ public class AireDeDessin extends JComponent {
 			originePlateauY = (height/2)-(ph/2);
 		}
 	}
-      
+
     public void majScore(){
     	fenetre.scoreInt1.setText(""+fenetre.engine.getNombrePionsBlancs());
         fenetre.scoreInt2.setText(""+fenetre.engine.getNombrePionsNoirs());
@@ -276,6 +298,53 @@ public class AireDeDessin extends JComponent {
 	}
  */
  
+    public ArrayList<Case> coupReel(ArrayList<Case> c1,ArrayList<Case> c2){
+    	ArrayList<Case> c3=new ArrayList<Case>();
+    	boolean b=false;
+    	int i=0;
+    	int j=0;
+    	while(i<c1.size()){
+    		b=false;
+    		j=0;
+    		while(j<c2.size() && !b){
+    			if(c1.get(i)==c2.get(j))
+    				b=true;
+    			j++;
+    		}
+    		if(!b)
+    			c3.add(c1.get(i));
+    		i++;
+    	}
+    	
+    	return c3;
+    }
+    
+    public void emplacementPossible(Graphics2D drawable){
+    	ArrayList<Case> emplacementPossible1 = fenetre.engine.getCurrentGame().coupsPossiblesPourUnPion(fenetre.engine.getCurrentGame().matricePlateau[pfinal.ligne][pfinal.colonne]);
+    	ArrayList<Case> emplacementPossible= fenetre.engine.getCurrentGame().coupsPourPriseParUnPion(emplacementPossible1, fenetre.engine.getCurrentGame().matricePlateau[pfinal.ligne][pfinal.colonne]);
+    	if(combo!=null){
+    		emplacementPossible=coupReel(emplacementPossible,combo);
+    	//	System.out.println("pioncombo "+ combo.get(0).position.ligne+" "+combo.get(0).position.colonne + " taille: "+combo.size());
+    	}
+   // 	System.out.println("test1");
+    	if(emplacementPossible!=null){
+    //		System.out.println("test2 "+emplacementPossible.size());
+    		if(emplacementPossible.size()!=0){
+    			for(int i=0;i<emplacementPossible.size();i++){
+    				halo(drawable,emplacementPossible.get(i).position,coupPossible);
+    //				System.out.println("emplacement "+emplacementPossible.get(i).position);
+    			}
+    		}
+    		else{
+    			for(int i=0;i<emplacementPossible1.size();i++){
+    				halo(drawable,emplacementPossible1.get(i).position,coupPossible);
+    //				System.out.println("emplacement "+emplacementPossible1.get(i).position);
+    			}
+    		}
+    	}
+    	
+    }
+    
 	public void pionJouable(Graphics2D drawable){
 	   if(pionPossible!=null){
 		   for(int i=0;i<pionPossible.size();i++){
@@ -422,12 +491,16 @@ public class AireDeDessin extends JComponent {
    
     public boolean estJouable(Coordonnee c){
     	boolean choix = false;
-    	int i=0;
-    	while(i<pionPossible.size() && !choix){
-    		if(pionPossible.get(i).position.ligne==c.ligne && pionPossible.get(i).position.colonne==c.colonne)
-  		  		choix=true;
-    		i++;
-     	}
+    	if(fenetre.engine.getCurrentGame().enCombo){
+    		return pionCombo.position.ligne==c.ligne && pionCombo.position.colonne==c.colonne;
+    	}else{
+	    	int i=0;
+	    	while(i<pionPossible.size() && !choix){
+	    		if(pionPossible.get(i).position.ligne==c.ligne && pionPossible.get(i).position.colonne==c.colonne)
+	  		  		choix=true;
+	    		i++;
+	     	}
+    	}
     	return choix;
     } 
    
