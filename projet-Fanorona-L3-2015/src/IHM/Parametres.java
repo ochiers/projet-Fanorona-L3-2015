@@ -3,16 +3,12 @@ package IHM;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import engine.Configuration;
-import engine.Player;
 import engine.PlayerType;
 import engine.Tools;
 
