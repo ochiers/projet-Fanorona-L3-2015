@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import network.NetworkPlayer;
 import engine.*;
 
@@ -196,7 +198,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		// joueur 1
 		JPanel panelOuest = new JPanel(new GridLayout(9, 1));
-		taillePion = panelOuest.getWidth();
+		taillePion = (int)(0.9*panelOuest.getWidth());
 		JLabel vide1 = new JLabel();
 		panelOuest.setBackground(new Color(255, 255, 255, 128));
 		panelOuest.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
@@ -431,7 +433,8 @@ public class Fenetre implements Runnable, Affichage {
 		public void actionPerformed(ActionEvent e)
 		{
 			monDessin.pionCliquer = false;
-			engine.finirSonTour(true);
+			if(Tools.getTypeOfPlayer(engine.getJoueurCourant()) == PlayerType.Humain)
+				engine.finirSonTour(true);
 		}
 
 	}
@@ -537,6 +540,15 @@ public class Fenetre implements Runnable, Affichage {
 	public void sauvegardeReussie(boolean reussi)
 	{
 		System.out.println("//////SaveReussi?: " + reussi);
+		String str = "La sauvegarde";
+		if(reussi){
+			str += " a réussie !";
+			JOptionPane.showMessageDialog(frame, str, "Sauvagarde", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else{
+			str += " a échouée !";
+			JOptionPane.showMessageDialog(frame, str, "Sauvagarde", JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 
@@ -584,6 +596,23 @@ public class Fenetre implements Runnable, Affichage {
 		parametre.box2.setSelectedIndex(lvlPC1.ordinal() - 1);
 		parametre.box3.setSelectedIndex(lvlPC2.ordinal() - 1);
 		parametre.box4.setSelectedIndex((commencer ? 0 : 1));
+	}
+
+	@Override
+	public boolean demanderConfirmation(String question)
+	{
+		int res =0;
+		res = JOptionPane.showConfirmDialog(this.frame, question);
+		return res == JOptionPane.YES_OPTION;
+	}
+
+	@Override
+	public void demanderSauvegarde()
+	{
+		int res = JOptionPane.showConfirmDialog(frame, "Voulez vous sauvegarder avant de quitter", "Sauvegarder avant de quiiter", JOptionPane.YES_NO_CANCEL_OPTION);
+				
+				//this.frame, "Voulez vous sauvegarder la partie en cours");
+		
 	}
 
 }

@@ -134,7 +134,7 @@ Vendredi 5 juin
 		- Reprise de code pour l'optimiser. 
 		- Ajout de la gestion de la modification des noms joueurs.
 	Après-midi :
-		- Trop chaud, weekend anticipé pour le groupe IA.
+		- Trop chaud, weekend à 13h pour le groupe IA, mouahaha.
 		
 		
 		

@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javax.tools.Tool;
+
 import network.NetworkManager;
 import network.NetworkPlayer;
 import network.RequestType;
@@ -106,8 +108,8 @@ public class Engine implements EngineServices {
 		{
 			gameInProgress = false;
 			partieCourante.finir(true); // On arrete la partie courante qui se
-									// deroule
-									// dans le thread principal
+			// deroule
+			// dans le thread principal
 
 			boolean nouvJoueurs = (pB == null && pN == null);
 			if (nouvJoueurs)
@@ -169,13 +171,9 @@ public class Engine implements EngineServices {
 			partieCourante.stopped = false;
 			partieCourante.leMoteur = this;
 			partieCourante.pause();
-			/*try
-			{
-				Thread.sleep(500);
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}*/
+			/*
+			 * try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+			 */
 			gameInProgress = true;
 			affichage.afficherJeu();
 		} else
@@ -212,8 +210,18 @@ public class Engine implements EngineServices {
 	{
 		if (undoRedo.canUndo())
 		{
-			if (this.networkManager != null && notifReseau )
+			if (this.networkManager != null && notifReseau)
 			{
+				networkManager.demanderConfirmation(RequestType.DemanderConfirmationAnnuler);
+				int r = networkManager.getConfirmation();
+				while( r == -1)
+					try
+					{
+						r = networkManager.getConfirmation();
+						Thread.sleep(50);
+					} catch (InterruptedException e){e.printStackTrace();}
+				if(r == 0)
+					return;
 				networkManager.sendRequete(RequestType.Annuler);
 			}
 			changerPartieCourante(this.undoRedo.undo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
@@ -225,8 +233,18 @@ public class Engine implements EngineServices {
 	{
 		if (undoRedo.canRedo())
 		{
-			if (this.networkManager != null && notifReseau )
+			if (this.networkManager != null && notifReseau)
 			{
+				int r = networkManager.getConfirmation();
+				while( r == -1)
+					try
+					{
+						r = networkManager.getConfirmation();
+						Thread.sleep(50);
+					} catch (InterruptedException e){e.printStackTrace();}
+				if(r == 0)
+					return;
+				
 				networkManager.sendRequete(RequestType.Refaire);
 			}
 			changerPartieCourante(this.undoRedo.redo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
@@ -376,11 +394,13 @@ public class Engine implements EngineServices {
 	public void finirSonTour(boolean notifReseau)
 	{
 		System.out.println("FIN DU TOUUUUUUUUUUUUUUUUUR");
-		if (this.networkManager != null && notifReseau )
+		if (this.networkManager != null && notifReseau)
 		{
 			networkManager.sendRequete(RequestType.FinDuTour);
 		}
 		this.partieCourante.finirSonTour();
+		System.out.println("TOUR FINI");
+
 		this.affichage.afficherJeu();
 	}
 
@@ -427,8 +447,8 @@ public class Engine implements EngineServices {
 		else
 			g.joueurCourant = partieCourante.joueurCourant;
 		changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, ((g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir));
-		this.annuler(false);//oui, c'est du bricolage
-		this.refaire(false);//oui, c'est du bricolage
+		this.annuler(false);// oui, c'est du bricolage
+		this.refaire(false);// oui, c'est du bricolage
 	}
 
 	@Override
@@ -501,22 +521,22 @@ public class Engine implements EngineServices {
 	@Override
 	public void quitter()
 	{
-		if(getNetworkManager() != null)
+		if (getNetworkManager() != null)
 			getNetworkManager().sendRequete(RequestType.Quitter);
 		this.stopper();
 		try
 		{
-			if(getNetworkManager() != null)
+			if (getNetworkManager() != null)
 				getNetworkManager().terminerPartieReseau();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(!this.partieCourante.finish && !(partieCourante.joueurBlanc instanceof NetworkPlayer) && !(partieCourante.joueurNoir instanceof NetworkPlayer)){
+		if (!this.partieCourante.finish && !(partieCourante.joueurBlanc instanceof NetworkPlayer) && !(partieCourante.joueurNoir instanceof NetworkPlayer))
+		{
 			this.sauvegarderPartie("./tempSave.tmp");
-		}
-		else
+		} else
 			new File("./tempSave.tmp").delete();
 		System.out.flush();
 		System.err.flush();
@@ -529,7 +549,7 @@ public class Engine implements EngineServices {
 	{
 		try
 		{
-			while(!gameInProgress)
+			while (!gameInProgress)
 				Thread.sleep(60);
 			partieCourante.reprendre();
 			partieCourante.commencer();
@@ -537,7 +557,7 @@ public class Engine implements EngineServices {
 		{
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -550,28 +570,28 @@ public class Engine implements EngineServices {
 	public boolean loadOldGame()
 	{
 		File f = new File("./tempSave.tmp");
-		if(f.exists()){
+		if (f.exists())
+		{
 			System.out.println("CHARGEMENT DE LA DERNIERE PARTIE");
-			try{
-			this.chargerPartie("./tempSave.tmp");
-			this.undoRedo = partieCourante.annulerRefaire;
-			this.partieCourante.finish = false;
-			this.partieCourante.stopped = false;
-			this.partieCourante.enCombo = false;
-			this.partieCourante.combo = new ArrayList<Case>();
-			this.premierJeu = true;
-			this.gameInProgress = true;
-			return true;
-			}
-			catch (Exception e)
+			try
+			{
+				this.chargerPartie("./tempSave.tmp");
+				this.undoRedo = partieCourante.annulerRefaire;
+				this.partieCourante.finish = false;
+				this.partieCourante.stopped = false;
+				this.partieCourante.enCombo = false;
+				this.partieCourante.combo = new ArrayList<Case>();
+				this.premierJeu = true;
+				this.gameInProgress = true;
+				return true;
+			} catch (Exception e)
 			{
 				System.err.println("Charegemtn impossible, fichier corrompu");
 				f.delete();
 				return false;
 			}
-			
-		}
-		else
+
+		} else
 			return false;
 	}
 
@@ -579,7 +599,7 @@ public class Engine implements EngineServices {
 	public void deleteNetworkManager()
 	{
 		this.networkManager = null;
-		
+
 	}
 
 }
