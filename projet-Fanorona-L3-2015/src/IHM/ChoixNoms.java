@@ -14,6 +14,9 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class ChoixNoms extends JPanel {
 	
+	JTextField name1;
+	JTextField name2;
+	
 	public ChoixNoms() {
 
 		super(new BorderLayout());	//super constructeur par defaut
@@ -22,8 +25,7 @@ public class ChoixNoms extends JPanel {
 		int width = 233;
 		int height = 57;
 		
-		JTextField name1;
-		JTextField name2;
+		
 		
 		JLabel nom = new JLabel(" Choix nom joueurs humains ");
 		nom.setForeground(Color.white);

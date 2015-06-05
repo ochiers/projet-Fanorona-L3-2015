@@ -246,7 +246,7 @@ public class Game implements Serializable {
 
 		while (!stopped && !nameJoueur.equals(joueurCourant.name))
 		{
-			System.out.print(nameJoueur+" coincé");
+			System.out.print(nameJoueur + " coincé");
 			wait();
 			System.out.print(nameJoueur + " décoincé");
 			while (!stopped && paused)
@@ -275,7 +275,7 @@ public class Game implements Serializable {
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Case[][] copiePlateau = copyMatrice(matricePlateau);
 			Coup c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
-			
+
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
 				c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
@@ -352,7 +352,6 @@ public class Game implements Serializable {
 			if (!paused && !stopped)
 				annulerRefaire.addItem(new Game(this));
 
-			
 			finish = testVictoire();
 			joueurCourant = (joueurCourant == joueurBlanc) ? joueurNoir : joueurBlanc;
 			leMoteur.getCurrentDisplay().afficherJeu();
