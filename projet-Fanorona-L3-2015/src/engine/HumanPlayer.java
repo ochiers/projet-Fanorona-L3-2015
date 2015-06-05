@@ -55,12 +55,9 @@ public class HumanPlayer extends Player implements Serializable {
 		pointDirection = null;
 		while(!isStopped() && !hasPlayed && coupJoue == null)
 		{
-			//System.out.println(name + " attend " + this);
 			try {
-				Thread.sleep(500);
-				//System.out.println(name + " attend");
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -77,9 +74,7 @@ public class HumanPlayer extends Player implements Serializable {
 		while(!hasPlayed){
 			try {
 				Thread.sleep(50);
-				//System.out.println(name + " attend");
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

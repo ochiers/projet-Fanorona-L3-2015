@@ -261,15 +261,10 @@ public interface EngineServices {
 	public UndoRedo<Game> getUndoRedo();
 	
 	/**
-	 * Indique si une partie a été sauvegarder lors de la derniere fermeture de l'application
-	 * @return
-	 */
-	public boolean canLoardOldGame();
-	
-	/**
 	 * Charge une partie qui a ete sauvegardée lors de la derniere fermeture de l'application
+	 * @return True si succes, false sinon;
 	 */
-	public void loadOldGame();
+	public boolean loadOldGame();
 	
 	/**
 	 * Supprime l'interface reseau (clos les connections)

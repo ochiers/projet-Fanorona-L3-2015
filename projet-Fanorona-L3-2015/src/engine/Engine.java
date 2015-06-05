@@ -541,24 +541,32 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public boolean canLoardOldGame()
+	public boolean loadOldGame()
 	{
 		File f = new File("./tempSave.tmp");
-		return f.exists();
-	}
-
-	@Override
-	public void loadOldGame()
-	{
-		System.out.println("CHARGEMENT DE LA DERNIERE PARTIE");
-		this.chargerPartie("./tempSave.tmp");
-		this.undoRedo = partieCourante.annulerRefaire;
-		this.partieCourante.finish = false;
-		this.partieCourante.stopped = false;
-		this.partieCourante.enCombo = false;
-		this.partieCourante.combo = new ArrayList<Case>();
-		this.premierJeu = true;
-		this.gameInProgress = true;
+		if(f.exists()){
+			System.out.println("CHARGEMENT DE LA DERNIERE PARTIE");
+			try{
+			this.chargerPartie("./tempSave.tmp");
+			this.undoRedo = partieCourante.annulerRefaire;
+			this.partieCourante.finish = false;
+			this.partieCourante.stopped = false;
+			this.partieCourante.enCombo = false;
+			this.partieCourante.combo = new ArrayList<Case>();
+			this.premierJeu = true;
+			this.gameInProgress = true;
+			return true;
+			}
+			catch (Exception e)
+			{
+				System.err.println("Charegemtn impossible, fichier corrompu");
+				f.delete();
+				return false;
+			}
+			
+		}
+		else
+			return false;
 	}
 
 	@Override
