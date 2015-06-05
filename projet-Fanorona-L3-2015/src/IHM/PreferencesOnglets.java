@@ -40,7 +40,7 @@ public class PreferencesOnglets extends JPanel {
 		tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-		panel2 = new ChoixNoms();
+		panel2 = new ChoixNoms(fenetre);
 		// ajout fond
 		// ImagePanel imagefond = new ImagePanel(new
 		// ImageIcon("src/images/players.jpg").getImage(), width, height);
@@ -55,13 +55,13 @@ public class PreferencesOnglets extends JPanel {
 		// creation panel boutons
 		JPanel panelBouton = new JPanel(new GridLayout(1, 3));
 		// mettre 3 boutons
-		JButton ok = new JButton(" VALIDER ");
-		ok.addActionListener(new ItemAction_ok());
+		JButton valider = new JButton(" VALIDER ");
+		valider.addActionListener(new ItemAction_valider());
 		JButton annuler = new JButton(" ANNULER ");
 		annuler.addActionListener(new ItemAction_annuler());
 		JButton reset = new JButton(" REMETTRE PAR DEFAUT ");
 		reset.addActionListener(new ItemAction_reset());
-		panelBouton.add(ok);
+		panelBouton.add(valider);
 		panelBouton.add(annuler);
 		panelBouton.add(reset);
 		panelBouton.setPreferredSize(new Dimension(pBw, pBh));
@@ -82,13 +82,15 @@ public class PreferencesOnglets extends JPanel {
 		fenetre.frame3.setVisible(false);
 	}
 
-	class ItemAction_ok implements ActionListener {
+	class ItemAction_valider implements ActionListener {
 
 		public void actionPerformed(ActionEvent e)
 		{
 			fenetre.nameJ1 = panel2.name1.getText();
 			fenetre.nameJ2 = panel2.name2.getText();
 			fenetre.frame3.setVisible(false);
+			fenetre.frame.repaint();
+			System.out.println("valider");
 		}
 	}
 

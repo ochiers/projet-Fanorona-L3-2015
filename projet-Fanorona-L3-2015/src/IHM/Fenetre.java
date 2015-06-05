@@ -197,8 +197,8 @@ public class Fenetre implements Runnable, Affichage {
 		JLabel score2 = new JLabel(" Pions restants ", SwingConstants.CENTER);
 		tour1 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
 		tour2 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
-		DessinPion monPion1 = new DessinPion(this, pion1, taillePion);
-		DessinPion monPion2 = new DessinPion(this, pion2, taillePion);
+		DessinPion monPion2 = new DessinPion(this, pion1, taillePion);
+		DessinPion monPion1 = new DessinPion(this, pion2, taillePion);
 
 		// joueur 1
 		JPanel panelOuest = new JPanel(new GridLayout(9, 1));
