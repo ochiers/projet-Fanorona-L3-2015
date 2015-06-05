@@ -74,7 +74,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		txt_saisiePort = new JTextField("12345", 5);
 		txt_saisiePort.setBounds(150, 70, 100, 40);
 
-		Multicast m = new Multicast("224.3.3.3", 12344, 12345, false);
+		Multicast m = new Multicast(leMoteur,"224.3.3.3", 12344, 12345, false);
 		ArrayList<String> l = m.trouverDesParties(2000);
 		Iterator<String> it_l = l.iterator();
 		DefaultListModel<String> modelData = new DefaultListModel<String>();
@@ -149,7 +149,7 @@ class rejoindreListener implements ActionListener {
 					System.err.println("L'ip n'est pas bonne, " + ip);
 				port = Integer.parseInt(selectionParse[1]);
 			}
-
+			ip = ip.replaceAll("[^0-9\\.]", "");
 			Player p1 = new NetworkPlayer(r.getLeMoteur(), false, "Player at " + ip);
 			Player p2 = new HumanPlayer(r.getLeMoteur(), false, "Joueur");
 			try
@@ -160,7 +160,7 @@ class rejoindreListener implements ActionListener {
 				System.out.println("OK");
 			} catch (NumberFormatException | IOException e1)
 			{
-				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" + r.txt_saisiePort, "Connection impossible", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" + r.txt_saisiePort.getText(), "Connection impossible", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
 			r.setVisible(false);
@@ -201,7 +201,7 @@ class listChangeListener implements ListSelectionListener{
 	public void valueChanged(ListSelectionEvent e)
 	{
 		String str[] = r.list_detection.getSelectedValue().split(":");
-		r.txt_saisieIp.setText(str[0]);
+		r.txt_saisieIp.setText(str[0].replaceAll("[^0-9\\.]", ""));
 		r.txt_saisiePort.setText(str[1]);
 	}
 	
