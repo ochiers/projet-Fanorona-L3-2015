@@ -73,7 +73,8 @@ public class ChoixFond extends JPanel {
 	class ItemAction_img1 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image1.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -83,6 +84,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image2.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image2.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -92,6 +94,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image3.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image3.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -101,6 +104,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image4.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image4.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -110,6 +114,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image5.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image5.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -119,6 +124,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image6.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image6.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -128,6 +134,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image7.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image7.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -137,6 +144,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image8.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/image8.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
@@ -146,6 +154,7 @@ public class ChoixFond extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fenetre.fw, fenetre.fh);
+	      fenetre.imageActuelle=new ImageIcon("src/images/imageDefault.jpg");
 	      fenetre.frame.repaint();
 	    }               
 
