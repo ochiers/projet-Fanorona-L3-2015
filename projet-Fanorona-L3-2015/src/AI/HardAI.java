@@ -56,12 +56,14 @@ public class HardAI extends Player implements Serializable {
 //			caseCourante = caseCourante.sud;
 //		}
 		
-		if(profondeurCourante == profondeurBis){
-			if(noeudMin)
-				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10 /*+ nbPionsBord/2*/;
-			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10 /*- nbPionsBord/2*/;
-		}
-		else return nbPionsJoueur-nbPionsAdversaire;
+//		if(profondeurCourante == profondeurBis){
+//			if(noeudMin)
+//				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10 /*+ nbPionsBord/2*/;
+//			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10 /*- nbPionsBord/2*/;
+//		}
+//		else 
+			
+			return (nbPionsJoueur-nbPionsAdversaire)*100;
 	}
 	
 	public int alphaBeta(Case[] listeCases, int alpha, int beta, boolean noeudMin, int profondeur, Pion couleurJoueur, ArrayList<Case> combo, boolean comboEnCours) {
@@ -176,7 +178,7 @@ public class HardAI extends Player implements Serializable {
 						comboPercussion.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						int res1 = alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, comboPercussion, true);
+						int res1 = alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, comboPercussion, true)+profondeur;
 						annuler(false, couleurJoueur);
 						
 						/* Modification plateau et appel récursif pour la capture par aspiration */
@@ -184,7 +186,7 @@ public class HardAI extends Player implements Serializable {
 						comboAspiration.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 						Case[] listeCases3 = new Case[1];
 						listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						int res2 = alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, comboAspiration, true);
+						int res2 = alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, comboAspiration, true)+profondeur;
 						annuler(false, couleurJoueur);
 						
 						val = java.lang.Math.max(val, java.lang.Math.max(res1, res2));
@@ -199,7 +201,7 @@ public class HardAI extends Player implements Serializable {
 							Case[] listeCases2 = new Case[1];
 							listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 							combo2.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-							val = java.lang.Math.max(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
+							val = java.lang.Math.max(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true)+profondeur);
 							annuler(false, couleurJoueur);
 						}
 						else if (evaluationNbCapturésAspiration > 0) {
@@ -207,7 +209,7 @@ public class HardAI extends Player implements Serializable {
 							Case[] listeCases3 = new Case[1];
 							listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 							combo2.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-							val = java.lang.Math.max(val, alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
+							val = java.lang.Math.max(val, alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true)+profondeur);
 							annuler(false, couleurJoueur);
 						}
 						else {

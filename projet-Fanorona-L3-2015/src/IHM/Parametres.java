@@ -1,38 +1,21 @@
 package IHM;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import engine.Configuration;
-import engine.Player;
 import engine.PlayerType;
 import engine.Tools;
 
 public class Parametres {
-	JRadioButton	r1b1;
-	JRadioButton	r1b2;
-	JRadioButton	r1b3;
-	JRadioButton	r2b1;
-	JRadioButton	r2b2;
-	JRadioButton	r2b3;
-	JRadioButton	r3b1;
-	JRadioButton	r3b2;
-	JRadioButton	r3b3;
-
-	/*
-	 * int saveMode; int savelvlPC1; int savelvlPC2;
-	 */
+	JRadioButton	r1b1, r1b2, r1b3;
+	JRadioButton	r2b1, r2b2, r2b3;
+	JRadioButton	r3b1, r3b2, r3b3;
 
 	Configuration	saveMode;
 	PlayerType		savelvlPC1;
@@ -41,10 +24,10 @@ public class Parametres {
 
 	JButton			accepter;
 	JButton			annuler;
-	JComboBox		box1;
-	JComboBox		box2;
-	JComboBox		box3;
-	JComboBox		box4;
+	JComboBox<String>		box1;
+	JComboBox<String>		box2;
+	JComboBox<String>		box3;
+	JComboBox<String>		box4;
 
 	public Fenetre	fenetre;
 
@@ -52,7 +35,7 @@ public class Parametres {
 	{
 		fenetre = f;
 	}
-
+	
 	public void majParam()
 	{
 		// fenetre.frame2.setSize(300, 300);
@@ -67,10 +50,10 @@ public class Parametres {
 		String[] tab3 = { "Facile", "Moyen", "Difficile" };
 		String[] tab4 = { "Joueur 1", "Joueur 2" };
 
-		box1 = new JComboBox(tab1);
-		box2 = new JComboBox(tab2);
-		box3 = new JComboBox(tab3);
-		box4 = new JComboBox(tab4);
+		box1 = new JComboBox<String>(tab1);
+		box2 = new JComboBox<String>(tab2);
+		box3 = new JComboBox<String>(tab3);
+		box4 = new JComboBox<String>(tab4);
 
 		box1.addActionListener(new ItemAction_box1());
 		box2.addActionListener(new ItemAction_box2());
