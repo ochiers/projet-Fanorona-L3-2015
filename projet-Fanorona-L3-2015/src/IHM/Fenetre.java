@@ -254,8 +254,8 @@ public class Fenetre implements Runnable, Affichage {
 		frame.add(panelAccueil);
 		// frame.setResizable(false);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new EcouteurDeFenetre(engine));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	// ACTIONLISTENER
@@ -311,7 +311,8 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			JFileChooser save = new JFileChooser();
 			save.showSaveDialog(frame);
-			engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
+			if(save.getSelectedFile() != null)
+				engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 		}
 
 	}
@@ -339,7 +340,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			System.exit(0);
+			engine.quitter();
 		}
 
 	}
@@ -618,12 +619,21 @@ public class Fenetre implements Runnable, Affichage {
 	}
 
 	@Override
-	public void demanderSauvegarde()
+	public boolean demanderSauvegarde()
 	{
 		int res = JOptionPane.showConfirmDialog(frame, "Voulez vous sauvegarder avant de quitter", "Sauvegarder avant de quiiter", JOptionPane.YES_NO_CANCEL_OPTION);
-				
-				//this.frame, "Voulez vous sauvegarder la partie en cours");
-		
+		if(res == JOptionPane.YES_OPTION)
+		{
+			JFileChooser save = new JFileChooser();
+			save.showSaveDialog(frame);
+			if(save.getSelectedFile() != null)
+				engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
+			return true;
+		}
+		else if (res == JOptionPane.NO_OPTION)
+			return true;
+		else
+			return false;		
 	}
 
 }

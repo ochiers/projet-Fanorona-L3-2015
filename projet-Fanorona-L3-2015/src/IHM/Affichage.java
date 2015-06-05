@@ -82,5 +82,9 @@ public interface Affichage {
 	
 	public boolean demanderConfirmation(String question);
 	
-	public void demanderSauvegarde();
+	/**
+	 * Demande a l'utilisateur si il est sur de vouloir quiiter et s'il veut sauvegarder la partie en cours
+	 * @return True si l'utilisateur souhaite quiiter, False si finalement il veut continuer finalement
+	 */
+	public boolean demanderSauvegarde();
 }

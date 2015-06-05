@@ -184,6 +184,7 @@ public class Tools {
 				}
 				break;
 			case HumainVSIA:
+				System.out.println(Configuration.HumainVSIA +" " + p1 +" " + p2);
 				if (p1 == PlayerType.Reseau)
 				{
 					j1 = new NetworkPlayer(moteur, false, nomJ1);
@@ -192,10 +193,14 @@ public class Tools {
 				{
 					j2 = new NetworkPlayer(moteur, false, nomJ2);
 					j1 = Tools.createPlayer(moteur, p2, nomJ1);
-				} else
+				} else if (p1 == PlayerType.Humain)
 				{
-					j1 = Tools.createPlayer(moteur, p1, nomJ1);
+					j1 = new HumanPlayer(moteur, false, nomJ1);
 					j2 = Tools.createPlayer(moteur, p2, nomJ2);
+				}
+				else if (p2 == PlayerType.Humain){
+					j2 = new HumanPlayer(moteur, false, nomJ2);
+					j1 = Tools.createPlayer(moteur, p2, nomJ1);
 				}
 				break;
 			case IAvsIA:
@@ -206,7 +211,6 @@ public class Tools {
 				throw new RuntimeException();
 
 		}
-		moteur.changerLeJoueur(moteur.getJoueurBlanc(), j1);
-		moteur.changerLeJoueur(moteur.getJoueurNoir(), j2);
+		moteur.changerLesJoueurs(j1, j2);
 	}
 }
