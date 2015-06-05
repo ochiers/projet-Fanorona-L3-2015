@@ -21,6 +21,7 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.pushingpixels.trident.Timeline;
 import org.pushingpixels.trident.Timeline.RepeatBehavior;
@@ -132,7 +133,6 @@ public final class Firework extends JPanel {
 		}
 	}
 
-	//public Firework() {
 	public Firework(Fenetre fenetre) {
 		super();
 
@@ -158,7 +158,7 @@ public final class Firework extends JPanel {
 				new Thread() {
 					public void run() {
 						while (true) {
-							addExplosions(4);
+							addExplosions(5);
 						}
 					}
 				}.start();
@@ -170,11 +170,7 @@ public final class Firework extends JPanel {
 		//JLabel win = new JLabel(" " + winner + " ");
 		//mainPanel.add(win);
 		this.add(mainPanel);
-		//this.pack();
-		//this.setLocationRelativeTo(null);
-		//this.setResizable(false);
 		this.setVisible(false);
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void addExplosions(int count) {
@@ -209,13 +205,4 @@ public final class Firework extends JPanel {
 		try { latch.await(); }
 		catch (Exception exc) {}
 	}
-
-	/*public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new Firework().setVisible(true);
-			}
-		});
-	}*/
-
 }
