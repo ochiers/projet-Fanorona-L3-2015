@@ -40,16 +40,9 @@ public class DessinPion extends JComponent {
 
 	public void dessinJeton(Graphics2D drawable) throws IOException
 	{
-		// drawable.setPaint(c);
-		// drawable.fillOval(tailleJeton/2, tailleJeton/2, tailleJeton,
-		// tailleJeton);
-		// drawable.setPaint(Color.black);
-		// drawable.drawOval(tailleJeton/2, tailleJeton/2, tailleJeton,
-		// tailleJeton);
 
 		double tailleX = this.getWidth();
 		double tailleY = this.getHeight();
-		System.out.println("tailleX :" + tailleX + "tailleY : " + tailleY);
 
 		BufferedImage imgBlanc = null;
 		BufferedImage imgNoir = null;

@@ -32,15 +32,18 @@ public class ChoixCouleurPion extends JPanel {
     	JPanel panelTitre = new JPanel(new BorderLayout());	        
         panelTitre.add(titre, BorderLayout.CENTER);
         
-        JPanel panelChoix = new JPanel();    	
-        
-        String[] listePionsPossibles = repertoire.list();
-        
-        for( int  i = 0; i < listePionsPossibles.length; i++){
-        	JButton tmp = new JButton(listePionsPossibles[i]);
-        	
-        	panelChoix.add(tmp);
-        }
+        JPanel panelChoix = new JPanel(new BorderLayout());
+        ListeSelectionPion panelChoixBlanc = new ListeSelectionPion(repertoire); 
+        ListeSelectionPion panelChoixNoir = new ListeSelectionPion(repertoire);
+        panelChoix.add(panelChoixBlanc.scroll, BorderLayout.WEST);
+        panelChoix.add(panelChoixNoir.scroll, BorderLayout.EAST);
+//        String[] listePionsPossibles = repertoire.list();
+//        
+//        for( int  i = 0; i < listePionsPossibles.length; i++){
+//        	JButton tmp = new JButton(listePionsPossibles[i]);
+//        	
+//        	panelChoix.add(tmp);
+//        }
         add(panelTitre, BorderLayout.NORTH);
         add(panelChoix, BorderLayout.CENTER);
     }
