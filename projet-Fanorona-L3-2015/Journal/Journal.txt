@@ -135,6 +135,8 @@ Vendredi 5 juin
 		- Ajout de la gestion de la modification des noms joueurs.
 	Après-midi :
 		- Trop chaud, weekend à 13h pour le groupe IA, mouahaha.
+		- Modification des pions pour des images de pions en couleurs.
+		- Modification du choix de la couleurs des pions.
 		
 		
 		
