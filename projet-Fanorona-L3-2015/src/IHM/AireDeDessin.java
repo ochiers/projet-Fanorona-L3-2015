@@ -427,8 +427,9 @@ public class AireDeDessin extends JComponent {
 	
     public Coordonnee positionGrille(Coordonnee c){
     	Coordonnee p = new Coordonnee(-1,-1);
-    	p.ligne=CoordonneesPlateau[1]+(int)(c.ligne*segment);
-    	p.colonne=CoordonneesPlateau[0]+(int)(c.colonne*segment);
+    	//TODO peut etre enlever originePlateauX et originePlateauY
+    	p.ligne=CoordonneesPlateau[1]+(int)(c.ligne*segment)+originePlateauX;
+    	p.colonne=CoordonneesPlateau[0]+(int)(c.colonne*segment)+originePlateauY;
     	//System.out.println("////////NEW COOR "+p.ligne+" "+p.colonne);
     	return p;
     }
