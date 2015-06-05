@@ -169,7 +169,6 @@ public class Tools {
 		switch (conf)
 		{
 			case HumainVSHumain:
-			{
 				if (p1 == PlayerType.Reseau)
 				{
 					j1 = new NetworkPlayer(moteur, false, nomJ1);
@@ -184,9 +183,7 @@ public class Tools {
 					j2 = new HumanPlayer(moteur, false, nomJ2);
 				}
 				break;
-			}
 			case HumainVSIA:
-			{
 				if (p1 == PlayerType.Reseau)
 				{
 					j1 = new NetworkPlayer(moteur, false, nomJ1);
@@ -201,12 +198,9 @@ public class Tools {
 					j2 = Tools.createPlayer(moteur, p2, nomJ2);
 				}
 				break;
-			}
 			case IAvsIA:
-			{
 				j1 = Tools.createPlayer(moteur, p1, nomJ1);
 				j2 = Tools.createPlayer(moteur, p2, nomJ2);
-			}
 				break;
 			default:
 				throw new RuntimeException();

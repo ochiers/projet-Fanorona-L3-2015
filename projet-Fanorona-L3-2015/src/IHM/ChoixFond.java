@@ -1,15 +1,11 @@
 package IHM;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -29,8 +25,6 @@ public class ChoixFond extends JPanel {
 
 		super(new GridLayout(3,3));	//super constructeur par defaut
 		fenetre=f;
-		int width = 233;
-		int height = 173;
 		
 			// creation bouton image
 		ImageIcon image1 = new ImageIcon("src/images/iconimage1.jpg");
