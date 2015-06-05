@@ -30,6 +30,9 @@ public class Fenetre implements Runnable, Affichage {
 
 	JLabel				tour1, tour2;
 	ImagePanel			panelAccueil;
+	ImageIcon			imageActuelle= new ImageIcon("src/images/imageDefault.jpg");
+	
+	
 	int					fw, fh;
 	JLabel				idj1, idj2;
 	JLabel				levelj1, levelj2;
