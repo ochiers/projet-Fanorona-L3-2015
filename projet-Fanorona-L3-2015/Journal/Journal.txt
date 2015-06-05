@@ -106,6 +106,7 @@ Mardi 2 juin
 	Après-midi :
 		- Debug et tests IA.
 		- ajout de la pop up de connexion pour jeu en reseau, non reliee a l'interface actuelle.
+		- Ajout de la fenêtre pour rejoindre une partie en réseau. Ajout du menu et sous menu permettant la connexion au réseau.
 		
 Mercredi 3 juin
 	Matin :
@@ -113,7 +114,7 @@ Mercredi 3 juin
 		  Essais pour centrer le plateaud e jeu lors du redimensionnement.
 		- Ajout mécanique anti-suicide immediat aux IA moyenne et difficile.
 	Après-midi :
-		- Debugguage de la fenetre de victoire, reste � modifier pour un faire un affichage de l'interface. Suite du code pour les
+		- Debugguage de la fenetre de victoire, reste à modifier pour un faire un affichage de l'interface. Suite du code pour les
 		  halos et le centrage du plateau.
 		- Debug mécanique anti-suicide immediat de l'IA + tentative de réaliser un executable lançant x parties pour avoir des stats.
 
@@ -121,6 +122,7 @@ Jeudi 4 juin
 	Matin :
 		- Réalisation de l'exécutable pour lancer 100 parties afin d'avoir des stats et prouver le bien-fondé de nos IAs.
 		- Début obtention stats.
+		- Ajout de la découverte réseau automatique.
 	Après-midi :
 		- Fin obtention stats, IA cohérente.
 		- Ajout détection du nombre de pions sur les bords dans la fonction d'évaluation (en commentaire pour l'instant).
@@ -129,6 +131,8 @@ Vendredi 5 juin
 	Matin :
 		- Entrevue avec notre tuteur.
 		- Réflexion sur les modifications à apporter à la fonction d'évaluation.
+		- Reprise de code pour l'optimiser. 
+		- Ajout de la gestion de la modification des noms joueurs.
 	Après-midi :
 		- Trop chaud, weekend anticipé pour le groupe IA.
 		
