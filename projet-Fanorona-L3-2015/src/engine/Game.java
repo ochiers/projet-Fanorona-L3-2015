@@ -943,13 +943,15 @@ public class Game implements Serializable {
 	 */
 	public void finirSonTour()
 	{
-		if (this.joueurCourant instanceof HumanPlayer || this.joueurCourant instanceof NetworkPlayer)
+		if (Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Humain)
 		{
 			this.finirSonTour = true;
-			if (this.joueurCourant instanceof HumanPlayer)
 				((HumanPlayer) this.joueurCourant).setCoup(null, null);
-			else
-				this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
+			
+		}else if(Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Reseau) {
+			this.finirSonTour = true;
+			this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
 		}
+			
 	}
 }

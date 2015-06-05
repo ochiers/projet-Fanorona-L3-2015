@@ -79,4 +79,8 @@ public interface Affichage {
 	 * @param list La liste des pions captures
 	 */
 	public void afficherPionsCaptures(ArrayList<Case> list);
+	
+	public boolean demanderConfirmation(String question);
+	
+	public void demanderSauvegarde();
 }
