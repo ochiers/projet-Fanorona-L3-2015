@@ -13,7 +13,7 @@ public class JeuFanoronaIA {
 
 		EngineServices e=new Engine();
 		Player p1 = new HumanPlayer(e,false,"Chuck Norris");
-		Player p2 = new MediumAI(e,true,"Guillaume de Sauza");
+		Player p2 = new HardAI(e,true,"Guillaume de Sauza");
 		Fenetre f = new Fenetre(e);
 		e.setDisplay(f);
 		// System.err.close();
