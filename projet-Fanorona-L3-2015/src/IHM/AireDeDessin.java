@@ -57,14 +57,14 @@ public class AireDeDessin extends JComponent {
         
         try
 		{
-			imgBlanc = ImageIO.read(new File("./Ressources/pionBlanc.png"));
+			imgBlanc = ImageIO.read(new File(f.fichierJoueurBlanc));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
         try
 		{
-			imgNoir = ImageIO.read(new File("./Ressources/pionNoir.png"));
+			imgNoir = ImageIO.read(new File(f.fichierJoueurNoir));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -448,12 +448,8 @@ public class AireDeDessin extends JComponent {
    
     public void dessinJeton(Graphics2D drawable,Pion pion, int x,int y){
     	if(pion != null){
-	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);
-	    	else drawable.setPaint(fenetre.pion2);
-	  //  	int tailleJeton = (int)(segment/3.5);
-	  //  	drawable.fillOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
-	  //  	drawable.setPaint(Color.black);
-	   // 	drawable.drawOval(x-tailleJeton/2, y-tailleJeton/2, tailleJeton, tailleJeton);
+//	    	if(pion == Pion.Blanc) drawable.setPaint(fenetre.pion1);
+//	    	else drawable.setPaint(fenetre.pion2);
 	    	if(pion == Pion.Blanc){
 	    		drawable.drawImage(imgBlanc, x - tailleJeton/2, y - tailleJeton/2, tailleJeton, tailleJeton, null);
 	    	} else {

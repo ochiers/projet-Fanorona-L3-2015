@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -11,6 +12,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 @SuppressWarnings("serial")
 public class PreferencesOnglets extends JPanel {
@@ -48,7 +50,7 @@ public class PreferencesOnglets extends JPanel {
 		tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-		ChoixCouleur panel3 = new ChoixCouleur();
+		ChoixCouleurPion panel3 = new ChoixCouleurPion(fenetre, new File("./Ressources"));
 		tabbedPane.addTab(" Choix Couleurs Pions ", icon, panel3);
 		tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 

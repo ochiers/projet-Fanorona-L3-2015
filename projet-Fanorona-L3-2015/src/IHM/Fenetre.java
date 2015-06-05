@@ -72,6 +72,9 @@ public class Fenetre implements Runnable, Affichage {
 
 	int					taillePion;
 	JPanel				panelVictoire;
+	
+	String fichierJoueurBlanc = "./Ressources/pionBlanc.png";
+	String fichierJoueurNoir = "./Ressources/pionNoir.png";
 
 	public Fenetre(EngineServices e)
 	{
@@ -197,8 +200,8 @@ public class Fenetre implements Runnable, Affichage {
 		JLabel score2 = new JLabel(" Pions restants ", SwingConstants.CENTER);
 		tour1 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
 		tour2 = new JLabel(" A votre tour ! ", SwingConstants.CENTER);
-		DessinPion monPion2 = new DessinPion(this, pion1, taillePion);
-		DessinPion monPion1 = new DessinPion(this, pion2, taillePion);
+		DessinPion monPion2 = new DessinPion(this, taillePion, Pion.Noir);
+		DessinPion monPion1 = new DessinPion(this, taillePion, Pion.Blanc);
 
 		// joueur 1
 		JPanel panelOuest = new JPanel(new GridLayout(9, 1));

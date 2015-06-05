@@ -1,30 +1,29 @@
 package IHM;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
+
+import engine.Pion;
 
 @SuppressWarnings("serial")
 public class DessinPion extends JComponent {
 
 	Fenetre	fenetre;
-	Color	pionCouleur;
+	Pion	pionCouleur;
 	int		tailleJeton;
+	String	fichierJoueurBlanc;
+	String	fichierJoueurNoir;
 
-	public DessinPion(Fenetre f, Color c, int taille)
+	public DessinPion(Fenetre f, int taille, Pion p)
 	{
-		fenetre = f;
-		pionCouleur = c;
-		tailleJeton = taille;
+		this.fenetre = f;
+		this.tailleJeton = taille;
+		this.pionCouleur = p;
 	}
 
 	public void paintComponent(Graphics g)
@@ -32,14 +31,14 @@ public class DessinPion extends JComponent {
 		Graphics2D drawable = (Graphics2D) g;
 		try
 		{
-			dessinJeton(drawable, pionCouleur);
+			dessinJeton(drawable);
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public void dessinJeton(Graphics2D drawable, Color c) throws IOException
+	public void dessinJeton(Graphics2D drawable) throws IOException
 	{
 		// drawable.setPaint(c);
 		// drawable.fillOval(tailleJeton/2, tailleJeton/2, tailleJeton,
@@ -52,9 +51,19 @@ public class DessinPion extends JComponent {
 		double tailleY = this.getHeight();
 		System.out.println("tailleX :" + tailleX + "tailleY : " + tailleY);
 
-		BufferedImage imgBlanc = ImageIO.read(new File("./Ressources/pionBlanc.png"));
-		BufferedImage imgNoir = ImageIO.read(new File("./Ressources/pionNoir.png"));
-		System.out.println(imgBlanc.getWidth());
+		BufferedImage imgBlanc = null;
+		BufferedImage imgNoir = null;
+
+		if (imgBlanc == null || !this.fichierJoueurBlanc.equals(this.fenetre.fichierJoueurBlanc))
+		{
+			imgBlanc = ImageIO.read(new File(this.fenetre.fichierJoueurBlanc));
+			this.fichierJoueurBlanc = fenetre.fichierJoueurBlanc;
+		}
+		if (imgNoir == null || !this.fichierJoueurNoir.equals(this.fenetre.fichierJoueurNoir))
+		{
+			imgNoir = ImageIO.read(new File(this.fenetre.fichierJoueurNoir));
+			this.fichierJoueurNoir = fenetre.fichierJoueurNoir;
+		}
 
 		double imgBlancX = imgBlanc.getWidth();
 		double imgBlancY = imgBlanc.getHeight();
@@ -75,9 +84,7 @@ public class DessinPion extends JComponent {
 		double positionNoirX = tailleX - (imgNoirX * ratioNoir);
 		double positionNoirY = tailleY - (imgNoirY * ratioNoir);
 
-		System.out.println("ratioXBlanc : " + ratioXBlanc + "ratioYBlanc : " + ratioYBlanc);
-
-		if (pionCouleur == Color.white)
+		if (pionCouleur == Pion.Blanc)
 			drawable.drawImage(imgBlanc, (int) positionBlancX / 2, (int) positionBlancY / 2, (int) (imgBlancX * ratioBlanc), (int) (imgBlancY * ratioBlanc), null);
 		else
 			drawable.drawImage(imgNoir, (int) positionNoirX / 2, (int) positionNoirY / 2, (int) (imgNoirX * ratioNoir), (int) (imgNoirY * ratioNoir), null);
