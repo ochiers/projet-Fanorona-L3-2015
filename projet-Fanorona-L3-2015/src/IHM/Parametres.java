@@ -173,9 +173,7 @@ public class Parametres {
 			fenetre.lvlPC2 = savelvlPC2;
 			fenetre.commencer = saveCommencer;
 			
-			PlayerType tmpJ1 = Tools.getTypeOfPlayer(fenetre.engine.getJoueurBlanc());
-			PlayerType tmpJ2 = Tools.getTypeOfPlayer(fenetre.engine.getJoueurNoir());
-			Tools.changerDeJoueur(fenetre.engine, fenetre.mode, tmpJ1, tmpJ2, fenetre.nameJ1, fenetre.nameJ2);
+			Tools.changerDeJoueur(fenetre.engine, fenetre.mode, savelvlPC1, savelvlPC1, fenetre.nameJ1, fenetre.nameJ2);
 			
 			fenetre.frame2.setVisible(false);
 			fenetre.afficherJeu();

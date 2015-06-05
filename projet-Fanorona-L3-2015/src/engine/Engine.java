@@ -430,25 +430,21 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void changerLeJoueur(Player precedent, Player nouveau)
+	public void changerLesJoueurs(Player nouveauJBlanc, Player nouveauJNoir)
 	{
 		Game g = new Game(partieCourante);
-		if (this.partieCourante.joueurBlanc == precedent)
-		{
-			g.joueurBlanc = nouveau;
-			g.joueurNoir = partieCourante.joueurNoir;
-		} else
-		{
-			g.joueurNoir = nouveau;
-			g.joueurBlanc = partieCourante.joueurBlanc;
-		}
-		if (this.partieCourante.joueurCourant == precedent)
-			g.joueurCourant = nouveau;
+		if(getJoueurBlanc() == getJoueurCourant())
+			g.joueurCourant = nouveauJBlanc;
 		else
-			g.joueurCourant = partieCourante.joueurCourant;
+			g.joueurCourant = nouveauJNoir;
+		g.joueurBlanc = nouveauJBlanc;
+		g.joueurNoir = nouveauJNoir;
+		System.out.println(partieCourante.joueurBlanc +" en  " + g.joueurBlanc);
+		System.out.println(partieCourante.joueurNoir +" en  " + g.joueurNoir);
 		changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, ((g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir));
-		this.annuler(false);// oui, c'est du bricolage
-		this.refaire(false);// oui, c'est du bricolage
+		
+		/*this.annuler(false);// oui, c'est du bricolage
+		this.refaire(false);// oui, c'est du bricolage*/
 	}
 
 	@Override
@@ -521,6 +517,9 @@ public class Engine implements EngineServices {
 	@Override
 	public void quitter()
 	{
+		if(!this.affichage.demanderSauvegarde())
+			return;
+					
 		if (getNetworkManager() != null)
 			getNetworkManager().sendRequete(RequestType.Quitter);
 		this.stopper();
@@ -533,11 +532,7 @@ public class Engine implements EngineServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (!this.partieCourante.finish && !(partieCourante.joueurBlanc instanceof NetworkPlayer) && !(partieCourante.joueurNoir instanceof NetworkPlayer))
-		{
-			this.sauvegarderPartie("./tempSave.tmp");
-		} else
-			new File("./tempSave.tmp").delete();
+		
 		System.out.flush();
 		System.err.flush();
 		System.out.println("~~~~~ Application terminee ~~~~~");
@@ -564,35 +559,6 @@ public class Engine implements EngineServices {
 	public UndoRedo<Game> getUndoRedo()
 	{
 		return this.undoRedo;
-	}
-
-	@Override
-	public boolean loadOldGame()
-	{
-		File f = new File("./tempSave.tmp");
-		if (f.exists())
-		{
-			System.out.println("CHARGEMENT DE LA DERNIERE PARTIE");
-			try
-			{
-				this.chargerPartie("./tempSave.tmp");
-				this.undoRedo = partieCourante.annulerRefaire;
-				this.partieCourante.finish = false;
-				this.partieCourante.stopped = false;
-				this.partieCourante.enCombo = false;
-				this.partieCourante.combo = new ArrayList<Case>();
-				this.premierJeu = true;
-				this.gameInProgress = true;
-				return true;
-			} catch (Exception e)
-			{
-				System.err.println("Charegemtn impossible, fichier corrompu");
-				f.delete();
-				return false;
-			}
-
-		} else
-			return false;
 	}
 
 	@Override

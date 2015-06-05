@@ -203,7 +203,7 @@ public interface EngineServices {
 	 * @param precedent Le joueur a remplacer
 	 * @param nouveau Le nouveau joueur
 	 */
-	public void changerLeJoueur(Player precedent, Player nouveau);
+	public void changerLesJoueurs(Player nouveauJ1, Player nouveauJ2);
 
 	/**
 	 * Heberge une partie, attend qu'un client se connecte
@@ -259,12 +259,7 @@ public interface EngineServices {
 	 * @return
 	 */
 	public UndoRedo<Game> getUndoRedo();
-	
-	/**
-	 * Charge une partie qui a ete sauvegardée lors de la derniere fermeture de l'application
-	 * @return True si succes, false sinon;
-	 */
-	public boolean loadOldGame();
+
 	
 	/**
 	 * Supprime l'interface reseau (clos les connections)
