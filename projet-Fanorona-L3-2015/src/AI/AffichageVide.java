@@ -72,4 +72,16 @@ public class AffichageVide implements Affichage {
 		
 	}
 
+	@Override
+	public boolean demanderConfirmation(String question) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean demanderSauvegarde() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
