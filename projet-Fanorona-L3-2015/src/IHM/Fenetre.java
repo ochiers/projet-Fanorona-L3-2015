@@ -255,17 +255,15 @@ public class Fenetre implements Runnable, Affichage {
 		preference = new PreferencesOnglets(this);
 		preference.majPref();
 
-		//maj
-		fw = frame.getWidth();
-		fh = frame.getHeight();
-		frame.repaint();
-		
 		// FENETRE
 		frame.setJMenuBar(menuBar);
 		frame.add(getPanelAccueil());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new EcouteurDeFenetre(engine));
+		fw = frame.getWidth();
+		fh = frame.getHeight();
+		frame.repaint();
 	}
 
 	// ACTIONLISTENER
