@@ -350,19 +350,22 @@ public class AireDeDessin extends JComponent {
 		Stroke s = drawable.getStroke();
 		Composite c = drawable.getComposite();
 		drawable.setStroke(new BasicStroke(5));
-		drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f ));
+		
 		for (int i = 0; i < combo.size(); i++)
 		{
 			pointCour = new Point((int) (CoordonneesPlateau[0] * etir + combo.get(i).position.colonne * segment - tailleJeton / 4 + originePlateauX), 
 								  (int) (CoordonneesPlateau[1] * etir + combo.get(i).position.ligne * segment - tailleJeton / 4 + originePlateauY));
 			drawable.fillOval(pointCour.x, pointCour.y, tailleJeton / 2, tailleJeton / 2);
 			if (i >= 1){
+				drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f ));
 				drawable.drawLine(pointPrec.x+ (tailleJeton / 4), pointPrec.y+ (tailleJeton / 4), pointCour.x+ (tailleJeton / 4), pointCour.y+ (tailleJeton / 4));
+				drawable.setComposite(c);
 			}
 			pointPrec = pointCour;
 		}
 		pointCour = new Point((int) (CoordonneesPlateau[0] * etir + pCourant.colonne * segment - tailleJeton / 4 + originePlateauX), 
 				  	(int) (CoordonneesPlateau[1] * etir + pCourant.ligne * segment - tailleJeton / 4 + originePlateauY));
+		drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f ));
 		drawable.drawLine(pointPrec.x+ (tailleJeton / 4), pointPrec.y+ (tailleJeton / 4), pointCour.x+ (tailleJeton / 4), pointCour.y+ (tailleJeton / 4));
 		drawable.setStroke(s);
 		drawable.setComposite(c);

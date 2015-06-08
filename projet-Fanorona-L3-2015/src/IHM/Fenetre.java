@@ -340,7 +340,6 @@ public class Fenetre implements Runnable, Affichage {
 				load.showOpenDialog(frame);
 				engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
 				modifChargement();
-				System.out.println("////TEST////" + mode + " " + lvlPC1 + " " + lvlPC2 + " " + commencer);
 			} catch (Exception ex)
 			{
 
@@ -484,7 +483,6 @@ public class Fenetre implements Runnable, Affichage {
 			}
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
-			
 		}
 
 	}
@@ -572,10 +570,8 @@ public class Fenetre implements Runnable, Affichage {
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
 	{
-		// if(!engine.partieCourante.joueurCourant.aiPlayer){
 		if (!engine.getCurrentGame().joueurCourant.aiPlayer)
 		{
-			// System.out.println("------------MULTI DIRECTION------------------");
 			monDessin.doitChoisir = true;
 			monDessin.l1 = l1;
 			monDessin.l2 = l2;
@@ -586,21 +582,16 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionDuCombo(Case pionCourant)
 	{
-		// System.out.println("33333333333333");
 		monDessin.pionCombo = pionCourant;
-		// System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
 		monDessin.repaint();
-		// monDessin.estEnCombo=false;
 
 	}
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
 	{
-		// System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo = combo;
 		monDessin.repaint();
-
 	}
 
 	@Override
