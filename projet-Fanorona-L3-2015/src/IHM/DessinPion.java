@@ -47,17 +47,11 @@ public class DessinPion extends JComponent {
 		BufferedImage img = null;
 
 		if (this.pionCouleur == Pion.Blanc && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurBlanc) || img == null))
-		{
 			this.fichierJoueur = this.fenetre.fichierJoueurBlanc;
-			System.out.println(this.fichierJoueur);
-			img = ImageIO.read(new File(this.fichierJoueur));
-		} else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
-		{
+		else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
 			this.fichierJoueur = this.fenetre.fichierJoueurNoir;
-			System.out.println(this.fichierJoueur);
-			img = ImageIO.read(new File(this.fichierJoueur));
-		}
-
+		img = ImageIO.read(new File(this.fichierJoueur));
+		
 		double imgX = img.getWidth();
 		double imgY = img.getHeight();
 
