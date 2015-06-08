@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import AI.MediumAI;
 import network.NetworkPlayer;
 import engine.*;
 
@@ -467,7 +468,15 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-
+			Player p2 = new MediumAI(engine,true,"IA suggestion");
+			ArrayList<Case> pionsPossibles = engine.getCurrentGame().lesPionsQuiPeuventManger();
+			if (pionsPossibles.size() == 0)
+			{
+				pionsPossibles = engine.getCurrentGame().lesPionsJouables();
+			}
+			Case[] tmp = new Case[pionsPossibles.size()];
+			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
+			
 		}
 
 	}

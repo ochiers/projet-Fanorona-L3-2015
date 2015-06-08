@@ -33,13 +33,37 @@ public class MediumAI extends Player implements Serializable {
 		profondeurCourante = 1;
 	}
 	
-	public int eval(int profondeur, boolean noeudMin){
-		if(profondeurCourante == profondeurBis){
-			if(noeudMin)
-				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10;
-			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10;
-		}
-		else return nbPionsJoueur-nbPionsAdversaire;
+	public int eval(int profondeur, boolean noeudMin, Pion couleurJoueur) {
+//		Case caseCourante = this.matrice[0][0];
+//		Case caseCourante2 = this.matrice[4][0];
+//		int nbPionsBord = 0;
+//		for(int i = 0; i<this.matrice[0].length; i++) {
+//			if(caseCourante.pion == couleurJoueur)
+//				nbPionsBord++;
+//			if(caseCourante2.pion == couleurJoueur)
+//				nbPionsBord++;
+//			caseCourante2 = caseCourante2.est;
+//			caseCourante = caseCourante.est;
+//		}
+//		caseCourante = this.matrice[1][0];
+//		caseCourante2 = this.matrice[1][8];
+//		for(int i = 0; i<3; i++) {
+//			if(caseCourante.pion == couleurJoueur)
+//				nbPionsBord++;
+//			if(caseCourante2.pion == couleurJoueur)
+//				nbPionsBord++;
+//			caseCourante2 = caseCourante2.sud;
+//			caseCourante = caseCourante.sud;
+//		}
+		
+//		if(profondeurCourante == profondeurBis){
+//			if(noeudMin)
+//				return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*-10 /*+ nbPionsBord/2*/;
+//			else return (nbPionsJoueur-nbPionsAdversaire)+ profondeur*10 /*- nbPionsBord/2*/;
+//		}
+//		else 
+			
+			return (nbPionsJoueur-nbPionsAdversaire)*100;
 	}
 	
 	public int alphaBeta(Case[] listeCases, int alpha, int beta, boolean noeudMin, int profondeur, Pion couleurJoueur, ArrayList<Case> combo, boolean comboEnCours) {
@@ -47,7 +71,7 @@ public class MediumAI extends Player implements Serializable {
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, couleurJoueur);
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		if(profondeur == 0 || nbPionsAdversaire == 0 || nbPionsJoueur == 0) { /* Si on est sur une feuille ou qu'on a atteint la profondeur maximale */
-			return eval(profondeur, noeudMin);
+			return eval(profondeur, noeudMin, couleurJoueur);
 		}
 		else if (noeudMin) { /* tour de l'adversaire */
 			val = Integer.MAX_VALUE;
@@ -154,7 +178,7 @@ public class MediumAI extends Player implements Serializable {
 						comboPercussion.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 						Case[] listeCases2 = new Case[1];
 						listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						int res1 = alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, comboPercussion, true);
+						int res1 = alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, comboPercussion, true)+profondeur;
 						annuler(false, couleurJoueur);
 						
 						/* Modification plateau et appel récursif pour la capture par aspiration */
@@ -162,7 +186,7 @@ public class MediumAI extends Player implements Serializable {
 						comboAspiration.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
 						Case[] listeCases3 = new Case[1];
 						listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
-						int res2 = alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, comboAspiration, true);
+						int res2 = alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, comboAspiration, true)+profondeur;
 						annuler(false, couleurJoueur);
 						
 						val = java.lang.Math.max(val, java.lang.Math.max(res1, res2));
@@ -177,7 +201,7 @@ public class MediumAI extends Player implements Serializable {
 							Case[] listeCases2 = new Case[1];
 							listeCases2[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 							combo2.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-							val = java.lang.Math.max(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
+							val = java.lang.Math.max(val, alphaBeta(listeCases2, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true)+profondeur);
 							annuler(false, couleurJoueur);
 						}
 						else if (evaluationNbCapturesAspiration > 0) {
@@ -185,7 +209,7 @@ public class MediumAI extends Player implements Serializable {
 							Case[] listeCases3 = new Case[1];
 							listeCases3[0] = matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne];
 							combo2.add(matrice[coupCourant.arrivee.ligne][coupCourant.arrivee.colonne]);
-							val = java.lang.Math.max(val, alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true));
+							val = java.lang.Math.max(val, alphaBeta(listeCases3, alpha, beta, noeudMin, profondeur, couleurJoueur, combo2, true)+profondeur);
 							annuler(false, couleurJoueur);
 						}
 						else {
@@ -483,7 +507,7 @@ public class MediumAI extends Player implements Serializable {
 				ArrayList<Case> pionsACapturerRapprochement = determinerPionsACapturerRapprochement(directionCoup, arrivee, couleurJoueur);
 				ArrayList<Case> pionsACapturerEloignement = determinerPionsACapturerEloignement(directionCoup, depart, couleurJoueur);
 				int evaluationNbCapturesPercussion = pionsACapturerRapprochement.size();
-				int evaluationNbCapturesAspiration = pionsACapturerEloignement.size();				
+				int evaluationNbCapturesAspiration = pionsACapturerEloignement.size();
 				/* Si les deux types de capture sont réellement possibles (i.e. capturent réellement des pions), on appelle l'algorithme sur les deux copies du plateau pour déterminer laquelle
 				 * des deux captures est la meilleure */								
 				if(evaluationNbCapturesPercussion > 0 && evaluationNbCapturesAspiration > 0) {
@@ -553,8 +577,8 @@ public class MediumAI extends Player implements Serializable {
 					}
 				}
 				// PRINT
-				//Coup p = coupCourant;
-				//System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+				Coup p = coupCourant;
+				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 				if(res > meilleurRes) {
 					premieresCasesPrisesNonPerdants.clear();
 					listeCoupsNonPerdants.clear();
