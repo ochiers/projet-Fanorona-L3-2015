@@ -30,7 +30,7 @@ public class HardAI extends Player implements Serializable {
 		nbPionsAdversaire = 22;
 		nbPionsJoueur = 22;
 		pileCoups = new Stack<DemiCoup>();
-		profondeurCourante = 4;
+		profondeurCourante = 2;
 	}
 	
 	public int eval(int profondeur, boolean noeudMin, Pion couleurJoueur) {
@@ -474,7 +474,7 @@ public class HardAI extends Player implements Serializable {
 		Pion couleurJoueur = (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Blanc : Pion.Noir;
 		this.nbPionsJoueur = (couleurJoueur == Pion.Blanc) ? partieCourante.nombrePionBlanc : partieCourante.nombrePionNoir;
 		this.nbPionsAdversaire = (couleurJoueur == Pion.Blanc) ? partieCourante.nombrePionNoir : partieCourante.nombrePionBlanc;
-		if(this.nbPionsAdversaire < 8 || this.nbPionsJoueur < 8)
+		if(this.nbPionsAdversaire < 8 && this.nbPionsJoueur < 8)
 			profondeurCourante = profondeurBis;
 		Pion couleurAdversaire = inversePion(couleurJoueur);
 		ArrayList<Coup> listeCoups = creerCoups(listeCases, couleurJoueur);
