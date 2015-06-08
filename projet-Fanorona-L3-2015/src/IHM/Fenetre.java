@@ -97,9 +97,6 @@ public class Fenetre implements Runnable, Affichage {
 		fh = frame.getHeight();
 		setPanelAccueil(new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
-		frameVictoire = new JFrame(" Fin de Partie ");
-		frameVictoire.setSize(wmin, hmin);
-		frameVictoire.setVisible(false);
 		
 		// grille
 		monDessin = new AireDeDessin(this);
@@ -264,7 +261,10 @@ public class Fenetre implements Runnable, Affichage {
 		preference = new PreferencesOnglets(this);
 		preference.majPref();
 
-
+		//maj
+		fw = frame.getWidth();
+		fh = frame.getHeight();
+		frame.repaint();
 		
 		// FENETRE
 		frame.setJMenuBar(menuBar);
@@ -553,16 +553,21 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		frameVictoire.setLayout(null);
-		Firework victoire = new Firework(this); 
-		victoire.setVisible(true);
+		frameVictoire = new Firework(this); 
+		frameVictoire.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
 		JPanel gagnant = new JPanel();
+		gagnant.setOpaque(false);
+		gagnant.setForeground(new Color(0, 0, 0, 0));
 		String winner = (this.engine.getWinner()).name;
-		JLabel win = new JLabel(" " + winner + " ");
+		JLabel win = new JLabel(" " + winner + " gagne la partie !!!");
+		JLabel congrats = new JLabel(" FELICITATIONS !!!");
+		gagnant.setAlignmentX(fw/2);
+		//gagnant.setAlignmentY(fh/2);
 		gagnant.add(win);
-		gagnant.add(victoire);
+		gagnant.add(congrats);
 		frameVictoire.add(gagnant);
 		frameVictoire.setVisible(true);
+		frameVictoire.repaint();
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
