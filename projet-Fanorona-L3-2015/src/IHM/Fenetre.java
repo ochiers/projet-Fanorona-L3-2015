@@ -34,7 +34,7 @@ public class Fenetre implements Runnable, Affichage {
 	JLabel				scoreInt1, scoreInt2;
 
 	JLabel				tour1, tour2;
-	ImagePanel			panelAccueil;
+	static ImagePanel			panelAccueil;
 	ImageIcon			imageActuelle= new ImageIcon("src/images/imageDefault.jpg");
 	
 	
@@ -76,7 +76,8 @@ public class Fenetre implements Runnable, Affichage {
 	int					hmax	= 720;
 
 	int					taillePion;
-	JPanel				panelVictoire;
+	JFrame				frameVictoire;
+	JPanel				panelPause;
 	
 	String fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
 	String fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
@@ -89,19 +90,17 @@ public class Fenetre implements Runnable, Affichage {
 	public void run()
 	{
 	//	System.out.println("//////////////////////////////////////////////////////");
-	//	frame.setSize(1200, 700);
-		frame.setSize(1200, 800);
+		frame.setSize(1200, 700);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
 		panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);
 		panelAccueil.setLayout(new BorderLayout(20, 10));
-		panelVictoire = new JPanel();
-		panelVictoire.setSize(panelAccueil.getSize());
-		panelVictoire.setOpaque(false);
-		panelVictoire.setVisible(false);
-
+		frameVictoire = new JFrame(" Fin de Partie ");
+		frameVictoire.setSize(panelAccueil.getSize());
+		frameVictoire.setVisible(false);
+		
 		// grille
 		monDessin = new AireDeDessin(this);
 		monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
@@ -261,7 +260,6 @@ public class Fenetre implements Runnable, Affichage {
 		// FENETRE
 		frame.setJMenuBar(menuBar);
 		frame.add(panelAccueil);
-		// frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new EcouteurDeFenetre(engine));
@@ -445,6 +443,8 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
+				panelPause = new EnPause(" Jeu en pause ");
+				panelPause.setVisible(true);
 				// System.out.println("en pause");
 			}
 		}
@@ -529,12 +529,19 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		/*
-		 * Firework victoire = new Firework(this); victoire.setVisible(true);
-		 * String winner = (this.engine.getWinner()).name;
-		 * panelVictoire.add(victoire); panelVictoire.setVisible(true);
-		 * frame.add(panelVictoire);
-		 */
+		frameVictoire.setSize((int)(0.5*fw), (int)(0.5*fh));
+		frameVictoire.setLayout(null);
+		Firework victoire = new Firework(this); 
+		victoire.setVisible(true);
+		String winner = (this.engine.getWinner()).name;
+		//System.out.println(" WINNER : " + winner);
+		JLabel win = new JLabel(" " + winner + " ");
+		win.setBounds((int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()), (int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()));
+		victoire.setBounds(0, (int)(0.2*frameVictoire.getHeight()), (int)(0.7*frameVictoire.getWidth()), (int)(0.8*frameVictoire.getHeight()));
+		frameVictoire.add(win);
+		frameVictoire.add(victoire);
+		frameVictoire.setVisible(true);
+		frame.add(frameVictoire);
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
