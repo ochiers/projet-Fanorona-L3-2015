@@ -66,6 +66,8 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		fond.add(panFond);
 		this.add(fond);
 		
+		
+		
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
 
