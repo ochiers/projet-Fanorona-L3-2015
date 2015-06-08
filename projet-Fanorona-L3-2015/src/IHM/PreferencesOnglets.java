@@ -50,7 +50,7 @@ public class PreferencesOnglets extends JPanel {
 		tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-		ChoixCouleurPion panel3 = new ChoixCouleurPion(fenetre, new File("./Ressources"));
+		ChoixCouleurPion panel3 = new ChoixCouleurPion(fenetre, new File("." + File.separator + "Ressources" + File.separator + "Pions"));
 		tabbedPane.addTab(" Choix Couleurs Pions ", icon, panel3);
 		tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
@@ -120,14 +120,14 @@ public class PreferencesOnglets extends JPanel {
 
 	}
 
-//	public static void main(String[] args)
-//	{
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run()
-//			{
-//				createAndShowGUI();
-//			}
-//		});
-//	}
+	// public static void main(String[] args)
+	// {
+	// SwingUtilities.invokeLater(new Runnable() {
+	// public void run()
+	// {
+	// createAndShowGUI();
+	// }
+	// });
+	// }
 
 }

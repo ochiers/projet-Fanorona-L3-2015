@@ -79,8 +79,8 @@ public class Fenetre implements Runnable, Affichage {
 	JFrame				frameVictoire;
 	JPanel				panelPause;
 	
-	String fichierJoueurBlanc = "./Ressources/pionBlanc.png";
-	String fichierJoueurNoir = "./Ressources/pionNoir.png";
+	String fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+	String fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 
 	public Fenetre(EngineServices e)
 	{
