@@ -176,6 +176,11 @@ public interface EngineServices {
 	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size);
 
 	/**
+	 * Recommence la partie
+	 */
+	public void recommencer(boolean notifReseau);
+	
+	/**
 	 * Sauvegarde la partie courante dans le fichier de chemin path
 	 * 
 	 * @param path

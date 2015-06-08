@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import AI.MediumAI;
 import network.NetworkPlayer;
+import network.RequestType;
 import engine.*;
 
 public class Fenetre implements Runnable, Affichage {
@@ -290,7 +292,6 @@ public class Fenetre implements Runnable, Affichage {
 			}
 
 			engine.nouvellePartie(j1, j2, (commencer ? 0 : 1), size);
-
 			monDessin.finPartie = false;
 			monDessin.pionCliquer=false;
 			monDessin.surbrillance=false;
@@ -302,9 +303,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Player p1 = Tools.createPlayer(engine, Tools.getTypeOfPlayer((engine.getJoueurBlanc())), engine.getJoueurBlanc().name);
-			Player p2 = Tools.createPlayer(engine, Tools.getTypeOfPlayer((engine.getJoueurNoir())), engine.getJoueurNoir().name);
-			engine.nouvellePartie(p1, p2, (commencer ? 0 : 1), size);
+			engine.recommencer(true);
 			monDessin.finPartie = false;
 		}
 
@@ -467,7 +466,15 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-
+			Player p2 = new MediumAI(engine,true,"IA suggestion");
+			ArrayList<Case> pionsPossibles = engine.getCurrentGame().lesPionsQuiPeuventManger();
+			if (pionsPossibles.size() == 0)
+			{
+				pionsPossibles = engine.getCurrentGame().lesPionsJouables();
+			}
+			Case[] tmp = new Case[pionsPossibles.size()];
+			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
+			
 		}
 
 	}
@@ -657,6 +664,13 @@ public class Fenetre implements Runnable, Affichage {
 			return true;
 		else
 			return false;		
+	}
+
+	@Override
+	public void afficherMessage(String str)
+	{
+		JOptionPane.showMessageDialog(frame, str);
+		
 	}
 
 }

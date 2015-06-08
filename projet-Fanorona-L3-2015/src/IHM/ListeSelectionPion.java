@@ -6,12 +6,17 @@ import java.awt.Image;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import engine.Player;
 
 public class ListeSelectionPion extends JPanel {
 
@@ -21,18 +26,33 @@ public class ListeSelectionPion extends JPanel {
 	public File								repertoire;
 	public int								tailleX				= 50;
 	public int								tailleY				= 50;
+	public Fenetre							frame;
+	public Player							jCourant;
+	public JList<String>					list;
 
-	public ListeSelectionPion(File rep)
+	public ListeSelectionPion(Fenetre frame, Player p, File rep)
 	{
+		this.frame = frame;
+		this.jCourant = p;
 		this.repertoire = rep;
 		String[] listePionsPossibles = this.repertoire.list();
 		System.out.println(this.repertoire);
 		imageMap = createImageMap(listePionsPossibles);
-		JList<String> list = new JList<String>(listePionsPossibles);
+		list = new JList<String>(listePionsPossibles);
 		list.setCellRenderer(new ListRenderer());
-
+		list.addListSelectionListener(new listListener(this));
 		scroll = new JScrollPane(list);
 		scroll.setPreferredSize(new Dimension(300, 400));
+	}
+
+	private Map<String, ImageIcon> createImageMap(String[] list)
+	{
+		Map<String, ImageIcon> map = new HashMap<>();
+		for (String s : list)
+		{
+			map.put(s, new ImageIcon(new ImageIcon(this.repertoire + File.separator + s).getImage().getScaledInstance(tailleX, tailleY, Image.SCALE_DEFAULT)));
+		}
+		return map;
 	}
 
 	public class ListRenderer extends DefaultListCellRenderer {
@@ -48,14 +68,28 @@ public class ListeSelectionPion extends JPanel {
 		}
 	}
 
-	private Map<String, ImageIcon> createImageMap(String[] list)
-	{
-		Map<String, ImageIcon> map = new HashMap<>();
-		for (String s : list)
+	public class listListener implements ListSelectionListener {
+
+		public ListeSelectionPion	listPion;
+
+		public listListener(ListeSelectionPion l)
 		{
-			map.put(s, new ImageIcon(new ImageIcon(this.repertoire + "\\" + s).getImage().getScaledInstance(tailleX, tailleY, Image.SCALE_DEFAULT)));
+			this.listPion = l;
 		}
-		System.out.println(map);
-		return map;
+
+		@Override
+		public void valueChanged(ListSelectionEvent e)
+		{
+			String fichierSelectionne = this.listPion.list.getSelectedValue();
+			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne != frame.fichierJoueurNoir)
+			{
+				frame.fichierJoueurBlanc = listPion.repertoire + File.separator + fichierSelectionne;
+				System.out.println("List cliquée");
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne != frame.fichierJoueurBlanc)
+			{
+				frame.fichierJoueurNoir = listPion.repertoire + File.separator + fichierSelectionne;
+				System.out.println("List cliquée");
+			}
+		}
 	}
 }
