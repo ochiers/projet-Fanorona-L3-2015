@@ -120,9 +120,21 @@ public class Parametres {
 		{
 			System.out.println("ActionListener : action sur " + box1.getSelectedItem());
 			System.out.println("numero de l'item: " + box1.getSelectedIndex());
+			if (box1.getSelectedIndex()==0){
+				box2.setEnabled(false);
+				box3.setEnabled(false);
+			}
+			if (box1.getSelectedIndex()==1){
+				box2.setEnabled(true);
+				box3.setEnabled(false);
+			}
+			if (box1.getSelectedIndex()==2){
+				box2.setEnabled(true);
+				box3.setEnabled(true);
+			}
 			saveMode = engine.Tools.getTypePartie(box1.getSelectedIndex());
 			fenetre.afficherJeu();
-
+			
 		}
 
 	}

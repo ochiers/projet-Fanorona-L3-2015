@@ -23,7 +23,6 @@ public class ImagePanel extends JPanel {
 
 	public ImagePanel(JFrame frame, String img, int x, int y)
 	{
-		// this(new ImageIcon(img).getImage(), x, y);
 		ImagePanel.img = new ImageIcon(img).getImage();
 		this.width = x;
 		this.height = y;
