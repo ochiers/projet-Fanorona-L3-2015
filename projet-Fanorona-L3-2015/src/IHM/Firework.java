@@ -144,9 +144,8 @@ public final class Firework extends JPanel {
 				}
 			}
 		};
-		this.mainPanel.setBackground(new Color(0, 0, 0, 0)); //transparent
-		//this.mainPanel.setPreferredSize(new Dimension(480, 320));
-		this.mainPanel.setPreferredSize(new Dimension(Fenetre.panelAccueil.getX(), Fenetre.panelAccueil.getY()));
+		this.mainPanel.setBackground(new Color(0, 0, 0)); 
+		this.mainPanel.setPreferredSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();
@@ -158,14 +157,13 @@ public final class Firework extends JPanel {
 				new Thread() {
 					public void run() {
 						while (true) {
-							addExplosions(5);
+							addExplosions(6);
 						}
 					}
 				}.start();
 			}
 		});
 		this.add(mainPanel);
-		this.setVisible(false);
 	}
 
 	private void addExplosions(int count) {
