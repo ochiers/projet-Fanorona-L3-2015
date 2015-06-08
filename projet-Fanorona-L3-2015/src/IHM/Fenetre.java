@@ -529,15 +529,15 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		frameVictoire.setSize(panelAccueil.getSize());
+		frameVictoire.setSize((int)(0.5*fw), (int)(0.5*fh));
 		frameVictoire.setLayout(null);
 		Firework victoire = new Firework(this); 
 		victoire.setVisible(true);
 		String winner = (this.engine.getWinner()).name;
 		//System.out.println(" WINNER : " + winner);
 		JLabel win = new JLabel(" " + winner + " ");
-		win.setBounds(panelAccueil.getX()/4,panelAccueil.getY()/20, panelAccueil.getX()/2, panelAccueil.getY()/10);
-		victoire.setBounds(0, 2*panelAccueil.getY()/20, panelAccueil.getX(), panelAccueil.getY());
+		win.setBounds((int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()), (int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()));
+		victoire.setBounds(0, (int)(0.2*frameVictoire.getHeight()), (int)(0.7*frameVictoire.getWidth()), (int)(0.8*frameVictoire.getHeight()));
 		frameVictoire.add(win);
 		frameVictoire.add(victoire);
 		frameVictoire.setVisible(true);
