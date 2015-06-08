@@ -90,47 +90,31 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 
 		if (!aire.fenetre.engine.getJoueurCourant().aiPlayer && !aire.fenetre.engine.getCurrentGame().isPaused())
 		{
-			int buttonDown = e.getButton();
-			if (buttonDown == MouseEvent.BUTTON1)
-			{// Bouton GAUCHE enfonce
-				aire.pfinal = new Coordonnee(-1, -1);
-				aire.pfinal = position(e.getX(), e.getY());
-				if (aire.pfinal.colonne != -1 && aire.pfinal.ligne != -1)
-				{
-					if (aire.pionCliquer)
+			switch (e.getButton())
+			{
+				case MouseEvent.BUTTON1: // Bouton Gauche Enfonce
+					aire.pfinal = position(e.getX(), e.getY());
+					if (aire.pfinal.colonne != -1 && aire.pfinal.ligne != -1 && !aire.pionCliquer)
 					{
-					} else
-					{
-						if (aire.doitChoisir)
+						if (aire.doitChoisir && aire.estUnChoix(aire.pfinal))
 						{
-							if (aire.estUnChoix(aire.pfinal))
-							{
-								((HumanPlayer) aire.fenetre.engine.getCurrentGame().joueurCourant).setDirectionMultiPrise(aire.pfinal);
-								aire.doitChoisir = false;
-							}
-						} else
+							((HumanPlayer) aire.fenetre.engine.getCurrentGame().joueurCourant).setDirectionMultiPrise(aire.pfinal);
+							aire.doitChoisir = false;
+						} else if (aire.estJouable(aire.pfinal) || (aire.fenetre.engine.getCurrentGame().enCombo && aire.pionCombo.position.ligne == aire.pfinal.ligne && aire.pionCombo.position.colonne == aire.pfinal.colonne))
 						{
-							if (aire.estJouable(aire.pfinal) || (aire.fenetre.engine.getCurrentGame().enCombo && aire.pionCombo.position.ligne == aire.pfinal.ligne && aire.pionCombo.position.colonne == aire.pfinal.colonne))
-							{
-								System.out.println("---------OUI c'est jouable");
-								aire.pCourant.colonne = aire.pfinal.colonne;
-								aire.pCourant.ligne = aire.pfinal.ligne;
-								aire.pionCliquer = true;
-								System.out.println("Point: " + aire.pCourant.ligne + " " + aire.pCourant.colonne);
-							}
+							aire.pCourant.colonne = aire.pfinal.colonne;
+							aire.pCourant.ligne = aire.pfinal.ligne;
+							aire.pionCliquer = true;
 						}
 					}
-					aire.repaint();
-				}
-			} else if (buttonDown == MouseEvent.BUTTON2)
-			{// Bouton du MILIEU enfonce
-			} else if (buttonDown == MouseEvent.BUTTON3)
-			{// Bouton DROIT enfonce
-				// if(!aire.fenetre.engine.getCurrentGame().enCombo)
-				aire.pionCliquer = false;
-				aire.repaint();
+					break;
+				case MouseEvent.BUTTON2: // Molette Enfoncee
+					break;
+				case MouseEvent.BUTTON3: // Bouton Droit Enfonce
+					aire.pionCliquer = false;
+					break;
 			}
-
+			aire.repaint();
 		}
 	}
 
