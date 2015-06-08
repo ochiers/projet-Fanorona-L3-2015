@@ -146,7 +146,7 @@ public final class Firework extends JPanel {
 		};
 		this.mainPanel.setBackground(new Color(0, 0, 0, 0)); //transparent
 		//this.mainPanel.setPreferredSize(new Dimension(480, 320));
-		this.mainPanel.setPreferredSize(new Dimension(fenetre.fw, fenetre.fh));
+		this.mainPanel.setPreferredSize(new Dimension(Fenetre.panelAccueil.getX(), Fenetre.panelAccueil.getY()));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();

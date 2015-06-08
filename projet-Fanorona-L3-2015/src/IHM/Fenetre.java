@@ -537,6 +537,7 @@ public class Fenetre implements Runnable, Affichage {
 		//System.out.println(" WINNER : " + winner);
 		JLabel win = new JLabel(" " + winner + " ");
 		win.setBounds(panelAccueil.getX()/4,panelAccueil.getY()/20, panelAccueil.getX()/2, panelAccueil.getY()/10);
+		victoire.setBounds(0, 2*panelAccueil.getY()/20, panelAccueil.getX(), panelAccueil.getY());
 		frameVictoire.add(win);
 		frameVictoire.add(victoire);
 		frameVictoire.setVisible(true);
