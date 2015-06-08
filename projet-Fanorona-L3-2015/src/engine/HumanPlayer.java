@@ -3,6 +3,11 @@ package engine;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Classe representant un joueur humain
+ * @author soulierc
+ *
+ */
 public class HumanPlayer extends Player implements Serializable {
 
 	private static final long	serialVersionUID	= -8423735410841988573L;

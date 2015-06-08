@@ -2,8 +2,12 @@ package engine;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
+/**
+ * Classe abstraite represantant un joueur
+ * @author soulierc
+ *
+ */
 public abstract class Player extends Thread implements Serializable {
 
 	private static final long		serialVersionUID	= -745601135784423811L;
@@ -18,10 +22,19 @@ public abstract class Player extends Thread implements Serializable {
 	 */
 	public String					name;
 	
+	/**
+	 * Le moteur associé au joueur
+	 */
 	public transient EngineServices	leMoteur;
 	
+	/**
+	 * Indique si le joueur a été arreté
+	 */
 	private boolean					stopped;
 	
+	/**
+	 * Identifiant du joueur, sert a derminer si c'est a son tour de jouer
+	 */
 	private long idJoueur;
 	
 	/**
@@ -29,6 +42,12 @@ public abstract class Player extends Thread implements Serializable {
 	 */
 	public String					avatar;
 
+	/**
+	 * Cree un joueur
+	 * @param leMoteur Le moteur relié au joueur
+	 * @param isAI Indique si c'est une ia
+	 * @param name Le nom du joueur
+	 */
 	public Player(EngineServices leMoteur, boolean isAI, String name)
 	{
 		this.aiPlayer = isAI;

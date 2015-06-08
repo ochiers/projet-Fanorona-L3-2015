@@ -116,6 +116,11 @@ class Emetteur extends Thread {
 	}
 }
 
+/**
+ * Classe representant une connection multicast
+ * @author soulierc
+ *
+ */
 public class Multicast {
 
 	public final String			ip;

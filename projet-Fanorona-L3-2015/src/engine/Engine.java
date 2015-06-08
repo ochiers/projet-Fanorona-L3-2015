@@ -9,22 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import javax.tools.Tool;
-
 import network.NetworkManager;
 import network.NetworkPlayer;
 import network.RequestType;
 import AI.*;
 import IHM.Affichage;
-
 /**
+ * @author ochiers
  * Definit un moteur pour le jeu
  * 
  * @author soulierc
- *
- */
-/**
- * @author ochiers
  *
  */
 public class Engine implements EngineServices {
@@ -53,6 +47,9 @@ public class Engine implements EngineServices {
 	 * Booleen permettant d'eviter que la partie ne soit en pause au lancement
 	 */
 	public boolean			premierJeu;
+	/**
+	 * Le gestionnaire du reseau
+	 */
 	public NetworkManager	networkManager;
 
 	public Engine()
@@ -93,16 +90,16 @@ public class Engine implements EngineServices {
 	/**
 	 * Methode permettant de changer de joueur en cours de partie
 	 * 
-	 * @param g
+	 * @param partie
 	 *            Partie sur laquelle on joue et que l'on veut modifiee
-	 * @param pB
+	 * @param joueurBlanc
 	 *            Joueur blanc
-	 * @param pN
+	 * @param joueurNoir
 	 *            Joueur noir
 	 * @param jCourant
 	 *            Joueur dont c'est le tour
 	 */
-	private void changerPartieCourante(Game g, Player pB, Player pN, Pion jCourant)
+	private void changerPartieCourante(Game partie, Player joueurBlanc, Player joueurNoir, Pion jCourant)
 	{
 		if (partieCourante != null)
 		{
@@ -111,60 +108,60 @@ public class Engine implements EngineServices {
 			// deroule
 			// dans le thread principal
 
-			boolean nouvJoueurs = (pB == null && pN == null);
+			boolean nouvJoueurs = (joueurBlanc == null && joueurNoir == null);
 			if (nouvJoueurs)
 			{
-				pB = partieCourante.joueurBlanc;
-				pN = partieCourante.joueurNoir;
+				joueurBlanc = partieCourante.joueurBlanc;
+				joueurNoir = partieCourante.joueurNoir;
 
 			}
-			partieCourante = g;
+			partieCourante = partie;
 
 			/*
 			 * On récupere le coup d'avant (partie précédente) et parametre correctement
 			 */
 			if (nouvJoueurs)
 			{
-				switch (Tools.getTypeOfPlayer(pB))
+				switch (Tools.getTypeOfPlayer(joueurBlanc))
 				{
 					case Humain:
-						partieCourante.joueurBlanc = new HumanPlayer(pB);
+						partieCourante.joueurBlanc = new HumanPlayer(joueurBlanc);
 						break;
 					case IAFacile:
-						partieCourante.joueurBlanc = new EasyAI(this, true, pB.name);
+						partieCourante.joueurBlanc = new EasyAI(this, true, joueurBlanc.name);
 						break;
 					case IAMoyenne:
-						partieCourante.joueurBlanc = new MediumAI(this, true, pB.name);
+						partieCourante.joueurBlanc = new MediumAI(this, true, joueurBlanc.name);
 						break;
 					case IADifficile:
-						partieCourante.joueurBlanc = new HardAI(this, true, pB.name);
+						partieCourante.joueurBlanc = new HardAI(this, true, joueurBlanc.name);
 						break;
 					case Reseau:
-						partieCourante.joueurBlanc = new NetworkPlayer(this, false, pB.name);
+						partieCourante.joueurBlanc = new NetworkPlayer(this, false, joueurBlanc.name);
 						break;
 				}
-				switch (Tools.getTypeOfPlayer(pN))
+				switch (Tools.getTypeOfPlayer(joueurNoir))
 				{
 					case Humain:
-						partieCourante.joueurNoir = new HumanPlayer(pN);
+						partieCourante.joueurNoir = new HumanPlayer(joueurNoir);
 						break;
 					case IAFacile:
-						partieCourante.joueurNoir = new EasyAI(this, true, pN.name);
+						partieCourante.joueurNoir = new EasyAI(this, true, joueurNoir.name);
 						break;
 					case IAMoyenne:
-						partieCourante.joueurNoir = new MediumAI(this, true, pN.name);
+						partieCourante.joueurNoir = new MediumAI(this, true, joueurNoir.name);
 						break;
 					case IADifficile:
-						partieCourante.joueurNoir = new HardAI(this, true, pN.name);
+						partieCourante.joueurNoir = new HardAI(this, true, joueurNoir.name);
 						break;
 					case Reseau:
-						partieCourante.joueurNoir = new NetworkPlayer(this, false, pN.name);
+						partieCourante.joueurNoir = new NetworkPlayer(this, false, joueurNoir.name);
 						break;
 				}
 			} else
 			{
-				partieCourante.joueurNoir = pN;
-				partieCourante.joueurBlanc = pB;
+				partieCourante.joueurNoir = joueurNoir;
+				partieCourante.joueurBlanc = joueurBlanc;
 			}
 			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
 			System.out.println("Partie créée avec " + partieCourante.joueurBlanc +" " + partieCourante.joueurNoir +" " + partieCourante.joueurCourant);
@@ -179,7 +176,7 @@ public class Engine implements EngineServices {
 			affichage.afficherJeu();
 		} else
 		{
-			partieCourante = g;
+			partieCourante = partie;
 		}
 	}
 
@@ -394,14 +391,11 @@ public class Engine implements EngineServices {
 	@Override
 	public void finirSonTour(boolean notifReseau)
 	{
-		System.out.println("FIN DU TOUUUUUUUUUUUUUUUUUR");
 		if (this.networkManager != null && notifReseau)
 		{
 			networkManager.sendRequete(RequestType.FinDuTour);
 		}
 		this.partieCourante.finirSonTour();
-		System.out.println("TOUR FINI");
-
 		this.affichage.afficherJeu();
 	}
 
@@ -416,6 +410,7 @@ public class Engine implements EngineServices {
 	public void reprendre()
 	{
 		this.partieCourante.reprendre();
+		this.affichage.afficherJeu();
 	}
 
 	@Override
@@ -433,23 +428,21 @@ public class Engine implements EngineServices {
 	@Override
 	public void changerLesJoueurs(Player nouveauJBlanc, Player nouveauJNoir)
 	{
-		Game g = new Game(partieCourante);
+		Game partie = new Game(partieCourante);
 		if(getJoueurBlanc() == getJoueurCourant())
-			g.joueurCourant = nouveauJBlanc;
+			partie.joueurCourant = nouveauJBlanc;
 		else
-			g.joueurCourant = nouveauJNoir;
-		g.joueurBlanc = nouveauJBlanc;
-		g.joueurNoir = nouveauJNoir;
-		System.out.println(partieCourante.joueurBlanc +" en  " + g.joueurBlanc);
-		System.out.println(partieCourante.joueurNoir +" en  " + g.joueurNoir);
-		changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, ((g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir));
-		
-		/*this.annuler(false);// oui, c'est du bricolage
-		this.refaire(false);// oui, c'est du bricolage*/
+			partie.joueurCourant = nouveauJNoir;
+		partie.joueurBlanc = nouveauJBlanc;
+		partie.joueurNoir = nouveauJNoir;
+		System.out.println(partieCourante.joueurBlanc +" en  " + partie.joueurBlanc);
+		System.out.println(partieCourante.joueurNoir +" en  " + partie.joueurNoir);
+		changerPartieCourante(partie, partie.joueurBlanc, partie.joueurNoir, ((partie.joueurBlanc == partie.joueurCourant) ? Pion.Blanc : Pion.Noir));
+
 	}
 
 	@Override
-	public void hebergerPartie(int port) throws IOException
+	public void hebergerPartie(int portEcoute) throws IOException
 	{
 		if (this.networkManager != null)
 		{
@@ -462,7 +455,7 @@ public class Engine implements EngineServices {
 			}
 
 		}
-		this.networkManager = new NetworkManager(this, port, null);
+		this.networkManager = new NetworkManager(this, portEcoute, null);
 		this.networkManager.hebergerPartie();
 		this.networkManager.start();
 
@@ -494,23 +487,23 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void envoyerCoupSurReseau(Coup c)
+	public void envoyerCoupSurReseau(Coup coupJoue)
 	{
 		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
 		{
-			System.out.println("envoye de " + c);
-			this.networkManager.setCoupAEnvoyer(c);
+			System.out.println("envoye de " + coupJoue);
+			this.networkManager.setCoupAEnvoyer(coupJoue);
 
 		}
 	}
 
 	@Override
-	public void envoyerChoixCaseSurReseau(Coordonnee c)
+	public void envoyerChoixCaseSurReseau(Coordonnee coordonneeJouee)
 	{
 		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
 		{
-			System.out.println("envoye de " + c);
-			this.networkManager.setCoordoneeAEnvoyer(c);
+			System.out.println("envoye de " + coordonneeJouee);
+			this.networkManager.setCoordoneeAEnvoyer(coordonneeJouee);
 
 		}
 	}

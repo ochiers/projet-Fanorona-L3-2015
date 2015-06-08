@@ -5,11 +5,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import network.NetworkPlayer;
-
 /**
  * Classe representant une partie. Pour lancer le jeu il faut faire appel a la
- * methode jouer()
+ * methode commencer()
  * 
  * @author soulierc
  *
@@ -114,6 +112,9 @@ public class Game implements Serializable {
 	 */
 	private boolean						finirSonTour;
 
+	/**
+	 * Indique qui est le premier joueur, True -> joueur1, False -> joueur2
+	 */
 	public boolean						premierJoueur;
 
 	/**
@@ -244,11 +245,11 @@ public class Game implements Serializable {
 	public synchronized void jouer(long idJoueur) throws InterruptedException
 	{
 
-		System.err.println(idJoueur + " rentre en section critique, nom du joueur courant : " + joueurCourant.getIdJoueur());
+		//System.err.println(idJoueur + " rentre en section critique, nom du joueur courant : " + joueurCourant.getIdJoueur());
 
 		while (!stopped && idJoueur != joueurCourant.getIdJoueur())
 		{
-			System.err.print(idJoueur + " coincé");
+			//System.err.print(idJoueur + " coincé");
 			wait();
 			//System.out.print(nameJoueur + " décoincé");
 			while (!stopped && paused)
@@ -275,12 +276,12 @@ public class Game implements Serializable {
 			combo = new ArrayList<Case>();
 
 			Case[] tmp = new Case[pionsPossibles.size()];
-			Case[][] copiePlateau = copyMatrice(matricePlateau);
-			Coup c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
+			Case[][] copiePlateauPourJoueur = copyMatrice(matricePlateau);
+			Coup c = this.joueurCourant.play(copiePlateauPourJoueur, pionsPossibles.toArray(tmp));
 
 			while (!stopped && !paused && !this.coupValide(c, pionsPossibles, doitManger))
 			{
-				c = this.joueurCourant.play(copiePlateau, pionsPossibles.toArray(tmp));
+				c = this.joueurCourant.play(copiePlateauPourJoueur, pionsPossibles.toArray(tmp));
 			}
 
 			/*
@@ -299,12 +300,12 @@ public class Game implements Serializable {
 				return;
 			}
 			this.leMoteur.envoyerCoupSurReseau(c);
-			boolean rejouer = faireCoup(c);
-			enCombo = rejouer;
+			boolean peutRejouer = faireCoup(c);
+			enCombo = peutRejouer;
 			combo.add(matricePlateau[c.depart.ligne][c.depart.colonne]);
 
 			pionCombo = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
-			while (rejouer && !finirSonTour)
+			while (peutRejouer && !finirSonTour)
 			{
 				ArrayList<Case> l = this.coupsPourPriseParUnPion(coupsPossiblesPourUnPion(pionCombo), pionCombo);
 
@@ -319,10 +320,10 @@ public class Game implements Serializable {
 				leMoteur.getCurrentDisplay().afficherCheminParcouruParleCombo(combo);
 				Case t[] = new Case[1];
 				t[0] = pionCombo;
-				copiePlateau = copyMatrice(matricePlateau);
-				Coup coupCombo = this.joueurCourant.play(copiePlateau, t);
+				copiePlateauPourJoueur = copyMatrice(matricePlateau);
+				Coup coupCombo = this.joueurCourant.play(copiePlateauPourJoueur, t);
 				while (!finirSonTour && !joueurCourant.isStopped() && !comboValide(coupCombo, pionCombo, combo))
-					coupCombo = this.joueurCourant.play(copiePlateau, t);
+					coupCombo = this.joueurCourant.play(copiePlateauPourJoueur, t);
 				if (finirSonTour)
 					break;
 				/*
@@ -344,8 +345,8 @@ public class Game implements Serializable {
 				pionCombo = matricePlateau[coupCombo.arrivee.ligne][coupCombo.arrivee.colonne];
 				combo.add(matricePlateau[coupCombo.depart.ligne][coupCombo.depart.colonne]);
 				this.leMoteur.envoyerCoupSurReseau(coupCombo);
-				rejouer = faireCoup(coupCombo);
-				enCombo = rejouer;
+				peutRejouer = faireCoup(coupCombo);
+				enCombo = peutRejouer;
 			}
 			combo.clear();
 			enCombo = false;
@@ -400,7 +401,7 @@ public class Game implements Serializable {
 	/**
 	 * Teste si on peut effectuer un combo
 	 * 
-	 * @param c
+	 * @param coupJoue
 	 *            Le coup joué
 	 * @param pionJoue
 	 *            Pion avec lequel on joue
@@ -408,14 +409,14 @@ public class Game implements Serializable {
 	 *            Liste contenant les anciennes positions du pion
 	 * @return Vrai -> si on peut faire le combo, Faux sinon
 	 */
-	private boolean comboValide(Coup c, Case pionJoue, ArrayList<Case> listCombo)
+	private boolean comboValide(Coup coupJoue, Case pionJoue, ArrayList<Case> listCombo)
 	{
 		boolean res = true;
-		if (c == null || c.arrivee == null || c.depart == null)
+		if (coupJoue == null || coupJoue.arrivee == null || coupJoue.depart == null)
 			return false;
-		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
-		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
-		Direction d = determinerDirection(c.depart, c.arrivee);
+		Case arrivee = matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne];
+		Case depart = matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne];
+		Direction d = determinerDirection(coupJoue.depart, coupJoue.arrivee);
 		ArrayList<Case> coupsPossibles = coupsPossiblesPourUnPion(depart);
 		coupsPossibles.removeAll(listCombo);
 		res = res && depart.equals(pionJoue) && !combo.contains(arrivee) && coupsPossibles.contains(arrivee);
@@ -426,15 +427,15 @@ public class Game implements Serializable {
 	/**
 	 * Teste si un coup est valide
 	 * 
-	 * @param c
+	 * @param coupJoue
 	 *            Le coup a verifier
 	 * @param pionsPossibles
 	 * @param doitManger
 	 * @return True -> si coup est valide, False sinon
 	 */
-	private boolean coupValide(Coup c, ArrayList<Case> pionsPossibles, boolean doitManger)
+	private boolean coupValide(Coup coupJoue, ArrayList<Case> pionsPossibles, boolean doitManger)
 	{
-		if (c == null || c.arrivee == null || c.depart == null)
+		if (coupJoue == null || coupJoue.arrivee == null || coupJoue.depart == null)
 			return false;
 
 		ArrayList<Coordonnee> l = new ArrayList<Coordonnee>();
@@ -442,10 +443,10 @@ public class Game implements Serializable {
 		while (it.hasNext())
 			l.add(it.next().position);
 
-		Direction d = determinerDirection(c.depart, c.arrivee);
-		Case arrivee = matricePlateau[c.arrivee.ligne][c.arrivee.colonne];
-		Case depart = matricePlateau[c.depart.ligne][c.depart.colonne];
-		boolean res = (c != null && l.contains(c.depart) && this.matricePlateau[c.arrivee.ligne][c.arrivee.colonne].estVide() && c.depart != c.arrivee && d != null && depart.getCaseAt(d) == arrivee);
+		Direction d = determinerDirection(coupJoue.depart, coupJoue.arrivee);
+		Case arrivee = matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne];
+		Case depart = matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne];
+		boolean res = (coupJoue != null && l.contains(coupJoue.depart) && this.matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne].estVide() && coupJoue.depart != coupJoue.arrivee && d != null && depart.getCaseAt(d) == arrivee);
 		if (doitManger)
 			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
 		return res;
@@ -454,26 +455,26 @@ public class Game implements Serializable {
 	/**
 	 * Evalue le coup joué par le joueur
 	 * 
-	 * @param c
+	 * @param coupJoue
 	 *            Le coup joué par le joueur
 	 * @return True -> le joueur peut rejouer, False -> le joueur ne peut pas
 	 *         rejouer
 	 */
-	private boolean faireCoup(Coup c)
+	private boolean faireCoup(Coup coupJoue)
 	{
-		leMoteur.getCurrentDisplay().afficherCoupJoue(c);
-		if (!paused && !stopped && c != null && c.depart != null && c.arrivee != null)
+		leMoteur.getCurrentDisplay().afficherCoupJoue(coupJoue);
+		if (!paused && !stopped && coupJoue != null && coupJoue.depart != null && coupJoue.arrivee != null)
 		{
-			Direction d = determinerDirection(c.depart, c.arrivee);
+			Direction directionJoue = determinerDirection(coupJoue.depart, coupJoue.arrivee);
 
-			ArrayList<Case> rapprochement = determinerPionsACapturerRaprochement(d, matricePlateau[c.arrivee.ligne][c.arrivee.colonne]);
-			ArrayList<Case> eloignement = determinerPionsACapturerEloignement(d, matricePlateau[c.depart.ligne][c.depart.colonne]);
+			ArrayList<Case> rapprochement = determinerPionsACapturerRaprochement(directionJoue, matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne]);
+			ArrayList<Case> eloignement = determinerPionsACapturerEloignement(directionJoue, matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne]);
 
 			if (rapprochement.size() == 0 && eloignement.size() == 0)
 			{
 				leMoteur.getCurrentDisplay().afficherJeu();
-				matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
-				matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
+				matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne].pion = matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne].pion;
+				matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne].pion = null;
 				return false;
 			} else if (rapprochement.size() != 0 && eloignement.size() != 0)
 			{
@@ -502,8 +503,8 @@ public class Game implements Serializable {
 				capturer(eloignement);
 				leMoteur.getCurrentDisplay().afficherPionsCaptures(eloignement);
 			}
-			matricePlateau[c.arrivee.ligne][c.arrivee.colonne].pion = matricePlateau[c.depart.ligne][c.depart.colonne].pion;
-			matricePlateau[c.depart.ligne][c.depart.colonne].pion = null;
+			matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne].pion = matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne].pion;
+			matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne].pion = null;
 			leMoteur.getCurrentDisplay().afficherJeu();
 			return true;
 		}
@@ -533,25 +534,25 @@ public class Game implements Serializable {
 	/**
 	 * Determine les pions qui seront capturer si le coup est reelement joue
 	 * 
-	 * @param d
+	 * @param directionCapture
 	 *            La direction dans la quelle capturer
 	 * @param depart
 	 *            La case de debut de la capture (cette case doit etre vide on
 	 *            commence la capture la case d'apres)
 	 * @return Une liste de cases qui correspond aux pions supprimes
 	 */
-	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction d, Case depart)
+	private ArrayList<Case> determinerPionsACapturerRaprochement(Direction directionCapture, Case depart)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
-		if (d != null && depart != null)
+		if (directionCapture != null && depart != null)
 		{
 			Case courante = depart;
-			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+			Pion pionJoueurCourant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
 			while (courante != null)
 			{
-				courante = courante.getCaseAt(d);
-				if (courante != null && !courante.estVide() && courante.pion != p)
+				courante = courante.getCaseAt(directionCapture);
+				if (courante != null && !courante.estVide() && courante.pion != pionJoueurCourant)
 					res.add(courante);
 				else
 					break;
@@ -563,27 +564,27 @@ public class Game implements Serializable {
 	/**
 	 * Determine les pions qui seront capturer si le coup est reelement joue
 	 * 
-	 * @param d
+	 * @param directionJoue
 	 *            La direction dans la quelle capturer
 	 * @param depart
 	 *            La case de debut de la capture (cette case doit etre vide on
 	 *            commence la capture sur la case opposee)
 	 * @return Une liste de cases qui correspond aux pions supprimes
 	 */
-	private ArrayList<Case> determinerPionsACapturerEloignement(Direction d, Case depart)
+	private ArrayList<Case> determinerPionsACapturerEloignement(Direction directionJoue, Case depart)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
-		if (d != null && depart != null)
+		if (directionJoue != null && depart != null)
 		{
 			Case courante = depart;
-			Pion p = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
+			Pion pionJoueurCourant = (joueurCourant == joueurBlanc) ? Pion.Blanc : Pion.Noir;
 
-			if (courante.getCaseAt(d) != null && courante.getCaseAt(d).estVide())
+			if (courante.getCaseAt(directionJoue) != null && courante.getCaseAt(directionJoue).estVide())
 			{
 				while (courante != null)
 				{
-					courante = courante.getCaseAt(Direction.oppose(d));
-					if (courante != null && !courante.estVide() && courante.pion != p)
+					courante = courante.getCaseAt(Direction.oppose(directionJoue));
+					if (courante != null && !courante.estVide() && courante.pion != pionJoueurCourant)
 						res.add(courante);
 					else
 						break;
@@ -655,16 +656,16 @@ public class Game implements Serializable {
 	 * Donne les cases possibles (etant vides) pour un pion se trouvant sur la
 	 * case c
 	 * 
-	 * @param c
+	 * @param caseDuPion
 	 *            La case de depart du pion
 	 * @return Une liste de cases accessibles pour ce pion
 	 */
-	public ArrayList<Case> coupsPossiblesPourUnPion(Case c)
+	public ArrayList<Case> coupsPossiblesPourUnPion(Case caseDuPion)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
-		if (c != null)
+		if (caseDuPion != null)
 		{
-			Iterator<Case> it = c.voisins().iterator();
+			Iterator<Case> it = caseDuPion.voisins().iterator();
 			Case cour;
 			while (it.hasNext())
 			{
@@ -728,7 +729,7 @@ public class Game implements Serializable {
 
 	/**
 	 * Fonction renvoyant les pions du joueur courant qui peuvent se deplacer
-	 * (en mangeant ou nom)
+	 * (en capturant ou nom)
 	 * 
 	 * @return Une liste de pions
 	 */
@@ -755,7 +756,7 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Fonction donnant les pions du joueur courant qui peuvent manger ce coup
+	 * Fonction donnant les pions du joueur courant qui peuvent capturer ce coup
 	 * ci
 	 * 
 	 * @return Une liste de pions
@@ -777,19 +778,19 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Donne les cases que si on y va dessus on mange
+	 * Donne les cases que si on y va dessus on capture
 	 * 
 	 * @param coupsPossibles
 	 *            Tous les coups possibles de deplacement pour le pion sur case
 	 *            c
-	 * @param c
-	 *            La case sur laquelle ce trouve le pion qui va manger
+	 * @param caseDuPion
+	 *            La case sur laquelle ce trouve le pion qui va capturer
 	 * @return
 	 */
-	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case c)
+	public ArrayList<Case> coupsPourPriseParUnPion(ArrayList<Case> coupsPossibles, Case caseDuPion)
 	{
 		ArrayList<Case> res = new ArrayList<Case>();
-		if (c != null)
+		if (caseDuPion != null)
 		{
 			Pion ennemi = (joueurCourant == joueurBlanc) ? Pion.Noir : Pion.Blanc;
 			for (Direction d : Direction.values())
@@ -800,8 +801,8 @@ public class Game implements Serializable {
 				 * est un coup possibles, et que la case opposée soit un pion
 				 * ennemi
 				 */
-				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(Direction.oppose(d)) != null && c.getCaseAt(Direction.oppose(d)).pion == ennemi)
-					res.add(c.getCaseAt(d));
+				if (caseDuPion.getCaseAt(d) != null && coupsPossibles.contains(caseDuPion.getCaseAt(d)) && caseDuPion.getCaseAt(Direction.oppose(d)) != null && caseDuPion.getCaseAt(Direction.oppose(d)).pion == ennemi)
+					res.add(caseDuPion.getCaseAt(d));
 
 				/* Percussion - Rapprochement */
 				/*
@@ -809,52 +810,14 @@ public class Game implements Serializable {
 				 * vide, qu'elle soit un coup possible et que la case suivante
 				 * dans la même direction soit un pion ennemi
 				 */
-				if (c.getCaseAt(d) != null && coupsPossibles.contains(c.getCaseAt(d)) && c.getCaseAt(d).getCaseAt(d) != null && c.getCaseAt(d).getCaseAt(d).pion == ennemi)
-					res.add(c.getCaseAt(d));
+				if (caseDuPion.getCaseAt(d) != null && coupsPossibles.contains(caseDuPion.getCaseAt(d)) && caseDuPion.getCaseAt(d).getCaseAt(d) != null && caseDuPion.getCaseAt(d).getCaseAt(d).pion == ennemi)
+					res.add(caseDuPion.getCaseAt(d));
 			}
 		}
 		return res;
 
 	}
 
-	/**
-	 * Teste si une case est jouable
-	 * 
-	 * @param p
-	 *            La coordonnee de la case
-	 * @return Vrai si la case est vide, Faux sinon
-	 */
-	/*
-	 * public boolean estJouable(Coordonnee p) { Pion courant = (joueurCourant
-	 * == joueurBlanc) ? Pion.Blanc : Pion.Noir; boolean res = false; if
-	 * (matricePlateau[p.ligne][p.colonne].pion == courant) { for (Case case1 :
-	 * matricePlateau[p.ligne][p.colonne].voisins()) { res = res ||
-	 * case1.estVide(); } } return res; }
-	 */
-
-	/**
-	 * Teste si la case a la coordonee p est voisin de la case a la coordonnee q
-	 * 
-	 * @param p
-	 *            Une case
-	 * @param q
-	 *            Une case
-	 * @return Vrai si p appartien aux voisins de q
-	 */
-	/*
-	 * public boolean estVoisin(Coordonnee p, Coordonnee q) { Case c1 =
-	 * matricePlateau[p.ligne][p.colonne]; Case c2 =
-	 * matricePlateau[q.ligne][q.colonne]; return c1.voisins().contains(c2); }
-	 */
-
-	public void afficherList(ArrayList<Case> l, String str)
-	{
-		System.out.println("------------Affichage" + str + "-------------");
-		Iterator<Case> it = l.iterator();
-		while (it.hasNext())
-			System.out.println(it.next());
-		System.out.println("------------ Fin Affichage-------------");
-	}
 
 	/**
 	 * Arrete le jeu, tue les joueurs
@@ -874,21 +837,28 @@ public class Game implements Serializable {
 		this.stopped = true;
 	}
 
-	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] tableau)
+	/**
+	 * Chaine une matrice de cases
+	 * @param nbLignes Nombre de lignes de la matrice
+	 * @param nbColonne Nombre de colonnes de la matrice
+	 * @param matrice La matrice a chainee
+	 * @return La matrice passee en parametre chainee
+	 */
+	private static Case[][] chainage(int nbLignes, int nbColonne, Case[][] matrice)
 	{
 		for (int i = 0; i < nbLignes; i++)
 		{
 			for (int j = 0; j < nbColonne - 1; j++)
-				tableau[i][j].est = tableau[i][j + 1];
+				matrice[i][j].est = matrice[i][j + 1];
 			for (int j = 1; j < nbColonne; j++)
-				tableau[i][j].ouest = tableau[i][j - 1];
+				matrice[i][j].ouest = matrice[i][j - 1];
 		}
 		for (int j = 0; j < nbColonne; j++)
 		{
 			for (int i = 0; i < nbLignes - 1; i++)
-				tableau[i][j].sud = tableau[i + 1][j];
+				matrice[i][j].sud = matrice[i + 1][j];
 			for (int i = 1; i < nbLignes; i++)
-				tableau[i][j].nord = tableau[i - 1][j];
+				matrice[i][j].nord = matrice[i - 1][j];
 		}
 
 		for (int i = 0; i < nbLignes; i++)
@@ -898,42 +868,42 @@ public class Game implements Serializable {
 				{
 					if (i > 0 && i < nbLignes - 1 && j > 0 && j < nbColonne - 1)
 					{
-						tableau[i][j].nordEst = tableau[i - 1][j + 1];
-						tableau[i][j].sudEst = tableau[i + 1][j + 1];
-						tableau[i][j].sudOuest = tableau[i + 1][j - 1];
-						tableau[i][j].nordOuest = tableau[i - 1][j - 1];
+						matrice[i][j].nordEst = matrice[i - 1][j + 1];
+						matrice[i][j].sudEst = matrice[i + 1][j + 1];
+						matrice[i][j].sudOuest = matrice[i + 1][j - 1];
+						matrice[i][j].nordOuest = matrice[i - 1][j - 1];
 					}
 					if (i == 0)
 					{
 						if (j >= 0 && j != nbColonne - 1)
-							tableau[i][j].sudEst = tableau[i + 1][j + 1];
+							matrice[i][j].sudEst = matrice[i + 1][j + 1];
 						if (j != 0 && j < nbColonne)
-							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
+							matrice[i][j].sudOuest = matrice[i + 1][j - 1];
 					}
 					if (i == nbLignes - 1)
 					{
 						if (j >= 0 && j != nbColonne - 1)
-							tableau[i][j].nordEst = tableau[i - 1][j + 1];
+							matrice[i][j].nordEst = matrice[i - 1][j + 1];
 						if (j != 0 && j < nbColonne)
-							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
+							matrice[i][j].nordOuest = matrice[i - 1][j - 1];
 					}
 					if (j == 0)
 					{
 						if (i != 0 && i <= nbLignes)
-							tableau[i][j].nordEst = tableau[i - 1][j + 1];
+							matrice[i][j].nordEst = matrice[i - 1][j + 1];
 						if (i >= 0 && i != nbLignes - 1)
-							tableau[i][j].sudEst = tableau[i + 1][j + 1];
+							matrice[i][j].sudEst = matrice[i + 1][j + 1];
 					}
 					if (j == 8)
 					{
 						if (i >= 0 && i != nbLignes - 1)
-							tableau[i][j].sudOuest = tableau[i + 1][j - 1];
+							matrice[i][j].sudOuest = matrice[i + 1][j - 1];
 						if (i != 0 && i <= nbLignes)
-							tableau[i][j].nordOuest = tableau[i - 1][j - 1];
+							matrice[i][j].nordOuest = matrice[i - 1][j - 1];
 					}
 				}
 			}
-		return tableau;
+		return matrice;
 
 	}
 
@@ -943,15 +913,16 @@ public class Game implements Serializable {
 	 */
 	public void finirSonTour()
 	{
-		if (Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Humain)
-		{
-			this.finirSonTour = true;
-				((HumanPlayer) this.joueurCourant).setCoup(null, null);
-			
-		}else if(Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Reseau) {
-			this.finirSonTour = true;
-			this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
+		if(this.enCombo){
+			if (Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Humain)
+			{
+				this.finirSonTour = true;
+					((HumanPlayer) this.joueurCourant).setCoup(null, null);
+				
+			}else if(Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Reseau) {
+				this.finirSonTour = true;
+				this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
+			}
 		}
-			
 	}
 }

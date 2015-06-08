@@ -3,7 +3,9 @@ package engine;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Random;
 
 import network.NetworkPlayer;
@@ -11,6 +13,9 @@ import AI.*;
 
 public class Tools {
 
+	/**
+	 * Un generateur de nombres aléatoires
+	 */
 	public static final Random rand = new Random();
 	
 	/**
@@ -76,7 +81,13 @@ public class Tools {
 
 		throw new RuntimeException();
 	}
-
+	/**
+	 * Donne le type d'un joueur
+	 * 
+	 * @param p
+	 *            Le joueur
+	 * @return Le type de p (appartien a PlayerType)
+	 */
 	public static PlayerType getTypeOfPlayer(int p)
 	{
 
@@ -124,6 +135,11 @@ public class Tools {
 		throw new RuntimeException();
 	}
 
+	/**
+	 * Indique si l'ip apssée en paramettre est valide
+	 * @param ip
+	 * @return True -> ip valide, false sinon
+	 */
 	public static boolean isValidIP(String ip)
 	{
 		return ip.matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
@@ -163,12 +179,20 @@ public class Tools {
 		return ipOrdi;
 	}
 
+	/**
+	 * Cree nouveaux joueur suivant la configuration donnee et effectue le changement dans la partie courante
+	 * @param moteur Le moteur associé aux joueurs
+	 * @param conf La configuration actuelle de la partie
+	 * @param p1 Le type du premier joueur
+	 * @param p2 Le type du deuxieme joueur
+	 * @param nomJ1 Le nom du premier joueur
+	 * @param nomJ2 Le nom du premier joueur
+	 */
 	public static void changerDeJoueur(EngineServices moteur, Configuration conf, PlayerType p1, PlayerType p2, String nomJ1, String nomJ2)
 	{
 
 		Player j1 = null;
 		Player j2 = null;
-		System.out.println("COnf : " + conf + ", p1 : "+ p1 + ", p2 : " + p2 );
 		switch (conf)
 		{
 			case HumainVSHumain:
@@ -215,5 +239,20 @@ public class Tools {
 
 		}
 		moteur.changerLesJoueurs(j1, j2);
+	}
+	
+
+	/**
+	 * Affiche une liste avec une description
+	 * @param l La liste a afficher
+	 * @param str La description de la liste
+	 */
+	public static void afficherList(ArrayList<Case> l, String str)
+	{
+		System.out.println("------------Affichage " + str + " -------------");
+		Iterator<Case> it = l.iterator();
+		while (it.hasNext())
+			System.out.println(it.next());
+		System.out.println("------------ Fin Affichage-------------");
 	}
 }

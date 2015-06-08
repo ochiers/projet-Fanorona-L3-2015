@@ -1,13 +1,23 @@
 package engine;
 
+/**
+ * Classe definissant une direction
+ * @author soulierc
+ *
+ */
 public enum Direction
 {
 	Nord, NordEst, Est, SudEst, Sud, SudOuest, Ouest, NordOuest;
 
-	public static Direction oppose(Direction d)
+	/**
+	 * Donne l'opposee de la direction opposée
+	 * @param direction La direction dont on veut l'opposé
+	 * @return Une direction qui est l'opposee de d
+	 */
+	public static Direction oppose(Direction direction)
 	{
 		Direction res = null;
-		switch (d)
+		switch (direction)
 		{
 			case Nord:
 				res = Sud;

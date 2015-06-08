@@ -10,6 +10,11 @@ import engine.*;
 import IHM.*;
 import AI.*;
 
+/**
+ * Lnaceur principal du jeu
+ * @author soulierc
+ *
+ */
 public class JeuFanorona {
 	public static void main(String argv[]) throws InterruptedException
 	{

@@ -150,11 +150,13 @@ public interface EngineServices {
 
 	/**
 	 * Annule un demi-coup, la partie est en pause apres cette action
+	 * @param notifReseau Indique s'il faut envoyer l'ordre sur le reseau
 	 */
 	public void annuler(boolean notifReseau);
 
 	/**
 	 * Refait un demi-coup deja annulé, la partie est en pause apres cette action
+	 * @param notifReseau Indique s'il faut envoyer l'ordre sur le reseau
 	 */
 	public void refaire(boolean notifReseau);
 
@@ -166,17 +168,18 @@ public interface EngineServices {
 	/**
 	 * Cree une nouvelle partie
 	 * 
-	 * @param p1
+	 * @param joueurBlanc
 	 *            Le joueur blanc
-	 * @param p2
+	 * @param joueurNoir
 	 *            Le joueur noir
 	 * @param size
 	 *            La taille du plateau (9X5 ou 5X5)
 	 */
-	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size);
+	public void nouvellePartie(Player joueurBlanc, Player joueurNoir, int premierJoueur, Dimension size);
 
 	/**
 	 * Recommence la partie
+	 * @param notifReseau Indique s'il faut envoyer l'ordre sur le reseau
 	 */
 	public void recommencer(boolean notifReseau);
 	
@@ -204,18 +207,18 @@ public interface EngineServices {
 	public boolean getPremierJoueur();
 	
 	/**
-	 * Permet de changer a la volée une joueur de la partie courante
-	 * @param precedent Le joueur a remplacer
-	 * @param nouveau Le nouveau joueur
+	 * Permet de changer a la volée les joueurs de la partie courante
+	 * @param nouveauJ1 Le nouveau joueur1
+	 * @param nouveauJ2 Le nouveau joueur2
 	 */
 	public void changerLesJoueurs(Player nouveauJ1, Player nouveauJ2);
 
 	/**
 	 * Heberge une partie, attend qu'un client se connecte
-	 * @param port Le port d'ecoute
+	 * @param portEcoute Le port d'ecoute
 	 * @throws IOException
 	 */
-	public void hebergerPartie(int port)  throws IOException;
+	public void hebergerPartie(int portEcoute)  throws IOException;
 	
 	/**
 	 * Rejoin une partie sur le reseau
@@ -239,15 +242,15 @@ public interface EngineServices {
 
 	/**
 	 * Envoie le coup joué sur le reseau, si une connection a ete prealablement établie
-	 * @param c
+	 * @param coupJoue
 	 */
-	public void envoyerCoupSurReseau(Coup c);
+	public void envoyerCoupSurReseau(Coup coupJoue);
 	
 	/**
 	 * Idem envoyerCoupSurReseau mais avec une coordonnee
-	 * @param c
+	 * @param coordonneeJouee
 	 */
-	public void envoyerChoixCaseSurReseau(Coordonnee c);
+	public void envoyerChoixCaseSurReseau(Coordonnee coordonneeJouee);
 	
 	/**
 	 * Quitte l'application proprement
