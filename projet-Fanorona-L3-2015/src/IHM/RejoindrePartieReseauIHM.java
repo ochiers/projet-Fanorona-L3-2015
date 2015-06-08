@@ -58,8 +58,8 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
 
-		//JPanel pan = new JPanel();
-		ImagePanel pan = new ImagePanel(new ImageIcon("Ressources/images/reseau.jpg").getImage(), width, height);
+		JPanel pan = new JPanel();
+		pan = new ImagePanel(new ImageIcon("Ressources/images/reseau.jpg").getImage(), width, height);
 		pan.setLayout(null);
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");
@@ -96,7 +96,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 		bt_rejoindre.addActionListener(new rejoindreListener(this));
 		bt_annuler.addActionListener(new annulerListener(this));
-
+		
 		pan.add(explicationIP);
 		pan.add(txt_saisieIp);
 
@@ -123,7 +123,6 @@ public class RejoindrePartieReseauIHM extends JFrame {
 	{
 		this.leMoteur = leMoteur;
 	}
-
 }
 
 class rejoindreListener implements ActionListener {
