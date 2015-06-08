@@ -29,7 +29,7 @@ public class Fenetre implements Runnable, Affichage {
 	JLabel				scoreInt1, scoreInt2;
 
 	JLabel				tour1, tour2;
-	ImagePanel			panelAccueil;
+	static ImagePanel			panelAccueil;
 	ImageIcon			imageActuelle= new ImageIcon("src/images/imageDefault.jpg");
 	
 	
@@ -72,6 +72,7 @@ public class Fenetre implements Runnable, Affichage {
 
 	int					taillePion;
 	JPanel				panelVictoire;
+	JPanel				panelPause;
 	
 	String fichierJoueurBlanc = "./Ressources/pionBlanc.png";
 	String fichierJoueurNoir = "./Ressources/pionNoir.png";
@@ -84,8 +85,7 @@ public class Fenetre implements Runnable, Affichage {
 	public void run()
 	{
 	//	System.out.println("//////////////////////////////////////////////////////");
-	//	frame.setSize(1200, 700);
-		frame.setSize(1200, 800);
+		frame.setSize(1200, 700);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
@@ -96,7 +96,7 @@ public class Fenetre implements Runnable, Affichage {
 		panelVictoire.setSize(panelAccueil.getSize());
 		panelVictoire.setOpaque(false);
 		panelVictoire.setVisible(false);
-
+		
 		// grille
 		monDessin = new AireDeDessin(this);
 		monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
@@ -435,6 +435,8 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
+				panelPause = new EnPause(" Jeu en pause ");
+				panelPause.setVisible(true);
 				// System.out.println("en pause");
 			}
 		}
@@ -472,6 +474,8 @@ public class Fenetre implements Runnable, Affichage {
 				Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
 				engine.nouvellePartie(p1, p2, 0, size);
 				monDessin.finPartie = false;
+				panelPause = new EnPause(" En attente de joueur ");
+				panelPause.setVisible(true);
 			} catch (IOException e1)
 			{
 				e1.printStackTrace();

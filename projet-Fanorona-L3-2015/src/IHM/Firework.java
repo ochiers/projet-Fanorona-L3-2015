@@ -4,6 +4,7 @@
 package IHM;
 
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -136,7 +137,7 @@ public final class Firework extends JPanel {
 	public Firework(Fenetre fenetre) {
 		super();
 
-		this.mainPanel = new JPanel() {
+		this.mainPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				synchronized (volleys) {
@@ -145,8 +146,8 @@ public final class Firework extends JPanel {
 			}
 		};
 		this.mainPanel.setBackground(new Color(0, 0, 0, 0)); //transparent
-		this.mainPanel.setPreferredSize(new Dimension(480, 320));
-		//this.mainPanel.setPreferredSize(new Dimension(fenetre.fw, fenetre.fh));
+		//this.mainPanel.setPreferredSize(new Dimension(480, 320));
+		this.mainPanel.setPreferredSize(new Dimension(fenetre.fw, fenetre.fh));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();
@@ -167,8 +168,8 @@ public final class Firework extends JPanel {
 		//afficher winner
 		String winner = (fenetre.engine.getWinner()).name;
 		System.out.println(" WINNER : " + winner);
-		//JLabel win = new JLabel(" " + winner + " ");
-		//mainPanel.add(win);
+		JLabel win = new JLabel(" " + winner + " ");
+		mainPanel.add(win, BorderLayout.SOUTH);
 		this.add(mainPanel);
 		this.setVisible(false);
 	}
