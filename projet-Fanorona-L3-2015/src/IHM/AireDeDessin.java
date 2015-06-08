@@ -93,7 +93,7 @@ public class AireDeDessin extends JComponent {
 		etir = etirW < etirH ? etirW : etirH;
 		segment = etir * (CoordonneesPlateau[2] - CoordonneesPlateau[0]) / 8.0;
 		tailleJeton = (int) (segment / 1.75);
-		Fenetre.setPanelAccueil(new ImagePanel(fenetre.imageActuelle.getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
+		Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, fenetre.imageActuelle.getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 		drawable.drawImage(plateau.getImage(), originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), null);
 
 		majScore();
@@ -127,12 +127,12 @@ public class AireDeDessin extends JComponent {
 		}
 			
 		centrerPlateau(width, height, (int) (etir * plateauW), (int) (etir * plateauH));
-		if(fenetre.engine.isGamePaused())
-			g.drawImage(pauseOverlay, 0,0,width,height,null);
+		
 		if(this.attenteReseau){
-			System.out.println("sdhgsqdgsdfhsdgh");
 			g.drawImage(attenteJoueurOverlay, 0,0,width,height,null);
 		}
+		else if(fenetre.engine.isGamePaused())
+			g.drawImage(pauseOverlay, 0,0,width,height,null);
 		
 	}
 

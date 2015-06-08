@@ -96,7 +96,7 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
-		setPanelAccueil(new ImagePanel(new ImageIcon("Ressources/images/imageDefault.jpg").getImage(), fw, fh));
+		setPanelAccueil(new ImagePanel(frame, new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
 		
 		// grille
