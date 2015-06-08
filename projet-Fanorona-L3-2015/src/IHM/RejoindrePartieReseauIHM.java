@@ -144,12 +144,11 @@ class rejoindreListener implements ActionListener {
 			if (selection != null)
 			{
 				String[] selectionParse = selection.split(":");
-				ip = selectionParse[0];
+				ip = selectionParse[0].replaceAll("[^0-9\\.]", "");
 				if(!Tools.isValidIP(ip))
 					System.err.println("L'ip n'est pas bonne, " + ip);
 				port = Integer.parseInt(selectionParse[1]);
 			}
-			ip = ip.replaceAll("[^0-9\\.]", "");
 			Player p1 = new NetworkPlayer(r.getLeMoteur(), false, "Player at " + ip);
 			Player p2 = new HumanPlayer(r.getLeMoteur(), false, "Joueur");
 			try
@@ -157,6 +156,7 @@ class rejoindreListener implements ActionListener {
 				r.getLeMoteur().rejoindrePartie(port, ip);
 				r.getLeMoteur().nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 
+				r.getLeMoteur().getCurrentDisplay().afficherJeu();
 				System.out.println("OK");
 			} catch (NumberFormatException | IOException e1)
 			{

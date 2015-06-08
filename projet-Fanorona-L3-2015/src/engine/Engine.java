@@ -167,6 +167,7 @@ public class Engine implements EngineServices {
 				partieCourante.joueurBlanc = pB;
 			}
 			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
+			System.out.println("Partie créée avec " + partieCourante.joueurBlanc +" " + partieCourante.joueurNoir +" " + partieCourante.joueurCourant);
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
 			partieCourante.leMoteur = this;

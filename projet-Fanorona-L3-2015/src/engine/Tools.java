@@ -4,12 +4,15 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Random;
 
 import network.NetworkPlayer;
 import AI.*;
 
 public class Tools {
 
+	public static final Random rand = new Random();
+	
 	/**
 	 * Cree un nouveau joueur
 	 * 

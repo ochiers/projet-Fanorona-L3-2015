@@ -465,17 +465,31 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			try
-			{
-				engine.hebergerPartie(12345);
-				Player p1 = new HumanPlayer(engine, false, "Joueur");
-				Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-				engine.nouvellePartie(p1, p2, 0, size);
-				monDessin.finPartie = false;
-			} catch (IOException e1)
-			{
-				e1.printStackTrace();
-			}
+			
+				/*Thread t = new Thread(new Runnable() { public void run() {*/
+
+			JOptionPane.showMessageDialog(frame, "Attente d'un joueur (Port : 12345)");
+					try
+					{
+					engine.hebergerPartie(12345);
+					Player p1 = new HumanPlayer(engine, false, "Joueur");
+					Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
+					engine.nouvellePartie(p1, p2, 0, size);
+					monDessin.finPartie = false;
+					}catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				/*}});
+				t.start();
+				try
+				{
+					Thread.sleep(1000);
+				} catch (InterruptedException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
 		}
 	}
 
