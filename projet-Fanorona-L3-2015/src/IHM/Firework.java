@@ -1,5 +1,5 @@
 /* https://kenai.com/projects/trident/sources/source/content/src/test/swing/Fireworks.java?rev=123
-   Code source modifié selon nos besoin et preferences */
+   Code source modifiï¿½ selon nos besoin et preferences */
 
 package IHM;
 
@@ -146,7 +146,7 @@ public final class Firework extends JPanel {
 		};
 		this.mainPanel.setBackground(new Color(0, 0, 0, 0)); //transparent
 		//this.mainPanel.setPreferredSize(new Dimension(480, 320));
-		this.mainPanel.setPreferredSize(new Dimension(Fenetre.panelAccueil.getX(), Fenetre.panelAccueil.getY()));
+		this.mainPanel.setPreferredSize(new Dimension(Fenetre.getPanelAccueil().getX(), Fenetre.getPanelAccueil().getY()));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();

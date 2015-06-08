@@ -34,7 +34,7 @@ public class Fenetre implements Runnable, Affichage {
 	JLabel				scoreInt1, scoreInt2;
 
 	JLabel				tour1, tour2;
-	static ImagePanel			panelAccueil;
+	private static ImagePanel			panelAccueil;
 	ImageIcon			imageActuelle= new ImageIcon("src/images/imageDefault.jpg");
 	
 	
@@ -95,10 +95,10 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
-		panelAccueil = new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh);
-		panelAccueil.setLayout(new BorderLayout(20, 10));
+		setPanelAccueil(new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
+		getPanelAccueil().setLayout(new BorderLayout(20, 10));
 		frameVictoire = new JFrame(" Fin de Partie ");
-		frameVictoire.setSize(panelAccueil.getSize());
+		frameVictoire.setSize(getPanelAccueil().getSize());
 		frameVictoire.setVisible(false);
 		
 		// grille
@@ -240,10 +240,10 @@ public class Fenetre implements Runnable, Affichage {
 
 		
 		// ajout au panel accueil
-		panelAccueil.add(monDessin, BorderLayout.CENTER);
-		panelAccueil.add(panelOuest, BorderLayout.WEST);
-		panelAccueil.add(panelEst, BorderLayout.EAST);
-		panelAccueil.add(panelSud, BorderLayout.SOUTH);
+		getPanelAccueil().add(monDessin, BorderLayout.CENTER);
+		getPanelAccueil().add(panelOuest, BorderLayout.WEST);
+		getPanelAccueil().add(panelEst, BorderLayout.EAST);
+		getPanelAccueil().add(panelSud, BorderLayout.SOUTH);
 
 		// recuperation joueurs
 		nameJ1 = engine.getJoueurBlanc().name;
@@ -259,7 +259,7 @@ public class Fenetre implements Runnable, Affichage {
 		
 		// FENETRE
 		frame.setJMenuBar(menuBar);
-		frame.add(panelAccueil);
+		frame.add(getPanelAccueil());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new EcouteurDeFenetre(engine));
@@ -369,7 +369,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			preference.save = panelAccueil.getImage();
+			preference.save = getPanelAccueil().getImage();
 			frame3.setVisible(true);
 		}
 
@@ -672,6 +672,16 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		JOptionPane.showMessageDialog(frame, str);
 		
+	}
+
+	public static ImagePanel getPanelAccueil()
+	{
+		return panelAccueil;
+	}
+
+	public static void setPanelAccueil(ImagePanel panelAccueil)
+	{
+		Fenetre.panelAccueil = panelAccueil;
 	}
 
 }
