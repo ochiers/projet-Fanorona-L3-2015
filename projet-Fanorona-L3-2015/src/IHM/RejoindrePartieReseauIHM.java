@@ -1,7 +1,12 @@
 package IHM;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -53,13 +58,18 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		init();
 	}
 
+	@SuppressWarnings("null")
 	public void init()
 	{
+		ImagePanel panFond = new ImagePanel(this, new ImageIcon("Ressources/images/reseau.jpg").getImage(), 0, 0);
+		JPanel fond = new JPanel();
+		fond.add(panFond);
+		this.add(fond);
+		
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
 
-		//JPanel pan = new JPanel();
-		ImagePanel pan = new ImagePanel(laFenetre.frame,new ImageIcon("Ressources/images/reseau.jpg").getImage(), width, height);
+		JPanel pan = new JPanel();
 		pan.setLayout(null);
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");
@@ -108,7 +118,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 		pan.add(bt_rejoindre);
 		pan.add(bt_annuler);
-
+		
 		this.add(pan);
 		this.setLocation(width, height);
 		this.setVisible(true);
@@ -123,7 +133,6 @@ public class RejoindrePartieReseauIHM extends JFrame {
 	{
 		this.leMoteur = leMoteur;
 	}
-
 }
 
 class rejoindreListener implements ActionListener {

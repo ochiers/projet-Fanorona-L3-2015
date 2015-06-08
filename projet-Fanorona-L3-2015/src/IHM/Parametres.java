@@ -119,7 +119,6 @@ public class Parametres {
 		public void actionPerformed(ActionEvent e)
 		{
 			System.out.println("ActionListener : action sur " + box1.getSelectedItem());
-			System.out.println("numero de l'item: " + box1.getSelectedItem());
 			saveMode = engine.Tools.getTypePartie(box1.getSelectedIndex());
 			if(saveMode == Configuration.HumainVSHumain)
 			{
@@ -136,7 +135,7 @@ public class Parametres {
 				box3.setEnabled(true);
 				}
 			fenetre.afficherJeu();
-
+			
 		}
 
 	}
