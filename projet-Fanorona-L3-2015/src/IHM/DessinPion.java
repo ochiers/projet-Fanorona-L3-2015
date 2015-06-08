@@ -16,14 +16,14 @@ public class DessinPion extends JComponent {
 	Fenetre	fenetre;
 	Pion	pionCouleur;
 	int		tailleJeton;
-	String	fichierJoueurBlanc;
-	String	fichierJoueurNoir;
+	String	fichierJoueur;
 
 	public DessinPion(Fenetre f, int taille, Pion p)
 	{
 		this.fenetre = f;
 		this.tailleJeton = taille;
 		this.pionCouleur = p;
+		this.fichierJoueur = (this.pionCouleur == Pion.Blanc) ? this.fenetre.fichierJoueurBlanc : this.fenetre.fichierJoueurNoir;
 	}
 
 	public void paintComponent(Graphics g)
@@ -44,42 +44,31 @@ public class DessinPion extends JComponent {
 		double tailleX = this.getWidth();
 		double tailleY = this.getHeight();
 
-		BufferedImage imgBlanc = null;
-		BufferedImage imgNoir = null;
+		BufferedImage img = null;
 
-		if (imgBlanc == null || !this.fichierJoueurBlanc.equals(this.fenetre.fichierJoueurBlanc))
+		if (this.pionCouleur == Pion.Blanc && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurBlanc) || img == null))
 		{
-			imgBlanc = ImageIO.read(new File(this.fenetre.fichierJoueurBlanc));
-			this.fichierJoueurBlanc = fenetre.fichierJoueurBlanc;
-		}
-		if (imgNoir == null || !this.fichierJoueurNoir.equals(this.fenetre.fichierJoueurNoir))
+			this.fichierJoueur = this.fenetre.fichierJoueurBlanc;
+			System.out.println(this.fichierJoueur);
+			img = ImageIO.read(new File(this.fichierJoueur));
+		} else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
 		{
-			imgNoir = ImageIO.read(new File(this.fenetre.fichierJoueurNoir));
-			this.fichierJoueurNoir = fenetre.fichierJoueurNoir;
+			this.fichierJoueur = this.fenetre.fichierJoueurNoir;
+			System.out.println(this.fichierJoueur);
+			img = ImageIO.read(new File(this.fichierJoueur));
 		}
 
-		double imgBlancX = imgBlanc.getWidth();
-		double imgBlancY = imgBlanc.getHeight();
-		double imgNoirX = imgNoir.getWidth();
-		double imgNoirY = imgNoir.getHeight();
+		double imgX = img.getWidth();
+		double imgY = img.getHeight();
 
-		double ratioXBlanc = tailleX / imgBlancX;
-		double ratioYBlanc = tailleY / imgBlancY;
+		double ratioX = tailleX / imgX;
+		double ratioY = tailleY / imgY;
 
-		double ratioXNoir = tailleX / imgNoirX;
-		double ratioYNoir = tailleY / imgNoirY;
+		double ratio = Math.min(ratioX, ratioY);
 
-		double ratioBlanc = Math.min(ratioXBlanc, ratioYBlanc);
-		double ratioNoir = Math.min(ratioXNoir, ratioYNoir);
+		double positionX = tailleX - (imgX * ratio);
+		double positionY = tailleY - (imgY * ratio);
 
-		double positionBlancX = tailleX - (imgBlancX * ratioBlanc);
-		double positionBlancY = tailleY - (imgBlancY * ratioBlanc);
-		double positionNoirX = tailleX - (imgNoirX * ratioNoir);
-		double positionNoirY = tailleY - (imgNoirY * ratioNoir);
-
-		if (pionCouleur == Pion.Blanc)
-			drawable.drawImage(imgBlanc, (int) positionBlancX / 2, (int) positionBlancY / 2, (int) (imgBlancX * ratioBlanc), (int) (imgBlancY * ratioBlanc), null);
-		else
-			drawable.drawImage(imgNoir, (int) positionNoirX / 2, (int) positionNoirY / 2, (int) (imgNoirX * ratioNoir), (int) (imgNoirY * ratioNoir), null);
+		drawable.drawImage(img, (int) positionX / 2, (int) positionY / 2, (int) (imgX * ratio), (int) (imgY * ratio), null);
 	}
 }
