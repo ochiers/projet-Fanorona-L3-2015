@@ -4,7 +4,6 @@
 package IHM;
 
 import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -137,7 +136,7 @@ public final class Firework extends JPanel {
 	public Firework(Fenetre fenetre) {
 		super();
 
-		this.mainPanel = new JPanel(new BorderLayout()) {
+		this.mainPanel = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				synchronized (volleys) {
@@ -165,11 +164,6 @@ public final class Firework extends JPanel {
 				}.start();
 			}
 		});
-		//afficher winner
-		String winner = (fenetre.engine.getWinner()).name;
-		System.out.println(" WINNER : " + winner);
-		JLabel win = new JLabel(" " + winner + " ");
-		mainPanel.add(win, BorderLayout.SOUTH);
 		this.add(mainPanel);
 		this.setVisible(false);
 	}
