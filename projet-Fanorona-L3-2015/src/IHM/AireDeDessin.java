@@ -6,8 +6,10 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import engine.*;
 
 @SuppressWarnings("serial")
@@ -104,7 +106,8 @@ public class AireDeDessin extends JComponent {
 			{
 				if (!pionCliquer)
 					pionJouableCombo(drawable);
-				cheminCombo(drawable);
+				if(combo.size() > 0)
+					cheminCombo(drawable);
 			}
 			dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), etir);
 			if (pionCliquer)
@@ -331,10 +334,23 @@ public class AireDeDessin extends JComponent {
 	public void cheminCombo(Graphics2D drawable)
 	{
 		drawable.setPaint(comboColor);
+		Point pointCour = null, pointPrec = null;
+		Stroke s = drawable.getStroke();
+		drawable.setStroke(new BasicStroke(5));
 		for (int i = 0; i < combo.size(); i++)
 		{
-			drawable.fillOval((int) (CoordonneesPlateau[0] * etir + combo.get(i).position.colonne * segment - tailleJeton / 4 + originePlateauX), (int) (CoordonneesPlateau[1] * etir + combo.get(i).position.ligne * segment - tailleJeton / 4 + originePlateauY), tailleJeton / 2, tailleJeton / 2);
+			pointCour = new Point((int) (CoordonneesPlateau[0] * etir + combo.get(i).position.colonne * segment - tailleJeton / 4 + originePlateauX), 
+								  (int) (CoordonneesPlateau[1] * etir + combo.get(i).position.ligne * segment - tailleJeton / 4 + originePlateauY));
+			drawable.fillOval(pointCour.x, pointCour.y, tailleJeton / 2, tailleJeton / 2);
+			if (i >= 1){
+				drawable.drawLine(pointPrec.x+ (tailleJeton / 4), pointPrec.y+ (tailleJeton / 4), pointCour.x+ (tailleJeton / 4), pointCour.y+ (tailleJeton / 4));
+			}
+			pointPrec = pointCour;
 		}
+		pointCour = new Point((int) (CoordonneesPlateau[0] * etir + pCourant.colonne * segment - tailleJeton / 4 + originePlateauX), 
+				  	(int) (CoordonneesPlateau[1] * etir + pCourant.ligne * segment - tailleJeton / 4 + originePlateauY));
+		drawable.drawLine(pointPrec.x+ (tailleJeton / 4), pointPrec.y+ (tailleJeton / 4), pointCour.x+ (tailleJeton / 4), pointCour.y+ (tailleJeton / 4));
+		drawable.setStroke(s);
 		drawable.setPaint(Color.black);
 	}
 
