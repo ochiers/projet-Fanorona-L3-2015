@@ -218,7 +218,7 @@ public interface EngineServices {
 	 * @param portEcoute Le port d'ecoute
 	 * @throws IOException
 	 */
-	public void hebergerPartie(int portEcoute)  throws IOException;
+	public void hebergerPartie(int portEcoute)  throws Exception;
 	
 	/**
 	 * Rejoin une partie sur le reseau

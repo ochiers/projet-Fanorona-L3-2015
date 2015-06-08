@@ -21,4 +21,5 @@ public class RequestType
 	public static final int DemanderConfirmationAnnuler = 110;
 	public static final int DemanderConfirmationRefaire = 111;
 	public static final int	DemanderConfirmationRecommencer	= 112;
+	public static final int	EnvoiNom	= 113;
 }

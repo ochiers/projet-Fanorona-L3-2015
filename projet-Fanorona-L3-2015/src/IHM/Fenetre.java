@@ -146,7 +146,7 @@ public class Fenetre implements Runnable, Affichage {
 		reseau_rejoindre = new JMenuItem(" Rejoindre une partie ");
 
 		reseau_heberger.addActionListener(new ItemAction_reseau_heberger());
-		reseau_rejoindre.addActionListener(new ItemAction_reseau_rejoindre());
+		reseau_rejoindre.addActionListener(new ItemAction_reseau_rejoindre(this));
 
 		reseau.add(reseau_heberger);
 		reseau.add(reseau_rejoindre);
@@ -497,15 +497,6 @@ public class Fenetre implements Runnable, Affichage {
 			monDessin.repaint();
 			int res = JOptionPane.showConfirmDialog(frame, "Le jeu sera bloqué jusqu'à ce qu'un adversaire se connecte sur le port n°12345,\n voulez vous continuer ?","Heberger une partie", JOptionPane.YES_NO_OPTION);
 			if(res == JOptionPane.YES_OPTION){
-		
-				try
-				{
-					Thread.sleep(200);
-				} catch (InterruptedException e2)
-				{
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
 				try
 				{
 					engine.hebergerPartie(12345);
@@ -513,7 +504,7 @@ public class Fenetre implements Runnable, Affichage {
 					Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
 					engine.nouvellePartie(p1, p2, 0, size);
 					monDessin.finPartie = false;
-				}catch (IOException e1)
+				}catch (Exception e1)
 				{
 					e1.printStackTrace();
 				}
@@ -525,9 +516,14 @@ public class Fenetre implements Runnable, Affichage {
 
 	class ItemAction_reseau_rejoindre implements ActionListener {
 
+		Fenetre f;
+		public ItemAction_reseau_rejoindre(Fenetre f)
+		{
+			this.f = f;
+		}
 		public void actionPerformed(ActionEvent e)
 		{
-			new RejoindrePartieReseauIHM(engine);
+			new RejoindrePartieReseauIHM(engine,f);
 			monDessin.finPartie = false;
 		}
 

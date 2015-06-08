@@ -72,7 +72,9 @@ public class HumanPlayer extends Player implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		return leMoteur.getPlateau()[this.pointDirection.ligne][this.pointDirection.colonne];
+		if(pointDirection != null)
+			return leMoteur.getPlateau()[this.pointDirection.ligne][this.pointDirection.colonne];
+		return null;
 	}
 
 	@Override

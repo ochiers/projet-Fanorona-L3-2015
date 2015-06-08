@@ -16,7 +16,7 @@ import AI.*;
  *
  */
 public class JeuFanorona {
-	public static void main(String argv[]) throws InterruptedException
+	public static void main(String argv[]) throws Exception
 	{
 
 		EngineServices e = new Engine();
