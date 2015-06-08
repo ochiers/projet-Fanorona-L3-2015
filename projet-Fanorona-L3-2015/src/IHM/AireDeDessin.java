@@ -127,12 +127,12 @@ public class AireDeDessin extends JComponent {
 		}
 			
 		centrerPlateau(width, height, (int) (etir * plateauW), (int) (etir * plateauH));
-		if(fenetre.engine.isGamePaused())
-			g.drawImage(pauseOverlay, 0,0,width,height,null);
+		
 		if(this.attenteReseau){
-			System.out.println("sdhgsqdgsdfhsdgh");
 			g.drawImage(attenteJoueurOverlay, 0,0,width,height,null);
 		}
+		else if(fenetre.engine.isGamePaused())
+			g.drawImage(pauseOverlay, 0,0,width,height,null);
 		
 	}
 
