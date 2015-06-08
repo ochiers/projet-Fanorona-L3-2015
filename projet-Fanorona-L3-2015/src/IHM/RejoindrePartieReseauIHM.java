@@ -32,7 +32,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 	private EngineServices		leMoteur;
 	public JFrame				frame;
-
+	public Fenetre				laFenetre;
 	private String				titleFrame			= "Rejoindre une partie en réseau";
 	private int					width				= 480;
 	private int					height				= 200;
@@ -45,9 +45,10 @@ public class RejoindrePartieReseauIHM extends JFrame {
 
 	public JList<String>		list_detection;
 
-	public RejoindrePartieReseauIHM(EngineServices moteur)
+	public RejoindrePartieReseauIHM(EngineServices moteur, Fenetre f)
 	{
 		this.setLeMoteur(moteur);
+		this.laFenetre = f;
 		init();
 	}
 
@@ -140,20 +141,23 @@ class rejoindreListener implements ActionListener {
 		if (Tools.isValidIP(ipSaisie) || selection != null)
 		{
 			String ip = ipSaisie;
+			String nom = "Player at " + ip;
 			int port = Integer.parseInt(r.txt_saisiePort.getText());
 			if (selection != null)
 			{
 				String[] selectionParse = selection.split(":");
+				nom = selectionParse[0].substring(0,selectionParse[0].indexOf(' '));
 				ip = selectionParse[0].replaceAll("[^0-9\\.]", "");
 				if(!Tools.isValidIP(ip))
 					System.err.println("L'ip n'est pas bonne, " + ip);
 				port = Integer.parseInt(selectionParse[1]);
 			}
-			Player p1 = new NetworkPlayer(r.getLeMoteur(), false, "Player at " + ip);
-			Player p2 = new HumanPlayer(r.getLeMoteur(), false, "Joueur");
+			Player p1 = new NetworkPlayer(r.getLeMoteur(), false, nom );
+			Player p2 = new HumanPlayer(r.getLeMoteur(), false, r.laFenetre.nameJ2);
 			try
 			{
 				r.getLeMoteur().rejoindrePartie(port, ip);
+				r.getLeMoteur().getNetworkManager().nomAEnvoyer = p2.name;
 				r.getLeMoteur().nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 
 				r.getLeMoteur().getCurrentDisplay().afficherJeu();

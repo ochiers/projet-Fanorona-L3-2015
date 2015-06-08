@@ -233,6 +233,7 @@ public class Engine implements EngineServices {
 		{
 			if (this.networkManager != null && notifReseau)
 			{
+				networkManager.demanderConfirmation(RequestType.DemanderConfirmationRefaire);
 				int r = networkManager.getConfirmation();
 				while( r == -1)
 					try
@@ -442,7 +443,7 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void hebergerPartie(int portEcoute) throws IOException
+	public void hebergerPartie(int portEcoute) throws Exception
 	{
 		if (this.networkManager != null)
 		{
@@ -458,7 +459,7 @@ public class Engine implements EngineServices {
 		this.networkManager = new NetworkManager(this, portEcoute, null);
 		this.networkManager.hebergerPartie();
 		this.networkManager.start();
-
+		
 	}
 
 	@Override
@@ -471,6 +472,7 @@ public class Engine implements EngineServices {
 		this.networkManager = new NetworkManager(this, port, ip);
 		this.networkManager.rejoindrePartie();
 		this.networkManager.start();
+		
 
 	}
 

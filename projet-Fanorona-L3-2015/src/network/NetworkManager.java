@@ -73,6 +73,8 @@ public class NetworkManager extends Thread {
 
 	public Multicast			serveurMulticast;
 
+	public String nomRecu;
+	public String nomAEnvoyer;
 	public NetworkManager(EngineServices e, int port, String ip)
 	{
 		this.leMoteur = e;
@@ -206,10 +208,37 @@ public class NetworkManager extends Thread {
 						sendRequete(RequestType.ReponseOUI);
 					else
 						sendRequete(RequestType.ReponseNON);
+					break;
+				case RequestType.EnvoiNom :
+					System.out.println("ON VA RECEVOIR");
+						nomRecu = recevoirNom();
+						System.out.println("NOM RECU ::::::::::::: " + nomRecu);
+						if(leMoteur.getJoueurBlanc() instanceof NetworkPlayer)
+							leMoteur.getJoueurBlanc().name = nomRecu;
+						else if (leMoteur.getJoueurNoir() instanceof NetworkPlayer)
+							leMoteur.getJoueurNoir().name = nomRecu;
+						break;
 			}
+			
 		}
 		return true;
 
+	}
+
+	private String recevoirNom()
+	{
+		String str = null;
+		try
+		{
+			ObjectInputStream in = new ObjectInputStream(reception);
+			str = (String) in.readObject();
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return str;
+		
 	}
 
 	/**
@@ -219,6 +248,7 @@ public class NetworkManager extends Thread {
 	{
 		try
 		{
+			System.out.println("Envoie de " + req +",  " + c.toString());
 			this.sendRequete(req);
 			ObjectOutputStream out = new ObjectOutputStream(envoi);
 			out.writeObject(c);
@@ -275,6 +305,13 @@ public class NetworkManager extends Thread {
 		if (coupAEnvoyer != null)
 			sendObject(coupAEnvoyer, RequestType.EnvoiCoup);
 		coupAEnvoyer = null;
+	}
+	
+	private void envoyerNom()
+	{
+		if (nomAEnvoyer != null)
+			sendObject(nomAEnvoyer, RequestType.EnvoiNom);
+		nomAEnvoyer = null;
 	}
 
 	/**
@@ -356,6 +393,7 @@ public class NetworkManager extends Thread {
 				{
 					envoyerCoordonnee();
 					envoyerCoup();
+					envoyerNom();
 					Thread.sleep(50);
 				} catch (InterruptedException e)
 				{
