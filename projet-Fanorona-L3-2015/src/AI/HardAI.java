@@ -30,7 +30,7 @@ public class HardAI extends Player implements Serializable {
 		nbPionsAdversaire = 22;
 		nbPionsJoueur = 22;
 		pileCoups = new Stack<DemiCoup>();
-		profondeurCourante = 5;
+		profondeurCourante = 4;
 	}
 	
 	public int eval(int profondeur, boolean noeudMin, Pion couleurJoueur) {
@@ -244,16 +244,6 @@ public class HardAI extends Player implements Serializable {
 		if(p==Pion.Noir)
 			return Pion.Blanc;
 		else return Pion.Noir;
-	}
-	
-	public Case[][] copiePlateau(Case[][] plateau) {
-		Case[][] res = new Case[plateau[0].length][plateau.length];
-		for(int i = 0; i < plateau[0].length; i++){
-			for (int j = 0; j < plateau.length; j++){
-				res[i][j] = plateau[i][j];
-			}
-		}
-		return res;
 	}
 	
 	public boolean coupPerdantPercussion(Case c, Pion couleurAdversaire){
@@ -577,8 +567,8 @@ public class HardAI extends Player implements Serializable {
 					}
 				}
 				// PRINT
-				Coup p = coupCourant;
-				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+//				Coup p = coupCourant;
+//				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 				if(res > meilleurRes) {
 					premieresCasesPrisesNonPerdants.clear();
 					listeCoupsNonPerdants.clear();
