@@ -59,7 +59,7 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		this.setSize(width, height);
 
 		//JPanel pan = new JPanel();
-		ImagePanel pan = new ImagePanel(new ImageIcon("Ressources/images/reseau.jpg").getImage(), width, height);
+		ImagePanel pan = new ImagePanel(laFenetre.frame,new ImageIcon("Ressources/images/reseau.jpg").getImage(), width, height);
 		pan.setLayout(null);
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");
