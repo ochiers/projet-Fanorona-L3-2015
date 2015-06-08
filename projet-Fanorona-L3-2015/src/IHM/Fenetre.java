@@ -3,11 +3,15 @@ package IHM;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import AI.MediumAI;
 import network.NetworkPlayer;
 import engine.*;
 
@@ -388,7 +392,15 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
+			try
+			{
+				Runtime runtime = Runtime.getRuntime();
+				runtime.exec("firefox ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 
+			} catch (IOException e1)
+			{
+				e1.printStackTrace();
+			} 
 		}
 
 	}
@@ -456,7 +468,15 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-
+			Player p2 = new MediumAI(engine,true,"IA suggestion");
+			ArrayList<Case> pionsPossibles = engine.getCurrentGame().lesPionsQuiPeuventManger();
+			if (pionsPossibles.size() == 0)
+			{
+				pionsPossibles = engine.getCurrentGame().lesPionsJouables();
+			}
+			Case[] tmp = new Case[pionsPossibles.size()];
+			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
+			
 		}
 
 	}
@@ -465,16 +485,19 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			try
-			{
-				engine.hebergerPartie(12345);
-				Player p1 = new HumanPlayer(engine, false, "Joueur");
-				Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
-				engine.nouvellePartie(p1, p2, 0, size);
-				monDessin.finPartie = false;
-			} catch (IOException e1)
-			{
-				e1.printStackTrace();
+			int res = JOptionPane.showConfirmDialog(frame, "Le jeu sera bloqué jusqu'à ce qu'un adversaire se connecte sur le port n°12345,\n voulez vous continuer ?","Heberger une partie", JOptionPane.YES_NO_OPTION);
+			if(res == JOptionPane.YES_OPTION){
+				try
+				{
+					engine.hebergerPartie(12345);
+					Player p1 = new HumanPlayer(engine, false, "Joueur");
+					Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
+					engine.nouvellePartie(p1, p2, 0, size);
+					monDessin.finPartie = false;
+				}catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

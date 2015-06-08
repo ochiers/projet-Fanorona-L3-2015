@@ -59,6 +59,7 @@ class Recepteur extends Thread {
 			} catch (Exception exc)
 			{
 				exc.printStackTrace();
+				continue;
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package engine;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class Player extends Thread implements Serializable {
 
@@ -21,6 +22,8 @@ public abstract class Player extends Thread implements Serializable {
 	
 	private boolean					stopped;
 	
+	private long idJoueur;
+	
 	/**
 	 * Avatar du joueur, sous oformae de chemin de fichier
 	 */
@@ -31,6 +34,7 @@ public abstract class Player extends Thread implements Serializable {
 		this.aiPlayer = isAI;
 		this.name = name;
 		this.leMoteur = leMoteur;
+		this.idJoueur = Tools.rand.nextLong();
 	}
 
 	public Player(Player p)
@@ -39,6 +43,7 @@ public abstract class Player extends Thread implements Serializable {
 		this.name = p.name;
 		this.leMoteur = p.leMoteur;
 		this.stopped = p.stopped;
+		this.idJoueur = p.idJoueur;
 	}
 
 	public String toString()
@@ -93,13 +98,23 @@ public abstract class Player extends Thread implements Serializable {
 		{
 			try
 			{
-				leMoteur.getCurrentGame().jouer(name);
+				leMoteur.getCurrentGame().jouer(getIdJoueur());
 			} catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public long getIdJoueur()
+	{
+		return idJoueur;
+	}
+
+	public void setIdJoueur(long idJoueur)
+	{
+		this.idJoueur = idJoueur;
 	}
 
 }
