@@ -38,7 +38,8 @@ public class Fenetre implements Runnable, Affichage {
 	ImageIcon			imageActuelle= new ImageIcon("src/images/imageDefault.jpg");
 	
 	
-	int					fw, fh;
+	int					fw;
+	int fh;
 	JLabel				idj1, idj2;
 	JLabel				levelj1, levelj2;
 	Color				pion1	= Color.black;
