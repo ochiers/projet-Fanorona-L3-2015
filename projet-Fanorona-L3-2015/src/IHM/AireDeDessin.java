@@ -44,9 +44,10 @@ public class AireDeDessin extends JComponent {
 
 	public boolean			surbrillance	= false;
 	public Coordonnee		pSurbrillance;
-	public Image 		pauseOverlay;
-	public Image 		attenteJoueurOverlay;
-	public boolean 		attenteReseau;
+	public Image			pauseOverlay;
+	public Image			attenteJoueurOverlay;
+	public boolean			attenteReseau;
+
 	public AireDeDessin(Fenetre f)
 	{
 		this.fenetre = f;
@@ -101,19 +102,19 @@ public class AireDeDessin extends JComponent {
 		majBouton();
 		majNomJoueurs();
 
-		if ( fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie)
+		if (fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie)
 			dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), etir);
 		else
 		{
 			if (!pionCliquer && doitChoisir)
 				choixManger(drawable);// halo bleu
 			if (!fenetre.engine.enCombo() && !pionCliquer && !doitChoisir)
-					pionJouable(drawable);// halo vert
+				pionJouable(drawable);// halo vert
 			else
 			{
 				if (!pionCliquer)
 					pionJouableCombo(drawable);
-				if(combo != null && combo.size() > 0)
+				if (combo != null && combo.size() > 0)
 					cheminCombo(drawable);
 			}
 			dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), etir);
@@ -125,15 +126,15 @@ public class AireDeDessin extends JComponent {
 					pionSurbrillance(drawable, pSurbrillance, Color.white);
 			}
 		}
-			
+
 		centrerPlateau(width, height, (int) (etir * plateauW), (int) (etir * plateauH));
-		
-		if(this.attenteReseau){
-			g.drawImage(attenteJoueurOverlay, 0,0,width,height,null);
-		}
-		else if(fenetre.engine.isGamePaused())
-			g.drawImage(pauseOverlay, 0,0,width,height,null);
-		
+
+		if (this.attenteReseau)
+		{
+			g.drawImage(attenteJoueurOverlay, 0, 0, width, height, null);
+		} else if (fenetre.engine.isGamePaused())
+			g.drawImage(pauseOverlay, 0, 0, width, height, null);
+
 	}
 
 	public void halo(Graphics2D drawable, Coordonnee p, Color c)
@@ -303,27 +304,20 @@ public class AireDeDessin extends JComponent {
 		if (combo != null)
 		{
 			emplacementPossible = coupReel(emplacementPossible, combo);
-			// System.out.println("pioncombo "+
-			// combo.get(0).position.ligne+" "+combo.get(0).position.colonne +
-			// " taille: "+combo.size());
 		}
-		// System.out.println("test1");
 		if (emplacementPossible != null)
 		{
-			// System.out.println("test2 "+emplacementPossible.size());
 			if (emplacementPossible.size() != 0)
 			{
 				for (int i = 0; i < emplacementPossible.size(); i++)
 				{
 					halo(drawable, emplacementPossible.get(i).position, coupPossible);
-					// System.out.println("emplacement "+emplacementPossible.get(i).position);
 				}
 			} else
 			{
 				for (int i = 0; i < emplacementPossible1.size(); i++)
 				{
 					halo(drawable, emplacementPossible1.get(i).position, coupPossible);
-					// System.out.println("emplacement "+emplacementPossible1.get(i).position);
 				}
 			}
 		}
@@ -350,23 +344,22 @@ public class AireDeDessin extends JComponent {
 		Stroke s = drawable.getStroke();
 		Composite c = drawable.getComposite();
 		drawable.setStroke(new BasicStroke(5));
-		
+
 		for (int i = 0; i < combo.size(); i++)
 		{
-			pointCour = new Point((int) (CoordonneesPlateau[0] * etir + combo.get(i).position.colonne * segment - tailleJeton / 4 + originePlateauX), 
-								  (int) (CoordonneesPlateau[1] * etir + combo.get(i).position.ligne * segment - tailleJeton / 4 + originePlateauY));
+			pointCour = new Point((int) (CoordonneesPlateau[0] * etir + combo.get(i).position.colonne * segment - tailleJeton / 4 + originePlateauX), (int) (CoordonneesPlateau[1] * etir + combo.get(i).position.ligne * segment - tailleJeton / 4 + originePlateauY));
 			drawable.fillOval(pointCour.x, pointCour.y, tailleJeton / 2, tailleJeton / 2);
-			if (i >= 1){
-				drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f ));
-				drawable.drawLine(pointPrec.x+ (tailleJeton / 4), pointPrec.y+ (tailleJeton / 4), pointCour.x+ (tailleJeton / 4), pointCour.y+ (tailleJeton / 4));
+			if (i >= 1)
+			{
+				drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+				drawable.drawLine(pointPrec.x + (tailleJeton / 4), pointPrec.y + (tailleJeton / 4), pointCour.x + (tailleJeton / 4), pointCour.y + (tailleJeton / 4));
 				drawable.setComposite(c);
 			}
 			pointPrec = pointCour;
 		}
-		pointCour = new Point((int) (CoordonneesPlateau[0] * etir + pCourant.colonne * segment - tailleJeton / 4 + originePlateauX), 
-				  	(int) (CoordonneesPlateau[1] * etir + pCourant.ligne * segment - tailleJeton / 4 + originePlateauY));
-		drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f ));
-		drawable.drawLine(pointPrec.x+ (tailleJeton / 4), pointPrec.y+ (tailleJeton / 4), pointCour.x+ (tailleJeton / 4), pointCour.y+ (tailleJeton / 4));
+		pointCour = new Point((int) (CoordonneesPlateau[0] * etir + pCourant.colonne * segment - tailleJeton / 4 + originePlateauX), (int) (CoordonneesPlateau[1] * etir + pCourant.ligne * segment - tailleJeton / 4 + originePlateauY));
+		drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+		drawable.drawLine(pointPrec.x + (tailleJeton / 4), pointPrec.y + (tailleJeton / 4), pointCour.x + (tailleJeton / 4), pointCour.y + (tailleJeton / 4));
 		drawable.setStroke(s);
 		drawable.setComposite(c);
 		drawable.setPaint(Color.black);

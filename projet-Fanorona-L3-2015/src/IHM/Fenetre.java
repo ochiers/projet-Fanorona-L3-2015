@@ -90,7 +90,6 @@ public class Fenetre implements Runnable, Affichage {
 
 	public void run()
 	{
-	//	System.out.println("//////////////////////////////////////////////////////");
 		frame.setSize(1200, 700);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
@@ -183,7 +182,6 @@ public class Fenetre implements Runnable, Affichage {
 		
 		//redimensionnage
 		annuler.setSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
-		//annuler.setMinimumSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
 		refaire.setSize((int)(0.1*fw), (int)(0.15*fh));
 		stopper.setSize((int)(0.1*fw), (int)(0.15*fh));
 		finTour.setSize((int)(0.1*fw), (int)(0.15*fh));
@@ -452,17 +450,14 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				engine.reprendre();
 				stopper.setText(" Pause ");
-				// System.out.println("reprise");
 			} else
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
 				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
-				// System.out.println("en pause");
 			}
 		}
-
 	}
 
 	class ItemAction_finTour implements ActionListener {
@@ -473,7 +468,6 @@ public class Fenetre implements Runnable, Affichage {
 			if(Tools.getTypeOfPlayer(engine.getJoueurCourant()) == PlayerType.Humain)
 				engine.finirSonTour(true);
 		}
-
 	}
 
 	class ItemAction_suggestion implements ActionListener {
@@ -593,6 +587,7 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.combo = combo;
 		monDessin.repaint();
+		monDessin.combo = null;
 	}
 
 	@Override

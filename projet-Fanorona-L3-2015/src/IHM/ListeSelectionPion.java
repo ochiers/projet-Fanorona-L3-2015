@@ -36,7 +36,6 @@ public class ListeSelectionPion extends JPanel {
 		this.jCourant = p;
 		this.repertoire = rep;
 		String[] listePionsPossibles = this.repertoire.list();
-		System.out.println(this.repertoire);
 		imageMap = createImageMap(listePionsPossibles);
 		list = new JList<String>(listePionsPossibles);
 		list.setCellRenderer(new ListRenderer());
@@ -49,9 +48,7 @@ public class ListeSelectionPion extends JPanel {
 	{
 		Map<String, ImageIcon> map = new HashMap<>();
 		for (String s : list)
-		{
 			map.put(s, new ImageIcon(new ImageIcon(this.repertoire + File.separator + s).getImage().getScaledInstance(tailleX, tailleY, Image.SCALE_DEFAULT)));
-		}
 		return map;
 	}
 
@@ -82,14 +79,9 @@ public class ListeSelectionPion extends JPanel {
 		{
 			String fichierSelectionne = this.listPion.list.getSelectedValue();
 			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne != frame.fichierJoueurNoir)
-			{
 				frame.fichierJoueurBlanc = listPion.repertoire + File.separator + fichierSelectionne;
-				System.out.println("List cliquée");
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne != frame.fichierJoueurBlanc)
-			{
+			else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne != frame.fichierJoueurBlanc)
 				frame.fichierJoueurNoir = listPion.repertoire + File.separator + fichierSelectionne;
-				System.out.println("List cliquée");
-			}
 		}
 	}
 }
