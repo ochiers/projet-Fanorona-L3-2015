@@ -97,7 +97,7 @@ public class PreferencesOnglets extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.panelAccueil = new ImagePanel(save, fenetre.fw, fenetre.fh);
+			fenetre.setPanelAccueil(new ImagePanel(save, fenetre.fw, fenetre.fh));
 			fenetre.frame.repaint();
 			fenetre.frame3.setVisible(false);
 		}
@@ -107,7 +107,7 @@ public class PreferencesOnglets extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.panelAccueil = new ImagePanel(new ImageIcon("src/images/iconimageDefault.jpg").getImage(), fenetre.fw, fenetre.fh);
+			fenetre.setPanelAccueil(new ImagePanel(new ImageIcon("src/images/iconimageDefault.jpg").getImage(), fenetre.fw, fenetre.fh));
 			fenetre.frame.repaint();
 			fenetre.frame3.setVisible(false);
 		}

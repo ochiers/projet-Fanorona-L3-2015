@@ -19,7 +19,7 @@ public class EnPause extends JPanel {
 		JLabel etat = new JLabel(s);
 		panelPause.add(etat);
 		
-		panelPause.setSize(Fenetre.panelAccueil.getSize());
+		panelPause.setSize(Fenetre.getPanelAccueil().getSize());
 		panelPause.setOpaque(false);
 		panelPause.setVisible(false);
 	}

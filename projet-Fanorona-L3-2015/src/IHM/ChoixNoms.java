@@ -56,7 +56,7 @@ public class ChoixNoms extends JPanel {
 	class ItemAction_name2 implements ActionListener{
 
 	    public void actionPerformed(ActionEvent e) {
-	      fenetre.panelAccueil=new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT);
+	      fenetre.setPanelAccueil(new ImagePanel(new ImageIcon("src/images/image1.jpg").getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT));
 	      fenetre.imageActuelle=new ImageIcon("src/images/image1.jpg");
 	      fenetre.frame.repaint();
 	    }               

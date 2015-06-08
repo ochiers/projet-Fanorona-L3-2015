@@ -1,5 +1,5 @@
 /* https://kenai.com/projects/trident/sources/source/content/src/test/swing/Fireworks.java?rev=123
-   Code source modifié selon nos besoin et preferences */
+   Code source modifiï¿½ selon nos besoin et preferences */
 
 package IHM;
 
