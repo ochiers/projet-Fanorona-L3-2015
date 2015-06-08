@@ -80,6 +80,11 @@ public interface Affichage {
 	 */
 	public void afficherPionsCaptures(ArrayList<Case> list);
 	
+	/**
+	 * Demande une confirmation à l'utilisateur
+	 * @param question La question a poser
+	 * @return True -> si oui, False sinon
+	 */
 	public boolean demanderConfirmation(String question);
 	
 	/**
@@ -88,5 +93,9 @@ public interface Affichage {
 	 */
 	public boolean demanderSauvegarde();
 	
+	/**
+	 * Affiche un message à l'utilisateur
+	 * @param str Le message
+	 */
 	public void afficherMessage(String str);
 }

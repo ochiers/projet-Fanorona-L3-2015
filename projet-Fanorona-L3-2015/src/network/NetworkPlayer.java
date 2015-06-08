@@ -8,6 +8,11 @@ import engine.Coup;
 import engine.EngineServices;
 import engine.Player;
 
+/**
+ * Represente un joueur sur le reseau
+ * @author soulierc
+ *
+ */
 public class NetworkPlayer extends Player {
 
 	/**

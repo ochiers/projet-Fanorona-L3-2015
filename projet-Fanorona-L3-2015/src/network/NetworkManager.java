@@ -1,6 +1,5 @@
 package network;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -11,12 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Stack;
 
-import engine.Case;
 import engine.Coordonnee;
 import engine.Coup;
 import engine.EngineServices;
-import engine.Player;
-import engine.PlayerType;
 import engine.Tools;
 
 /**
@@ -247,8 +243,6 @@ public class NetworkManager extends Thread {
 		{
 			e.printStackTrace();
 		}
-
-		System.out.println("Coup recu ******************************** : " + c);
 		return c;
 
 	}
@@ -275,7 +269,7 @@ public class NetworkManager extends Thread {
 			sendObject(coordonneeAEnvoyer, RequestType.EnvoiCase);
 		coordonneeAEnvoyer = null;
 	}
-
+	
 	private void envoyerCoup()
 	{
 		if (coupAEnvoyer != null)
@@ -283,6 +277,10 @@ public class NetworkManager extends Thread {
 		coupAEnvoyer = null;
 	}
 
+	/**
+	 * Donne le dernier coup recu
+	 * @return
+	 */
 	public Coup getCoupRecu()
 	{
 		Coup res = null;
@@ -292,6 +290,10 @@ public class NetworkManager extends Thread {
 		return res;
 	}
 
+	/**
+	 * Donne la derniere coordonnee recue
+	 * @return
+	 */
 	public Coordonnee getCoordonnee()
 	{
 		Coordonnee res = null;
@@ -300,6 +302,10 @@ public class NetworkManager extends Thread {
 		return res;
 	}
 
+	/**
+	 * Donne la confiramtion recue
+	 * @return La confirmation recu (0 ou 1) ou -1 si on a rien recu
+	 */
 	public int getConfirmation()
 	{
 		int res = -1;
@@ -309,6 +315,10 @@ public class NetworkManager extends Thread {
 		return res;
 	}
 
+	/**
+	 * Demande une confirmation au joueur distant
+	 * @param req La reqeste de confirmation
+	 */
 	public void demanderConfirmation(int req)
 	{
 		this.sendRequete(req);

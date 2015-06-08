@@ -114,6 +114,9 @@ public class Case implements Serializable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	public boolean equals(Object o)
 	{
 		if (o == null)
@@ -131,11 +134,17 @@ public class Case implements Serializable {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString()
 	{
 		return "Case (" + position.ligne + ", " + position.colonne + ") : " + pion;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	public Case clone()
 	{
 		Case c = new Case(new Coordonnee(this.position.ligne, this.position.colonne));

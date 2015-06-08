@@ -1,5 +1,10 @@
 package network;
 
+/**
+ * Classe definissant les differentes requetes pouvant transiter sur le reseau
+ * @author soulierc
+ *
+ */
 public class RequestType
 {
 

@@ -11,7 +11,13 @@ import java.io.Serializable;
 public class Coordonnee implements Serializable {
 
 	private static final long	serialVersionUID	= -2185563985578894357L;
+	/**
+	 * La composante ligne de la coordonnee
+	 */
 	public int					ligne;
+	/**
+	 * La composante colonne de la coordonnee
+	 */
 	public int					colonne;
 
 	/**

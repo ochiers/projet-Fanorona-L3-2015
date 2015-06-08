@@ -13,7 +13,13 @@ public class Coup implements Serializable{
 	 * 
 	 */
 	private static final long	serialVersionUID	= 3522894575528978575L;
+	/**
+	 * La case de depart du coup joué
+	 */
 	public Coordonnee	depart;
+	/**
+	 * La case d'arrivee du coup joué
+	 */
 	public Coordonnee	arrivee;
 
 	/**
