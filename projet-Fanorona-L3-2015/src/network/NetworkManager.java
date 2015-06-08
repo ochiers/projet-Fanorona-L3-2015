@@ -142,7 +142,8 @@ public class NetworkManager extends Thread {
 	{
 		try
 		{
-			this.envoi.write(req);
+			if(envoi != null)
+				this.envoi.write(req);
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
