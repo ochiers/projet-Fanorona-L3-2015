@@ -44,7 +44,9 @@ public class AireDeDessin extends JComponent {
 
 	public boolean			surbrillance	= false;
 	public Coordonnee		pSurbrillance;
-
+	public Image 		pauseOverlay;
+	public Image 		attenteJoueurOverlay;
+	public boolean 		attenteReseau;
 	public AireDeDessin(Fenetre f)
 	{
 		this.fenetre = f;
@@ -66,7 +68,15 @@ public class AireDeDessin extends JComponent {
 		this.tailleJeton = 1;
 		this.etir = 1;
 		this.tailleHalo = 1.5;
-
+		try
+		{
+			this.pauseOverlay = ImageIO.read(new File("./Ressources/overlayPause.png".replace("/", File.separator)));
+			this.attenteJoueurOverlay = ImageIO.read(new File("./Ressources/overlayAttenteJoueur.png".replace("/", File.separator)));
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void paintComponent(Graphics g)
@@ -117,6 +127,13 @@ public class AireDeDessin extends JComponent {
 		}
 			
 		centrerPlateau(width, height, (int) (etir * plateauW), (int) (etir * plateauH));
+		if(fenetre.engine.isGamePaused())
+			g.drawImage(pauseOverlay, 0,0,width,height,null);
+		if(this.attenteReseau){
+			System.out.println("sdhgsqdgsdfhsdgh");
+			g.drawImage(attenteJoueurOverlay, 0,0,width,height,null);
+		}
+		
 	}
 
 	public void halo(Graphics2D drawable, Coordonnee p, Color c)

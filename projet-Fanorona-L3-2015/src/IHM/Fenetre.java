@@ -483,8 +483,20 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
+			
+			monDessin.attenteReseau = true;
+			monDessin.repaint();
 			int res = JOptionPane.showConfirmDialog(frame, "Le jeu sera bloqué jusqu'à ce qu'un adversaire se connecte sur le port n°12345,\n voulez vous continuer ?","Heberger une partie", JOptionPane.YES_NO_OPTION);
 			if(res == JOptionPane.YES_OPTION){
+		
+				try
+				{
+					Thread.sleep(200);
+				} catch (InterruptedException e2)
+				{
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				try
 				{
 					engine.hebergerPartie(12345);
@@ -497,6 +509,8 @@ public class Fenetre implements Runnable, Affichage {
 					e1.printStackTrace();
 				}
 			}
+			monDessin.attenteReseau = false;
+			monDessin.repaint();
 		}
 	}
 
