@@ -246,16 +246,6 @@ public class MediumAI extends Player implements Serializable {
 		else return Pion.Noir;
 	}
 	
-	public Case[][] copiePlateau(Case[][] plateau) {
-		Case[][] res = new Case[plateau[0].length][plateau.length];
-		for(int i = 0; i < plateau[0].length; i++){
-			for (int j = 0; j < plateau.length; j++){
-				res[i][j] = plateau[i][j];
-			}
-		}
-		return res;
-	}
-	
 	public boolean coupPerdantPercussion(Case c, Pion couleurAdversaire){
 		if((c.nord != null && c.nord.estVide() && c.nord.nord != null && c.nord.nord.pion == couleurAdversaire) ||
 				(c.nordOuest != null && c.nordOuest.estVide() && c.nordOuest.nordOuest != null && c.nordOuest.nordOuest.pion == couleurAdversaire) ||
@@ -577,8 +567,8 @@ public class MediumAI extends Player implements Serializable {
 					}
 				}
 				// PRINT
-				Coup p = coupCourant;
-				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
+//				Coup p = coupCourant;
+//				System.out.println("(" + p.depart.ligne + "," + p.depart.colonne + ")" + "(" + p.arrivee.ligne + "," + p.arrivee.colonne + ")" + " -> " + res);
 				if(res > meilleurRes) {
 					premieresCasesPrisesNonPerdants.clear();
 					listeCoupsNonPerdants.clear();
