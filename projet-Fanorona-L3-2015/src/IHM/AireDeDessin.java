@@ -75,7 +75,6 @@ public class AireDeDessin extends JComponent {
 			this.attenteJoueurOverlay = ImageIO.read(new File("./Ressources/overlayAttenteJoueur.png".replace("/", File.separator)));
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
