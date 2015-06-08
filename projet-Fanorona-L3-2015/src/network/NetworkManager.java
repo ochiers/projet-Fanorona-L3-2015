@@ -176,11 +176,10 @@ public class NetworkManager extends Thread {
 				case RequestType.Quitter:
 					terminerPartieReseau();
 					leMoteur.stopper();
+					leMoteur.getCurrentDisplay().afficherMessage("Le joueur s'est déconnecté");
 					return false;
 				case RequestType.Recommencer:
-					Player p1 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurBlanc())), leMoteur.getJoueurBlanc().name);
-					Player p2 = Tools.createPlayer(leMoteur, Tools.getTypeOfPlayer((leMoteur.getJoueurNoir())), leMoteur.getJoueurNoir().name);
-					leMoteur.nouvellePartie(p1, p2, leMoteur.getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
+					leMoteur.recommencer(false);
 					break;
 				case RequestType.Refaire:
 					leMoteur.refaire(false);
@@ -206,6 +205,11 @@ public class NetworkManager extends Thread {
 				case RequestType.ReponseNON:
 					confirmationRecue = 0;
 					break;
+				case RequestType.DemanderConfirmationRecommencer : 
+					if (leMoteur.getCurrentDisplay().demanderConfirmation("Le joueur veut recommencer la partie,\n autoriser ?"))
+						sendRequete(RequestType.ReponseOUI);
+					else
+						sendRequete(RequestType.ReponseNON);
 			}
 		}
 		return true;
