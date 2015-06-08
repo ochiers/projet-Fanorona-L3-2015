@@ -299,6 +299,7 @@ public class Game implements Serializable {
 				notifyAll();
 				return;
 			}
+			
 			this.leMoteur.envoyerCoupSurReseau(c);
 			boolean peutRejouer = faireCoup(c);
 			enCombo = peutRejouer;
@@ -457,10 +458,15 @@ public class Game implements Serializable {
 	 *            Le coup joué par le joueur
 	 * @return True -> le joueur peut rejouer, False -> le joueur ne peut pas
 	 *         rejouer
+	 * @throws InterruptedException 
 	 */
-	private boolean faireCoup(Coup coupJoue)
+	private boolean faireCoup(Coup coupJoue) throws InterruptedException
 	{
 		leMoteur.getCurrentDisplay().afficherCoupJoue(coupJoue);
+		
+		if(Tools.getTypeOfPlayer(joueurCourant) != PlayerType.Humain && Tools.getTypeOfPlayer(joueurCourant) != PlayerType.Reseau)
+			Thread.sleep(1000);
+		
 		if (!paused && !stopped && coupJoue != null && coupJoue.depart != null && coupJoue.arrivee != null)
 		{
 			Direction directionJoue = determinerDirection(coupJoue.depart, coupJoue.arrivee);
@@ -478,9 +484,9 @@ public class Game implements Serializable {
 			{
 				leMoteur.getCurrentDisplay().afficherMultiDirections(eloignement, rapprochement);
 				Case choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-				while (!rapprochement.contains(choix) && !eloignement.contains(choix))
+				while (!finirSonTour && !rapprochement.contains(choix) && !eloignement.contains(choix))
 					choix = joueurCourant.choisirDirectionAManger(rapprochement, eloignement);
-
+				if(finirSonTour)return false;
 				leMoteur.envoyerChoixCaseSurReseau(choix.position);
 
 				if (rapprochement.contains(choix))
@@ -916,10 +922,12 @@ public class Game implements Serializable {
 			{
 				this.finirSonTour = true;
 					((HumanPlayer) this.joueurCourant).setCoup(null, null);
+					((HumanPlayer) this.joueurCourant).setDirectionMultiPrise(null);
 				
 			}else if(Tools.getTypeOfPlayer(joueurCourant) == PlayerType.Reseau) {
 				this.finirSonTour = true;
 				this.leMoteur.getNetworkManager().coupsRecu.add(new Coup(null,null));
+				this.leMoteur.getNetworkManager().coordonneesRecues.add(new Coordonnee(-1, -1));
 			}
 		}
 	}

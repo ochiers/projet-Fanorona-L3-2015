@@ -392,8 +392,12 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			try
 			{
+				String os = System.getProperty("os.name").toLowerCase();
 				Runtime runtime = Runtime.getRuntime();
-				runtime.exec("firefox ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				if(os.contains("win"))
+					runtime.exec("cmd start ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				else
+					runtime.exec("firefox ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 				//runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 
 			} catch (IOException e1)
