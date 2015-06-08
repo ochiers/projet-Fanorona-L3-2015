@@ -84,4 +84,11 @@ public class AffichageVide implements Affichage {
 		return false;
 	}
 
+	@Override
+	public void afficherMessage(String str)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
