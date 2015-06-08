@@ -229,6 +229,8 @@ public class Tools {
 					j2 = new HumanPlayer(moteur, false, nomJ2);
 					j1 = Tools.createPlayer(moteur, p2, nomJ1);
 				}
+				else
+					throw new RuntimeException();
 				break;
 			case IAvsIA:
 				j1 = Tools.createPlayer(moteur, p1, nomJ1);
@@ -238,6 +240,7 @@ public class Tools {
 				throw new RuntimeException();
 
 		}
+		System.out.println(j1 +"aaaaaaaaaaaaaaaaaaaa"+j2);
 		moteur.changerLesJoueurs(j1, j2);
 	}
 	
