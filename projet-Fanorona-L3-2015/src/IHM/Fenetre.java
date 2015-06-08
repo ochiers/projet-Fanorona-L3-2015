@@ -553,7 +553,7 @@ public class Fenetre implements Runnable, Affichage {
 		monDessin.repaint();
 		frameVictoire = new Firework(this); 
 		frameVictoire.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
-		JPanel gagnant = new JPanel();
+		/*JPanel gagnant = new JPanel();
 		gagnant.setOpaque(false);
 		gagnant.setForeground(new Color(0, 0, 0, 0));
 		String winner = (this.engine.getWinner()).name;
@@ -563,7 +563,7 @@ public class Fenetre implements Runnable, Affichage {
 		//gagnant.setAlignmentY(fh/2);
 		gagnant.add(win);
 		gagnant.add(congrats);
-		frameVictoire.add(gagnant);
+		frameVictoire.add(gagnant);*/
 		frameVictoire.setVisible(true);
 		frameVictoire.repaint();
 	}
