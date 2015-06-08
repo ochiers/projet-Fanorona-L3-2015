@@ -5,15 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import AI.MediumAI;
 import network.NetworkPlayer;
-import network.RequestType;
 import engine.*;
 
 public class Fenetre implements Runnable, Affichage {
@@ -583,7 +578,6 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.combo = combo;
 		monDessin.repaint();
-		monDessin.combo = null;
 	}
 
 	@Override
@@ -619,7 +613,6 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionsCaptures(ArrayList<Case> list)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
