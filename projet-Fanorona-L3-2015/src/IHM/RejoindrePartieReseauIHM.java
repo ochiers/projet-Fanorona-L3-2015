@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -57,7 +58,8 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
 
-		JPanel pan = new JPanel();
+		//JPanel pan = new JPanel();
+		ImagePanel pan = new ImagePanel(new ImageIcon("Ressources/images/reseau.jpg").getImage(), width, height);
 		pan.setLayout(null);
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");

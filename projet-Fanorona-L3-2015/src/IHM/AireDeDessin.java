@@ -58,7 +58,7 @@ public class AireDeDessin extends JComponent {
 		this.coupPossible = Color.cyan;
 		this.setPreferredSize(new Dimension((int) (10 * segment), (int) (6 * segment)));
 		this.pCourant = new Coordonnee(-1, -1);
-		this.plateau = new ImageIcon("src/images/Fano9x5.jpg");
+		this.plateau = new ImageIcon("Ressources/images/Fano9x5.jpg");
 		this.CoordonneesPlateau = new int[4];
 		this.CoordonneesPlateau[0] = 80;
 		this.CoordonneesPlateau[1] = 72;

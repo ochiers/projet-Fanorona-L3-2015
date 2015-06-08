@@ -35,10 +35,11 @@ public class Fenetre implements Runnable, Affichage {
 
 	JLabel				tour1, tour2;
 	private static ImagePanel			panelAccueil;
-	ImageIcon			imageActuelle= new ImageIcon("src/images/imageDefault.jpg");
+	ImageIcon			imageActuelle= new ImageIcon("Ressources/images/imageDefault.jpg");
 	
 	
-	int					fw, fh;
+	int					fw;
+	int fh;
 	JLabel				idj1, idj2;
 	JLabel				levelj1, levelj2;
 	Color				pion1	= Color.black;
@@ -95,7 +96,7 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
-		setPanelAccueil(new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
+		setPanelAccueil(new ImagePanel(new ImageIcon("Ressources/images/imageDefault.jpg").getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
 		
 		// grille
