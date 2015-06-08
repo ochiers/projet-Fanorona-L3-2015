@@ -15,4 +15,5 @@ public class RequestType
 	public static final int ReponseNON = 109;
 	public static final int DemanderConfirmationAnnuler = 110;
 	public static final int DemanderConfirmationRefaire = 111;
+	public static final int	DemanderConfirmationRecommencer	= 112;
 }

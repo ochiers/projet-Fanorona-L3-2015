@@ -569,4 +569,26 @@ public class Engine implements EngineServices {
 
 	}
 
+	@Override
+	public void recommencer(boolean notifReseau)
+	{
+		if (this.networkManager != null && notifReseau)
+		{
+			networkManager.demanderConfirmation(RequestType.DemanderConfirmationRecommencer);
+			int r = networkManager.getConfirmation();
+			while( r == -1)
+				try
+				{
+					r = networkManager.getConfirmation();
+					Thread.sleep(50);
+				} catch (InterruptedException e){e.printStackTrace();}
+			if(r == 0)
+				return;
+			networkManager.sendRequete(RequestType.Recommencer);
+		}
+		Player p1 = Tools.createPlayer(this, Tools.getTypeOfPlayer((this.getJoueurBlanc())), this.getJoueurBlanc().name);
+		Player p2 = Tools.createPlayer(this, Tools.getTypeOfPlayer((this.getJoueurNoir())), this.getJoueurNoir().name);
+		nouvellePartie(p1, p2, getCurrentGame().premierJoueur ? 0 : 1, new Dimension(9, 5));
+	}
+
 }

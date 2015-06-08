@@ -87,4 +87,6 @@ public interface Affichage {
 	 * @return True si l'utilisateur souhaite quiiter, False si finalement il veut continuer finalement
 	 */
 	public boolean demanderSauvegarde();
+	
+	public void afficherMessage(String str);
 }
