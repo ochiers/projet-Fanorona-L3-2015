@@ -25,7 +25,6 @@ public class PreferencesOnglets extends JPanel {
 	ChoixNoms	panel2;
 
 	Fenetre		fenetre;
-	// ImagePanel iconSave;
 	Image		save;
 
 	public PreferencesOnglets(Fenetre f)
@@ -44,9 +43,6 @@ public class PreferencesOnglets extends JPanel {
 
 		panel2 = new ChoixNoms(fenetre);
 		// ajout fond
-		// ImagePanel imagefond = new ImagePanel(new
-		// ImageIcon("src/images/players.jpg").getImage(), width, height);
-		// panel2.add(imagefond);
 		tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
@@ -101,9 +97,7 @@ public class PreferencesOnglets extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			// System.out.println("Image panel: "+fenetre.panelAccueil.getImage().toString()+"    "+iconSave.getImage().toString());
 			fenetre.panelAccueil = new ImagePanel(save, fenetre.fw, fenetre.fh);
-			// panelAccueil et iconSave sont deja egale ...
 			fenetre.frame.repaint();
 			fenetre.frame3.setVisible(false);
 		}
@@ -119,15 +113,4 @@ public class PreferencesOnglets extends JPanel {
 		}
 
 	}
-
-	// public static void main(String[] args)
-	// {
-	// SwingUtilities.invokeLater(new Runnable() {
-	// public void run()
-	// {
-	// createAndShowGUI();
-	// }
-	// });
-	// }
-
 }
