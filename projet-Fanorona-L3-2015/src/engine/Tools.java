@@ -220,14 +220,9 @@ public class Tools {
 				{
 					j2 = new NetworkPlayer(moteur, false, nomJ2);
 					j1 = Tools.createPlayer(moteur, p2, nomJ1);
-				} else if (p1 == PlayerType.Humain)
-				{
+				} else {
 					j1 = new HumanPlayer(moteur, false, nomJ1);
-					j2 = Tools.createPlayer(moteur, p2, nomJ2);
-				}
-				else if (p2 == PlayerType.Humain){
-					j2 = new HumanPlayer(moteur, false, nomJ2);
-					j1 = Tools.createPlayer(moteur, p2, nomJ1);
+					j2 = Tools.createPlayer(moteur, p1, nomJ2);
 				}
 				break;
 			case IAvsIA:
@@ -238,6 +233,7 @@ public class Tools {
 				throw new RuntimeException();
 
 		}
+		System.out.println(j1 +"aaaaaaaaaaaaaaaaaaaa"+j2);
 		moteur.changerLesJoueurs(j1, j2);
 	}
 	

@@ -119,20 +119,21 @@ public class Parametres {
 		public void actionPerformed(ActionEvent e)
 		{
 			System.out.println("ActionListener : action sur " + box1.getSelectedItem());
-			System.out.println("numero de l'item: " + box1.getSelectedIndex());
-			if (box1.getSelectedIndex()==0){
+			saveMode = engine.Tools.getTypePartie(box1.getSelectedIndex());
+			if(saveMode == Configuration.HumainVSHumain)
+			{
 				box2.setEnabled(false);
 				box3.setEnabled(false);
 			}
-			if (box1.getSelectedIndex()==1){
+			else if (saveMode == Configuration.HumainVSIA)
+			{
 				box2.setEnabled(true);
 				box3.setEnabled(false);
 			}
-			if (box1.getSelectedIndex()==2){
+			else{
 				box2.setEnabled(true);
 				box3.setEnabled(true);
-			}
-			saveMode = engine.Tools.getTypePartie(box1.getSelectedIndex());
+				}
 			fenetre.afficherJeu();
 			
 		}
@@ -192,6 +193,7 @@ public class Parametres {
 			if(Tools.getTypeOfPlayer(fenetre.engine.getJoueurNoir()) == PlayerType.Reseau)
 				tmp2 = PlayerType.Reseau;
 			
+			System.out.println(tmp1 +" dfkjffhhds" + tmp2);
 			Tools.changerDeJoueur(fenetre.engine, fenetre.mode, tmp1, tmp2, fenetre.nameJ1, fenetre.nameJ2);
 			
 			fenetre.frame2.setVisible(false);
