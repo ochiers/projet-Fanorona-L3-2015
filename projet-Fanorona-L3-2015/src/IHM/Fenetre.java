@@ -56,7 +56,7 @@ public class Fenetre implements Runnable, Affichage {
 
 	JMenuItem			options_parametresPartie;
 	JMenuItem			options_preferences;
-	JMenuItem			options_historiqueScores;
+	//JMenuItem			options_historiqueScores;
 
 	JMenuItem			aide_reglesDuJeu;
 	JMenuItem			aide_aPropos;
@@ -70,8 +70,8 @@ public class Fenetre implements Runnable, Affichage {
 	JButton				finTour;
 	JButton				suggestion;
 
-	int					wmin	= 673;
-	int					hmin	= 405;
+	static int					wmin	= 673;
+	static int					hmin	= 405;
 	int					wmax	= 1280;
 	int					hmax	= 720;
 
@@ -98,7 +98,7 @@ public class Fenetre implements Runnable, Affichage {
 		setPanelAccueil(new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
 		frameVictoire = new JFrame(" Fin de Partie ");
-		frameVictoire.setSize(getPanelAccueil().getSize());
+		frameVictoire.setSize(wmin, hmin);
 		frameVictoire.setVisible(false);
 		
 		// grille
@@ -132,15 +132,15 @@ public class Fenetre implements Runnable, Affichage {
 		options = new JMenu(" Options ");
 		options_parametresPartie = new JMenuItem(" Parametres Partie ");
 		options_preferences = new JMenuItem(" Preferences ");
-		options_historiqueScores = new JMenuItem(" Historique Scores ");
+		//options_historiqueScores = new JMenuItem(" Historique Scores ");
 
 		options_parametresPartie.addActionListener(new ItemAction_options_parametresPartie());
 		options_preferences.addActionListener(new ItemAction_options_preferences());
-		options_historiqueScores.addActionListener(new ItemAction_options_historiqueScores());
+		//options_historiqueScores.addActionListener(new ItemAction_options_historiqueScores());
 
 		options.add(options_parametresPartie);
 		options.add(options_preferences);
-		options.add(options_historiqueScores);
+		//options.add(options_historiqueScores);
 
 		// Menu Reseau
 		reseau = new JMenu(" Reseau ");
@@ -176,15 +176,24 @@ public class Fenetre implements Runnable, Affichage {
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
 		suggestion = new JButton(" Suggerer coup ");
-
+		
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
 		stopper.addActionListener(new ItemAction_stopper());
 		finTour.addActionListener(new ItemAction_finTour());
 		suggestion.addActionListener(new ItemAction_suggestion());
+		
+		//redimensionnage
+		annuler.setSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
+		//annuler.setMinimumSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
+		refaire.setSize((int)(0.1*fw), (int)(0.15*fh));
+		stopper.setSize((int)(0.1*fw), (int)(0.15*fh));
+		finTour.setSize((int)(0.1*fw), (int)(0.15*fh));
+		suggestion.setSize((int)(0.1*fw), (int)(0.15*fh));
 
 		// boutons
 		JPanel panelSud = new JPanel(new FlowLayout());
+		panelSud.setPreferredSize(new Dimension((int)(0.7*fw), (int)(0.15*fh)));
 		panelSud.setOpaque(false);
 		panelSud.add(annuler);
 		panelSud.add(refaire);
@@ -374,14 +383,14 @@ public class Fenetre implements Runnable, Affichage {
 
 	}
 
-	class ItemAction_options_historiqueScores implements ActionListener {
+	/*class ItemAction_options_historiqueScores implements ActionListener {
 
 		public void actionPerformed(ActionEvent e)
 		{
 
 		}
 
-	}
+	}*/
 
 	class ItemAction_aide_reglesDuJeu implements ActionListener {
 
@@ -391,6 +400,7 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				Runtime runtime = Runtime.getRuntime();
 				runtime.exec("firefox ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				//runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 
 			} catch (IOException e1)
 			{
@@ -541,19 +551,16 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		frameVictoire.setSize((int)(0.5*fw), (int)(0.5*fh));
 		frameVictoire.setLayout(null);
 		Firework victoire = new Firework(this); 
 		victoire.setVisible(true);
+		JPanel gagnant = new JPanel();
 		String winner = (this.engine.getWinner()).name;
-		//System.out.println(" WINNER : " + winner);
 		JLabel win = new JLabel(" " + winner + " ");
-		win.setBounds((int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()), (int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()));
-		victoire.setBounds(0, (int)(0.2*frameVictoire.getHeight()), (int)(0.7*frameVictoire.getWidth()), (int)(0.8*frameVictoire.getHeight()));
-		frameVictoire.add(win);
-		frameVictoire.add(victoire);
+		gagnant.add(win);
+		gagnant.add(victoire);
+		frameVictoire.add(gagnant);
 		frameVictoire.setVisible(true);
-		frame.add(frameVictoire);
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
