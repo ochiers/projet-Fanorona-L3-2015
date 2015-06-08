@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -31,7 +32,8 @@ import org.pushingpixels.trident.ease.Spline;
 import org.pushingpixels.trident.swing.SwingRepaintTimeline;
 
 @SuppressWarnings("serial")
-public final class Firework extends JPanel {
+//public final class Firework extends JPanel {
+public final class Firework extends JFrame {
 	private Set<VolleyExplosion> volleys;
 	private Map<VolleyExplosion, TimelineScenario> volleyScenarios;
 	private JPanel mainPanel;
@@ -144,9 +146,8 @@ public final class Firework extends JPanel {
 				}
 			}
 		};
-		this.mainPanel.setBackground(new Color(0, 0, 0, 0)); //transparent
-		//this.mainPanel.setPreferredSize(new Dimension(480, 320));
-		this.mainPanel.setPreferredSize(new Dimension(Fenetre.getPanelAccueil().getX(), Fenetre.getPanelAccueil().getY()));
+		this.mainPanel.setBackground(new Color(0, 0, 0)); 
+		//this.mainPanel.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();
@@ -158,14 +159,13 @@ public final class Firework extends JPanel {
 				new Thread() {
 					public void run() {
 						while (true) {
-							addExplosions(5);
+							addExplosions(6);
 						}
 					}
 				}.start();
 			}
 		});
 		this.add(mainPanel);
-		this.setVisible(false);
 	}
 
 	private void addExplosions(int count) {

@@ -313,9 +313,7 @@ public class Game implements Serializable {
 				if (l.size() == 1 && l.contains(pionCombo))
 					l.remove(pionCombo);
 				if (l.size() <= 0)
-				{
 					break;
-				}
 				leMoteur.getCurrentDisplay().afficherPionDuCombo(pionCombo);
 				leMoteur.getCurrentDisplay().afficherCheminParcouruParleCombo(combo);
 				Case t[] = new Case[1];

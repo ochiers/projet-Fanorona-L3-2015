@@ -56,7 +56,7 @@ public class Fenetre implements Runnable, Affichage {
 
 	JMenuItem			options_parametresPartie;
 	JMenuItem			options_preferences;
-	JMenuItem			options_historiqueScores;
+	//JMenuItem			options_historiqueScores;
 
 	JMenuItem			aide_reglesDuJeu;
 	JMenuItem			aide_aPropos;
@@ -70,8 +70,8 @@ public class Fenetre implements Runnable, Affichage {
 	JButton				finTour;
 	JButton				suggestion;
 
-	int					wmin	= 673;
-	int					hmin	= 405;
+	static int					wmin	= 673;
+	static int					hmin	= 405;
 	int					wmax	= 1280;
 	int					hmax	= 720;
 
@@ -97,9 +97,6 @@ public class Fenetre implements Runnable, Affichage {
 		fh = frame.getHeight();
 		setPanelAccueil(new ImagePanel(new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
-		frameVictoire = new JFrame(" Fin de Partie ");
-		frameVictoire.setSize(getPanelAccueil().getSize());
-		frameVictoire.setVisible(false);
 		
 		// grille
 		monDessin = new AireDeDessin(this);
@@ -132,15 +129,15 @@ public class Fenetre implements Runnable, Affichage {
 		options = new JMenu(" Options ");
 		options_parametresPartie = new JMenuItem(" Parametres Partie ");
 		options_preferences = new JMenuItem(" Preferences ");
-		options_historiqueScores = new JMenuItem(" Historique Scores ");
+		//options_historiqueScores = new JMenuItem(" Historique Scores ");
 
 		options_parametresPartie.addActionListener(new ItemAction_options_parametresPartie());
 		options_preferences.addActionListener(new ItemAction_options_preferences());
-		options_historiqueScores.addActionListener(new ItemAction_options_historiqueScores());
+		//options_historiqueScores.addActionListener(new ItemAction_options_historiqueScores());
 
 		options.add(options_parametresPartie);
 		options.add(options_preferences);
-		options.add(options_historiqueScores);
+		//options.add(options_historiqueScores);
 
 		// Menu Reseau
 		reseau = new JMenu(" Reseau ");
@@ -176,15 +173,24 @@ public class Fenetre implements Runnable, Affichage {
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
 		suggestion = new JButton(" Suggerer coup ");
-
+		
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
 		stopper.addActionListener(new ItemAction_stopper());
 		finTour.addActionListener(new ItemAction_finTour());
 		suggestion.addActionListener(new ItemAction_suggestion());
+		
+		//redimensionnage
+		annuler.setSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
+		//annuler.setMinimumSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
+		refaire.setSize((int)(0.1*fw), (int)(0.15*fh));
+		stopper.setSize((int)(0.1*fw), (int)(0.15*fh));
+		finTour.setSize((int)(0.1*fw), (int)(0.15*fh));
+		suggestion.setSize((int)(0.1*fw), (int)(0.15*fh));
 
 		// boutons
 		JPanel panelSud = new JPanel(new FlowLayout());
+		panelSud.setPreferredSize(new Dimension((int)(0.7*fw), (int)(0.15*fh)));
 		panelSud.setOpaque(false);
 		panelSud.add(annuler);
 		panelSud.add(refaire);
@@ -255,7 +261,10 @@ public class Fenetre implements Runnable, Affichage {
 		preference = new PreferencesOnglets(this);
 		preference.majPref();
 
-
+		//maj
+		fw = frame.getWidth();
+		fh = frame.getHeight();
+		frame.repaint();
 		
 		// FENETRE
 		frame.setJMenuBar(menuBar);
@@ -331,7 +340,6 @@ public class Fenetre implements Runnable, Affichage {
 				load.showOpenDialog(frame);
 				engine.chargerPartie(load.getSelectedFile().getAbsolutePath());
 				modifChargement();
-				System.out.println("////TEST////" + mode + " " + lvlPC1 + " " + lvlPC2 + " " + commencer);
 			} catch (Exception ex)
 			{
 
@@ -375,14 +383,14 @@ public class Fenetre implements Runnable, Affichage {
 
 	}
 
-	class ItemAction_options_historiqueScores implements ActionListener {
+	/*class ItemAction_options_historiqueScores implements ActionListener {
 
 		public void actionPerformed(ActionEvent e)
 		{
 
 		}
 
-	}
+	}*/
 
 	class ItemAction_aide_reglesDuJeu implements ActionListener {
 
@@ -392,6 +400,7 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				Runtime runtime = Runtime.getRuntime();
 				runtime.exec("firefox ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				//runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 
 			} catch (IOException e1)
 			{
@@ -474,7 +483,6 @@ public class Fenetre implements Runnable, Affichage {
 			}
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
-			
 		}
 
 	}
@@ -539,27 +547,27 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		frameVictoire.setSize((int)(0.5*fw), (int)(0.5*fh));
-		frameVictoire.setLayout(null);
-		Firework victoire = new Firework(this); 
-		victoire.setVisible(true);
+		frameVictoire = new Firework(this); 
+		frameVictoire.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
+		/*JPanel gagnant = new JPanel();
+		gagnant.setOpaque(false);
+		gagnant.setForeground(new Color(0, 0, 0, 0));
 		String winner = (this.engine.getWinner()).name;
-		//System.out.println(" WINNER : " + winner);
-		JLabel win = new JLabel(" " + winner + " ");
-		win.setBounds((int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()), (int)(0.2*frameVictoire.getWidth()), (int)(0.2*frameVictoire.getHeight()));
-		victoire.setBounds(0, (int)(0.2*frameVictoire.getHeight()), (int)(0.7*frameVictoire.getWidth()), (int)(0.8*frameVictoire.getHeight()));
-		frameVictoire.add(win);
-		frameVictoire.add(victoire);
+		JLabel win = new JLabel(" " + winner + " gagne la partie !!!");
+		JLabel congrats = new JLabel(" FELICITATIONS !!!");
+		gagnant.setAlignmentX(fw/2);
+		//gagnant.setAlignmentY(fh/2);
+		gagnant.add(win);
+		gagnant.add(congrats);
+		frameVictoire.add(gagnant);*/
 		frameVictoire.setVisible(true);
-		frame.add(frameVictoire);
+		frameVictoire.repaint();
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
 	{
-		// if(!engine.partieCourante.joueurCourant.aiPlayer){
 		if (!engine.getCurrentGame().joueurCourant.aiPlayer)
 		{
-			// System.out.println("------------MULTI DIRECTION------------------");
 			monDessin.doitChoisir = true;
 			monDessin.l1 = l1;
 			monDessin.l2 = l2;
@@ -570,21 +578,16 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionDuCombo(Case pionCourant)
 	{
-		// System.out.println("33333333333333");
 		monDessin.pionCombo = pionCourant;
-		// System.out.println("le pion combo est :"+pionCourant.position.ligne+" "+pionCourant.position.colonne);
 		monDessin.repaint();
-		// monDessin.estEnCombo=false;
 
 	}
 
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
 	{
-		// System.out.println("COOOOOOOOOOOOOOOOMBO");
 		monDessin.combo = combo;
 		monDessin.repaint();
-
 	}
 
 	@Override
