@@ -406,19 +406,19 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
+			Runtime runtime = Runtime.getRuntime();
 			try
 			{
-				String os = System.getProperty("os.name").toLowerCase();
-				Runtime runtime = Runtime.getRuntime();
-				if (os.contains("win"))
-					runtime.exec("cmd start ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
-				else
-					runtime.exec("firefox ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
-				// runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
-
-			} catch (IOException e1)
+				runtime.exec("firefox ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
+			} catch (Exception e1)
 			{
-				e1.printStackTrace();
+				try
+				{
+					runtime.exec("chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				} catch (Exception e2)
+				{
+					JOptionPane.showMessageDialog(frame, "Impossible d'afficher l'aide\nVeuillez installer Firefox ou Chrome pour afficher l'aide","Impossible d'afficher l'aide", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 
