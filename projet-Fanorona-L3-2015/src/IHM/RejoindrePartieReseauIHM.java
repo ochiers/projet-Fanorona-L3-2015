@@ -60,19 +60,19 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		
 		JPanel pan = new JPanel();
 		pan.setLayout(null);
-		pan.setBackground(new Color(50, 50, 50, 255));
+		pan.setBackground(Color.GRAY);
 
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");
-		explicationIP.setForeground(Color.yellow);
+		explicationIP.setForeground(Color.black);
 		explicationIP.setBounds(20, 20, 150, 40);
 		
 		JLabel explicationPort = new JLabel("Port vise : ");
-		explicationPort.setForeground(Color.yellow);
+		explicationPort.setForeground(Color.black);
 		explicationPort.setBounds(75, 70, 100, 40);
 
 		JLabel explicationDetection = new JLabel("Détection de partie : ");
-		explicationDetection.setForeground(Color.yellow);
+		explicationDetection.setForeground(Color.black);
 		explicationDetection.setBounds(290, 5, 190, 20);
 
 		txt_saisieIp = new JTextField("xxx.xxx.xxx.xxx", 15);
@@ -94,11 +94,9 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		list_detection.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list_detection.addListSelectionListener(new listChangeListener(this));
 		bt_rejoindre = new JButton("Rejoindre");
-		bt_rejoindre.setBackground(Color.LIGHT_GRAY);
 		bt_rejoindre.setBounds(20, 120, 125, 40);
 
 		bt_annuler = new JButton("Annuler");
-		bt_annuler.setBackground(Color.LIGHT_GRAY);
 		bt_annuler.setBounds(150, 120, 100, 40);
 
 		bt_rejoindre.addActionListener(new rejoindreListener(this));

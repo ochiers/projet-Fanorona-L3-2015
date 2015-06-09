@@ -13,10 +13,10 @@ public class JeuFanoronaIA {
 
 		EngineServices e=new Engine();
 		Player p1 = new MediumAI(e,true,"Chuck Norris");
-		Player p2 = new MediumAI(e, true,"Guillaume de Sauza");
+		Player p2 = new HardAI(e, true,"Guillaume de Sauza");
 		Fenetre f = new Fenetre(e);
 		e.setDisplay(f);
-		// System.err.close();
+		System.err.close();
 		e.nouvellePartie(p1, p2, 0, new Dimension(9,5));
 		SwingUtilities.invokeLater(f);
 		Thread.sleep(200);

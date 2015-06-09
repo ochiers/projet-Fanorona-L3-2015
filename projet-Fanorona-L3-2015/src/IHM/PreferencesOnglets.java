@@ -95,8 +95,10 @@ public class PreferencesOnglets extends JPanel {
 	// Ne Marche pas
 	class ItemAction_annuler implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) {
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, save, fenetre.fw, fenetre.fh));
+
+		public void actionPerformed(ActionEvent e)
+		{
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, save, Fenetre.fw, Fenetre.fh));
 			fenetre.frame.repaint();
 			fenetre.frame3.setVisible(false);
 		}
@@ -104,8 +106,11 @@ public class PreferencesOnglets extends JPanel {
 
 	class ItemAction_reset implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) {
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/iconimageDefault.jpg").getImage(), fenetre.fw, fenetre.fh));
+			
+
+		public void actionPerformed(ActionEvent e)
+		{
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/iconimageDefault.jpg").getImage(), Fenetre.fw, Fenetre.fh));
 			fenetre.fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
 			fenetre.fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 			fenetre.frame.repaint();
