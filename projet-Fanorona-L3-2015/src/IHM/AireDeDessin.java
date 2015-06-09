@@ -223,19 +223,22 @@ public class AireDeDessin extends JComponent {
 	public void majBouton()
 	{
 		if (fenetre.engine.peutAnnuler())
-			fenetre.annuler.setEnabled(true);
+			if (fenetre.annuler != null)
+				fenetre.annuler.setEnabled(true);
 		else
 			if (fenetre.annuler != null)
 				fenetre.annuler.setEnabled(false);
 		if (fenetre.engine.peutRefaire())
-			fenetre.refaire.setEnabled(true);
+			if (fenetre.refaire != null)
+				fenetre.refaire.setEnabled(true);
 		else
 			if (fenetre.refaire != null)
 				fenetre.refaire.setEnabled(false);
 		if (!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer)
 		{
 			if (fenetre.engine.getCurrentGame().enCombo)
-				fenetre.finTour.setEnabled(true);
+				if (fenetre.finTour != null)
+					fenetre.finTour.setEnabled(true);
 			else
 				if (fenetre.finTour != null)
 					fenetre.finTour.setEnabled(false);

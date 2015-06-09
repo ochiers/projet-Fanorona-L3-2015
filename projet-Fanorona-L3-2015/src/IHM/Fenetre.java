@@ -169,7 +169,7 @@ public class Fenetre implements Runnable, Affichage {
 		menuBar.add(aide);
 
 		// boutons commandes
-		JButton annuler = new JButton();
+		/*JButton annuler = new JButton();
 		try {
 			imageAnnuler = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "annuler.png"));
 			annuler.setIcon(new ImageIcon(imageAnnuler));
@@ -213,13 +213,13 @@ public class Fenetre implements Runnable, Affichage {
 			imageSuggestion = null; 
 			suggestion.setIcon(new ImageIcon(imageSuggestion));
 			e.printStackTrace();
-		}
+		}*/
 		
-		/*annuler = new JButton(" Annuler Coup ");
+		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
-		suggestion = new JButton(" Suggerer coup ");*/
+		suggestion = new JButton(" Suggerer coup ");
 	
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
