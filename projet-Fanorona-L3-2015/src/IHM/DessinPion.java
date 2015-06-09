@@ -13,10 +13,12 @@ import engine.Pion;
 @SuppressWarnings("serial")
 public class DessinPion extends JComponent {
 
-	Fenetre	fenetre;
-	Pion	pionCouleur;
-	int		tailleJeton;
-	String	fichierJoueur;
+	public Fenetre	fenetre;
+	public Pion		pionCouleur;
+	public int		tailleJeton;
+	public String	fichierJoueur;
+	public String	fichierJ1Defaut	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
+	public String	fichierJ2Defaut	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
 
 	public DessinPion(Fenetre f, int taille, Pion p)
 	{
@@ -50,6 +52,15 @@ public class DessinPion extends JComponent {
 			this.fichierJoueur = this.fenetre.fichierJoueurBlanc;
 		else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
 			this.fichierJoueur = this.fenetre.fichierJoueurNoir;
+		String[] fichier = this.fichierJoueur.split(File.separator);
+		if (fichier[fichier.length -1].equals("null") && this.pionCouleur == Pion.Blanc){
+			this.fichierJoueur = this.fichierJ1Defaut;
+			this.fenetre.fichierJoueurBlanc = this.fichierJ1Defaut;
+		}
+		else if (fichier[fichier.length -1].equals("null") && this.pionCouleur == Pion.Noir){
+			this.fichierJoueur = this.fichierJ2Defaut;
+			this.fenetre.fichierJoueurNoir = this.fichierJ2Defaut;
+		}
 		img = ImageIO.read(new File(this.fichierJoueur));
 		
 		double imgX = img.getWidth();

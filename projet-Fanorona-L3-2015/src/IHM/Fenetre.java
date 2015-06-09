@@ -74,8 +74,8 @@ public class Fenetre implements Runnable, Affichage {
 	JFrame						frameVictoire;
 	JPanel						panelPause;
 
-	String						fichierJoueurBlanc	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
-	String						fichierJoueurNoir	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
+	String						fichierJoueurBlanc	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
+	String						fichierJoueurNoir	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
 
 	public Fenetre(EngineServices e)
 	{
@@ -209,7 +209,12 @@ public class Fenetre implements Runnable, Affichage {
 		DessinPion monPion1 = new DessinPion(this, taillePion, Pion.Blanc);
 
 		// joueur 1
-		JPanel panelOuest = new JPanel(new GridLayout(9, 1));
+		JPanel panelOuest = new JPanel(new GridLayout(9, 1)){
+			public void paintComponent(Graphics g){
+				g.setColor(Color.white);
+				g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			}
+		};
 		taillePion = (int) (0.9 * panelOuest.getWidth());
 		JLabel vide1 = new JLabel();
 		panelOuest.setBackground(new Color(255, 255, 255, 128));
@@ -224,7 +229,12 @@ public class Fenetre implements Runnable, Affichage {
 		panelOuest.add(tour1);
 
 		// joueur 2
-		JPanel panelEst = new JPanel(new GridLayout(9, 1));
+		JPanel panelEst = new JPanel(new GridLayout(9, 1)){
+			public void paintComponent(Graphics g){
+				g.setColor(Color.white);
+				g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			}
+		};
 		taillePion = panelEst.getWidth();
 		JLabel vide2 = new JLabel();
 		panelEst.setBackground(new Color(255, 255, 255, 128));
@@ -388,19 +398,19 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
+			Runtime runtime = Runtime.getRuntime();
 			try
 			{
-				String os = System.getProperty("os.name").toLowerCase();
-				Runtime runtime = Runtime.getRuntime();
-				if (os.contains("win"))
-					runtime.exec("cmd start ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
-				else
-					runtime.exec("firefox ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
-				// runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
-
-			} catch (IOException e1)
+				runtime.exec("firefox ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
+			} catch (Exception e1)
 			{
-				e1.printStackTrace();
+				try
+				{
+					runtime.exec("chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				} catch (Exception e2)
+				{
+					JOptionPane.showMessageDialog(frame, "Impossible d'afficher l'aide\nVeuillez installer Firefox ou Chrome pour afficher l'aide","Impossible d'afficher l'aide", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 
@@ -410,7 +420,13 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-
+			String str = "Jeu du Fanorona\n";
+			str += "Projet de fin de licence informatique\n\n";
+			str += "Developpé par :\n";
+			str += "OCHIER Sébastien et SOULIER Clément (moteur)\n";
+			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
+			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
+			JOptionPane.showMessageDialog(frame, str,"A Propos", JOptionPane.DEFAULT_OPTION);
 		}
 
 	}
