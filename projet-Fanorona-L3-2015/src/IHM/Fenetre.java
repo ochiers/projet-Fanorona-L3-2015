@@ -406,7 +406,7 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				try
 				{
-					runtime.exec("chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+					runtime.exec("chrome-browser ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 				} catch (Exception e2)
 				{
 					JOptionPane.showMessageDialog(frame, "Impossible d'afficher l'aide\nVeuillez installer Firefox ou Chrome pour afficher l'aide","Impossible d'afficher l'aide", JOptionPane.ERROR_MESSAGE);
