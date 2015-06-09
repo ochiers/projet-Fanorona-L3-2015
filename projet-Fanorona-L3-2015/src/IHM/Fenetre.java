@@ -89,7 +89,7 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
-		setPanelAccueil(new ImagePanel(frame, new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
+		setPanelAccueil(new ImagePanel(frame, imageActuelle.getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
 
 		// grille
@@ -175,22 +175,30 @@ public class Fenetre implements Runnable, Affichage {
 		finTour.addActionListener(new ItemAction_finTour());
 		suggestion.addActionListener(new ItemAction_suggestion());
 
-		// redimensionnage
-		annuler.setSize(new Dimension((int) (0.1 * fw), (int) (0.15 * fh)));
-		refaire.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-		stopper.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-		finTour.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-		suggestion.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-
 		// boutons
-		JPanel panelSud = new JPanel(new FlowLayout());
-		panelSud.setPreferredSize(new Dimension((int) (0.7 * fw), (int) (0.15 * fh)));
+		JPanel panelSud = new JPanel();
+		panelSud.setLayout(null);
 		panelSud.setOpaque(false);
+
+		// redimensionnage
+		int x = panelSud.getWidth()/5;
+		int y = panelSud.getHeight() - 10;
+		int large = (int) (0.1 * fw);
+		int haut = (int) (0.15 * fh);
+		annuler.setBounds(x, y, large, haut);
+		refaire.setBounds((int)(x+1.5*large), y, large, haut);
+		stopper.setBounds((int)(x+2.5*large), y, large, haut);
+		finTour.setBounds((int)(x+3.5*large), y, large, haut);
+		suggestion.setBounds((int)(x+4.5*large), y, large, haut);
+		
+		//ajouts
 		panelSud.add(annuler);
 		panelSud.add(refaire);
 		panelSud.add(stopper);
 		panelSud.add(finTour);
 		panelSud.add(suggestion);
+		System.out.println(" w sud = " + panelSud.getWidth() + " h sud  = " + panelSud.getHeight());
+		panelSud.setPreferredSize(new Dimension((int) (0.7 * fw), (int) (0.15 * fh)));
 
 		// affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ", SwingConstants.CENTER);
