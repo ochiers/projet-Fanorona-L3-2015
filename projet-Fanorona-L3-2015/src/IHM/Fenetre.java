@@ -84,6 +84,7 @@ public class Fenetre implements Runnable, Affichage {
 
 	public void run()
 	{
+		System.out.println(" ---- " + File.separator);
 		frame.setSize(1200, 700);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
@@ -182,8 +183,6 @@ public class Fenetre implements Runnable, Affichage {
 
 		// redimensionnage
 		int x = 0;
-		String s = monDessin.plateau.getDescription();
-		System.out.println(" " + s);
 		int y = 0;
 		int large = (int) (0.1 * fw);
 		int haut = (int) (0.15 * fh);
