@@ -426,6 +426,9 @@ public class Fenetre implements Runnable, Affichage {
 			str += "OCHIER Sébastien et SOULIER Clément (moteur)\n";
 			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
 			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
+			str += "\n\nRemerciements à \n";
+			str += "DEMEURE Alexandre (Tuteur)\n";
+			str += "HUARD Guillaume (Encadrement)\n";
 			JOptionPane.showMessageDialog(frame, str,"A Propos", JOptionPane.DEFAULT_OPTION);
 		}
 
