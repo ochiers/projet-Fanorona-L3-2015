@@ -428,7 +428,7 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				try
 				{
-					runtime.exec("chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+					runtime.exec("chrome-browser ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 				} catch (Exception e2)
 				{
 					JOptionPane.showMessageDialog(frame, "Impossible d'afficher l'aide\nVeuillez installer Firefox ou Chrome pour afficher l'aide","Impossible d'afficher l'aide", JOptionPane.ERROR_MESSAGE);
@@ -519,6 +519,9 @@ public class Fenetre implements Runnable, Affichage {
 			}
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
+			monDessin.suggestion=c;
+			monDessin.enSuggestion=true;
+			monDessin.repaint();
 		}
 
 	}
@@ -616,6 +619,7 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionDuCombo(Case pionCourant)
 	{
+		System.out.println("PIONDUCOMBO");
 		monDessin.pionCombo = pionCourant;
 		monDessin.repaint();
 
@@ -624,6 +628,7 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
 	{
+		System.out.println("COMBO");
 		monDessin.combo = combo;
 		monDessin.repaint();
 	}
