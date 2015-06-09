@@ -18,11 +18,13 @@ public class ChoixCouleurPion extends JPanel {
 
 	protected JLabel			titre;
 
+	
 	public ChoixCouleurPion(Fenetre f, File repertoire)
 	{
 		
 		super(new BorderLayout());
 		this.frame = f;
+		
 		titre = new JLabel(" Choissir les couleurs des pions ", JLabel.CENTER);
 		titre.setForeground(Color.red);
 		titre.setBackground(Color.white);

@@ -81,24 +81,13 @@ public class ListeSelectionPion extends JPanel {
 		{
 			String fichierSelectionne = listPion.repertoire + "/" + this.listPion.list.getSelectedValue();
 			fichierSelectionne.replace("/", File.separator);
-			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && !fichierSelectionne.equals(frame.fichierJoueurNoir))
-			{
-				frame.fichierJoueurBlanc = fichierSelectionne;
-				ancienJ1 = fichierSelectionne;
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && !fichierSelectionne.equals(frame.fichierJoueurBlanc))
-			{
-				frame.fichierJoueurNoir = fichierSelectionne;
-				ancienJ2 = fichierSelectionne;
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne.equals(frame.fichierJoueurNoir))
-			{
-				this.listPion.list.clearSelection();
-				System.out.println(ancienJ1);
-				frame.fichierJoueurBlanc = ancienJ1;
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne.equals(frame.fichierJoueurBlanc))
-			{
-				System.out.println(ancienJ2);
-				this.listPion.list.clearSelection();
-				frame.fichierJoueurNoir = ancienJ2;
+			
+			System.out.println(fichierSelectionne);
+			
+			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && !fichierSelectionne.equals(frame.fichierJoueurNoir)){
+				frame.fichierJoueurBlanc=fichierSelectionne;
+			}else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && !fichierSelectionne.equals(frame.fichierJoueurBlanc)){
+				frame.fichierJoueurNoir=fichierSelectionne;
 			}
 		}
 	}

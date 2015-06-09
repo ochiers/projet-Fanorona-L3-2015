@@ -400,6 +400,8 @@ public class Fenetre implements Runnable, Affichage {
 		public void actionPerformed(ActionEvent e)
 		{
 			preference.save = imageActuelle;
+			preference.fichier1save=fichierJoueurBlanc;
+			preference.fichier2save=fichierJoueurNoir;
 			frame3.setVisible(true);
 		}
 

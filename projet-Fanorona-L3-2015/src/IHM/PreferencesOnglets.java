@@ -27,6 +27,8 @@ public class PreferencesOnglets extends JPanel {
 
 	Fenetre		fenetre;
 	ImageIcon		save;
+	public String fichier1save;
+	public String fichier2save;
 
 	public PreferencesOnglets(Fenetre f)
 	{
@@ -88,10 +90,11 @@ public class PreferencesOnglets extends JPanel {
 			fenetre.nameJ1 = panel2.name1.getText();
 			fenetre.nameJ2 = panel2.name2.getText();
 		//	fenetre.imageActuelle=save;
-			fenetre.frame3.setVisible(false);
-		//	fenetre.frame.repaint();
+			
+		
+			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
-			System.out.println("valider");
+			fenetre.frame3.setVisible(false);
 		}
 	}
 
@@ -102,6 +105,9 @@ public class PreferencesOnglets extends JPanel {
 		{
 			fenetre.imageActuelle=save;
 			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, fenetre.imageActuelle.getImage(), fenetre.fw, fenetre.fh));
+			fenetre.fichierJoueurBlanc=fichier1save;
+			fenetre.fichierJoueurNoir=fichier2save;
+			
 			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
@@ -114,6 +120,9 @@ public class PreferencesOnglets extends JPanel {
 		{
 			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator));
+			fenetre.fichierJoueurBlanc= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
+			fenetre.fichierJoueurNoir= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
+			
 			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
