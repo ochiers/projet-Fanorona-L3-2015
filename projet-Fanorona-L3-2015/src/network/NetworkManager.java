@@ -144,7 +144,6 @@ public class NetworkManager extends Thread {
 				this.envoi.write(req);
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -210,9 +209,7 @@ public class NetworkManager extends Thread {
 						sendRequete(RequestType.ReponseNON);
 					break;
 				case RequestType.EnvoiNom :
-					System.out.println("ON VA RECEVOIR");
 						nomRecu = recevoirNom();
-						System.out.println("NOM RECU ::::::::::::: " + nomRecu);
 						if(leMoteur.getJoueurBlanc() instanceof NetworkPlayer)
 							leMoteur.getJoueurBlanc().name = nomRecu;
 						else if (leMoteur.getJoueurNoir() instanceof NetworkPlayer)
@@ -248,7 +245,6 @@ public class NetworkManager extends Thread {
 	{
 		try
 		{
-			System.out.println("Envoie de " + req +",  " + c.toString());
 			this.sendRequete(req);
 			ObjectOutputStream out = new ObjectOutputStream(envoi);
 			out.writeObject(c);
