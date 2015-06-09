@@ -515,7 +515,6 @@ public class Fenetre implements Runnable, Affichage {
 				engine.pause();
 				stopper.setText(" Reprendre ");
 				//stopper.setIcon((Icon)imagePlay);
-				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
 			}
 		}
