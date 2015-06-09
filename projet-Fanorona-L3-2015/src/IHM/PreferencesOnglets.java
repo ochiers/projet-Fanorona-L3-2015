@@ -18,28 +18,27 @@ import java.io.File;
 
 @SuppressWarnings("serial")
 public class PreferencesOnglets extends JPanel {
-	int			width	= 606;
-	int			height	= 429;
+	int				width	= 606;
+	int				height	= 429;
 
-	int			pBw		= 10;
-	int			pBh		= 30;
+	int				pBw		= 10;
+	int				pBh		= 30;
 
-	ChoixNoms	panel2;
+	ChoixNoms		panel2;
 
-	Fenetre		fenetre;
+	Fenetre			fenetre;
 	ImageIcon		save;
-	public String fichier1save;
-	public String fichier2save;
+	public String	fichier1save;
+	public String	fichier2save;
 
-	public PreferencesOnglets(Fenetre f)
-	{
+	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
 
 		fenetre = f;
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setPreferredSize(new Dimension(width, height));
-		ImageIcon icon = new ImageIcon("src/images/iconFano.jpg");
+		ImageIcon icon = new ImageIcon("." + File.separator + "Ressources" + File.separator + "images" + File.separator + "iconFano.jpg");
 
 		ChoixFond panel1 = new ChoixFond(fenetre);
 		tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
@@ -78,8 +77,7 @@ public class PreferencesOnglets extends JPanel {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
 
-	public void majPref()
-	{
+	public void majPref() {
 		// Ajouts
 		fenetre.frame3.add(this, BorderLayout.CENTER);
 		fenetre.frame3.pack();
@@ -88,13 +86,11 @@ public class PreferencesOnglets extends JPanel {
 
 	class ItemAction_valider implements ActionListener {
 
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			fenetre.nameJ1 = panel2.name1.getText();
 			fenetre.nameJ2 = panel2.name2.getText();
-		//	fenetre.imageActuelle=save;
-			
-		
+			// fenetre.imageActuelle=save;
+
 			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
@@ -104,13 +100,12 @@ public class PreferencesOnglets extends JPanel {
 	// Ne Marche pas
 	class ItemAction_annuler implements ActionListener {
 
-		public void actionPerformed(ActionEvent e)
-		{
-			fenetre.imageActuelle=save;
+		public void actionPerformed(ActionEvent e) {
+			fenetre.imageActuelle = save;
 			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, fenetre.imageActuelle.getImage(), fenetre.fw, fenetre.fh));
-			fenetre.fichierJoueurBlanc=fichier1save;
-			fenetre.fichierJoueurNoir=fichier2save;
-			
+			fenetre.fichierJoueurBlanc = fichier1save;
+			fenetre.fichierJoueurNoir = fichier2save;
+
 			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
@@ -119,13 +114,12 @@ public class PreferencesOnglets extends JPanel {
 
 	class ItemAction_reset implements ActionListener {
 
-		public void actionPerformed(ActionEvent e)
-		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
-			fenetre.imageActuelle = new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator));
-			fenetre.fichierJoueurBlanc= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
-			fenetre.fichierJoueurNoir= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
-			
+		public void actionPerformed(ActionEvent e) {
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("." + File.separator + "Ressources" + File.separator + "images" + File.separator + "iconimageDefault.jpg").getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("." + File.separator + "Ressources" + File.separator + "images" + File.separator + "imageDefault.jpg");
+			fenetre.fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+			fenetre.fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
+
 			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
