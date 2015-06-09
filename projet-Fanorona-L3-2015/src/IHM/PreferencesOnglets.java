@@ -28,8 +28,7 @@ public class PreferencesOnglets extends JPanel {
 	Fenetre		fenetre;
 	Image		save;
 
-	public PreferencesOnglets(Fenetre f)
-	{
+	public PreferencesOnglets(Fenetre f) {
 		super(new BorderLayout());
 
 		fenetre = f;
@@ -75,8 +74,7 @@ public class PreferencesOnglets extends JPanel {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
 
-	public void majPref()
-	{
+	public void majPref() {
 		// Ajouts
 		fenetre.frame3.add(this, BorderLayout.CENTER);
 		fenetre.frame3.pack();
@@ -85,8 +83,7 @@ public class PreferencesOnglets extends JPanel {
 
 	class ItemAction_valider implements ActionListener {
 
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			fenetre.nameJ1 = panel2.name1.getText();
 			fenetre.nameJ2 = panel2.name2.getText();
 			fenetre.frame3.setVisible(false);
@@ -98,6 +95,7 @@ public class PreferencesOnglets extends JPanel {
 	// Ne Marche pas
 	class ItemAction_annuler implements ActionListener {
 
+
 		public void actionPerformed(ActionEvent e)
 		{
 			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, save, Fenetre.fw, Fenetre.fh));
@@ -108,9 +106,13 @@ public class PreferencesOnglets extends JPanel {
 
 	class ItemAction_reset implements ActionListener {
 
+			
+
 		public void actionPerformed(ActionEvent e)
 		{
 			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/iconimageDefault.jpg").getImage(), Fenetre.fw, Fenetre.fh));
+			fenetre.fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+			fenetre.fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 			fenetre.frame.repaint();
 			fenetre.frame3.setVisible(false);
 		}
