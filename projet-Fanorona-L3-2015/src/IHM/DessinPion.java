@@ -17,8 +17,8 @@ public class DessinPion extends JComponent {
 	public Pion		pionCouleur;
 	public int		tailleJeton;
 	public String	fichierJoueur;
-	public String	fichierJ1Defaut	= "./Ressources/Pions/pionBlanc.png".replaceAll("/", File.separator);
-	public String	fichierJ2Defaut	= "./Ressources/Pions/pionNoir.png".replaceAll("/", File.separator);
+	public String	fichierJ1Defaut	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
+	public String	fichierJ2Defaut	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
 
 	public DessinPion(Fenetre f, int taille, Pion p)
 	{
