@@ -18,10 +18,8 @@ public class ChoixCouleurPion extends JPanel {
 
 	protected JLabel			titre;
 
-	
-	public ChoixCouleurPion(Fenetre f, File repertoire)
-	{
-		
+	public ChoixCouleurPion(Fenetre f, File repertoire) {
+
 		super(new BorderLayout());
 		this.frame = f;
 		
@@ -31,7 +29,7 @@ public class ChoixCouleurPion extends JPanel {
 		titre.setOpaque(true);
 		titre.setFont(new Font("SansSerif", Font.BOLD, 24));
 		titre.setPreferredSize(new Dimension(100, 65));
-		
+
 		JLabel joueur1 = new JLabel(" Choisir le pion du joueur 1 : ");
 		JLabel joueur2 = new JLabel(" Choisir le pion du joueur 2 : ");
 
@@ -41,11 +39,12 @@ public class ChoixCouleurPion extends JPanel {
 		joueur2.setBackground(Color.white);
 		joueur2.setOpaque(true);
 		joueur2.setPreferredSize(new Dimension(80, 55));
-		
+
 		JPanel panelTitre = new JPanel(new BorderLayout());
 		panelTitre.add(titre, BorderLayout.CENTER);
 
 		JPanel panelChoix = new JPanel(new BorderLayout());
+		panelChoix.setBackground(Color.LIGHT_GRAY);
 		JPanel choixJ1 = new JPanel(new BorderLayout());
 		JPanel choixJ2 = new JPanel(new BorderLayout());
 		ListeSelectionPion panelChoixBlanc = new ListeSelectionPion(frame, frame.engine.getJoueurBlanc(), repertoire);
@@ -54,10 +53,10 @@ public class ChoixCouleurPion extends JPanel {
 		choixJ2.add(joueur2, BorderLayout.NORTH);
 		choixJ1.add(panelChoixBlanc.scroll, BorderLayout.SOUTH);
 		choixJ2.add(panelChoixNoir.scroll, BorderLayout.SOUTH);
-		
+
 		panelChoix.add(choixJ1, BorderLayout.WEST);
 		panelChoix.add(choixJ2, BorderLayout.EAST);
-		
+
 		add(panelTitre, BorderLayout.NORTH);
 		add(panelChoix, BorderLayout.CENTER);
 	}

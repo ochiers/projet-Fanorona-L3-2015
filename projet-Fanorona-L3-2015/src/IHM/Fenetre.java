@@ -482,7 +482,6 @@ public class Fenetre implements Runnable, Affichage {
 				engine.pause();
 				stopper.setText(" Reprendre ");
 				stopper.setIcon(imagePlay);
-				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
 			}
 		}
@@ -576,8 +575,6 @@ public class Fenetre implements Runnable, Affichage {
 
 	public void afficherPionsPossibles(ArrayList<Case> l)
 	{
-		// System.out.println("22222222");
-
 		monDessin.pionPossible = l;
 		monDessin.repaint();
 	}

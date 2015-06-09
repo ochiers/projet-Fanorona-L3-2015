@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -17,8 +18,8 @@ import java.io.File;
 
 @SuppressWarnings("serial")
 public class PreferencesOnglets extends JPanel {
-	int			width	= 699;
-	int			height	= 549;
+	int			width	= 606;
+	int			height	= 429;
 
 	int			pBw		= 10;
 	int			pBh		= 30;
@@ -45,11 +46,13 @@ public class PreferencesOnglets extends JPanel {
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
 		panel2 = new ChoixNoms(fenetre);
+		panel2.setBackground(Color.LIGHT_GRAY);
 		// ajout fond
 		tabbedPane.addTab(" Choix Noms Joueurs ", icon, panel2);
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
 		ChoixCouleurPion panel3 = new ChoixCouleurPion(fenetre, new File("." + File.separator + "Ressources" + File.separator + "Pions"));
+		panel3.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.addTab(" Choix Couleurs Pions ", icon, panel3);
 		tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
