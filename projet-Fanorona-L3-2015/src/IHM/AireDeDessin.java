@@ -100,7 +100,7 @@ public class AireDeDessin extends JComponent {
 		segment = etir * (CoordonneesPlateau[2] - CoordonneesPlateau[0]) / 8.0;
 		tailleJeton = (int) (segment / 1.75);
 
-		Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, fenetre.imageActuelle.getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
+		fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, fenetre.imageActuelle.getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 		drawable.drawImage(plateau.getImage(), originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), null);
 
 		majScore();

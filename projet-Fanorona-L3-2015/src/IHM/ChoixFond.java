@@ -77,7 +77,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image1.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image1.jpg".replace("/", File.separator)), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image1.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -88,7 +88,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image2.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image2.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image2.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -99,7 +99,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image3.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image3.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image3.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -110,7 +110,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image4.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image4.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image4.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -121,7 +121,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image5.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image5.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image5.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -132,7 +132,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image6.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image6.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image6.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -143,7 +143,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image7.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image7.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image7.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -154,7 +154,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image8.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image8.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image8.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}
@@ -165,7 +165,7 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
 			fenetre.imageActuelle = new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
 		}

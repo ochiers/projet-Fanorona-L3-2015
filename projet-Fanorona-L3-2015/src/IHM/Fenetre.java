@@ -399,7 +399,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			preference.save = getPanelAccueil().getImage();
+			preference.save = imageActuelle;
 			frame3.setVisible(true);
 		}
 
