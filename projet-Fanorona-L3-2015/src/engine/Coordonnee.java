@@ -26,8 +26,7 @@ public class Coordonnee implements Serializable {
 	 * @param ligne
 	 * @param colonne
 	 */
-	public Coordonnee(int ligne, int colonne)
-	{
+	public Coordonnee(int ligne, int colonne) {
 		this.ligne = ligne;
 		this.colonne = colonne;
 	}
@@ -37,8 +36,7 @@ public class Coordonnee implements Serializable {
 	 * 
 	 * @return un entier etant la ligne
 	 */
-	public int getLigne()
-	{
+	public int getLigne() {
 		return this.ligne;
 	}
 
@@ -47,23 +45,19 @@ public class Coordonnee implements Serializable {
 	 * 
 	 * @return un entier etant la colonne
 	 */
-	public int getColonne()
-	{
+	public int getColonne() {
 		return this.colonne;
 	}
 
-	public boolean equals(Object o)
-	{
-		if (o != null && o instanceof Coordonnee)
-		{
+	public boolean equals(Object o) {
+		if (o != null && o instanceof Coordonnee) {
 			Coordonnee c = (Coordonnee) o;
 			return c.ligne == this.ligne && c.colonne == this.colonne;
 		}
 		return false;
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		return "[Ligne = " + this.ligne + ", Colonne = " + this.colonne + "]";
 	}
 

@@ -40,8 +40,7 @@ public class Case implements Serializable {
 	 * @param position
 	 *            La position de la case dans la matrice
 	 */
-	public Case(Coordonnee position)
-	{
+	public Case(Coordonnee position) {
 		this.position = position;
 	}
 
@@ -50,8 +49,7 @@ public class Case implements Serializable {
 	 * 
 	 * @return
 	 */
-	public ArrayList<Case> voisins()
-	{
+	public ArrayList<Case> voisins() {
 		ArrayList<Case> res = new ArrayList<Case>();
 		if (nord != null)
 			res.add(nord);
@@ -77,8 +75,7 @@ public class Case implements Serializable {
 	 * 
 	 * @return
 	 */
-	public boolean estVide()
-	{
+	public boolean estVide() {
 		return pion == null;
 	}
 
@@ -89,10 +86,8 @@ public class Case implements Serializable {
 	 *            La direction de la case voisine voulue
 	 * @return La case voisin de celle si
 	 */
-	public Case getCaseAt(Direction d)
-	{
-		switch (d)
-		{
+	public Case getCaseAt(Direction d) {
+		switch (d) {
 			case Nord:
 				return this.nord;
 			case NordEst:
@@ -114,39 +109,40 @@ public class Case implements Serializable {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o)
-	{
+	public boolean equals(Object o) {
 		if (o == null)
 			return false;
-		if (o instanceof Case)
-		{
+		if (o instanceof Case) {
 			Case c = (Case) o;
 			return c.position.colonne == this.position.colonne && this.position.ligne == c.position.ligne;
 		}
-		if (o instanceof Point)
-		{
+		if (o instanceof Point) {
 			Coordonnee c = (Coordonnee) o;
 			return c.colonne == this.position.colonne && this.position.ligne == c.ligne;
 		}
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "Case (" + position.ligne + ", " + position.colonne + ") : " + pion;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Case clone()
-	{
+	public Case clone() {
 		Case c = new Case(new Coordonnee(this.position.ligne, this.position.colonne));
 		if (this.pion == Pion.Blanc)
 			c.pion = Pion.Blanc;

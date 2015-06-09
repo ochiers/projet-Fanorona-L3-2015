@@ -24,7 +24,8 @@ public interface EngineServices {
 	public void setDisplay(Affichage display);
 
 	/**
-	 * Demarre le moteur et attend qu'une partie soit créée (appel à nouvellepartie())
+	 * Demarre le moteur et attend qu'une partie soit créée (appel à
+	 * nouvellepartie())
 	 */
 	public void begin();
 
@@ -150,18 +151,24 @@ public interface EngineServices {
 
 	/**
 	 * Annule un demi-coup, la partie est en pause apres cette action
-	 * @param notifReseau Indique s'il faut envoyer l'ordre sur le reseau
+	 * 
+	 * @param notifReseau
+	 *            Indique s'il faut envoyer l'ordre sur le reseau
 	 */
 	public void annuler(boolean notifReseau);
 
 	/**
-	 * Refait un demi-coup deja annulé, la partie est en pause apres cette action
-	 * @param notifReseau Indique s'il faut envoyer l'ordre sur le reseau
+	 * Refait un demi-coup deja annulé, la partie est en pause apres cette
+	 * action
+	 * 
+	 * @param notifReseau
+	 *            Indique s'il faut envoyer l'ordre sur le reseau
 	 */
 	public void refaire(boolean notifReseau);
 
 	/**
-	 * Arrete la partie courante, le moteur sera en attente d'une nouvelle partie
+	 * Arrete la partie courante, le moteur sera en attente d'une nouvelle
+	 * partie
 	 */
 	public void stopper();
 
@@ -179,10 +186,12 @@ public interface EngineServices {
 
 	/**
 	 * Recommence la partie
-	 * @param notifReseau Indique s'il faut envoyer l'ordre sur le reseau
+	 * 
+	 * @param notifReseau
+	 *            Indique s'il faut envoyer l'ordre sur le reseau
 	 */
 	public void recommencer(boolean notifReseau);
-	
+
 	/**
 	 * Sauvegarde la partie courante dans le fichier de chemin path
 	 * 
@@ -192,83 +201,98 @@ public interface EngineServices {
 	public void sauvegarderPartie(String path);
 
 	/**
-	 * Charge la partie sauvegardée dans le fichier de chemin path La partie courante est detruite et remplacée, le jeu est en pause apres cette action
+	 * Charge la partie sauvegardée dans le fichier de chemin path La partie
+	 * courante est detruite et remplacée, le jeu est en pause apres cette
+	 * action
 	 * 
 	 * @param path
 	 *            Le chemin du fichier a charger
 	 */
 	public void chargerPartie(String path);
 
-	
 	/**
 	 * Donne le joueur qui commence
+	 * 
 	 * @return True -> joueur 1, False -> joueur 2
 	 */
 	public boolean getPremierJoueur();
-	
+
 	/**
 	 * Permet de changer a la volée les joueurs de la partie courante
-	 * @param nouveauJ1 Le nouveau joueur1
-	 * @param nouveauJ2 Le nouveau joueur2
+	 * 
+	 * @param nouveauJ1
+	 *            Le nouveau joueur1
+	 * @param nouveauJ2
+	 *            Le nouveau joueur2
 	 */
 	public void changerLesJoueurs(Player nouveauJ1, Player nouveauJ2);
 
 	/**
 	 * Heberge une partie, attend qu'un client se connecte
-	 * @param portEcoute Le port d'ecoute
+	 * 
+	 * @param portEcoute
+	 *            Le port d'ecoute
 	 * @throws IOException
 	 */
-	public void hebergerPartie(int portEcoute)  throws Exception;
-	
+	public void hebergerPartie(int portEcoute) throws Exception;
+
 	/**
 	 * Rejoin une partie sur le reseau
-	 * @param port Le port de destination
-	 * @param ip L'ip destination
+	 * 
+	 * @param port
+	 *            Le port de destination
+	 * @param ip
+	 *            L'ip destination
 	 * @throws IOException
 	 */
-	public void rejoindrePartie(int port, String ip) throws IOException ;
-	
+	public void rejoindrePartie(int port, String ip) throws IOException;
+
 	/**
 	 * Donne l'object qui sert d'iinterface avec le reseau
+	 * 
 	 * @return
 	 */
 	public NetworkManager getNetworkManager();
-	
+
 	/**
 	 * DOnne l'affichage utilisé par le moteur
+	 * 
 	 * @return
 	 */
 	public Affichage getCurrentDisplay();
 
 	/**
-	 * Envoie le coup joué sur le reseau, si une connection a ete prealablement établie
+	 * Envoie le coup joué sur le reseau, si une connection a ete prealablement
+	 * établie
+	 * 
 	 * @param coupJoue
 	 */
 	public void envoyerCoupSurReseau(Coup coupJoue);
-	
+
 	/**
 	 * Idem envoyerCoupSurReseau mais avec une coordonnee
+	 * 
 	 * @param coordonneeJouee
 	 */
 	public void envoyerChoixCaseSurReseau(Coordonnee coordonneeJouee);
-	
+
 	/**
 	 * Quitte l'application proprement
 	 */
 	public void quitter();
-	
+
 	/**
 	 * Joue une seule partie jusqu'a la victoire puis termine l'application
 	 */
 	public void playOnlyOnce();
-	
+
 	/**
 	 * Donne l'objet qui gere la pile d'annuler/refaire
+	 * 
 	 * @return
 	 */
 	public UndoRedo<Game> getUndoRedo();
 
-	
 	/**
 	 * Supprime l'interface reseau (clos les connections)
 	 */

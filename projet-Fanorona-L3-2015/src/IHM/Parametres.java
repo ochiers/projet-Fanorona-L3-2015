@@ -1,13 +1,16 @@
 package IHM;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
 import engine.Configuration;
 import engine.PlayerType;
 import engine.Tools;
@@ -40,6 +43,7 @@ public class Parametres {
 	{
 		// fenetre.frame2.setSize(300, 300);
 		JPanel panel = new JPanel(new GridLayout(0, 2));
+		panel.setBackground(Color.LIGHT_GRAY);
 		JLabel labelbox1 = new JLabel("Mode de jeu");
 		JLabel labelbox2 = new JLabel("Difficulte Ordi 1");
 		JLabel labelbox3 = new JLabel("Difficulte Ordi 2");

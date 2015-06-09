@@ -138,6 +138,18 @@ Vendredi 5 juin
 		- Modification des pions pour des images de pions en couleurs.
 		- Modification du choix de la couleurs des pions.
 		
+Lundi 8 juin
+	Matin :
+		- Réflexion vis-a-vis des remarques formulées par les testeurs durant le weekend (IA).
+	Après-midi
+		- Ajustements difficulté IA et stats.
+		
+Mardi 9 juin
+	Matin :
+		- Ajustements difficulté IA et stats.
+	Après-midi
+		- Nettoyage code IA.
+		
 		
 		
 		

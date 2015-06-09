@@ -41,7 +41,7 @@ public class ListeSelectionPion extends JPanel {
 		list.setCellRenderer(new ListRenderer());
 		list.addListSelectionListener(new listListener(this));
 		scroll = new JScrollPane(list);
-		scroll.setPreferredSize(new Dimension(300, 400));
+		scroll.setPreferredSize(new Dimension(300, 280));
 	}
 
 	private Map<String, ImageIcon> createImageMap(String[] list)
@@ -68,8 +68,8 @@ public class ListeSelectionPion extends JPanel {
 	public class listListener implements ListSelectionListener {
 
 		public ListeSelectionPion	listPion;
-		public String				ancienJ1	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
-		public String				ancienJ2	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
+		public String				ancienJ1	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+		public String				ancienJ2	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 
 		public listListener(ListeSelectionPion l)
 		{

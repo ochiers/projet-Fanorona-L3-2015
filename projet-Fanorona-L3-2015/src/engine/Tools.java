@@ -16,8 +16,8 @@ public class Tools {
 	/**
 	 * Un generateur de nombres aléatoires
 	 */
-	public static final Random rand = new Random();
-	
+	public static final Random	rand	= new Random();
+
 	/**
 	 * Cree un nouveau joueur
 	 * 
@@ -29,14 +29,12 @@ public class Tools {
 	 *            Le nom du joueur
 	 * @return
 	 */
-	public static Player createPlayer(EngineServices e, PlayerType p, String nom)
-	{
+	public static Player createPlayer(EngineServices e, PlayerType p, String nom) {
 		if (e == null || p == null || nom == null)
 			throw new RuntimeException("IMPOSSIBLE DE CREE LE JOUEUR");
 
 		Player res;
-		switch (p)
-		{
+		switch (p) {
 			case Humain:
 				res = new HumanPlayer(e, false, nom);
 				break;
@@ -65,8 +63,7 @@ public class Tools {
 	 *            Le joueur
 	 * @return Le type de p (appartien a PlayerType)
 	 */
-	public static PlayerType getTypeOfPlayer(Player p)
-	{
+	public static PlayerType getTypeOfPlayer(Player p) {
 
 		if (p instanceof HumanPlayer)
 			return PlayerType.Humain;
@@ -81,6 +78,7 @@ public class Tools {
 
 		throw new RuntimeException();
 	}
+
 	/**
 	 * Donne le type d'un joueur
 	 * 
@@ -88,8 +86,7 @@ public class Tools {
 	 *            Le joueur
 	 * @return Le type de p (appartien a PlayerType)
 	 */
-	public static PlayerType getTypeOfPlayer(int p)
-	{
+	public static PlayerType getTypeOfPlayer(int p) {
 
 		if (p == 0)
 			return PlayerType.Humain;
@@ -111,8 +108,7 @@ public class Tools {
 	 * @param g
 	 * @return
 	 */
-	public static Configuration getTypePartie(Game g)
-	{
+	public static Configuration getTypePartie(Game g) {
 		if ((getTypeOfPlayer(g.joueurBlanc) == PlayerType.Humain && getTypeOfPlayer(g.joueurNoir) == PlayerType.Humain) || (getTypeOfPlayer(g.joueurBlanc) == PlayerType.Reseau || getTypeOfPlayer(g.joueurNoir) == PlayerType.Reseau))
 			return Configuration.HumainVSHumain;
 		if (g.joueurBlanc.aiPlayer && g.joueurNoir.aiPlayer)
@@ -123,8 +119,7 @@ public class Tools {
 		throw new RuntimeException();
 	}
 
-	public static Configuration getTypePartie(int g)
-	{
+	public static Configuration getTypePartie(int g) {
 		if (g == 0)
 			return Configuration.HumainVSHumain;
 		if (g == 1)
@@ -137,11 +132,11 @@ public class Tools {
 
 	/**
 	 * Indique si l'ip apssée en paramettre est valide
+	 * 
 	 * @param ip
 	 * @return True -> ip valide, false sinon
 	 */
-	public static boolean isValidIP(String ip)
-	{
+	public static boolean isValidIP(String ip) {
 		return ip.matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
 	}
 
@@ -150,28 +145,23 @@ public class Tools {
 	 * 
 	 * @return Une chaine sous forme xxx.xxx.xxx.xxx
 	 */
-	public static String getIp()
-	{
+	public static String getIp() {
 		String ipOrdi = "";
 		Enumeration<NetworkInterface> e;
 
-		try
-		{
+		try {
 			e = NetworkInterface.getNetworkInterfaces();
 
-			while (e.hasMoreElements())
-			{
+			while (e.hasMoreElements()) {
 				NetworkInterface n = (NetworkInterface) e.nextElement();
 				Enumeration<InetAddress> ee = n.getInetAddresses();
-				while (ee.hasMoreElements())
-				{
+				while (ee.hasMoreElements()) {
 					String i = ((InetAddress) ee.nextElement()).toString().replace("/", "");
 					if (!i.toString().contains("127.0.0.1") && Tools.isValidIP(i))
 						ipOrdi = i;
 				}
 			}
-		} catch (SocketException e1)
-		{
+		} catch (SocketException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -180,44 +170,45 @@ public class Tools {
 	}
 
 	/**
-	 * Cree nouveaux joueur suivant la configuration donnee et effectue le changement dans la partie courante
-	 * @param moteur Le moteur associé aux joueurs
-	 * @param conf La configuration actuelle de la partie
-	 * @param p1 Le type du premier joueur
-	 * @param p2 Le type du deuxieme joueur
-	 * @param nomJ1 Le nom du premier joueur
-	 * @param nomJ2 Le nom du premier joueur
+	 * Cree nouveaux joueur suivant la configuration donnee et effectue le
+	 * changement dans la partie courante
+	 * 
+	 * @param moteur
+	 *            Le moteur associé aux joueurs
+	 * @param conf
+	 *            La configuration actuelle de la partie
+	 * @param p1
+	 *            Le type du premier joueur
+	 * @param p2
+	 *            Le type du deuxieme joueur
+	 * @param nomJ1
+	 *            Le nom du premier joueur
+	 * @param nomJ2
+	 *            Le nom du premier joueur
 	 */
-	public static void changerDeJoueur(EngineServices moteur, Configuration conf, PlayerType p1, PlayerType p2, String nomJ1, String nomJ2)
-	{
+	public static void changerDeJoueur(EngineServices moteur, Configuration conf, PlayerType p1, PlayerType p2, String nomJ1, String nomJ2) {
 
 		Player j1 = null;
 		Player j2 = null;
-		switch (conf)
-		{
+		switch (conf) {
 			case HumainVSHumain:
-				if (p1 == PlayerType.Reseau)
-				{
+				if (p1 == PlayerType.Reseau) {
 					j1 = new NetworkPlayer(moteur, false, nomJ1);
 					j2 = new HumanPlayer(moteur, false, nomJ2);
-				} else if (p2 == PlayerType.Reseau)
-				{
+				} else if (p2 == PlayerType.Reseau) {
 					j2 = new NetworkPlayer(moteur, false, nomJ2);
 					j1 = new HumanPlayer(moteur, false, nomJ1);
-				} else
-				{
+				} else {
 					j1 = new HumanPlayer(moteur, false, nomJ1);
 					j2 = new HumanPlayer(moteur, false, nomJ2);
 				}
 				break;
 			case HumainVSIA:
-				System.out.println(Configuration.HumainVSIA +" " + p1 +" " + p2);
-				if (p1 == PlayerType.Reseau)
-				{
+				System.out.println(Configuration.HumainVSIA + " " + p1 + " " + p2);
+				if (p1 == PlayerType.Reseau) {
 					j1 = new NetworkPlayer(moteur, false, nomJ1);
 					j2 = Tools.createPlayer(moteur, p2, nomJ2);
-				} else if (p2 == PlayerType.Reseau)
-				{
+				} else if (p2 == PlayerType.Reseau) {
 					j2 = new NetworkPlayer(moteur, false, nomJ2);
 					j1 = Tools.createPlayer(moteur, p2, nomJ1);
 				} else {
@@ -233,18 +224,19 @@ public class Tools {
 				throw new RuntimeException();
 
 		}
-		System.out.println(j1 +"aaaaaaaaaaaaaaaaaaaa"+j2);
+		System.out.println(j1 + "aaaaaaaaaaaaaaaaaaaa" + j2);
 		moteur.changerLesJoueurs(j1, j2);
 	}
-	
 
 	/**
 	 * Affiche une liste avec une description
-	 * @param l La liste a afficher
-	 * @param str La description de la liste
+	 * 
+	 * @param l
+	 *            La liste a afficher
+	 * @param str
+	 *            La description de la liste
 	 */
-	public static void afficherList(ArrayList<Case> l, String str)
-	{
+	public static void afficherList(ArrayList<Case> l, String str) {
 		System.out.println("------------Affichage " + str + " -------------");
 		Iterator<Case> it = l.iterator();
 		while (it.hasNext())
