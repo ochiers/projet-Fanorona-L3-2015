@@ -487,7 +487,13 @@ public class Fenetre implements Runnable, Affichage {
 		public void actionPerformed(ActionEvent e)
 		{
 			Player p2 = new MediumAI(engine, true, "IA suggestion");
-			ArrayList<Case> pionsPossibles = engine.getCurrentGame().lesPionsQuiPeuventManger();
+			ArrayList<Case> pionsPossibles;
+			if(engine.enCombo()){
+				pionsPossibles = new ArrayList<Case>();
+				pionsPossibles.add(monDessin.pionCombo);
+				
+			}else
+				pionsPossibles = engine.getCurrentGame().lesPionsQuiPeuventManger();
 			if (pionsPossibles.size() == 0)
 			{
 				pionsPossibles = engine.getCurrentGame().lesPionsJouables();
