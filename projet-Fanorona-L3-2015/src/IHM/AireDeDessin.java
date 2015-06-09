@@ -74,6 +74,7 @@ public class AireDeDessin extends JComponent {
 		this.tailleJeton = 1;
 		this.etir = 1;
 		this.tailleHalo = 1.5;
+//		pfinal=new Coordonnee(-1,-1);
 		try
 		{
 			this.pauseOverlay = ImageIO.read(new File("./Ressources/overlayPause.png".replace("/", File.separator)));
@@ -108,9 +109,10 @@ public class AireDeDessin extends JComponent {
 		majNomJoueurs();
 
 		if (fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie){
-			dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), etir);
+			
 			if (combo != null && combo.size() > 0)
 				cheminCombo(drawable);
+			dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), etir);
 		}else
 		{
 			if (!pionCliquer && doitChoisir)
