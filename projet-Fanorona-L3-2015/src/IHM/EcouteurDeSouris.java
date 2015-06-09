@@ -165,7 +165,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 
 			} else
 			{
-				if (p.colonne != -1 && p.ligne != -1)
+				if (aire.pfinal.ligne >=0 && aire.pfinal.colonne >=0)
 				{
 
 					ArrayList<Case> emplacementPossible1 = aire.fenetre.engine.getCurrentGame().coupsPossiblesPourUnPion(aire.fenetre.engine.getCurrentGame().matricePlateau[aire.pfinal.ligne][aire.pfinal.colonne]);

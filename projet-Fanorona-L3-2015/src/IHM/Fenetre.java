@@ -12,71 +12,70 @@ import network.NetworkPlayer;
 import engine.*;
 
 public class Fenetre implements Runnable, Affichage {
-	JFrame				frame	= new JFrame(" -- Fanorona -- ");
-	JFrame				frame2	= new JFrame(" -- Parametres -- ");
-	JFrame				frame3	= new JFrame(" -- Preferences -- ");
-	Parametres			parametre;
-	PreferencesOnglets	preference;
-	AireDeDessin		monDessin;
-	EngineServices		engine;
-	Dimension			size	= new Dimension(9, 5);
+	JFrame						frame				= new JFrame(" -- Fanorona -- ");
+	JFrame						frame2				= new JFrame(" -- Parametres -- ");
+	JFrame						frame3				= new JFrame(" -- Preferences -- ");
+	Parametres					parametre;
+	PreferencesOnglets			preference;
+	AireDeDessin				monDessin;
+	EngineServices				engine;
+	Dimension					size				= new Dimension(9, 5);
 
-	PlayerType			lvlPC1, lvlPC2;
-	Configuration		mode;
-	boolean				commencer;
-	PlayerType			defaut	= PlayerType.IAMoyenne;
+	PlayerType					lvlPC1, lvlPC2;
+	Configuration				mode;
+	boolean						commencer;
+	PlayerType					defaut				= PlayerType.IAMoyenne;
 
-	JLabel				scoreInt1, scoreInt2;
+	JLabel						scoreInt1, scoreInt2;
 
-	JLabel				tour1, tour2;
-	private static ImagePanel			panelAccueil;
-	ImageIcon			imageActuelle= new ImageIcon("Ressources/images/imageDefault.jpg");
-	
-	
-	int					fw;
-	int fh;
-	JLabel				idj1, idj2;
-	JLabel				levelj1, levelj2;
-	Color				pion1	= Color.black;
-	Color				pion2	= Color.white;
-	String				nameJ1, nameJ2;
+	JLabel						tour1, tour2;
+	private static ImagePanel	panelAccueil;
+	ImageIcon					imageActuelle		= new ImageIcon("Ressources/images/imageDefault.jpg");
 
-	JMenuBar			menuBar;
-	JMenu				partie, options, aide, reseau;
+	int							fw;
+	int							fh;
+	JLabel						idj1, idj2;
+	JLabel						levelj1, levelj2;
+	Color						pion1				= Color.black;
+	Color						pion2				= Color.white;
+	String						nameJ1, nameJ2;
 
-	JMenuItem			partie_nouvellePartie;
-	JMenuItem			partie_recommencer;
-	JMenuItem			partie_sauvegarder;
-	JMenuItem			partie_charger;
-	JMenuItem			partie_quitter;
+	JMenuBar					menuBar;
+	JMenu						partie, options, aide, reseau;
 
-	JMenuItem			options_parametresPartie;
-	JMenuItem			options_preferences;
-	//JMenuItem			options_historiqueScores;
+	JMenuItem					partie_nouvellePartie;
+	JMenuItem					partie_recommencer;
+	JMenuItem					partie_sauvegarder;
+	JMenuItem					partie_charger;
+	JMenuItem					partie_quitter;
 
-	JMenuItem			aide_reglesDuJeu;
-	JMenuItem			aide_aPropos;
+	JMenuItem					options_parametresPartie;
+	JMenuItem					options_preferences;
+	// JMenuItem options_historiqueScores;
 
-	JMenuItem			reseau_heberger;
-	JMenuItem			reseau_rejoindre;
+	JMenuItem					aide_reglesDuJeu;
+	JMenuItem					aide_aPropos;
 
-	JButton				annuler;
-	JButton				refaire;
-	JButton				stopper;
-	JButton				finTour;
-	JButton				suggestion;
+	JMenuItem					reseau_heberger;
+	JMenuItem					reseau_rejoindre;
 
-	static int					wmin	= 673;
-	static int					hmin	= 405;
-	int					wmax	= 1280;
-	int					hmax	= 720;
+	JButton						annuler;
+	JButton						refaire;
+	JButton						stopper;
+	JButton						finTour;
+	JButton						suggestion;
 
-	int					taillePion;
-	JFrame				frameVictoire;
-	JPanel				panelPause;
-	
-	String fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
-	String fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
+	static int					wmin				= 673;
+	static int					hmin				= 405;
+	int							wmax				= 1280;
+	int							hmax				= 720;
+
+	int							taillePion;
+	JFrame						frameVictoire;
+	JPanel						panelPause;
+
+	String						fichierJoueurBlanc	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+	String						fichierJoueurNoir	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 
 	public Fenetre(EngineServices e)
 	{
@@ -92,7 +91,7 @@ public class Fenetre implements Runnable, Affichage {
 		fh = frame.getHeight();
 		setPanelAccueil(new ImagePanel(frame, new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
-		
+
 		// grille
 		monDessin = new AireDeDessin(this);
 		monDessin.addMouseListener(new EcouteurDeSouris(monDessin));
@@ -124,15 +123,16 @@ public class Fenetre implements Runnable, Affichage {
 		options = new JMenu(" Options ");
 		options_parametresPartie = new JMenuItem(" Parametres Partie ");
 		options_preferences = new JMenuItem(" Preferences ");
-		//options_historiqueScores = new JMenuItem(" Historique Scores ");
+		// options_historiqueScores = new JMenuItem(" Historique Scores ");
 
 		options_parametresPartie.addActionListener(new ItemAction_options_parametresPartie());
 		options_preferences.addActionListener(new ItemAction_options_preferences());
-		//options_historiqueScores.addActionListener(new ItemAction_options_historiqueScores());
+		// options_historiqueScores.addActionListener(new
+		// ItemAction_options_historiqueScores());
 
 		options.add(options_parametresPartie);
 		options.add(options_preferences);
-		//options.add(options_historiqueScores);
+		// options.add(options_historiqueScores);
 
 		// Menu Reseau
 		reseau = new JMenu(" Reseau ");
@@ -168,23 +168,23 @@ public class Fenetre implements Runnable, Affichage {
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
 		suggestion = new JButton(" Suggerer coup ");
-		
+
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
 		stopper.addActionListener(new ItemAction_stopper());
 		finTour.addActionListener(new ItemAction_finTour());
 		suggestion.addActionListener(new ItemAction_suggestion());
-		
-		//redimensionnage
-		annuler.setSize(new Dimension((int)(0.1*fw), (int)(0.15*fh)));
-		refaire.setSize((int)(0.1*fw), (int)(0.15*fh));
-		stopper.setSize((int)(0.1*fw), (int)(0.15*fh));
-		finTour.setSize((int)(0.1*fw), (int)(0.15*fh));
-		suggestion.setSize((int)(0.1*fw), (int)(0.15*fh));
+
+		// redimensionnage
+		annuler.setSize(new Dimension((int) (0.1 * fw), (int) (0.15 * fh)));
+		refaire.setSize((int) (0.1 * fw), (int) (0.15 * fh));
+		stopper.setSize((int) (0.1 * fw), (int) (0.15 * fh));
+		finTour.setSize((int) (0.1 * fw), (int) (0.15 * fh));
+		suggestion.setSize((int) (0.1 * fw), (int) (0.15 * fh));
 
 		// boutons
 		JPanel panelSud = new JPanel(new FlowLayout());
-		panelSud.setPreferredSize(new Dimension((int)(0.7*fw), (int)(0.15*fh)));
+		panelSud.setPreferredSize(new Dimension((int) (0.7 * fw), (int) (0.15 * fh)));
 		panelSud.setOpaque(false);
 		panelSud.add(annuler);
 		panelSud.add(refaire);
@@ -210,7 +210,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		// joueur 1
 		JPanel panelOuest = new JPanel(new GridLayout(9, 1));
-		taillePion = (int)(0.9*panelOuest.getWidth());
+		taillePion = (int) (0.9 * panelOuest.getWidth());
 		JLabel vide1 = new JLabel();
 		panelOuest.setBackground(new Color(255, 255, 255, 128));
 		panelOuest.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
@@ -238,7 +238,6 @@ public class Fenetre implements Runnable, Affichage {
 		panelEst.add(score2);
 		panelEst.add(tour2);
 
-		
 		// ajout au panel accueil
 		getPanelAccueil().add(monDessin, BorderLayout.CENTER);
 		getPanelAccueil().add(panelOuest, BorderLayout.WEST);
@@ -261,6 +260,9 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new EcouteurDeFenetre(engine));
+		fw = frame.getWidth();
+		fh = frame.getHeight();
+		frame.repaint();
 	}
 
 	// ACTIONLISTENER
@@ -291,8 +293,8 @@ public class Fenetre implements Runnable, Affichage {
 
 			engine.nouvellePartie(j1, j2, (commencer ? 0 : 1), size);
 			monDessin.finPartie = false;
-			monDessin.pionCliquer=false;
-			monDessin.surbrillance=false;
+			monDessin.pionCliquer = false;
+			monDessin.surbrillance = false;
 		}
 
 	}
@@ -313,7 +315,7 @@ public class Fenetre implements Runnable, Affichage {
 		{
 			JFileChooser save = new JFileChooser();
 			save.showSaveDialog(frame);
-			if(save.getSelectedFile() != null)
+			if (save.getSelectedFile() != null)
 				engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 		}
 
@@ -372,14 +374,15 @@ public class Fenetre implements Runnable, Affichage {
 
 	}
 
-	/*class ItemAction_options_historiqueScores implements ActionListener {
-
-		public void actionPerformed(ActionEvent e)
-		{
-
-		}
-
-	}*/
+	/*
+	 * class ItemAction_options_historiqueScores implements ActionListener {
+	 * 
+	 * public void actionPerformed(ActionEvent e) {
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 
 	class ItemAction_aide_reglesDuJeu implements ActionListener {
 
@@ -389,16 +392,16 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				String os = System.getProperty("os.name").toLowerCase();
 				Runtime runtime = Runtime.getRuntime();
-				if(os.contains("win"))
-					runtime.exec("cmd start ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+				if (os.contains("win"))
+					runtime.exec("cmd start ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
 				else
-					runtime.exec("firefox ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
-				//runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
+					runtime.exec("firefox ." + File.separator + "Ressources" + File.separator + "Fanorona_2.pdf");
+				// runtime.exec("Google Chrome ."+File.separator+"Ressources"+File.separator+"Fanorona_2.pdf");
 
 			} catch (IOException e1)
 			{
 				e1.printStackTrace();
-			} 
+			}
 		}
 
 	}
@@ -455,7 +458,7 @@ public class Fenetre implements Runnable, Affichage {
 		public void actionPerformed(ActionEvent e)
 		{
 			monDessin.pionCliquer = false;
-			if(Tools.getTypeOfPlayer(engine.getJoueurCourant()) == PlayerType.Humain)
+			if (Tools.getTypeOfPlayer(engine.getJoueurCourant()) == PlayerType.Humain)
 				engine.finirSonTour(true);
 		}
 	}
@@ -464,7 +467,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Player p2 = new MediumAI(engine,true,"IA suggestion");
+			Player p2 = new MediumAI(engine, true, "IA suggestion");
 			ArrayList<Case> pionsPossibles = engine.getCurrentGame().lesPionsQuiPeuventManger();
 			if (pionsPossibles.size() == 0)
 			{
@@ -480,11 +483,12 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			
+
 			monDessin.attenteReseau = true;
 			monDessin.repaint();
-			int res = JOptionPane.showConfirmDialog(frame, "Le jeu sera bloqué jusqu'à ce qu'un adversaire se connecte sur le port n°12345,\n voulez vous continuer ?","Heberger une partie", JOptionPane.YES_NO_OPTION);
-			if(res == JOptionPane.YES_OPTION){
+			int res = JOptionPane.showConfirmDialog(frame, "Le jeu sera bloqué jusqu'à ce qu'un adversaire se connecte sur le port n°12345,\n voulez vous continuer ?", "Heberger une partie", JOptionPane.YES_NO_OPTION);
+			if (res == JOptionPane.YES_OPTION)
+			{
 				try
 				{
 					engine.hebergerPartie(12345);
@@ -492,7 +496,7 @@ public class Fenetre implements Runnable, Affichage {
 					Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
 					engine.nouvellePartie(p1, p2, 0, size);
 					monDessin.finPartie = false;
-				}catch (Exception e1)
+				} catch (Exception e1)
 				{
 					e1.printStackTrace();
 				}
@@ -504,14 +508,16 @@ public class Fenetre implements Runnable, Affichage {
 
 	class ItemAction_reseau_rejoindre implements ActionListener {
 
-		Fenetre f;
+		Fenetre	f;
+
 		public ItemAction_reseau_rejoindre(Fenetre f)
 		{
 			this.f = f;
 		}
+
 		public void actionPerformed(ActionEvent e)
 		{
-			new RejoindrePartieReseauIHM(engine,f);
+			new RejoindrePartieReseauIHM(engine, f);
 			monDessin.finPartie = false;
 		}
 
@@ -536,19 +542,17 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		monDessin.finPartie = true;
 		monDessin.repaint();
-		frameVictoire = new Firework(this); 
+		frameVictoire = new Firework(this);
 		frameVictoire.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
-		/*JPanel gagnant = new JPanel();
-		gagnant.setOpaque(false);
-		gagnant.setForeground(new Color(0, 0, 0, 0));
-		String winner = (this.engine.getWinner()).name;
-		JLabel win = new JLabel(" " + winner + " gagne la partie !!!");
-		JLabel congrats = new JLabel(" FELICITATIONS !!!");
-		gagnant.setAlignmentX(fw/2);
-		//gagnant.setAlignmentY(fh/2);
-		gagnant.add(win);
-		gagnant.add(congrats);
-		frameVictoire.add(gagnant);*/
+		/*
+		 * JPanel gagnant = new JPanel(); gagnant.setOpaque(false);
+		 * gagnant.setForeground(new Color(0, 0, 0, 0)); String winner =
+		 * (this.engine.getWinner()).name; JLabel win = new JLabel(" " + winner
+		 * + " gagne la partie !!!"); JLabel congrats = new
+		 * JLabel(" FELICITATIONS !!!"); gagnant.setAlignmentX(fw/2);
+		 * //gagnant.setAlignmentY(fh/2); gagnant.add(win);
+		 * gagnant.add(congrats); frameVictoire.add(gagnant);
+		 */
 		frameVictoire.setVisible(true);
 		frameVictoire.repaint();
 	}
@@ -584,11 +588,12 @@ public class Fenetre implements Runnable, Affichage {
 	{
 		System.out.println("//////SaveReussi?: " + reussi);
 		String str = "La sauvegarde";
-		if(reussi){
+		if (reussi)
+		{
 			str += " a réussie !";
 			JOptionPane.showMessageDialog(frame, str, "Sauvagarde", JOptionPane.INFORMATION_MESSAGE);
-		}
-		else{
+		} else
+		{
 			str += " a échouée !";
 			JOptionPane.showMessageDialog(frame, str, "Sauvagarde", JOptionPane.ERROR_MESSAGE);
 		}
@@ -638,14 +643,14 @@ public class Fenetre implements Runnable, Affichage {
 		parametre.box2.setSelectedIndex(lvlPC1.ordinal() - 1);
 		parametre.box3.setSelectedIndex(lvlPC2.ordinal() - 1);
 		parametre.box4.setSelectedIndex((commencer ? 0 : 1));
-		monDessin.pionCombo=engine.getPionCombo();
-		monDessin.combo=engine.getComboList();
+		monDessin.pionCombo = engine.getPionCombo();
+		monDessin.combo = engine.getComboList();
 	}
 
 	@Override
 	public boolean demanderConfirmation(String question)
 	{
-		int res =0;
+		int res = 0;
 		res = JOptionPane.showConfirmDialog(this.frame, question);
 		return res == JOptionPane.YES_OPTION;
 	}
@@ -654,25 +659,24 @@ public class Fenetre implements Runnable, Affichage {
 	public boolean demanderSauvegarde()
 	{
 		int res = JOptionPane.showConfirmDialog(frame, "Voulez vous sauvegarder avant de quitter", "Sauvegarder avant de quiiter", JOptionPane.YES_NO_CANCEL_OPTION);
-		if(res == JOptionPane.YES_OPTION)
+		if (res == JOptionPane.YES_OPTION)
 		{
 			JFileChooser save = new JFileChooser();
 			save.showSaveDialog(frame);
-			if(save.getSelectedFile() != null)
+			if (save.getSelectedFile() != null)
 				engine.sauvegarderPartie(save.getSelectedFile().getAbsolutePath());
 			return true;
-		}
-		else if (res == JOptionPane.NO_OPTION)
+		} else if (res == JOptionPane.NO_OPTION)
 			return true;
 		else
-			return false;		
+			return false;
 	}
 
 	@Override
 	public void afficherMessage(String str)
 	{
 		JOptionPane.showMessageDialog(frame, str);
-		
+
 	}
 
 	public static ImagePanel getPanelAccueil()
