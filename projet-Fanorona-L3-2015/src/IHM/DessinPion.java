@@ -17,31 +17,26 @@ public class DessinPion extends JComponent {
 	public Pion		pionCouleur;
 	public int		tailleJeton;
 	public String	fichierJoueur;
-	public String	fichierJ1Defaut	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
-	public String	fichierJ2Defaut	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
+	public String	fichierJ1Defaut	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+	public String	fichierJ2Defaut	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 
-	public DessinPion(Fenetre f, int taille, Pion p)
-	{
+	public DessinPion(Fenetre f, int taille, Pion p) {
 		this.fenetre = f;
 		this.tailleJeton = taille;
 		this.pionCouleur = p;
 		this.fichierJoueur = (this.pionCouleur == Pion.Blanc) ? this.fenetre.fichierJoueurBlanc : this.fenetre.fichierJoueurNoir;
 	}
 
-	public void paintComponent(Graphics g)
-	{
+	public void paintComponent(Graphics g) {
 		Graphics2D drawable = (Graphics2D) g;
-		try
-		{
+		try {
 			dessinJeton(drawable);
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void dessinJeton(Graphics2D drawable) throws IOException
-	{
+	public void dessinJeton(Graphics2D drawable) throws IOException {
 
 		double tailleX = this.getWidth();
 		double tailleY = this.getHeight();
@@ -52,18 +47,17 @@ public class DessinPion extends JComponent {
 			this.fichierJoueur = this.fenetre.fichierJoueurBlanc;
 		else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
 			this.fichierJoueur = this.fenetre.fichierJoueurNoir;
-		//String[] fichier = this.fichierJoueur.split(File.separator);
+		// String[] fichier = this.fichierJoueur.split(File.separator);
 		String[] fichier = this.fichierJoueur.split("/");
-		if (fichier[fichier.length -1].equals("null") && this.pionCouleur == Pion.Blanc){
+		if (fichier[fichier.length - 1].equals("null") && this.pionCouleur == Pion.Blanc) {
 			this.fichierJoueur = this.fichierJ1Defaut;
 			this.fenetre.fichierJoueurBlanc = this.fichierJ1Defaut;
-		}
-		else if (fichier[fichier.length -1].equals("null") && this.pionCouleur == Pion.Noir){
+		} else if (fichier[fichier.length - 1].equals("null") && this.pionCouleur == Pion.Noir) {
 			this.fichierJoueur = this.fichierJ2Defaut;
 			this.fenetre.fichierJoueurNoir = this.fichierJ2Defaut;
 		}
 		img = ImageIO.read(new File(this.fichierJoueur));
-		
+
 		double imgX = img.getWidth();
 		double imgY = img.getHeight();
 
