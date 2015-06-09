@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import AI.MediumAI;
 import network.NetworkPlayer;
 import engine.*;
@@ -64,6 +66,9 @@ public class Fenetre implements Runnable, Affichage {
 	JButton						stopper;
 	JButton						finTour;
 	JButton						suggestion;
+	
+	ImageIcon					imageStopper;
+	ImageIcon 					imagePlay;
 
 	static int					wmin				= 673;
 	static int					hmin				= 405;
@@ -84,7 +89,6 @@ public class Fenetre implements Runnable, Affichage {
 
 	public void run()
 	{
-		System.out.println(" ---- " + File.separator);
 		frame.setSize(1200, 700);
 		frame.setMinimumSize(new Dimension(wmin, hmin));
 		frame.setMaximumSize(new Dimension(wmax, hmax));
@@ -164,11 +168,22 @@ public class Fenetre implements Runnable, Affichage {
 		menuBar.add(aide);
 
 		// boutons commandes
-		annuler = new JButton(" Annuler Coup ");
+		ImageIcon imageAnnuler = new ImageIcon("./Ressources/images/annuler.png".replace("/", File.separator));
+		ImageIcon imageRefaire = new ImageIcon("./Ressources/images/refaire.png".replace("/", File.separator));
+		imageStopper = new ImageIcon("./Ressources/images/stopper.png".replace("/", File.separator));
+		ImageIcon imageFintour = new ImageIcon("./Ressources/images/fintour.png".replace("/", File.separator));
+		ImageIcon imageSuggestion = new ImageIcon("./Ressources/images/suggestion.png".replace("/", File.separator));
+		annuler = new JButton((Icon) imageAnnuler);
+		refaire = new JButton((Icon) imageRefaire);
+		stopper = new JButton((Icon) imageStopper);
+		finTour = new JButton((Icon) imageFintour);
+		suggestion = new JButton((Icon) imageSuggestion);
+		
+		/*annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
-		suggestion = new JButton(" Suggerer coup ");
+		suggestion = new JButton(" Suggerer coup ");*/
 
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
@@ -178,19 +193,18 @@ public class Fenetre implements Runnable, Affichage {
 
 		// boutons
 		JPanel panelSud = new JPanel();
-		panelSud.setLayout(null);
+		panelSud.setLayout(new FlowLayout());
 		panelSud.setOpaque(false);
 
 		// redimensionnage
-		int x = 0;
-		int y = 0;
 		int large = (int) (0.1 * fw);
-		int haut = (int) (0.15 * fh);
-		annuler.setBounds(x, y, large, haut);
-		refaire.setBounds((int)(x+1.5*large), y, large, haut);
-		stopper.setBounds((int)(x+2.5*large), y, large, haut);
-		finTour.setBounds((int)(x+3.5*large), y, large, haut);
-		suggestion.setBounds((int)(x+4.5*large), y, large, haut);
+		int haut = (int) (0.1 * fh);
+		Dimension boutons = new Dimension(large,haut);
+		annuler.setPreferredSize(boutons);
+		refaire.setPreferredSize(boutons);
+		stopper.setPreferredSize(boutons);
+		finTour.setPreferredSize(boutons);
+		suggestion.setPreferredSize(boutons);
 		
 		//ajouts
 		panelSud.add(annuler);
@@ -198,7 +212,7 @@ public class Fenetre implements Runnable, Affichage {
 		panelSud.add(stopper);
 		panelSud.add(finTour);
 		panelSud.add(suggestion);
-		panelSud.setPreferredSize(new Dimension((int) (0.7 * fw), (int) (0.15 * fh)));
+		panelSud.setPreferredSize(new Dimension(7*large, haut+15));
 
 		// affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ", SwingConstants.CENTER);
@@ -463,14 +477,17 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
+			imagePlay = new ImageIcon("./Ressources/images/play.png".replace("/", File.separator));
 			if (engine.getCurrentGame().isPaused())
 			{
 				engine.reprendre();
 				stopper.setText(" Pause ");
+				stopper.setIcon(imageStopper);
 			} else
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
+				stopper.setIcon(imagePlay);
 				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
 			}
