@@ -41,6 +41,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 									aire.pCourant.ligne = aire.pfinal.ligne;
 									aire.pionCliquer = true;
 								}
+//								
 							}
 						}
 						aire.repaint();
@@ -55,7 +56,6 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 					aire.pionCliquer = false;
 					aire.enSuggestion = false;
 					aire.repaint();
-					break;
 			}
 		}
 	}
@@ -121,7 +121,6 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 					aire.pionCliquer = false;
 					aire.enSuggestion = false;
 					aire.repaint();
-					break;
 			}
 		}
 	}

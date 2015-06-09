@@ -77,7 +77,6 @@ public class ListeSelectionPion extends JPanel {
 			String fichierSelectionne = listPion.repertoire + "/" + this.listPion.list.getSelectedValue();
 			fichierSelectionne.replace("/", File.separator);
 			
-			System.out.println(fichierSelectionne);
 			
 			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && !fichierSelectionne.equals(frame.fichierJoueurNoir)){
 				frame.fichierJoueurBlanc=fichierSelectionne;

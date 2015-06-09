@@ -169,7 +169,6 @@ class rejoindreListener implements ActionListener {
 				r.getLeMoteur().nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 
 				r.getLeMoteur().getCurrentDisplay().afficherJeu();
-				System.out.println("OK");
 			} catch (NumberFormatException | IOException e1)
 			{
 				JOptionPane.showMessageDialog((Component) e.getSource(), "Impossible de se connecter a " + ip + "sur le port" + r.txt_saisiePort.getText(), "Connection impossible", JOptionPane.ERROR_MESSAGE);
