@@ -183,14 +183,19 @@ public class Game implements Serializable {
 		this.premierJoueur = game.premierJoueur;
 	}
 
-	public static Case[][] copyMatrice(Case[][] courant)
+	/**
+	 * Copie la matrice passée en parametre
+	 * @param matrice La matrice a copier
+	 * @return Une copie de matrice
+	 */
+	public static Case[][] copyMatrice(Case[][] matrice)
 	{
-		Case[][] tableau = new Case[courant.length][courant[0].length];
-		for (int i = 0; i < courant.length; i++)
-			for (int j = 0; j < courant[0].length; j++)
-				tableau[i][j] = courant[i][j].clone();
+		Case[][] tableau = new Case[matrice.length][matrice[0].length];
+		for (int i = 0; i < matrice.length; i++)
+			for (int j = 0; j < matrice[0].length; j++)
+				tableau[i][j] = matrice[i][j].clone();
 
-		return chainage(courant.length, courant[0].length, tableau);
+		return chainage(matrice.length, matrice[0].length, tableau);
 	}
 
 	/**
@@ -387,8 +392,6 @@ public class Game implements Serializable {
 		{
 			pionsPossibles = this.lesPionsJouables();
 		}
-		System.out.println(leMoteur);
-		System.out.println(leMoteur.getCurrentDisplay());
 		leMoteur.getCurrentDisplay().afficherPionsPossibles(pionsPossibles);
 
 		joueurBlanc.join();
@@ -415,11 +418,11 @@ public class Game implements Serializable {
 			return false;
 		Case arrivee = matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne];
 		Case depart = matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne];
-		Direction d = determinerDirection(coupJoue.depart, coupJoue.arrivee);
+		Direction directionCoup = determinerDirection(coupJoue.depart, coupJoue.arrivee);
 		ArrayList<Case> coupsPossibles = coupsPossiblesPourUnPion(depart);
 		coupsPossibles.removeAll(listCombo);
 		res = res && depart.equals(pionJoue) && !combo.contains(arrivee) && coupsPossibles.contains(arrivee);
-		res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
+		res = res && (determinerPionsACapturerRaprochement(directionCoup, arrivee).size() > 0 || determinerPionsACapturerEloignement(directionCoup, depart).size() > 0);
 		return res;
 	}
 
@@ -442,12 +445,12 @@ public class Game implements Serializable {
 		while (it.hasNext())
 			l.add(it.next().position);
 
-		Direction d = determinerDirection(coupJoue.depart, coupJoue.arrivee);
+		Direction directionCoup = determinerDirection(coupJoue.depart, coupJoue.arrivee);
 		Case arrivee = matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne];
 		Case depart = matricePlateau[coupJoue.depart.ligne][coupJoue.depart.colonne];
-		boolean res = (coupJoue != null && l.contains(coupJoue.depart) && this.matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne].estVide() && coupJoue.depart != coupJoue.arrivee && d != null && depart.getCaseAt(d) == arrivee);
+		boolean res = (coupJoue != null && l.contains(coupJoue.depart) && this.matricePlateau[coupJoue.arrivee.ligne][coupJoue.arrivee.colonne].estVide() && coupJoue.depart != coupJoue.arrivee && directionCoup != null && depart.getCaseAt(directionCoup) == arrivee);
 		if (doitManger)
-			res = res && (determinerPionsACapturerRaprochement(d, arrivee).size() > 0 || determinerPionsACapturerEloignement(d, depart).size() > 0);
+			res = res && (determinerPionsACapturerRaprochement(directionCoup, arrivee).size() > 0 || determinerPionsACapturerEloignement(directionCoup, depart).size() > 0);
 		return res;
 	}
 
