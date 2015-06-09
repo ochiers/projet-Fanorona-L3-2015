@@ -36,8 +36,8 @@ public class Fenetre implements Runnable, Affichage {
 	int							fh;
 	JLabel						idj1, idj2;
 	JLabel						levelj1, levelj2;
-	Color						pion1				= Color.black;
-	Color						pion2				= Color.white;
+//	Color						pion1				= Color.black;
+//	Color						pion2				= Color.white;
 	String						nameJ1, nameJ2;
 
 	JMenuBar					menuBar;
