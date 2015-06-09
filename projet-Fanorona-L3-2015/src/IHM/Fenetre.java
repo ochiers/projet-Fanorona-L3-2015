@@ -177,7 +177,14 @@ public class Fenetre implements Runnable, Affichage {
 		stopper = new JButton((Icon) imageStopper);
 		finTour = new JButton((Icon) imageFintour);
 		suggestion = new JButton((Icon) imageSuggestion);*/
-		
+		/*  TES
+		 * SDF
+		 * FS
+		 * D
+		 * DSF
+		 * DFS
+		 * 
+		 */
 		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
