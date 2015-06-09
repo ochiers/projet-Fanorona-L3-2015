@@ -491,6 +491,9 @@ public class Fenetre implements Runnable, Affichage {
 			}
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
+			monDessin.suggestion=c;
+			monDessin.enSuggestion=true;
+			monDessin.repaint();
 		}
 
 	}
@@ -587,6 +590,7 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionDuCombo(Case pionCourant)
 	{
+		System.out.println("PIONDUCOMBO");
 		monDessin.pionCombo = pionCourant;
 		monDessin.repaint();
 
@@ -595,6 +599,7 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
 	{
+		System.out.println("COMBO");
 		monDessin.combo = combo;
 		monDessin.repaint();
 	}

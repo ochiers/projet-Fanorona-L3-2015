@@ -38,6 +38,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 							((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
 							aire.pionCliquer = false;
 							aire.surbrillance = false;
+							aire.enSuggestion=false;
 						}
 					} else
 					{
@@ -72,6 +73,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 			{// Bouton DROIT enfonce
 				// if(!aire.fenetre.engine.getCurrentGame().enCombo)
 				aire.pionCliquer = false;
+				aire.enSuggestion=false;
 				aire.repaint();
 			}
 		}
@@ -112,6 +114,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 					break;
 				case MouseEvent.BUTTON3: // Bouton Droit Enfonce
 					aire.pionCliquer = false;
+					aire.enSuggestion=false;
 					break;
 			}
 			aire.repaint();
@@ -135,6 +138,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 						((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
 						aire.pionCliquer = false;
 						aire.surbrillance = false;
+						aire.enSuggestion=false;
 					}
 					aire.repaint();
 				}
@@ -144,6 +148,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 			{// Bouton DROIT enfonce
 				// if(!aire.fenetre.engine.getCurrentGame().enCombo)
 				aire.pionCliquer = false;
+				aire.enSuggestion=false;
 				aire.repaint();
 			}
 		}
