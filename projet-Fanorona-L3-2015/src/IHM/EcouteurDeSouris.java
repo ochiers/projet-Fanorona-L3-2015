@@ -17,41 +17,45 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 	public void mouseClicked(MouseEvent e) {
 		if (!aire.fenetre.engine.getJoueurCourant().aiPlayer && !aire.fenetre.engine.getCurrentGame().isPaused()) {
 			int buttonDown = e.getButton();
-			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
-				aire.pfinal = new Coordonnee(-1, -1);
-				aire.pfinal = position(e.getX(), e.getY());
-				if (aire.pfinal.colonne != -1 && aire.pfinal.ligne != -1) {
-					if (aire.pionCliquer) {
-						if (aire.fenetre.engine.getJoueurCourant() instanceof HumanPlayer) {
-							((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
-							aire.pionCliquer = false;
-							aire.surbrillance = false;
-							aire.enSuggestion = false;
-						}
-					} else {
-						if (aire.doitChoisir) {
-							if (aire.estUnChoix(aire.pfinal)) {
-								((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setDirectionMultiPrise(aire.pfinal);
-								aire.doitChoisir = false;
+			switch (buttonDown) {
+				case MouseEvent.BUTTON1: // Bouton GAUCHE enfonce
+					aire.pfinal = new Coordonnee(-1, -1);
+					aire.pfinal = position(e.getX(), e.getY());
+					if (aire.pfinal.colonne != -1 && aire.pfinal.ligne != -1) {
+						if (aire.pionCliquer) {
+							if (aire.fenetre.engine.getJoueurCourant() instanceof HumanPlayer) {
+								((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
+								aire.pionCliquer = false;
+								aire.surbrillance = false;
+								aire.enSuggestion = false;
 							}
 						} else {
-							if (aire.estJouable(aire.pfinal) || (aire.fenetre.engine.getCurrentGame().enCombo && aire.pionCombo.position.ligne == aire.pfinal.ligne && aire.pionCombo.position.colonne == aire.pfinal.colonne)) {
-								aire.pCourant.colonne = aire.pfinal.colonne;
-								aire.pCourant.ligne = aire.pfinal.ligne;
-								aire.pionCliquer = true;
+							if (aire.doitChoisir) {
+								if (aire.estUnChoix(aire.pfinal)) {
+									((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setDirectionMultiPrise(aire.pfinal);
+									aire.doitChoisir = false;
+								}
+							} else {
+								if (aire.estJouable(aire.pfinal) || (aire.fenetre.engine.getCurrentGame().enCombo && aire.pionCombo.position.ligne == aire.pfinal.ligne && aire.pionCombo.position.colonne == aire.pfinal.colonne)) {
+									aire.pCourant.colonne = aire.pfinal.colonne;
+									aire.pCourant.ligne = aire.pfinal.ligne;
+									aire.pionCliquer = true;
+								}
+//								
 							}
 						}
+						aire.repaint();
+					} else {
+						aire.pionCliquer = false;
+						aire.repaint();
 					}
-					aire.repaint();
-				} else {
+					break;
+				case MouseEvent.BUTTON2: // MOLETTE enfonce
+					break;
+				case MouseEvent.BUTTON3: // bouton DROIT enfonce
 					aire.pionCliquer = false;
+					aire.enSuggestion = false;
 					aire.repaint();
-				}
-			} else if (buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
-			} else if (buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
-				aire.pionCliquer = false;
-				aire.enSuggestion = false;
-				aire.repaint();
 			}
 		}
 	}
@@ -93,27 +97,30 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		if (!aire.fenetre.engine.getJoueurCourant().aiPlayer && !aire.fenetre.engine.getCurrentGame().isPaused()) {
 			int buttonDown = e.getButton();
-			if (buttonDown == MouseEvent.BUTTON1) {// Bouton GAUCHE enfonce
-				aire.pfinal = new Coordonnee(-1, -1);
-				aire.pfinal = position(e.getX(), e.getY());
-				if (aire.pfinal.colonne != -1 && aire.pfinal.ligne != -1) {
-					if (aire.pionCliquer && aire.fenetre.engine.getJoueurCourant() instanceof HumanPlayer) {
-						((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
+			switch (buttonDown) {
+				case MouseEvent.BUTTON1:
+					aire.pfinal = new Coordonnee(-1, -1);
+					aire.pfinal = position(e.getX(), e.getY());
+					if (aire.pfinal.colonne != -1 && aire.pfinal.ligne != -1) {
+						if (aire.pionCliquer && aire.fenetre.engine.getJoueurCourant() instanceof HumanPlayer) {
+							((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
+							aire.pionCliquer = false;
+							aire.surbrillance = false;
+							aire.enSuggestion = false;
+						}
+						aire.repaint();
+					} else {
 						aire.pionCliquer = false;
 						aire.surbrillance = false;
-						aire.enSuggestion = false;
+						aire.repaint();
 					}
-					aire.repaint();
-				} else {
+					break;
+				case MouseEvent.BUTTON2:
+					break;
+				case MouseEvent.BUTTON3:
 					aire.pionCliquer = false;
-					aire.surbrillance = false;
+					aire.enSuggestion = false;
 					aire.repaint();
-				}
-			} else if (buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
-			} else if (buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
-				aire.pionCliquer = false;
-				aire.enSuggestion = false;
-				aire.repaint();
 			}
 		}
 	}
