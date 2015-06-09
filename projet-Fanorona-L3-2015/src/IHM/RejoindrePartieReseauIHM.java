@@ -37,7 +37,6 @@ public class RejoindrePartieReseauIHM extends JFrame {
 	private static final long	serialVersionUID	= 1L;
 
 	private EngineServices		leMoteur;
-	public JFrame				frame;
 	public Fenetre				laFenetre;
 	private String				titleFrame			= "Rejoindre une partie en réseau";
 	private int					width				= 480;
@@ -61,18 +60,15 @@ public class RejoindrePartieReseauIHM extends JFrame {
 	@SuppressWarnings("null")
 	public void init()
 	{
-		ImagePanel panFond = new ImagePanel(this, new ImageIcon("Ressources/images/reseau.jpg").getImage(), 0, 0);
-		JPanel fond = new JPanel();
-		fond.add(panFond);
-		this.add(fond);
-		
-		
-		
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
 
+		ImagePanel panFond = new ImagePanel(this, new ImageIcon("Ressources/images/reseau.jpg").getImage(), 0, 0);
+		
 		JPanel pan = new JPanel();
 		pan.setLayout(null);
+		pan.setOpaque(false);
+		pan.setForeground(new Color(0, 0, 0, 0));
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");
 		explicationIP.setBounds(20, 20, 150, 40);
@@ -121,8 +117,10 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		pan.add(bt_rejoindre);
 		pan.add(bt_annuler);
 		
-		this.add(pan);
+		panFond.add(pan);
+		
 		this.setLocation(width, height);
+		this.add(panFond);
 		this.setVisible(true);
 	}
 
