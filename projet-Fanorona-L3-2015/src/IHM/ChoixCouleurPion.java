@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.File;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,6 +20,7 @@ public class ChoixCouleurPion extends JPanel {
 
 	public ChoixCouleurPion(Fenetre f, File repertoire)
 	{
+		
 		super(new BorderLayout());
 		this.frame = f;
 		titre = new JLabel(" Choissir les couleurs des pions ", JLabel.CENTER);
