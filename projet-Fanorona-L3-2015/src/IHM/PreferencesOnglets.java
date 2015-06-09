@@ -89,7 +89,6 @@ public class PreferencesOnglets extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			fenetre.nameJ1 = panel2.name1.getText();
 			fenetre.nameJ2 = panel2.name2.getText();
-			// fenetre.imageActuelle=save;
 
 			fenetre.frame.repaint();
 			fenetre.monDessin.repaint();
