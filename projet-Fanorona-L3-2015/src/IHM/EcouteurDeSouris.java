@@ -17,6 +17,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 
 	public EcouteurDeSouris(AireDeDessin a)
 	{
+		
 		aire = a;
 	}
 
@@ -38,6 +39,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 							((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
 							aire.pionCliquer = false;
 							aire.surbrillance = false;
+							aire.enSuggestion=false;
 						}
 					} else
 					{
@@ -72,6 +74,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 			{// Bouton DROIT enfonce
 				// if(!aire.fenetre.engine.getCurrentGame().enCombo)
 				aire.pionCliquer = false;
+				aire.enSuggestion=false;
 				aire.repaint();
 			}
 		}
@@ -112,6 +115,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 					break;
 				case MouseEvent.BUTTON3: // Bouton Droit Enfonce
 					aire.pionCliquer = false;
+					aire.enSuggestion=false;
 					break;
 			}
 			aire.repaint();
@@ -120,7 +124,6 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 
 	public void mouseReleased(MouseEvent e)
 	{
-		System.out.println("je l'ai relaché");
 		if (!aire.fenetre.engine.getJoueurCourant().aiPlayer && !aire.fenetre.engine.getCurrentGame().isPaused())
 		{
 			int buttonDown = e.getButton();
@@ -135,7 +138,13 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 						((HumanPlayer) aire.fenetre.engine.getJoueurCourant()).setCoup(aire.pCourant, aire.pfinal);
 						aire.pionCliquer = false;
 						aire.surbrillance = false;
+						aire.enSuggestion=false;
 					}
+					aire.repaint();
+				}
+				else{
+					aire.pionCliquer = false;
+					aire.surbrillance = false;
 					aire.repaint();
 				}
 			} else if (buttonDown == MouseEvent.BUTTON2)
@@ -144,6 +153,7 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 			{// Bouton DROIT enfonce
 				// if(!aire.fenetre.engine.getCurrentGame().enCombo)
 				aire.pionCliquer = false;
+				aire.enSuggestion=false;
 				aire.repaint();
 			}
 		}
@@ -151,12 +161,66 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 
 	public void mouseDragged(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
-
+		deplacement(e);
+		
 	}
 
 	public void mouseMoved(MouseEvent e)
 	{
+		deplacement(e);
+
+	}
+
+	public int sqr(int a)
+	{
+		return a * a;
+	}
+
+	public int distance(Coordonnee p1, Coordonnee p2)
+	{
+		return (int) Math.sqrt(sqr(p2.colonne - p1.colonne) + sqr(p2.ligne - p1.ligne));
+	}
+
+	public Coordonnee position(int x, int y)
+	{
+		Coordonnee p = new Coordonnee(-1, -1);
+		p.colonne = x - aire.originePlateauX - ((int) (aire.CoordonneesPlateau[0] * aire.etir - aire.segment));
+		p.ligne = y - aire.originePlateauY - ((int) (aire.CoordonneesPlateau[1] * aire.etir - aire.segment));
+		int nbCoteLargeur = p.colonne / (int) aire.segment;
+		int nbCoteHauteur = p.ligne / (int) aire.segment;
+
+		// haut gauche
+		Coordonnee p1 = new Coordonnee((int) (nbCoteHauteur * aire.segment), (int) (nbCoteLargeur * aire.segment));
+		// haut droit
+		Coordonnee p2 = new Coordonnee((int) (nbCoteHauteur * aire.segment), (int) ((nbCoteLargeur + 1) * aire.segment));
+		// bas gauche
+		Coordonnee p3 = new Coordonnee((int) ((nbCoteHauteur + 1) * aire.segment), (int) (nbCoteLargeur * aire.segment));
+		// bas droit
+		Coordonnee p4 = new Coordonnee((int) ((nbCoteHauteur + 1) * aire.segment), (int) ((nbCoteLargeur + 1) * aire.segment));
+		Coordonnee pfinal = new Coordonnee(-1, -1);
+
+		if (distance(p, p1) <= (aire.tailleJeton / 2))
+		{
+			pfinal.colonne = nbCoteLargeur - 1;
+			pfinal.ligne = nbCoteHauteur - 1;
+		} else if (distance(p, p2) <= (aire.tailleJeton / 2))
+		{
+			pfinal.colonne = nbCoteLargeur;
+			pfinal.ligne = nbCoteHauteur - 1;
+		} else if (distance(p, p3) <= (aire.tailleJeton / 2))
+		{
+			pfinal.colonne = nbCoteLargeur - 1;
+			pfinal.ligne = nbCoteHauteur;
+		} else if (distance(p, p4) <= (aire.tailleJeton / 2))
+		{
+			pfinal.colonne = nbCoteLargeur;
+			pfinal.ligne = nbCoteHauteur;
+		}
+		return pfinal;
+
+	}
+
+	public void deplacement(MouseEvent e){
 		if (aire.pionCliquer)
 		{
 			Coordonnee p = position(e.getX(), e.getY());
@@ -209,55 +273,5 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 				}
 			}
 		}
-
-	}
-
-	public int sqr(int a)
-	{
-		return a * a;
-	}
-
-	public int distance(Coordonnee p1, Coordonnee p2)
-	{
-		return (int) Math.sqrt(sqr(p2.colonne - p1.colonne) + sqr(p2.ligne - p1.ligne));
-	}
-
-	public Coordonnee position(int x, int y)
-	{
-		Coordonnee p = new Coordonnee(-1, -1);
-		p.colonne = x - aire.originePlateauX - ((int) (aire.CoordonneesPlateau[0] * aire.etir - aire.segment));
-		p.ligne = y - aire.originePlateauY - ((int) (aire.CoordonneesPlateau[1] * aire.etir - aire.segment));
-		int nbCoteLargeur = p.colonne / (int) aire.segment;
-		int nbCoteHauteur = p.ligne / (int) aire.segment;
-
-		// haut gauche
-		Coordonnee p1 = new Coordonnee((int) (nbCoteHauteur * aire.segment), (int) (nbCoteLargeur * aire.segment));
-		// haut droit
-		Coordonnee p2 = new Coordonnee((int) (nbCoteHauteur * aire.segment), (int) ((nbCoteLargeur + 1) * aire.segment));
-		// bas gauche
-		Coordonnee p3 = new Coordonnee((int) ((nbCoteHauteur + 1) * aire.segment), (int) (nbCoteLargeur * aire.segment));
-		// bas droit
-		Coordonnee p4 = new Coordonnee((int) ((nbCoteHauteur + 1) * aire.segment), (int) ((nbCoteLargeur + 1) * aire.segment));
-		Coordonnee pfinal = new Coordonnee(-1, -1);
-
-		if (distance(p, p1) <= (aire.tailleJeton / 2))
-		{
-			pfinal.colonne = nbCoteLargeur - 1;
-			pfinal.ligne = nbCoteHauteur - 1;
-		} else if (distance(p, p2) <= (aire.tailleJeton / 2))
-		{
-			pfinal.colonne = nbCoteLargeur;
-			pfinal.ligne = nbCoteHauteur - 1;
-		} else if (distance(p, p3) <= (aire.tailleJeton / 2))
-		{
-			pfinal.colonne = nbCoteLargeur - 1;
-			pfinal.ligne = nbCoteHauteur;
-		} else if (distance(p, p4) <= (aire.tailleJeton / 2))
-		{
-			pfinal.colonne = nbCoteLargeur;
-			pfinal.ligne = nbCoteHauteur;
-		}
-		return pfinal;
-
 	}
 }
