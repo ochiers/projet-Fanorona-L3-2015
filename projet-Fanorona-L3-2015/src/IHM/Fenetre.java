@@ -426,6 +426,9 @@ public class Fenetre implements Runnable, Affichage {
 			str += "OCHIER Sébastien et SOULIER Clément (moteur)\n";
 			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
 			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
+			str += "\n\nRemerciements à \n";
+			str += "DEMEURE Alexandre (Tuteur)\n";
+			str += "HUARD Guillaume (Encadrement)\n";
 			JOptionPane.showMessageDialog(frame, str,"A Propos", JOptionPane.DEFAULT_OPTION);
 		}
 
@@ -491,6 +494,9 @@ public class Fenetre implements Runnable, Affichage {
 			}
 			Case[] tmp = new Case[pionsPossibles.size()];
 			Coup c = p2.play(Game.copyMatrice(engine.getPlateau()), pionsPossibles.toArray(tmp));
+			monDessin.suggestion=c;
+			monDessin.enSuggestion=true;
+			monDessin.repaint();
 		}
 
 	}
@@ -588,6 +594,7 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionDuCombo(Case pionCourant)
 	{
+		System.out.println("PIONDUCOMBO");
 		monDessin.pionCombo = pionCourant;
 		monDessin.repaint();
 
@@ -596,6 +603,7 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
 	{
+		System.out.println("COMBO");
 		monDessin.combo = combo;
 		monDessin.repaint();
 	}
