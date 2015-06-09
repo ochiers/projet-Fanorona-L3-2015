@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.ImageObserver;
 import java.io.File;
 
 @SuppressWarnings("serial")
@@ -26,7 +27,7 @@ public class PreferencesOnglets extends JPanel {
 	ChoixNoms	panel2;
 
 	Fenetre		fenetre;
-	Image		save;
+	ImageIcon		save;
 
 	public PreferencesOnglets(Fenetre f)
 	{
@@ -89,8 +90,10 @@ public class PreferencesOnglets extends JPanel {
 		{
 			fenetre.nameJ1 = panel2.name1.getText();
 			fenetre.nameJ2 = panel2.name2.getText();
+		//	fenetre.imageActuelle=save;
 			fenetre.frame3.setVisible(false);
-			fenetre.frame.repaint();
+		//	fenetre.frame.repaint();
+			fenetre.monDessin.repaint();
 			System.out.println("valider");
 		}
 	}
@@ -100,8 +103,10 @@ public class PreferencesOnglets extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, save, fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle=save;
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, fenetre.imageActuelle.getImage(), fenetre.fw, fenetre.fh));
 			fenetre.frame.repaint();
+			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
 		}
 	}
@@ -110,8 +115,10 @@ public class PreferencesOnglets extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/iconimageDefault.jpg").getImage(), fenetre.fw, fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator)).getImage(), ImageObserver.WIDTH, ImageObserver.HEIGHT));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/imageDefault.jpg".replace("/", File.separator));
 			fenetre.frame.repaint();
+			fenetre.monDessin.repaint();
 			fenetre.frame3.setVisible(false);
 		}
 

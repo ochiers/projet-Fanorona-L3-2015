@@ -20,7 +20,6 @@ public class ImagePanel extends JPanel {
 	static Image				img;
 	private int					width;
 	private int					height;
-
 	public ImagePanel(JFrame frame, String img, int x, int y)
 	{
 		ImagePanel.img = new ImageIcon(img).getImage();
@@ -49,6 +48,7 @@ public class ImagePanel extends JPanel {
 	{
 		return ImagePanel.img;
 	}
+	
 
 	// fonction recuperee sur Internet
 	public static Image iconToImage(Icon icon)
