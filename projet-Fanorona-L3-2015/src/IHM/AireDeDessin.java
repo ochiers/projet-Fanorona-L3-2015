@@ -73,7 +73,7 @@ public class AireDeDessin extends JComponent {
 		this.tailleJeton = 1;
 		this.etir = 1;
 		this.tailleHalo = 1.5;
-		// pfinal=new Coordonnee(-1,-1);
+
 		try {
 			this.pauseOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayPause.png"));
 			this.attenteJoueurOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayAttenteJoueur.png"));
@@ -84,8 +84,8 @@ public class AireDeDessin extends JComponent {
 
 	public void paintComponent(Graphics g) {
 		Graphics2D drawable = (Graphics2D) g;
-		fenetre.fw = fenetre.frame.getWidth();
-		fenetre.fh = fenetre.frame.getHeight();
+		Fenetre.fw = fenetre.frame.getWidth();
+		Fenetre.fh = fenetre.frame.getHeight();
 		int width = this.getSize().width;
 		int height = this.getSize().height;
 		plateauW = plateau.getImage().getWidth(null);
@@ -204,32 +204,28 @@ public class AireDeDessin extends JComponent {
 
 	public void majBouton() {
 		if (fenetre.engine.peutAnnuler())
-			if (fenetre.annuler != null)
-				fenetre.annuler.setEnabled(true);
-			else if (fenetre.annuler != null)
-				fenetre.annuler.setEnabled(false);
+			fenetre.annuler.setEnabled(true);
+		else
+			fenetre.annuler.setEnabled(false);
 		if (fenetre.engine.peutRefaire())
-			if (fenetre.refaire != null)
-				fenetre.refaire.setEnabled(true);
-			else if (fenetre.refaire != null)
-				fenetre.refaire.setEnabled(false);
+			fenetre.refaire.setEnabled(true);
+		else
+			fenetre.refaire.setEnabled(false);
 		if (!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer) {
 			if (fenetre.engine.getCurrentGame().enCombo)
-				if (fenetre.finTour != null)
-					fenetre.finTour.setEnabled(true);
-				else if (fenetre.finTour != null)
-					fenetre.finTour.setEnabled(false);
-		} else if (fenetre.finTour != null)
+				fenetre.finTour.setEnabled(true);
+			else
+				fenetre.finTour.setEnabled(false);
+		} else
 			fenetre.finTour.setEnabled(false);
 		if (fenetre.engine.getCurrentGame().isPaused())
 			fenetre.stopper.setText(" Reprendre ");
-		else if (fenetre.stopper != null)
+		else
 			fenetre.stopper.setText(" Pause ");
 		if (pionCliquer || fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie)
-			if (fenetre.suggestion != null)
-				fenetre.suggestion.setEnabled(false);
-			else if (fenetre.suggestion != null)
-				fenetre.suggestion.setEnabled(true);
+			fenetre.suggestion.setEnabled(false);
+		else
+			fenetre.suggestion.setEnabled(true);
 	}
 
 	public void majNomJoueurs() {
