@@ -68,6 +68,8 @@ public class ListeSelectionPion extends JPanel {
 	public class listListener implements ListSelectionListener {
 
 		public ListeSelectionPion	listPion;
+		public String				ancienJ1	= "./Ressources/Pions/pionBlanc.png".replaceAll("/", File.separator);
+		public String				ancienJ2	= "./Ressources/Pions/pionNoir.png".replaceAll("/", File.separator);
 
 		public listListener(ListeSelectionPion l)
 		{
@@ -77,11 +79,27 @@ public class ListeSelectionPion extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent e)
 		{
-			String fichierSelectionne = this.listPion.list.getSelectedValue();
-			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne != frame.fichierJoueurNoir)
-				frame.fichierJoueurBlanc = listPion.repertoire + File.separator + fichierSelectionne;
-			else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne != frame.fichierJoueurBlanc)
-				frame.fichierJoueurNoir = listPion.repertoire + File.separator + fichierSelectionne;
+			String fichierSelectionne = listPion.repertoire + "/" + this.listPion.list.getSelectedValue();
+			fichierSelectionne.replaceAll("/", File.separator);
+			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && !fichierSelectionne.equals(frame.fichierJoueurNoir))
+			{
+				frame.fichierJoueurBlanc = fichierSelectionne;
+				ancienJ1 = fichierSelectionne;
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && !fichierSelectionne.equals(frame.fichierJoueurBlanc))
+			{
+				frame.fichierJoueurNoir = fichierSelectionne;
+				ancienJ2 = fichierSelectionne;
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne.equals(frame.fichierJoueurNoir))
+			{
+				this.listPion.list.clearSelection();
+				System.out.println(ancienJ1);
+				frame.fichierJoueurBlanc = ancienJ1;
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne.equals(frame.fichierJoueurBlanc))
+			{
+				System.out.println(ancienJ2);
+				this.listPion.list.clearSelection();
+				frame.fichierJoueurNoir = ancienJ2;
+			}
 		}
 	}
 }
