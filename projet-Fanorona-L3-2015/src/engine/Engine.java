@@ -14,9 +14,9 @@ import network.NetworkPlayer;
 import network.RequestType;
 import AI.*;
 import IHM.Affichage;
+
 /**
- * @author ochiers
- * Definit un moteur pour le jeu
+ * @author ochiers Definit un moteur pour le jeu
  * 
  * @author soulierc
  *
@@ -24,12 +24,14 @@ import IHM.Affichage;
 public class Engine implements EngineServices {
 
 	/**
-	 * Booleen permettant de connaitre l'etat courant du jeu. A savoir s'il est en pause ou non
+	 * Booleen permettant de connaitre l'etat courant du jeu. A savoir s'il est
+	 * en pause ou non
 	 */
 	public boolean			gameInProgress;
 
 	/**
-	 * C'est la partie sur laquelle on joue. C'est cette partie qui est modifiée par le mouvement des pions.
+	 * C'est la partie sur laquelle on joue. C'est cette partie qui est modifiée
+	 * par le mouvement des pions.
 	 */
 	private Game			partieCourante;
 
@@ -52,23 +54,19 @@ public class Engine implements EngineServices {
 	 */
 	public NetworkManager	networkManager;
 
-	public Engine()
-	{
+	public Engine() {
 		this.gameInProgress = false;
 		this.undoRedo = new UndoRedo<Game>();
 		this.premierJeu = true;
 	}
 
 	@Override
-	public void begin()
-	{
-		try
-		{
+	public void begin() {
+		try {
 			while (true) // On suppose que c'est l'IHM qui tue le thread
 							// principal
 			{
-				while (!gameInProgress)
-				{
+				while (!gameInProgress) {
 					// System.out.print("Attente d'une partie");
 					Thread.sleep(500);
 				}
@@ -81,8 +79,7 @@ public class Engine implements EngineServices {
 					gameInProgress = false;
 
 			}
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,18 +96,15 @@ public class Engine implements EngineServices {
 	 * @param jCourant
 	 *            Joueur dont c'est le tour
 	 */
-	private void changerPartieCourante(Game partie, Player joueurBlanc, Player joueurNoir, Pion jCourant)
-	{
-		if (partieCourante != null)
-		{
+	private void changerPartieCourante(Game partie, Player joueurBlanc, Player joueurNoir, Pion jCourant) {
+		if (partieCourante != null) {
 			gameInProgress = false;
 			partieCourante.finir(true); // On arrete la partie courante qui se
 			// deroule
 			// dans le thread principal
 
 			boolean nouvJoueurs = (joueurBlanc == null && joueurNoir == null);
-			if (nouvJoueurs)
-			{
+			if (nouvJoueurs) {
 				joueurBlanc = partieCourante.joueurBlanc;
 				joueurNoir = partieCourante.joueurNoir;
 
@@ -118,12 +112,11 @@ public class Engine implements EngineServices {
 			partieCourante = partie;
 
 			/*
-			 * On récupere le coup d'avant (partie précédente) et parametre correctement
+			 * On récupere le coup d'avant (partie précédente) et parametre
+			 * correctement
 			 */
-			if (nouvJoueurs)
-			{
-				switch (Tools.getTypeOfPlayer(joueurBlanc))
-				{
+			if (nouvJoueurs) {
+				switch (Tools.getTypeOfPlayer(joueurBlanc)) {
 					case Humain:
 						partieCourante.joueurBlanc = new HumanPlayer(joueurBlanc);
 						break;
@@ -140,8 +133,7 @@ public class Engine implements EngineServices {
 						partieCourante.joueurBlanc = new NetworkPlayer(this, false, joueurBlanc.name);
 						break;
 				}
-				switch (Tools.getTypeOfPlayer(joueurNoir))
-				{
+				switch (Tools.getTypeOfPlayer(joueurNoir)) {
 					case Humain:
 						partieCourante.joueurNoir = new HumanPlayer(joueurNoir);
 						break;
@@ -158,31 +150,29 @@ public class Engine implements EngineServices {
 						partieCourante.joueurNoir = new NetworkPlayer(this, false, joueurNoir.name);
 						break;
 				}
-			} else
-			{
+			} else {
 				partieCourante.joueurNoir = joueurNoir;
 				partieCourante.joueurBlanc = joueurBlanc;
 			}
 			partieCourante.joueurCourant = (jCourant == Pion.Blanc) ? partieCourante.joueurBlanc : partieCourante.joueurNoir;
-			System.out.println("Partie créée avec " + partieCourante.joueurBlanc +" " + partieCourante.joueurNoir +" " + partieCourante.joueurCourant);
+			System.out.println("Partie créée avec " + partieCourante.joueurBlanc + " " + partieCourante.joueurNoir + " " + partieCourante.joueurCourant);
 			partieCourante.finish = false;
 			partieCourante.stopped = false;
 			partieCourante.leMoteur = this;
 			partieCourante.pause();
 			/*
-			 * try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+			 * try { Thread.sleep(500); } catch (InterruptedException e) {
+			 * e.printStackTrace(); }
 			 */
 			gameInProgress = true;
 			affichage.afficherJeu();
-		} else
-		{
+		} else {
 			partieCourante = partie;
 		}
 	}
 
 	@Override
-	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size)
-	{
+	public void nouvellePartie(Player p1, Player p2, int premierJoueur, Dimension size) {
 		Game g = new Game(this, premierJoueur, p1, p2, size);
 
 		this.premierJeu = true;
@@ -194,31 +184,27 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void stopper()
-	{
-		if (partieCourante != null)
-		{
+	public void stopper() {
+		if (partieCourante != null) {
 			this.partieCourante.finir(true);
 			this.gameInProgress = false;
 		}
 	}
 
 	@Override
-	public void annuler(boolean notifReseau)
-	{
-		if (undoRedo.canUndo())
-		{
-			if (this.networkManager != null && notifReseau)
-			{
+	public void annuler(boolean notifReseau) {
+		if (undoRedo.canUndo()) {
+			if (this.networkManager != null && notifReseau) {
 				networkManager.demanderConfirmation(RequestType.DemanderConfirmationAnnuler);
 				int r = networkManager.getConfirmation();
-				while( r == -1)
-					try
-					{
+				while (r == -1)
+					try {
 						r = networkManager.getConfirmation();
 						Thread.sleep(50);
-					} catch (InterruptedException e){e.printStackTrace();}
-				if(r == 0)
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				if (r == 0)
 					return;
 				networkManager.sendRequete(RequestType.Annuler);
 			}
@@ -227,23 +213,21 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void refaire(boolean notifReseau)
-	{
-		if (undoRedo.canRedo())
-		{
-			if (this.networkManager != null && notifReseau)
-			{
+	public void refaire(boolean notifReseau) {
+		if (undoRedo.canRedo()) {
+			if (this.networkManager != null && notifReseau) {
 				networkManager.demanderConfirmation(RequestType.DemanderConfirmationRefaire);
 				int r = networkManager.getConfirmation();
-				while( r == -1)
-					try
-					{
+				while (r == -1)
+					try {
 						r = networkManager.getConfirmation();
 						Thread.sleep(50);
-					} catch (InterruptedException e){e.printStackTrace();}
-				if(r == 0)
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				if (r == 0)
 					return;
-				
+
 				networkManager.sendRequete(RequestType.Refaire);
 			}
 			changerPartieCourante(this.undoRedo.redo(), null, null, (partieCourante.joueurCourant == partieCourante.joueurBlanc) ? Pion.Noir : Pion.Blanc);
@@ -251,23 +235,19 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public boolean peutAnnuler()
-	{
+	public boolean peutAnnuler() {
 		return undoRedo.canUndo();
 	}
 
 	@Override
-	public boolean peutRefaire()
-	{
+	public boolean peutRefaire() {
 		return undoRedo.canRedo();
 	}
 
 	@Override
-	public void sauvegarderPartie(String path)
-	{
+	public void sauvegarderPartie(String path) {
 		File f = new File(path);
-		try
-		{
+		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
 
 			out.writeObject(partieCourante);
@@ -275,8 +255,7 @@ public class Engine implements EngineServices {
 			this.affichage.sauvegardeReussie(true);
 			out.close();
 
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			this.affichage.sauvegardeReussie(false);
 			e.printStackTrace();
 		}
@@ -284,13 +263,11 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void chargerPartie(String path)
-	{
+	public void chargerPartie(String path) {
 		File fichier = new File(path);
 
 		ObjectInputStream ois = null;
-		try
-		{
+		try {
 			ois = new ObjectInputStream(new FileInputStream(fichier));
 			Game g = (Game) ois.readObject();
 			g.leMoteur = this;
@@ -302,98 +279,82 @@ public class Engine implements EngineServices {
 			this.undoRedo = g.annulerRefaire;
 			Pion Jcourant = (g.joueurBlanc == g.joueurCourant) ? Pion.Blanc : Pion.Noir;
 			changerPartieCourante(g, g.joueurBlanc, g.joueurNoir, Jcourant);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			this.affichage.chargementReussi(false);
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void setDisplay(Affichage display)
-	{
+	public void setDisplay(Affichage display) {
 		this.affichage = display;
 
 	}
 
 	@Override
-	public Game getCurrentGame()
-	{
+	public Game getCurrentGame() {
 		return this.partieCourante;
 	}
 
 	@Override
-	public Case[][] getPlateau()
-	{
+	public Case[][] getPlateau() {
 		return this.partieCourante.matricePlateau;
 	}
 
 	@Override
-	public Player getJoueurBlanc()
-	{
+	public Player getJoueurBlanc() {
 		return this.partieCourante.joueurBlanc;
 	}
 
 	@Override
-	public Player getJoueurNoir()
-	{
+	public Player getJoueurNoir() {
 
 		return this.partieCourante.joueurNoir;
 	}
 
 	@Override
-	public Player getWinner()
-	{
+	public Player getWinner() {
 		return this.partieCourante.getWinner();
 	}
 
 	@Override
-	public int getNombrePionsBlancs()
-	{
+	public int getNombrePionsBlancs() {
 		return this.partieCourante.nombrePionBlanc;
 	}
 
 	@Override
-	public int getNombrePionsNoirs()
-	{
+	public int getNombrePionsNoirs() {
 		return this.partieCourante.nombrePionNoir;
 	}
 
 	@Override
-	public Case getPionCombo()
-	{
+	public Case getPionCombo() {
 		return this.partieCourante.pionCombo;
 	}
 
 	@Override
-	public ArrayList<Case> getComboList()
-	{
+	public ArrayList<Case> getComboList() {
 		return this.partieCourante.combo;
 	}
 
 	@Override
-	public boolean enCombo()
-	{
+	public boolean enCombo() {
 		return this.partieCourante.enCombo;
 	}
 
 	@Override
-	public boolean isGamePaused()
-	{
+	public boolean isGamePaused() {
 		return this.partieCourante.isPaused();
 	}
 
 	@Override
-	public boolean isGameStopped()
-	{
+	public boolean isGameStopped() {
 		return this.partieCourante.stopped;
 	}
 
 	@Override
-	public void finirSonTour(boolean notifReseau)
-	{
-		if (this.networkManager != null && notifReseau)
-		{
+	public void finirSonTour(boolean notifReseau) {
+		if (this.networkManager != null && notifReseau) {
 			networkManager.sendRequete(RequestType.FinDuTour);
 		}
 		this.partieCourante.finirSonTour();
@@ -401,57 +362,48 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void pause()
-	{
+	public void pause() {
 		this.partieCourante.pause();
 		this.affichage.afficherJeu();
 	}
 
 	@Override
-	public void reprendre()
-	{
+	public void reprendre() {
 		this.partieCourante.reprendre();
 		this.affichage.afficherJeu();
 	}
 
 	@Override
-	public Player getJoueurCourant()
-	{
+	public Player getJoueurCourant() {
 		return this.partieCourante.joueurCourant;
 	}
 
 	@Override
-	public boolean getPremierJoueur()
-	{
+	public boolean getPremierJoueur() {
 		return this.partieCourante.premierJoueur;
 	}
 
 	@Override
-	public void changerLesJoueurs(Player nouveauJBlanc, Player nouveauJNoir)
-	{
+	public void changerLesJoueurs(Player nouveauJBlanc, Player nouveauJNoir) {
 		Game partie = new Game(partieCourante);
-		if(getJoueurBlanc() == getJoueurCourant())
+		if (getJoueurBlanc() == getJoueurCourant())
 			partie.joueurCourant = nouveauJBlanc;
 		else
 			partie.joueurCourant = nouveauJNoir;
 		partie.joueurBlanc = nouveauJBlanc;
 		partie.joueurNoir = nouveauJNoir;
-		System.out.println(partieCourante.joueurBlanc +" en  " + partie.joueurBlanc);
-		System.out.println(partieCourante.joueurNoir +" en  " + partie.joueurNoir);
+		System.out.println(partieCourante.joueurBlanc + " en  " + partie.joueurBlanc);
+		System.out.println(partieCourante.joueurNoir + " en  " + partie.joueurNoir);
 		changerPartieCourante(partie, partie.joueurBlanc, partie.joueurNoir, ((partie.joueurBlanc == partie.joueurCourant) ? Pion.Blanc : Pion.Noir));
 
 	}
 
 	@Override
-	public void hebergerPartie(int portEcoute) throws Exception
-	{
-		if (this.networkManager != null)
-		{
-			try
-			{
+	public void hebergerPartie(int portEcoute) throws Exception {
+		if (this.networkManager != null) {
+			try {
 				this.networkManager.terminerPartieReseau();
-			} catch (IOException e)
-			{
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
@@ -459,40 +411,33 @@ public class Engine implements EngineServices {
 		this.networkManager = new NetworkManager(this, portEcoute, null);
 		this.networkManager.hebergerPartie();
 		this.networkManager.start();
-		
+
 	}
 
 	@Override
-	public void rejoindrePartie(int port, String ip) throws IOException
-	{
-		if (this.networkManager != null)
-		{
+	public void rejoindrePartie(int port, String ip) throws IOException {
+		if (this.networkManager != null) {
 			this.networkManager.terminerPartieReseau();
 		}
 		this.networkManager = new NetworkManager(this, port, ip);
 		this.networkManager.rejoindrePartie();
 		this.networkManager.start();
-		
 
 	}
 
 	@Override
-	public NetworkManager getNetworkManager()
-	{
+	public NetworkManager getNetworkManager() {
 		return this.networkManager;
 	}
 
 	@Override
-	public Affichage getCurrentDisplay()
-	{
+	public Affichage getCurrentDisplay() {
 		return this.affichage;
 	}
 
 	@Override
-	public void envoyerCoupSurReseau(Coup coupJoue)
-	{
-		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
-		{
+	public void envoyerCoupSurReseau(Coup coupJoue) {
+		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)) {
 			System.out.println("envoye de " + coupJoue);
 			this.networkManager.setCoupAEnvoyer(coupJoue);
 
@@ -500,10 +445,8 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void envoyerChoixCaseSurReseau(Coordonnee coordonneeJouee)
-	{
-		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer))
-		{
+	public void envoyerChoixCaseSurReseau(Coordonnee coordonneeJouee) {
+		if (this.networkManager != null && !(this.getJoueurCourant() instanceof NetworkPlayer)) {
 			System.out.println("envoye de " + coordonneeJouee);
 			this.networkManager.setCoordoneeAEnvoyer(coordonneeJouee);
 
@@ -511,24 +454,21 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void quitter()
-	{
-		if(!this.affichage.demanderSauvegarde())
+	public void quitter() {
+		if (!this.affichage.demanderSauvegarde())
 			return;
-					
+
 		if (getNetworkManager() != null)
 			getNetworkManager().sendRequete(RequestType.Quitter);
 		this.stopper();
-		try
-		{
+		try {
 			if (getNetworkManager() != null)
 				getNetworkManager().terminerPartieReseau();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		System.out.flush();
 		System.err.flush();
 		System.out.println("~~~~~ Application terminee ~~~~~");
@@ -536,48 +476,42 @@ public class Engine implements EngineServices {
 	}
 
 	@Override
-	public void playOnlyOnce()
-	{
-		try
-		{
+	public void playOnlyOnce() {
+		try {
 			while (!gameInProgress)
 				Thread.sleep(60);
 			partieCourante.reprendre();
 			partieCourante.commencer();
-		} catch (InterruptedException e)
-		{
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
 	}
 
 	@Override
-	public UndoRedo<Game> getUndoRedo()
-	{
+	public UndoRedo<Game> getUndoRedo() {
 		return this.undoRedo;
 	}
 
 	@Override
-	public void deleteNetworkManager()
-	{
+	public void deleteNetworkManager() {
 		this.networkManager = null;
 
 	}
 
 	@Override
-	public void recommencer(boolean notifReseau)
-	{
-		if (this.networkManager != null && notifReseau)
-		{
+	public void recommencer(boolean notifReseau) {
+		if (this.networkManager != null && notifReseau) {
 			networkManager.demanderConfirmation(RequestType.DemanderConfirmationRecommencer);
 			int r = networkManager.getConfirmation();
-			while( r == -1)
-				try
-				{
+			while (r == -1)
+				try {
 					r = networkManager.getConfirmation();
 					Thread.sleep(50);
-				} catch (InterruptedException e){e.printStackTrace();}
-			if(r == 0)
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			if (r == 0)
 				return;
 			networkManager.sendRequete(RequestType.Recommencer);
 		}

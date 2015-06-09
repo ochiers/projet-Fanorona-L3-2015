@@ -5,15 +5,17 @@ import java.util.Stack;
 
 /**
  * Crée un system d'annuler/refaire générique
+ * 
  * @author soulierc
  *
- * @param <T> Type générique représentant les objets à manipuler.
+ * @param <T>
+ *            Type générique représentant les objets à manipuler.
  */
-public class UndoRedo<T> implements Serializable{
+public class UndoRedo<T> implements Serializable {
 
 	private static final long	serialVersionUID	= -8483769241045172642L;
-	private Stack<T> annuler;
-	private Stack<T> refaire;
+	private Stack<T>			annuler;
+	private Stack<T>			refaire;
 
 	public UndoRedo() {
 		this.annuler = new Stack<T>();
@@ -44,8 +46,8 @@ public class UndoRedo<T> implements Serializable{
 	public boolean canUndo() {
 		return !annuler.isEmpty() && annuler.size() >= 2;
 	}
-	
-	public void vider(){
+
+	public void vider() {
 		this.refaire.removeAll(refaire);
 		this.annuler.removeAll(annuler);
 	}
