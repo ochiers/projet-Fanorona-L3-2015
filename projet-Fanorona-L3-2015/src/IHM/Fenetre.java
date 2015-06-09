@@ -4,10 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import AI.MediumAI;
@@ -35,10 +33,12 @@ public class Fenetre implements Runnable, Affichage {
 	private static ImagePanel	panelAccueil;
 	ImageIcon					imageActuelle		= new ImageIcon("Ressources/images/imageDefault.jpg");
 
-	static int							fw;
-	static int							fh;
+	int							fw;
+	int							fh;
 	JLabel						idj1, idj2;
 	JLabel						levelj1, levelj2;
+//	Color						pion1				= Color.black;
+//	Color						pion2				= Color.white;
 	String						nameJ1, nameJ2;
 
 	JMenuBar					menuBar;
@@ -52,6 +52,7 @@ public class Fenetre implements Runnable, Affichage {
 
 	JMenuItem					options_parametresPartie;
 	JMenuItem					options_preferences;
+	// JMenuItem options_historiqueScores;
 
 	JMenuItem					aide_reglesDuJeu;
 	JMenuItem					aide_aPropos;
@@ -64,14 +65,14 @@ public class Fenetre implements Runnable, Affichage {
 	JButton						stopper;
 	JButton						finTour;
 	JButton						suggestion;
+	
+	ImageIcon					imageStopper;
+	ImageIcon 					imagePlay;
 
 	static int					wmin				= 673;
 	static int					hmin				= 405;
 	int							wmax				= 1280;
 	int							hmax				= 720;
-	
-	static int 						large				= (int) (0.1 * fw);
-	static int 						haut 				= (int) (0.1 * fh);
 
 	int							taillePion;
 	JFrame						frameVictoire;
@@ -80,14 +81,11 @@ public class Fenetre implements Runnable, Affichage {
 	String						fichierJoueurBlanc	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
 	String						fichierJoueurNoir	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
 
-	//Image 						imageAnnuler, imageRefaire, imageStopper, imagePlay, imageFintour, imageSuggestion;
-
 	public Fenetre(EngineServices e)
 	{
 		engine = e;
 	}
 
-	@SuppressWarnings("serial")
 	public void run()
 	{
 		frame.setSize(1200, 700);
@@ -179,20 +177,13 @@ public class Fenetre implements Runnable, Affichage {
 		stopper = new JButton((Icon) imageStopper);
 		finTour = new JButton((Icon) imageFintour);
 		suggestion = new JButton((Icon) imageSuggestion);*/
-		/*  TES
-		 * SDF
-		 * FS
-		 * D
-		 * DSF
-		 * DFS
-		 * 
-		 */
+		
 		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
 		suggestion = new JButton(" Suggerer coup ");
-	
+
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
 		stopper.addActionListener(new ItemAction_stopper());
@@ -205,6 +196,8 @@ public class Fenetre implements Runnable, Affichage {
 		panelSud.setOpaque(false);
 
 		// redimensionnage
+		int large = (int) (0.1 * fw);
+		int haut = (int) (0.1 * fh);
 		Dimension boutons = new Dimension(large,haut);
 		annuler.setPreferredSize(boutons);
 		refaire.setPreferredSize(boutons);
@@ -245,6 +238,7 @@ public class Fenetre implements Runnable, Affichage {
 		};
 		taillePion = (int) (0.9 * panelOuest.getWidth());
 		JLabel vide1 = new JLabel();
+		panelOuest.setBackground(new Color(255, 255, 255, 128));
 		panelOuest.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
 		panelOuest.add(vide1);
 		panelOuest.add(j1);
@@ -264,6 +258,7 @@ public class Fenetre implements Runnable, Affichage {
 		};
 		taillePion = panelEst.getWidth();
 		JLabel vide2 = new JLabel();
+		panelEst.setBackground(new Color(255, 255, 255, 128));
 		panelEst.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
 		panelEst.add(vide2);
 		panelEst.add(j2);
@@ -474,19 +469,18 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			//try { imagePlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "play.png")); }
-			//catch (IOException e1) { e1.printStackTrace(); }
-			
+			imagePlay = new ImageIcon("./Ressources/images/play.png".replace("/", File.separator));
 			if (engine.getCurrentGame().isPaused())
 			{
 				engine.reprendre();
 				stopper.setText(" Pause ");
-				//stopper.setIcon((Icon)imageStopper);
+				stopper.setIcon(imageStopper);
 			} else
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
-				//stopper.setIcon((Icon)imagePlay);
+				stopper.setIcon(imagePlay);
+				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
 			}
 		}
