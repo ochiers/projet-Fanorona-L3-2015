@@ -4,9 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import AI.MediumAI;
 import network.NetworkPlayer;
 import engine.*;
@@ -64,6 +65,9 @@ public class Fenetre implements Runnable, Affichage {
 	JButton						stopper;
 	JButton						finTour;
 	JButton						suggestion;
+	
+	ImageIcon					imageStopper;
+	ImageIcon 					imagePlay;
 
 	static int					wmin				= 673;
 	static int					hmin				= 405;
@@ -89,7 +93,7 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setMaximumSize(new Dimension(wmax, hmax));
 		fw = frame.getWidth();
 		fh = frame.getHeight();
-		setPanelAccueil(new ImagePanel(frame, new ImageIcon("src/images/imageDefault.jpg").getImage(), fw, fh));
+		setPanelAccueil(new ImagePanel(frame, imageActuelle.getImage(), fw, fh));
 		getPanelAccueil().setLayout(new BorderLayout(20, 10));
 
 		// grille
@@ -163,6 +167,17 @@ public class Fenetre implements Runnable, Affichage {
 		menuBar.add(aide);
 
 		// boutons commandes
+		/*ImageIcon imageAnnuler = new ImageIcon("./Ressources/images/annuler.png".replace("/", File.separator));
+		ImageIcon imageRefaire = new ImageIcon("./Ressources/images/refaire.png".replace("/", File.separator));
+		imageStopper = new ImageIcon("./Ressources/images/stopper.png".replace("/", File.separator));
+		ImageIcon imageFintour = new ImageIcon("./Ressources/images/fintour.png".replace("/", File.separator));
+		ImageIcon imageSuggestion = new ImageIcon("./Ressources/images/suggestion.png".replace("/", File.separator));
+		annuler = new JButton((Icon) imageAnnuler);
+		refaire = new JButton((Icon) imageRefaire);
+		stopper = new JButton((Icon) imageStopper);
+		finTour = new JButton((Icon) imageFintour);
+		suggestion = new JButton((Icon) imageSuggestion);*/
+		
 		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
@@ -175,22 +190,28 @@ public class Fenetre implements Runnable, Affichage {
 		finTour.addActionListener(new ItemAction_finTour());
 		suggestion.addActionListener(new ItemAction_suggestion());
 
-		// redimensionnage
-		annuler.setSize(new Dimension((int) (0.1 * fw), (int) (0.15 * fh)));
-		refaire.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-		stopper.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-		finTour.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-		suggestion.setSize((int) (0.1 * fw), (int) (0.15 * fh));
-
 		// boutons
-		JPanel panelSud = new JPanel(new FlowLayout());
-		panelSud.setPreferredSize(new Dimension((int) (0.7 * fw), (int) (0.15 * fh)));
+		JPanel panelSud = new JPanel();
+		panelSud.setLayout(new FlowLayout());
 		panelSud.setOpaque(false);
+
+		// redimensionnage
+		int large = (int) (0.1 * fw);
+		int haut = (int) (0.1 * fh);
+		Dimension boutons = new Dimension(large,haut);
+		annuler.setPreferredSize(boutons);
+		refaire.setPreferredSize(boutons);
+		stopper.setPreferredSize(boutons);
+		finTour.setPreferredSize(boutons);
+		suggestion.setPreferredSize(boutons);
+		
+		//ajouts
 		panelSud.add(annuler);
 		panelSud.add(refaire);
 		panelSud.add(stopper);
 		panelSud.add(finTour);
 		panelSud.add(suggestion);
+		panelSud.setPreferredSize(new Dimension(7*large, haut+15));
 
 		// affichages joueurs
 		JLabel j1 = new JLabel(" # Joueur 1 ", SwingConstants.CENTER);
@@ -384,16 +405,6 @@ public class Fenetre implements Runnable, Affichage {
 
 	}
 
-	/*
-	 * class ItemAction_options_historiqueScores implements ActionListener {
-	 * 
-	 * public void actionPerformed(ActionEvent e) {
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
-
 	class ItemAction_aide_reglesDuJeu implements ActionListener {
 
 		public void actionPerformed(ActionEvent e)
@@ -423,7 +434,7 @@ public class Fenetre implements Runnable, Affichage {
 			String str = "Jeu du Fanorona\n";
 			str += "Projet de fin de licence informatique\n\n";
 			str += "Developpé par :\n";
-			str += "OCHIER Sébastien et SOULIER Clément (moteur)\n";
+			str += "OCHIER Sébastien et SOULIER Clément (Moteur et R�seau)\n";
 			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
 			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
 			str += "\n\nRemerciements à \n";
@@ -458,14 +469,17 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
+			imagePlay = new ImageIcon("./Ressources/images/play.png".replace("/", File.separator));
 			if (engine.getCurrentGame().isPaused())
 			{
 				engine.reprendre();
 				stopper.setText(" Pause ");
+				stopper.setIcon(imageStopper);
 			} else
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
+				stopper.setIcon(imagePlay);
 				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
 			}
