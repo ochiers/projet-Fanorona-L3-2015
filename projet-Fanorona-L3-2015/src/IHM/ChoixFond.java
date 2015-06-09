@@ -3,6 +3,8 @@ package IHM;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,15 +30,15 @@ public class ChoixFond extends JPanel {
 		fenetre = f;
 
 		// creation bouton image
-		ImageIcon image1 = new ImageIcon("src/images/iconimage1.jpg");
-		ImageIcon image2 = new ImageIcon("src/images/iconimage2.jpg");
-		ImageIcon image3 = new ImageIcon("src/images/iconimage3.jpg");
-		ImageIcon image4 = new ImageIcon("src/images/iconimage4.jpg");
-		ImageIcon image5 = new ImageIcon("src/images/iconimage5.jpg");
-		ImageIcon image6 = new ImageIcon("src/images/iconimage6.jpg");
-		ImageIcon image7 = new ImageIcon("src/images/iconimage7.jpg");
-		ImageIcon image8 = new ImageIcon("src/images/iconimage8.jpg");
-		ImageIcon imageDefaut = new ImageIcon("src/images/iconimageDefault.jpg");
+		ImageIcon image1 = new ImageIcon("./Ressources/images/iconimage1.jpg".replaceAll("/", File.separator));
+		ImageIcon image2 = new ImageIcon("./Ressources/images/iconimage2.jpg".replaceAll("/", File.separator));
+		ImageIcon image3 = new ImageIcon("./Ressources/images/iconimage3.jpg".replaceAll("/", File.separator));
+		ImageIcon image4 = new ImageIcon("./Ressources/images/iconimage4.jpg".replaceAll("/", File.separator));
+		ImageIcon image5 = new ImageIcon("./Ressources/images/iconimage5.jpg".replaceAll("/", File.separator));
+		ImageIcon image6 = new ImageIcon("./Ressources/images/iconimage6.jpg".replaceAll("/", File.separator));
+		ImageIcon image7 = new ImageIcon("./Ressources/images/iconimage7.jpg".replaceAll("/", File.separator));
+		ImageIcon image8 = new ImageIcon("./Ressources/images/iconimage8.jpg".replaceAll("/", File.separator));
+		ImageIcon imageDefaut = new ImageIcon("./Ressources/images/iconimageDefault.jpg".replaceAll("/", File.separator));
 		// ajout boutons
 		img1 = new JButton((Icon) image1);
 		img2 = new JButton((Icon) image2);
@@ -74,8 +76,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image1.jpg").getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT));
-			fenetre.imageActuelle = new ImageIcon("src/images/image1.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image1.jpg".replaceAll("/", File.separator)).getImage(), fenetre.frame.WIDTH, fenetre.frame.HEIGHT));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image1.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -85,8 +87,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image2.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image2.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image2.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image2.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -96,8 +98,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image3.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image3.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image3.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image3.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -107,8 +109,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image4.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image4.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image4.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image4.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -118,8 +120,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image5.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image5.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image5.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image5.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -129,8 +131,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image6.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image6.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image6.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image6.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -140,8 +142,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image7.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image7.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image7.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image7.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -151,8 +153,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/image8.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/image8.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/image8.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/image8.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
@@ -162,8 +164,8 @@ public class ChoixFond extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/imageDefault.jpg").getImage(), fenetre.fw, fenetre.fh));
-			fenetre.imageActuelle = new ImageIcon("src/images/imageDefault.jpg");
+			fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("./Ressources/images/imageDefault.jpg".replaceAll("/", File.separator)).getImage(), fenetre.fw, fenetre.fh));
+			fenetre.imageActuelle = new ImageIcon("./Ressources/images/imageDefault.jpg".replaceAll("/", File.separator));
 			fenetre.frame.repaint();
 		}
 
