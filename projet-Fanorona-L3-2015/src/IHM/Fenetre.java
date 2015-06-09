@@ -597,7 +597,13 @@ public class Fenetre implements Runnable, Affichage {
 		 */
 		frameVictoire.setVisible(true);
 		frameVictoire.repaint();
-		JOptionPane.showMessageDialog(frameVictoire, p.name + " a gagné !");
+		int res= JOptionPane.showConfirmDialog(frameVictoire,p.name + " a gagné !\nVoulez vous recommencer ?", p.name + " a gagné !", JOptionPane.YES_NO_OPTION);
+		if(res == JOptionPane.YES_OPTION){
+			engine.recommencer(true);
+			frameVictoire.setVisible(false);
+		}
+		else
+			engine.quitter();
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)
