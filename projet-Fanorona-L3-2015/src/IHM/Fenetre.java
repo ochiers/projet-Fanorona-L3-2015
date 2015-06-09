@@ -181,8 +181,10 @@ public class Fenetre implements Runnable, Affichage {
 		panelSud.setOpaque(false);
 
 		// redimensionnage
-		int x = panelSud.getWidth()/5;
-		int y = panelSud.getHeight() - 10;
+		int x = 0;
+		String s = monDessin.plateau.getDescription();
+		System.out.println(" " + s);
+		int y = 0;
 		int large = (int) (0.1 * fw);
 		int haut = (int) (0.15 * fh);
 		annuler.setBounds(x, y, large, haut);
@@ -197,7 +199,6 @@ public class Fenetre implements Runnable, Affichage {
 		panelSud.add(stopper);
 		panelSud.add(finTour);
 		panelSud.add(suggestion);
-		System.out.println(" w sud = " + panelSud.getWidth() + " h sud  = " + panelSud.getHeight());
 		panelSud.setPreferredSize(new Dimension((int) (0.7 * fw), (int) (0.15 * fh)));
 
 		// affichages joueurs
