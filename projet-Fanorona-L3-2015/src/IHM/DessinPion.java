@@ -49,20 +49,20 @@ public class DessinPion extends JComponent {
 		BufferedImage img = null;
 
 		if (this.pionCouleur == Pion.Blanc && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurBlanc) || img == null))
-		{
 			this.fichierJoueur = this.fenetre.fichierJoueurBlanc;
-			if (this.fichierJoueur == null)
-				this.fichierJoueur = this.fichierJ1Defaut;
-			img = ImageIO.read(new File(this.fichierJoueur));
-		} else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
-		{
+		else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
 			this.fichierJoueur = this.fenetre.fichierJoueurNoir;
-			if (this.fichierJoueur == null)
-				this.fichierJoueur = this.fichierJ2Defaut;
-			img = ImageIO.read(new File(this.fichierJoueur));
+		String[] fichier = this.fichierJoueur.split(File.separator);
+		if (fichier[fichier.length -1].equals("null") && this.pionCouleur == Pion.Blanc){
+			this.fichierJoueur = this.fichierJ1Defaut;
+			this.fenetre.fichierJoueurBlanc = this.fichierJ1Defaut;
 		}
+		else if (fichier[fichier.length -1].equals("null") && this.pionCouleur == Pion.Noir){
+			this.fichierJoueur = this.fichierJ2Defaut;
+			this.fenetre.fichierJoueurNoir = this.fichierJ2Defaut;
+		}
+		img = ImageIO.read(new File(this.fichierJoueur));
 		
-
 		double imgX = img.getWidth();
 		double imgY = img.getHeight();
 
