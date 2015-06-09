@@ -107,14 +107,15 @@ public class AireDeDessin extends JComponent {
 		{
 			if (!pionCliquer && doitChoisir)
 				choixManger(drawable);// halo bleu
-			if (!fenetre.engine.enCombo() && !pionCliquer && !doitChoisir)
-				pionJouable(drawable);// halo vert
-			else
+			if (!fenetre.engine.enCombo() ){
+				if(!pionCliquer && !doitChoisir)
+					pionJouable(drawable);// halo vert
+			}else
 			{
 				if (!pionCliquer)
 					pionJouableCombo(drawable);
 				if (combo != null && combo.size() > 0)
-					cheminCombo(drawable);
+					cheminCombo(drawable,pionCombo);
 			}
 			dessinGrilleJeton(drawable, originePlateauX, originePlateauY, (int) (etir * plateauW), (int) (etir * plateauH), etir);
 			if (pionCliquer)
@@ -337,7 +338,7 @@ public class AireDeDessin extends JComponent {
 			halo(drawable, pionCombo.position, halo);
 	}
 
-	public void cheminCombo(Graphics2D drawable)
+	public void cheminCombo(Graphics2D drawable,Case ca)
 	{
 		drawable.setPaint(comboColor);
 		Point pointCour = null, pointPrec = null;
@@ -360,6 +361,10 @@ public class AireDeDessin extends JComponent {
 		pointCour = new Point((int) (CoordonneesPlateau[0] * etir + pCourant.colonne * segment - tailleJeton / 4 + originePlateauX), (int) (CoordonneesPlateau[1] * etir + pCourant.ligne * segment - tailleJeton / 4 + originePlateauY));
 		drawable.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
 		drawable.drawLine(pointPrec.x + (tailleJeton / 4), pointPrec.y + (tailleJeton / 4), pointCour.x + (tailleJeton / 4), pointCour.y + (tailleJeton / 4));
+		
+		pointPrec = new Point((int) (CoordonneesPlateau[0] * etir + ca.position.colonne * segment - tailleJeton / 4 + originePlateauX), (int) (CoordonneesPlateau[1] * etir + ca.position.ligne * segment - tailleJeton / 4 + originePlateauY));
+		drawable.drawLine(pointCour.x + (tailleJeton / 4), pointCour.y + (tailleJeton / 4), pointPrec.x + (tailleJeton / 4), pointPrec.y + (tailleJeton / 4));
+		
 		drawable.setStroke(s);
 		drawable.setComposite(c);
 		drawable.setPaint(Color.black);

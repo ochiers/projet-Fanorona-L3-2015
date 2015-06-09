@@ -82,6 +82,8 @@ public class ListeSelectionPion extends JPanel {
 				frame.fichierJoueurBlanc = listPion.repertoire + File.separator + fichierSelectionne;
 			else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne != frame.fichierJoueurBlanc)
 				frame.fichierJoueurNoir = listPion.repertoire + File.separator + fichierSelectionne;
+			//listPion.frame.monDessin.repaint();
+		//	System.out.println("test");
 		}
 	}
 }
