@@ -298,29 +298,30 @@ public class AireDeDessin extends JComponent {
 
 	public void emplacementPossible(Graphics2D drawable)
 	{
-		ArrayList<Case> emplacementPossible1 = fenetre.engine.getCurrentGame().coupsPossiblesPourUnPion(fenetre.engine.getCurrentGame().matricePlateau[pfinal.ligne][pfinal.colonne]);
-		ArrayList<Case> emplacementPossible = fenetre.engine.getCurrentGame().coupsPourPriseParUnPion(emplacementPossible1, fenetre.engine.getCurrentGame().matricePlateau[pfinal.ligne][pfinal.colonne]);
-		if (combo != null)
-		{
-			emplacementPossible = coupReel(emplacementPossible, combo);
-		}
-		if (emplacementPossible != null)
-		{
-			if (emplacementPossible.size() != 0)
+		if(pfinal.ligne >= 0 && pfinal.colonne >=0){
+			ArrayList<Case> emplacementPossible1 = fenetre.engine.getCurrentGame().coupsPossiblesPourUnPion(fenetre.engine.getCurrentGame().matricePlateau[pfinal.ligne][pfinal.colonne]);
+			ArrayList<Case> emplacementPossible = fenetre.engine.getCurrentGame().coupsPourPriseParUnPion(emplacementPossible1, fenetre.engine.getCurrentGame().matricePlateau[pfinal.ligne][pfinal.colonne]);
+			if (combo != null)
 			{
-				for (int i = 0; i < emplacementPossible.size(); i++)
-				{
-					halo(drawable, emplacementPossible.get(i).position, coupPossible);
-				}
-			} else
+				emplacementPossible = coupReel(emplacementPossible, combo);
+			}
+			if (emplacementPossible != null)
 			{
-				for (int i = 0; i < emplacementPossible1.size(); i++)
+				if (emplacementPossible.size() != 0)
 				{
-					halo(drawable, emplacementPossible1.get(i).position, coupPossible);
+					for (int i = 0; i < emplacementPossible.size(); i++)
+					{
+						halo(drawable, emplacementPossible.get(i).position, coupPossible);
+					}
+				} else
+				{
+					for (int i = 0; i < emplacementPossible1.size(); i++)
+					{
+						halo(drawable, emplacementPossible1.get(i).position, coupPossible);
+					}
 				}
 			}
 		}
-
 	}
 
 	public void pionJouable(Graphics2D drawable)
