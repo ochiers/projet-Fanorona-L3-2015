@@ -217,7 +217,12 @@ public class Fenetre implements Runnable, Affichage {
 		DessinPion monPion1 = new DessinPion(this, taillePion, Pion.Blanc);
 
 		// joueur 1
-		JPanel panelOuest = new JPanel(new GridLayout(9, 1));
+		JPanel panelOuest = new JPanel(new GridLayout(9, 1)){
+			public void paintComponent(Graphics g){
+				g.setColor(Color.white);
+				g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			}
+		};
 		taillePion = (int) (0.9 * panelOuest.getWidth());
 		JLabel vide1 = new JLabel();
 		panelOuest.setBackground(new Color(255, 255, 255, 128));
@@ -232,7 +237,12 @@ public class Fenetre implements Runnable, Affichage {
 		panelOuest.add(tour1);
 
 		// joueur 2
-		JPanel panelEst = new JPanel(new GridLayout(9, 1));
+		JPanel panelEst = new JPanel(new GridLayout(9, 1)){
+			public void paintComponent(Graphics g){
+				g.setColor(Color.white);
+				g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			}
+		};
 		taillePion = panelEst.getWidth();
 		JLabel vide2 = new JLabel();
 		panelEst.setBackground(new Color(255, 255, 255, 128));
@@ -418,7 +428,13 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-
+			String str = "Jeu du Fanorona\n";
+			str += "Projet de fin de licence informatique\n\n";
+			str += "Developpé par :\n";
+			str += "OCHIER Sébastien et SOULIER Clément (moteur)\n";
+			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
+			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
+			JOptionPane.showMessageDialog(frame, str,"A Propos", JOptionPane.DEFAULT_OPTION);
 		}
 
 	}
