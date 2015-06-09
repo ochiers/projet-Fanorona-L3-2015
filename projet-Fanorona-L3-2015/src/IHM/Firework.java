@@ -159,7 +159,7 @@ public final class Firework extends JFrame {
 				new Thread() {
 					public void run() {
 						while (true) {
-							addExplosions(6);
+							addExplosions(5);
 						}
 					}
 				}.start();
