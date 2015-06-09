@@ -64,7 +64,7 @@ public class AireDeDessin extends JComponent {
 		this.colorSugg = Color.red;
 		this.setPreferredSize(new Dimension((int) (10 * segment), (int) (6 * segment)));
 		this.pCourant = new Coordonnee(-1, -1);
-		this.plateau = new ImageIcon("Ressources/images/Fano9x5.jpg");
+		this.plateau = new ImageIcon("." + File.separator + "Ressources" + File.separator + "images" + File.separator + "Fano9x5.jpg");
 		this.CoordonneesPlateau = new int[4];
 		this.CoordonneesPlateau[0] = 80;
 		this.CoordonneesPlateau[1] = 72;
@@ -77,8 +77,8 @@ public class AireDeDessin extends JComponent {
 //		pfinal=new Coordonnee(-1,-1);
 		try
 		{
-			this.pauseOverlay = ImageIO.read(new File("./Ressources/overlayPause.png".replace("/", File.separator)));
-			this.attenteJoueurOverlay = ImageIO.read(new File("./Ressources/overlayAttenteJoueur.png".replace("/", File.separator)));
+			this.pauseOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayPause.png"));
+			this.attenteJoueurOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayAttenteJoueur.png"));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
