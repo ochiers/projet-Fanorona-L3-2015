@@ -74,7 +74,6 @@ public class AireDeDessin extends JComponent {
 		this.tailleJeton = 1;
 		this.etir = 1;
 		this.tailleHalo = 1.5;
-//		pfinal=new Coordonnee(-1,-1);
 		try
 		{
 			this.pauseOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayPause.png"));
