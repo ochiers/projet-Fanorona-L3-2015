@@ -37,8 +37,6 @@ public class Fenetre implements Runnable, Affichage {
 	int							fh;
 	JLabel						idj1, idj2;
 	JLabel						levelj1, levelj2;
-//	Color						pion1				= Color.black;
-//	Color						pion2				= Color.white;
 	String						nameJ1, nameJ2;
 
 	JMenuBar					menuBar;
@@ -52,7 +50,6 @@ public class Fenetre implements Runnable, Affichage {
 
 	JMenuItem					options_parametresPartie;
 	JMenuItem					options_preferences;
-	// JMenuItem options_historiqueScores;
 
 	JMenuItem					aide_reglesDuJeu;
 	JMenuItem					aide_aPropos;
@@ -127,16 +124,12 @@ public class Fenetre implements Runnable, Affichage {
 		options = new JMenu(" Options ");
 		options_parametresPartie = new JMenuItem(" Parametres Partie ");
 		options_preferences = new JMenuItem(" Preferences ");
-		// options_historiqueScores = new JMenuItem(" Historique Scores ");
 
 		options_parametresPartie.addActionListener(new ItemAction_options_parametresPartie());
 		options_preferences.addActionListener(new ItemAction_options_preferences());
-		// options_historiqueScores.addActionListener(new
-		// ItemAction_options_historiqueScores());
 
 		options.add(options_parametresPartie);
 		options.add(options_preferences);
-		// options.add(options_historiqueScores);
 
 		// Menu Reseau
 		reseau = new JMenu(" Reseau ");
@@ -167,16 +160,6 @@ public class Fenetre implements Runnable, Affichage {
 		menuBar.add(aide);
 
 		// boutons commandes
-		/*ImageIcon imageAnnuler = new ImageIcon("./Ressources/images/annuler.png".replace("/", File.separator));
-		ImageIcon imageRefaire = new ImageIcon("./Ressources/images/refaire.png".replace("/", File.separator));
-		imageStopper = new ImageIcon("./Ressources/images/stopper.png".replace("/", File.separator));
-		ImageIcon imageFintour = new ImageIcon("./Ressources/images/fintour.png".replace("/", File.separator));
-		ImageIcon imageSuggestion = new ImageIcon("./Ressources/images/suggestion.png".replace("/", File.separator));
-		annuler = new JButton((Icon) imageAnnuler);
-		refaire = new JButton((Icon) imageRefaire);
-		stopper = new JButton((Icon) imageStopper);
-		finTour = new JButton((Icon) imageFintour);
-		suggestion = new JButton((Icon) imageSuggestion);*/
 		
 		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
@@ -585,15 +568,6 @@ public class Fenetre implements Runnable, Affichage {
 		monDessin.repaint();
 		frameVictoire = new Firework(this);
 		frameVictoire.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
-		/*
-		 * JPanel gagnant = new JPanel(); gagnant.setOpaque(false);
-		 * gagnant.setForeground(new Color(0, 0, 0, 0)); String winner =
-		 * (this.engine.getWinner()).name; JLabel win = new JLabel(" " + winner
-		 * + " gagne la partie !!!"); JLabel congrats = new
-		 * JLabel(" FELICITATIONS !!!"); gagnant.setAlignmentX(fw/2);
-		 * //gagnant.setAlignmentY(fh/2); gagnant.add(win);
-		 * gagnant.add(congrats); frameVictoire.add(gagnant);
-		 */
 		frameVictoire.setVisible(true);
 		frameVictoire.repaint();
 		int res= JOptionPane.showConfirmDialog(frameVictoire,p.name + " a gagné !\nVoulez vous recommencer ?", p.name + " a gagné !", JOptionPane.YES_NO_OPTION);
@@ -619,7 +593,6 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherPionDuCombo(Case pionCourant)
 	{
-		System.out.println("PIONDUCOMBO");
 		monDessin.pionCombo = pionCourant;
 		monDessin.repaint();
 
@@ -628,7 +601,6 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void afficherCheminParcouruParleCombo(ArrayList<Case> combo)
 	{
-		System.out.println("COMBO");
 		monDessin.combo = combo;
 		monDessin.repaint();
 	}
@@ -636,7 +608,6 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void sauvegardeReussie(boolean reussi)
 	{
-		System.out.println("//////SaveReussi?: " + reussi);
 		String str = "La sauvegarde";
 		if (reussi)
 		{
@@ -653,14 +624,12 @@ public class Fenetre implements Runnable, Affichage {
 	@Override
 	public void chargementReussi(boolean reussi)
 	{
-		System.out.println("///////LoadReussi?: " + reussi);
 
 	}
 
 	@Override
 	public void afficherCoupJoue(Coup c)
 	{
-		// TODO Auto-generated method stub
 
 	}
 

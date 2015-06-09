@@ -36,11 +36,9 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 							}
 						} else {
 							if (aire.estJouable(aire.pfinal) || (aire.fenetre.engine.getCurrentGame().enCombo && aire.pionCombo.position.ligne == aire.pfinal.ligne && aire.pionCombo.position.colonne == aire.pfinal.colonne)) {
-								System.out.println("---------OUI c'est jouable");
 								aire.pCourant.colonne = aire.pfinal.colonne;
 								aire.pCourant.ligne = aire.pfinal.ligne;
 								aire.pionCliquer = true;
-								System.out.println("Point: " + aire.pCourant.ligne + " " + aire.pCourant.colonne);
 							}
 						}
 					}
@@ -49,11 +47,8 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 					aire.pionCliquer = false;
 					aire.repaint();
 				}
-			} else if (buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU
-															// enfonce
-			} else if (buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT
-															// enfonce
-															// if(!aire.fenetre.engine.getCurrentGame().enCombo)
+			} else if (buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
+			} else if (buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
 				aire.pionCliquer = false;
 				aire.enSuggestion = false;
 				aire.repaint();
@@ -114,11 +109,8 @@ public class EcouteurDeSouris implements MouseListener, MouseMotionListener {
 					aire.surbrillance = false;
 					aire.repaint();
 				}
-			} else if (buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU
-															// enfonce
-			} else if (buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT
-															// enfonce
-															// if(!aire.fenetre.engine.getCurrentGame().enCombo)
+			} else if (buttonDown == MouseEvent.BUTTON2) {// Bouton du MILIEU enfonce
+			} else if (buttonDown == MouseEvent.BUTTON3) {// Bouton DROIT enfonce
 				aire.pionCliquer = false;
 				aire.enSuggestion = false;
 				aire.repaint();
