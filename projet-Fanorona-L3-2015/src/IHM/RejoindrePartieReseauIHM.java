@@ -53,13 +53,12 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		init();
 	}
 
-	@SuppressWarnings("null")
 	public void init()
 	{
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
 
-		ImagePanel panFond = new ImagePanel(this, new ImageIcon("Ressources/images/reseau.jpg").getImage(), 0, 0);
+		//ImagePanel panFond = new ImagePanel(this, new ImageIcon("Ressources/images/reseau.jpg").getImage(), 0, 0);
 		
 		JPanel pan = new JPanel();
 		pan.setLayout(null);
@@ -113,10 +112,11 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		pan.add(bt_rejoindre);
 		pan.add(bt_annuler);
 		
-		panFond.add(pan);
+		//panFond.add(pan);
 		
 		this.setLocation(width, height);
-		this.add(panFond);
+		this.add(pan);
+		//this.add(panFond);
 		this.setVisible(true);
 	}
 
