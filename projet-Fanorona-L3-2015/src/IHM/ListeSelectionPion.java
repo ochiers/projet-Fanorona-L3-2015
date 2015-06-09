@@ -30,8 +30,7 @@ public class ListeSelectionPion extends JPanel {
 	public Player							jCourant;
 	public JList<String>					list;
 
-	public ListeSelectionPion(Fenetre frame, Player p, File rep)
-	{
+	public ListeSelectionPion(Fenetre frame, Player p, File rep) {
 		this.frame = frame;
 		this.jCourant = p;
 		this.repertoire = rep;
@@ -44,8 +43,7 @@ public class ListeSelectionPion extends JPanel {
 		scroll.setPreferredSize(new Dimension(300, 280));
 	}
 
-	private Map<String, ImageIcon> createImageMap(String[] list)
-	{
+	private Map<String, ImageIcon> createImageMap(String[] list) {
 		Map<String, ImageIcon> map = new HashMap<>();
 		for (String s : list)
 			map.put(s, new ImageIcon(new ImageIcon(this.repertoire + File.separator + s).getImage().getScaledInstance(tailleX, tailleY, Image.SCALE_DEFAULT)));
@@ -57,8 +55,7 @@ public class ListeSelectionPion extends JPanel {
 		private static final long	serialVersionUID	= -2663811554847903500L;
 
 		@Override
-		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
-		{
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			label.setIcon(imageMap.get((String) value));
 			return label;
@@ -68,34 +65,28 @@ public class ListeSelectionPion extends JPanel {
 	public class listListener implements ListSelectionListener {
 
 		public ListeSelectionPion	listPion;
-		public String				ancienJ1	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
-		public String				ancienJ2	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
+		public String				ancienJ1	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+		public String				ancienJ2	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 
-		public listListener(ListeSelectionPion l)
-		{
+		public listListener(ListeSelectionPion l) {
 			this.listPion = l;
 		}
 
 		@Override
-		public void valueChanged(ListSelectionEvent e)
-		{
+		public void valueChanged(ListSelectionEvent e) {
 			String fichierSelectionne = listPion.repertoire + "/" + this.listPion.list.getSelectedValue();
 			fichierSelectionne.replace("/", File.separator);
-			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && !fichierSelectionne.equals(frame.fichierJoueurNoir))
-			{
+			if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && !fichierSelectionne.equals(frame.fichierJoueurNoir)) {
 				frame.fichierJoueurBlanc = fichierSelectionne;
 				ancienJ1 = fichierSelectionne;
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && !fichierSelectionne.equals(frame.fichierJoueurBlanc))
-			{
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && !fichierSelectionne.equals(frame.fichierJoueurBlanc)) {
 				frame.fichierJoueurNoir = fichierSelectionne;
 				ancienJ2 = fichierSelectionne;
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne.equals(frame.fichierJoueurNoir))
-			{
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurBlanc() && fichierSelectionne.equals(frame.fichierJoueurNoir)) {
 				this.listPion.list.clearSelection();
 				System.out.println(ancienJ1);
 				frame.fichierJoueurBlanc = ancienJ1;
-			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne.equals(frame.fichierJoueurBlanc))
-			{
+			} else if (fichierSelectionne != null && jCourant == frame.engine.getJoueurNoir() && fichierSelectionne.equals(frame.fichierJoueurBlanc)) {
 				System.out.println(ancienJ2);
 				this.listPion.list.clearSelection();
 				frame.fichierJoueurNoir = ancienJ2;
