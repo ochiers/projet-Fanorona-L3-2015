@@ -204,32 +204,22 @@ public class AireDeDessin extends JComponent {
 
 	public void majBouton() {
 		if (fenetre.engine.peutAnnuler())
-			if (fenetre.annuler != null)
-				fenetre.annuler.setEnabled(true);
-			else if (fenetre.annuler != null)
-				fenetre.annuler.setEnabled(false);
+			fenetre.annuler.setEnabled(true);
+			else fenetre.annuler.setEnabled(false);
 		if (fenetre.engine.peutRefaire())
-			if (fenetre.refaire != null)
-				fenetre.refaire.setEnabled(true);
-			else if (fenetre.refaire != null)
-				fenetre.refaire.setEnabled(false);
+			fenetre.refaire.setEnabled(true);
+			else fenetre.refaire.setEnabled(false);
 		if (!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer) {
 			if (fenetre.engine.getCurrentGame().enCombo)
-				if (fenetre.finTour != null)
-					fenetre.finTour.setEnabled(true);
-				else if (fenetre.finTour != null)
-					fenetre.finTour.setEnabled(false);
-		} else if (fenetre.finTour != null)
-			fenetre.finTour.setEnabled(false);
+				fenetre.finTour.setEnabled(true);
+				else fenetre.finTour.setEnabled(false);
+		} else fenetre.finTour.setEnabled(false);
 		if (fenetre.engine.getCurrentGame().isPaused())
 			fenetre.stopper.setText(" Reprendre ");
-		else if (fenetre.stopper != null)
-			fenetre.stopper.setText(" Pause ");
+		else fenetre.stopper.setText(" Pause ");
 		if (pionCliquer || fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie)
-			if (fenetre.suggestion != null)
-				fenetre.suggestion.setEnabled(false);
-			else if (fenetre.suggestion != null)
-				fenetre.suggestion.setEnabled(true);
+			fenetre.suggestion.setEnabled(false);
+			else fenetre.suggestion.setEnabled(true);
 	}
 
 	public void majNomJoueurs() {
