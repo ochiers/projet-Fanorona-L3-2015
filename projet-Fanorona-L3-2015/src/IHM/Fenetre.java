@@ -168,7 +168,7 @@ public class Fenetre implements Runnable, Affichage {
 		menuBar.add(aide);
 
 		// boutons commandes
-		ImageIcon imageAnnuler = new ImageIcon("./Ressources/images/annuler.png".replace("/", File.separator));
+		/*ImageIcon imageAnnuler = new ImageIcon("./Ressources/images/annuler.png".replace("/", File.separator));
 		ImageIcon imageRefaire = new ImageIcon("./Ressources/images/refaire.png".replace("/", File.separator));
 		imageStopper = new ImageIcon("./Ressources/images/stopper.png".replace("/", File.separator));
 		ImageIcon imageFintour = new ImageIcon("./Ressources/images/fintour.png".replace("/", File.separator));
@@ -177,13 +177,13 @@ public class Fenetre implements Runnable, Affichage {
 		refaire = new JButton((Icon) imageRefaire);
 		stopper = new JButton((Icon) imageStopper);
 		finTour = new JButton((Icon) imageFintour);
-		suggestion = new JButton((Icon) imageSuggestion);
+		suggestion = new JButton((Icon) imageSuggestion);*/
 		
-		/*annuler = new JButton(" Annuler Coup ");
+		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
 		finTour = new JButton(" Fin du tour ");
-		suggestion = new JButton(" Suggerer coup ");*/
+		suggestion = new JButton(" Suggerer coup ");
 
 		annuler.addActionListener(new ItemAction_annuler());
 		refaire.addActionListener(new ItemAction_refaire());
@@ -445,7 +445,7 @@ public class Fenetre implements Runnable, Affichage {
 			String str = "Jeu du Fanorona\n";
 			str += "Projet de fin de licence informatique\n\n";
 			str += "Developpé par :\n";
-			str += "OCHIER Sébastien et SOULIER Clément (moteur)\n";
+			str += "OCHIER Sébastien et SOULIER Clément (Moteur et R�seau)\n";
 			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
 			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
 			str += "\n\nRemerciements à \n";
