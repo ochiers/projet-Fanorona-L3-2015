@@ -261,9 +261,6 @@ public class Fenetre implements Runnable, Affichage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new EcouteurDeFenetre(engine));
-		fw = frame.getWidth();
-		fh = frame.getHeight();
-		frame.repaint();
 	}
 
 	// ACTIONLISTENER
