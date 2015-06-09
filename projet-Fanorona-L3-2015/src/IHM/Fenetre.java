@@ -399,7 +399,7 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			preference.save = getPanelAccueil().getImage();
+			preference.save = imageActuelle;
 			frame3.setVisible(true);
 		}
 
@@ -434,7 +434,7 @@ public class Fenetre implements Runnable, Affichage {
 			String str = "Jeu du Fanorona\n";
 			str += "Projet de fin de licence informatique\n\n";
 			str += "Developpé par :\n";
-			str += "OCHIER Sébastien et SOULIER Clément (Moteur et R�seau)\n";
+			str += "OCHIER Sébastien et SOULIER Clément (Moteur et R�seau)\n";
 			str += "BERNE Corentin et FERNANDES Jérémy (Intelligence Artificielle)\n";
 			str += "BOUCHER Jordan et CROUZIER Justine (Interface Homme Machine)\n";
 			str += "\n\nRemerciements à \n";
