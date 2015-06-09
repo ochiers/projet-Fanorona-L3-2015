@@ -73,7 +73,7 @@ public class AireDeDessin extends JComponent {
 		this.tailleJeton = 1;
 		this.etir = 1;
 		this.tailleHalo = 1.5;
-		
+
 		try {
 			this.pauseOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayPause.png"));
 			this.attenteJoueurOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayAttenteJoueur.png"));
@@ -205,21 +205,27 @@ public class AireDeDessin extends JComponent {
 	public void majBouton() {
 		if (fenetre.engine.peutAnnuler())
 			fenetre.annuler.setEnabled(true);
-			else fenetre.annuler.setEnabled(false);
+		else
+			fenetre.annuler.setEnabled(false);
 		if (fenetre.engine.peutRefaire())
 			fenetre.refaire.setEnabled(true);
-			else fenetre.refaire.setEnabled(false);
+		else
+			fenetre.refaire.setEnabled(false);
 		if (!fenetre.engine.getCurrentGame().joueurCourant.aiPlayer) {
 			if (fenetre.engine.getCurrentGame().enCombo)
 				fenetre.finTour.setEnabled(true);
-				else fenetre.finTour.setEnabled(false);
-		} else fenetre.finTour.setEnabled(false);
+			else
+				fenetre.finTour.setEnabled(false);
+		} else
+			fenetre.finTour.setEnabled(false);
 		if (fenetre.engine.getCurrentGame().isPaused())
 			fenetre.stopper.setText(" Reprendre ");
-		else fenetre.stopper.setText(" Pause ");
+		else
+			fenetre.stopper.setText(" Pause ");
 		if (pionCliquer || fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie)
 			fenetre.suggestion.setEnabled(false);
-			else ssfenetre.suggestion.setEnabled(true);
+		else
+			fenetre.suggestion.setEnabled(true);
 	}
 
 	public void majNomJoueurs() {
