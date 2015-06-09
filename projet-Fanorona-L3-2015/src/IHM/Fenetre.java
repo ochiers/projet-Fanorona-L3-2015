@@ -525,7 +525,6 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-
 			monDessin.attenteReseau = true;
 			monDessin.repaint();
 			int res = JOptionPane.showConfirmDialog(frame, "Le jeu sera bloqué jusqu'à ce qu'un adversaire se connecte sur le port n°12345,\n voulez vous continuer ?", "Heberger une partie", JOptionPane.YES_NO_OPTION);
@@ -533,6 +532,7 @@ public class Fenetre implements Runnable, Affichage {
 			{
 				try
 				{
+					engine.pause();
 					engine.hebergerPartie(12345);
 					Player p1 = new HumanPlayer(engine, false, "Joueur");
 					Player p2 = new NetworkPlayer(engine, false, "Player at " + engine.getNetworkManager().socketEnvoiPrincipal.getInetAddress());
@@ -597,7 +597,13 @@ public class Fenetre implements Runnable, Affichage {
 		 */
 		frameVictoire.setVisible(true);
 		frameVictoire.repaint();
-		JOptionPane.showMessageDialog(frameVictoire, p.name + " a gagné !");
+		int res= JOptionPane.showConfirmDialog(frameVictoire,p.name + " a gagné !\nVoulez vous recommencer ?", p.name + " a gagné !", JOptionPane.YES_NO_OPTION);
+		if(res == JOptionPane.YES_OPTION){
+			engine.recommencer(true);
+			frameVictoire.setVisible(false);
+		}
+		else
+			engine.quitter();
 	}
 
 	public void afficherMultiDirections(ArrayList<Case> l1, ArrayList<Case> l2)

@@ -135,11 +135,11 @@ public class EasyAI extends Player implements Serializable {
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
 	{
-//		try { /* Sleep pour pouvoir visualiser les coups de l'IA */
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try { /* Sleep pour pouvoir visualiser les coups de l'IA */
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		ArrayList<Coup> listeCoups = creerCoups(listeCases);
 		ArrayList<Coup> listeCaptures = new ArrayList<Coup>();
 		ArrayList<Coup> listeCoupsNonPerdants = new ArrayList<Coup>();
@@ -154,6 +154,7 @@ public class EasyAI extends Player implements Serializable {
 			Direction opposeDirectionCoup = Direction.oppose(directionCoup);
 			Case premiereCaseAspiration = depart.getCaseAt(opposeDirectionCoup);
 			Case premiereCasePercussion = arrivee.getCaseAt(directionCoup);
+			
 			/* Si le coup permet une capture par aspiration, on l'ajoute à la liste des captures */
 			if(premiereCaseAspiration != null && !premiereCaseAspiration.estVide() && premiereCaseAspiration.pion != couleurJoueur){
 				listeCaptures.add(coupCourant);
@@ -169,17 +170,20 @@ public class EasyAI extends Player implements Serializable {
 				listeCoupsNonPerdants.add(coupCourant);
 			}
 		}
-		if(listeCaptures.size() > 0){ 		/* Si il y a des coups qui réalisent une capture, on joue un de ces coups, choisi de façon aléatoire selon une loi uniforme */
+		
+		/* Si il y a des coups qui réalisent une capture, on joue un de ces coups, choisi de façon aléatoire selon une loi uniforme */
+		if(listeCaptures.size() > 0){ 		
 			int coupChoisi = r.nextInt(listeCaptures.size());
 			choix = premieresCasesPrises.get(coupChoisi);
-//			System.out.println(choix);
 			premieresCasesPrises.clear();
 			return listeCaptures.get(coupChoisi);
 		}
-		else { 								/* Si il n'y a pas de coup qui réalise une capture, on joue un coup non perdant (s'il existe), choisi de façon aléatoire selon une loi uniforme */
+		/* Si il n'y a pas de coup qui réalise une capture, on joue un coup non perdant (s'il existe), choisi de façon aléatoire selon une loi uniforme */
+		else { 								
 			if(listeCoupsNonPerdants.size() > 0){
 				return listeCoupsNonPerdants.get(r.nextInt(listeCoupsNonPerdants.size()));
 			}
+			/* Sinon (i.e. tous les coups sont perdants), on joue un coup choisi de façon aléatoire selon une loi uniforme */
 			else return listeCoups.get(r.nextInt(listeCoups.size()));
 		}
 	}
@@ -192,7 +196,6 @@ public class EasyAI extends Player implements Serializable {
 	@Override
 	public Case choisirDirectionAManger(ArrayList<Case> rapprochement,
 			ArrayList<Case> eloignement) {
-		//System.out.println(choix);
 		return choix;
 	}
 
