@@ -44,6 +44,7 @@ public class ChoixCouleurPion extends JPanel {
 		panelTitre.add(titre, BorderLayout.CENTER);
 
 		JPanel panelChoix = new JPanel(new BorderLayout());
+		panelChoix.setBackground(Color.LIGHT_GRAY);
 		JPanel choixJ1 = new JPanel(new BorderLayout());
 		JPanel choixJ2 = new JPanel(new BorderLayout());
 		ListeSelectionPion panelChoixBlanc = new ListeSelectionPion(frame, frame.engine.getJoueurBlanc(), repertoire);
