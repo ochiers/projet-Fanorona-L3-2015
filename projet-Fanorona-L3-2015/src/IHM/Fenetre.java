@@ -80,13 +80,14 @@ public class Fenetre implements Runnable, Affichage {
 	String						fichierJoueurBlanc	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
 	String						fichierJoueurNoir	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
 
-	Image 						imageAnnuler, imageRefaire, imageStopper, imagePlay, imageFintour, imageSuggestion;
+	//Image 						imageAnnuler, imageRefaire, imageStopper, imagePlay, imageFintour, imageSuggestion;
 
 	public Fenetre(EngineServices e)
 	{
 		engine = e;
 	}
 
+	@SuppressWarnings("serial")
 	public void run()
 	{
 		frame.setSize(1200, 700);
@@ -272,7 +273,6 @@ public class Fenetre implements Runnable, Affichage {
 		};
 		taillePion = (int) (0.9 * panelOuest.getWidth());
 		JLabel vide1 = new JLabel();
-		panelOuest.setBackground(new Color(255, 255, 255, 128));
 		panelOuest.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
 		panelOuest.add(vide1);
 		panelOuest.add(j1);
@@ -292,7 +292,6 @@ public class Fenetre implements Runnable, Affichage {
 		};
 		taillePion = panelEst.getWidth();
 		JLabel vide2 = new JLabel();
-		panelEst.setBackground(new Color(255, 255, 255, 128));
 		panelEst.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));
 		panelEst.add(vide2);
 		panelEst.add(j2);
@@ -503,19 +502,19 @@ public class Fenetre implements Runnable, Affichage {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			try { imagePlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "play.png")); }
-			catch (IOException e1) { e1.printStackTrace(); }
+			//try { imagePlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "play.png")); }
+			//catch (IOException e1) { e1.printStackTrace(); }
 			
 			if (engine.getCurrentGame().isPaused())
 			{
 				engine.reprendre();
 				stopper.setText(" Pause ");
-				stopper.setIcon((Icon)imageStopper);
+				//stopper.setIcon((Icon)imageStopper);
 			} else
 			{
 				engine.pause();
 				stopper.setText(" Reprendre ");
-				stopper.setIcon((Icon)imagePlay);
+				//stopper.setIcon((Icon)imagePlay);
 				panelPause = new EnPause(" Jeu en pause ");
 				panelPause.setVisible(true);
 			}
