@@ -41,7 +41,7 @@ public class ListeSelectionPion extends JPanel {
 		list.setCellRenderer(new ListRenderer());
 		list.addListSelectionListener(new listListener(this));
 		scroll = new JScrollPane(list);
-		scroll.setPreferredSize(new Dimension(300, 400));
+		scroll.setPreferredSize(new Dimension(300, 280));
 	}
 
 	private Map<String, ImageIcon> createImageMap(String[] list)
