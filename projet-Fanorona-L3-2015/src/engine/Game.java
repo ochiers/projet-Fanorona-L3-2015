@@ -468,7 +468,7 @@ public class Game implements Serializable {
 		leMoteur.getCurrentDisplay().afficherCoupJoue(coupJoue);
 		
 		if(Tools.getTypeOfPlayer(joueurCourant) != PlayerType.Humain && Tools.getTypeOfPlayer(joueurCourant) != PlayerType.Reseau)
-			Thread.sleep(1000);
+			Thread.sleep(700);
 		
 		if (!paused && !stopped && coupJoue != null && coupJoue.depart != null && coupJoue.arrivee != null)
 		{
