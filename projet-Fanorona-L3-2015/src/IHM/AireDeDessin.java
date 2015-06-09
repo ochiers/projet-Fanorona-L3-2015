@@ -219,7 +219,7 @@ public class AireDeDessin extends JComponent {
 		else fenetre.stopper.setText(" Pause ");
 		if (pionCliquer || fenetre.engine.getJoueurCourant().aiPlayer || Tools.getTypeOfPlayer(fenetre.engine.getJoueurCourant()) == PlayerType.Reseau || finPartie)
 			fenetre.suggestion.setEnabled(false);
-			else ssfenetre.suggestion.setEnabled(true);
+			else fenetre.suggestion.setEnabled(true);
 	}
 
 	public void majNomJoueurs() {
