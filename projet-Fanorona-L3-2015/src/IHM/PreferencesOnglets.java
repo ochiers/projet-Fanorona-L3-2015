@@ -35,7 +35,7 @@ public class PreferencesOnglets extends JPanel {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setPreferredSize(new Dimension(width, height));
-		ImageIcon icon = new ImageIcon("src/images/iconFano.jpg");
+		ImageIcon icon = new ImageIcon("." + File.separator + "Ressources" + File.separator + "images" + File.separator + "iconFano.jpg");
 
 		ChoixFond panel1 = new ChoixFond(fenetre);
 		tabbedPane.addTab(" Choix Fond Ecran ", icon, panel1);
@@ -110,7 +110,7 @@ public class PreferencesOnglets extends JPanel {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("src/images/iconimageDefault.jpg").getImage(), Fenetre.fw, Fenetre.fh));
+			Fenetre.setPanelAccueil(new ImagePanel(fenetre.frame, new ImageIcon("." + File.separator + "Ressources" + File.separator + "images" + File.separator + "iconimageDefault.jpg").getImage(), Fenetre.fw, Fenetre.fh));
 			fenetre.fichierJoueurBlanc = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
 			fenetre.fichierJoueurNoir = "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 			fenetre.frame.repaint();

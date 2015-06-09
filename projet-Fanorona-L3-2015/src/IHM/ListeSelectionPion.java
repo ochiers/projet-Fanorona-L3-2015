@@ -68,8 +68,8 @@ public class ListeSelectionPion extends JPanel {
 	public class listListener implements ListSelectionListener {
 
 		public ListeSelectionPion	listPion;
-		public String				ancienJ1	= "./Ressources/Pions/pionBlanc.png".replace("/", File.separator);
-		public String				ancienJ2	= "./Ressources/Pions/pionNoir.png".replace("/", File.separator);
+		public String				ancienJ1	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionBlanc.png";
+		public String				ancienJ2	= "." + File.separator + "Ressources" + File.separator + "Pions" + File.separator + "pionNoir.png";
 
 		public listListener(ListeSelectionPion l)
 		{
