@@ -169,7 +169,6 @@ public class Fenetre implements Runnable, Affichage {
 		menuBar.add(aide);
 
 		// boutons commandes
-<<<<<<< HEAD
 		/*ImageIcon imageAnnuler = new ImageIcon("./Ressources/images/annuler.png".replace("/", File.separator));
 		ImageIcon imageRefaire = new ImageIcon("./Ressources/images/refaire.png".replace("/", File.separator));
 		imageStopper = new ImageIcon("./Ressources/images/stopper.png".replace("/", File.separator));
@@ -188,54 +187,6 @@ public class Fenetre implements Runnable, Affichage {
 		 * DFS
 		 * 
 		 */
-=======
-		/*JButton annuler = new JButton();
-		try {
-			imageAnnuler = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "annuler.png"));
-			annuler.setIcon(new ImageIcon(imageAnnuler));
-		} catch (IOException e){ 
-			imageAnnuler = null;
-			annuler.setIcon(new ImageIcon(imageAnnuler));
-			e.printStackTrace();
-		}
-		JButton refaire = new JButton();
-		try {
-			imageRefaire = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "refaire.png"));
-			refaire.setIcon(new ImageIcon(imageRefaire));
-		} catch (IOException e){ 
-			imageRefaire = null;
-			refaire.setIcon(new ImageIcon(imageRefaire));
-			e.printStackTrace();
-		}
-		JButton stopper = new JButton();
-		try {
-			imageStopper = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "stopper.png"));
-			stopper.setIcon(new ImageIcon(imageStopper));
-		} catch (IOException e){
-			imageStopper = null; 
-			stopper.setIcon(new ImageIcon(imageStopper));
-			e.printStackTrace(); 
-		}
-		JButton finTour = new JButton();
-		try {
-			imageFintour = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "fintour.png"));
-			finTour.setIcon(new ImageIcon(imageFintour));
-		} catch (IOException e){
-			imageFintour = null; 
-			finTour.setIcon(new ImageIcon(imageFintour));
-			e.printStackTrace();
-		}
-		JButton suggestion = new JButton();
-		try {
-			imageSuggestion = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "boutons" + File.separator + "suggestion.png"));
-			suggestion.setIcon(new ImageIcon(imageSuggestion));
-		} catch (IOException e){
-			imageSuggestion = null; 
-			suggestion.setIcon(new ImageIcon(imageSuggestion));
-			e.printStackTrace();
-		}*/
-		
->>>>>>> branch 'master' of https://github.com/ochiers/projet-Fanorona-L3-2015.git
 		annuler = new JButton(" Annuler Coup ");
 		refaire = new JButton(" Refaire Coup ");
 		stopper = new JButton(" Pause ");
