@@ -30,7 +30,7 @@ public class HardAI extends Player implements Serializable {
 		nbPionsAdversaire = 22;
 		nbPionsJoueur = 22;
 		pileCoups = new Stack<DemiCoup>();
-		profondeurCourante = 2;
+		profondeurCourante = 4;
 	}
 	
 	public int eval(int profondeur, boolean noeudMin, Pion couleurJoueur) {
@@ -481,11 +481,11 @@ public class HardAI extends Player implements Serializable {
 		int meilleurRes = Integer.MIN_VALUE;
 		int res = 0;
 		
-		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		Iterator<Coup> it = listeCoups.iterator();
 		while(it.hasNext()) {
 			Coup coupCourant = it.next();
