@@ -3,6 +3,7 @@ package IHM;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,11 +25,13 @@ public class ChoixNoms extends JPanel {
 		super(new BorderLayout());	//super constructeur par defaut
 		this.setLayout(null);
 		fenetre=f;
-		int width = 233;
+		int width = 200;
 		int height = 57;
 				
-		JLabel nom = new JLabel(" Choix nom joueurs humains ");
-		nom.setForeground(Color.white);
+		JLabel nom = new JLabel(" Choix nom joueurs humains : ");
+		nom.setForeground(Color.black);
+		nom.setFont(new Font("SansSerif", Font.BOLD, 26));
+		
 		name1 = new JTextField(fenetre.nameJ1);
 		name2 = new JTextField(fenetre.nameJ2);
 		
@@ -36,9 +39,9 @@ public class ChoixNoms extends JPanel {
 		name2.addActionListener(new ItemAction_name2());
 		
 			//positions
-		nom.setBounds(width, 50, width, height);
+		nom.setBounds(width/2, 50, width*2, height);
 		name1.setBounds(width, 150, width, height);
-		name2.setBounds(width, 350, width, height);
+		name2.setBounds(width, 275, width, height);
 			//ajouts
 		add(nom);
 		add(name1);

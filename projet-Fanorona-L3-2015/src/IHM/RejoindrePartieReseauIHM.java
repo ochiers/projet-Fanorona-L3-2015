@@ -57,21 +57,22 @@ public class RejoindrePartieReseauIHM extends JFrame {
 	{
 		this.setTitle(titleFrame);
 		this.setSize(width, height);
-
-		//ImagePanel panFond = new ImagePanel(this, new ImageIcon("Ressources/images/reseau.jpg").getImage(), 0, 0);
 		
 		JPanel pan = new JPanel();
 		pan.setLayout(null);
-		pan.setOpaque(false);
-		pan.setForeground(new Color(0, 0, 0, 0));
+		pan.setBackground(Color.GRAY);
+
 
 		JLabel explicationIP = new JLabel("Adresse IP visee : ");
+		explicationIP.setForeground(Color.black);
 		explicationIP.setBounds(20, 20, 150, 40);
-
+		
 		JLabel explicationPort = new JLabel("Port vise : ");
+		explicationPort.setForeground(Color.black);
 		explicationPort.setBounds(75, 70, 100, 40);
 
 		JLabel explicationDetection = new JLabel("Détection de partie : ");
+		explicationDetection.setForeground(Color.black);
 		explicationDetection.setBounds(290, 5, 190, 20);
 
 		txt_saisieIp = new JTextField("xxx.xxx.xxx.xxx", 15);
@@ -87,14 +88,17 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		while (it_l.hasNext())
 			modelData.addElement(it_l.next());
 		list_detection = new JList<String>(modelData);
+		list_detection.setBackground(Color.LIGHT_GRAY);
 		list_detection.setBounds(290, 30, 180, 130);
 		list_detection.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list_detection.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list_detection.addListSelectionListener(new listChangeListener(this));
 		bt_rejoindre = new JButton("Rejoindre");
+		bt_rejoindre.setBackground(Color.LIGHT_GRAY);
 		bt_rejoindre.setBounds(20, 120, 125, 40);
 
 		bt_annuler = new JButton("Annuler");
+		bt_annuler.setBackground(Color.LIGHT_GRAY);
 		bt_annuler.setBounds(150, 120, 100, 40);
 
 		bt_rejoindre.addActionListener(new rejoindreListener(this));
@@ -112,11 +116,8 @@ public class RejoindrePartieReseauIHM extends JFrame {
 		pan.add(bt_rejoindre);
 		pan.add(bt_annuler);
 		
-		//panFond.add(pan);
-		
 		this.setLocation(width, height);
 		this.add(pan);
-		//this.add(panFond);
 		this.setVisible(true);
 	}
 
