@@ -69,8 +69,8 @@ public class JeuFanorona {
 		
 		if (p1 == null && p2 == null)
 		{
-			p1 = new HumanPlayer(e, false, "Clem");
-			p2 = new EasyAI(e, true, "Solveur");
+			p1 = new HumanPlayer(e, false, "Joueur");
+			p2 = new EasyAI(e, true, "Ordinateur");
 		}
 			
 		e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));

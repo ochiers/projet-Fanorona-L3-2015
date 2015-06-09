@@ -41,7 +41,6 @@ public class Parametres {
 	
 	public void majParam()
 	{
-		// fenetre.frame2.setSize(300, 300);
 		JPanel panel = new JPanel(new GridLayout(0, 2));
 		panel.setBackground(Color.LIGHT_GRAY);
 		JLabel labelbox1 = new JLabel("Mode de jeu");
@@ -123,7 +122,6 @@ public class Parametres {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			System.out.println("ActionListener : action sur " + box1.getSelectedItem());
 			saveMode = engine.Tools.getTypePartie(box1.getSelectedIndex());
 			if(saveMode == Configuration.HumainVSHumain)
 			{
@@ -149,8 +147,6 @@ public class Parametres {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			System.out.println("ActionListener : action sur " + box2.getSelectedItem());
-			System.out.println("numero de l'item: " + box2.getSelectedIndex());
 			savelvlPC1 = engine.Tools.getTypeOfPlayer(box2.getSelectedIndex() + 1);
 			fenetre.afficherJeu();
 
@@ -162,8 +158,6 @@ public class Parametres {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			System.out.println("ActionListener : action sur " + box3.getSelectedItem());
-			System.out.println("numero de l'item: " + box3.getSelectedIndex());
 			savelvlPC2 = engine.Tools.getTypeOfPlayer(box3.getSelectedIndex() + 1);
 			fenetre.afficherJeu();
 
@@ -185,7 +179,6 @@ public class Parametres {
 		// TODO relancer partie en automatique
 		public void actionPerformed(ActionEvent e)
 		{
-			System.out.println("Bouton Accepter");
 			fenetre.mode = saveMode;
 			fenetre.lvlPC1 = savelvlPC1;
 			fenetre.lvlPC2 = savelvlPC2;
@@ -198,7 +191,6 @@ public class Parametres {
 			if(Tools.getTypeOfPlayer(fenetre.engine.getJoueurNoir()) == PlayerType.Reseau)
 				tmp2 = PlayerType.Reseau;
 			
-			System.out.println(tmp1 +" dfkjffhhds" + tmp2);
 			Tools.changerDeJoueur(fenetre.engine, fenetre.mode, tmp1, tmp2, fenetre.nameJ1, fenetre.nameJ2);
 			
 			fenetre.frame2.setVisible(false);
@@ -210,7 +202,6 @@ public class Parametres {
 
 		public void actionPerformed(ActionEvent e)
 		{
-			System.out.println("Bouton Annuler");
 			box1.setSelectedIndex(fenetre.mode.ordinal());
 			box2.setSelectedIndex(fenetre.lvlPC1.ordinal() - 1);
 			box3.setSelectedIndex(fenetre.lvlPC2.ordinal() - 1);

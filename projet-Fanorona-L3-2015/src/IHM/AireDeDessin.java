@@ -73,7 +73,6 @@ public class AireDeDessin extends JComponent {
 		this.tailleJeton = 1;
 		this.etir = 1;
 		this.tailleHalo = 1.5;
-		// pfinal=new Coordonnee(-1,-1);
 		try {
 			this.pauseOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayPause.png"));
 			this.attenteJoueurOverlay = ImageIO.read(new File("." + File.separator + "Ressources" + File.separator + "overlayAttenteJoueur.png"));
@@ -171,7 +170,6 @@ public class AireDeDessin extends JComponent {
 	}
 
 	public void haloSuggestion(Graphics2D drawable) {
-		System.out.println("haloSuggestion");
 		halo(drawable, suggestion.depart, colorSugg);
 		halo(drawable, suggestion.arrivee, colorSugg);
 
@@ -331,7 +329,6 @@ public class AireDeDessin extends JComponent {
 		drawable.setStroke(new BasicStroke(5));
 
 		for (int i = 0; i < combo.size(); i++) {
-			System.out.println("-----" + combo.get(i).position.ligne + " " + combo.get(i).position.colonne);
 			pointCour = new Point((int) (CoordonneesPlateau[0] * etir + combo.get(i).position.colonne * segment - tailleJeton / 4 + originePlateauX), (int) (CoordonneesPlateau[1] * etir + combo.get(i).position.ligne * segment - tailleJeton / 4 + originePlateauY));
 			drawable.fillOval(pointCour.x, pointCour.y, tailleJeton / 2, tailleJeton / 2);
 			if (i >= 1) {

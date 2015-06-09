@@ -47,7 +47,6 @@ public class DessinPion extends JComponent {
 			this.fichierJoueur = this.fenetre.fichierJoueurBlanc;
 		else if (this.pionCouleur == Pion.Noir && (!this.fichierJoueur.equals(this.fenetre.fichierJoueurNoir) || img == null))
 			this.fichierJoueur = this.fenetre.fichierJoueurNoir;
-		// String[] fichier = this.fichierJoueur.split(File.separator);
 		String[] fichier = this.fichierJoueur.split("/");
 		if (fichier[fichier.length - 1].equals("null") && this.pionCouleur == Pion.Blanc) {
 			this.fichierJoueur = this.fichierJ1Defaut;

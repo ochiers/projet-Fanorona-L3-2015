@@ -32,7 +32,6 @@ import org.pushingpixels.trident.ease.Spline;
 import org.pushingpixels.trident.swing.SwingRepaintTimeline;
 
 @SuppressWarnings("serial")
-//public final class Firework extends JPanel {
 public final class Firework extends JFrame {
 	private Set<VolleyExplosion> volleys;
 	private Map<VolleyExplosion, TimelineScenario> volleyScenarios;
@@ -147,7 +146,6 @@ public final class Firework extends JFrame {
 			}
 		};
 		this.mainPanel.setBackground(new Color(0, 0, 0)); 
-		//this.mainPanel.setSize(new Dimension(Fenetre.wmin, Fenetre.hmin));
 		Timeline repaint = new SwingRepaintTimeline(this);
 		repaint.playLoop(RepeatBehavior.LOOP);
 		this.volleys = new HashSet<VolleyExplosion>();
