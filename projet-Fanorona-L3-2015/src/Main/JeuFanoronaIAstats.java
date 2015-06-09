@@ -69,7 +69,7 @@ class Test extends Thread {
 	public void run() {
 		EngineServices e = new Engine();
 		Player p1 = new MediumAI(e, true, "Chuck Norris");
-		Player p2 = new HardAI(e, true, "Guillaume de Sauza");
+		Player p2 = new MediumAI(e, true, "Guillaume de Sauza");
 		AffichageVide f = new AffichageVide();
 		e.setDisplay(f);
 		//System.err.close();

@@ -481,11 +481,11 @@ public class MediumAI extends Player implements Serializable {
 		int meilleurRes = Integer.MIN_VALUE;
 		int res = 0;
 		
-		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try { /* Sleep pour pouvoir visualiser les coups lors d'une partie entre deux IA */
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		Iterator<Coup> it = listeCoups.iterator();
 		while(it.hasNext()) {
 			Coup coupCourant = it.next();
