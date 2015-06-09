@@ -87,8 +87,8 @@ public class AireDeDessin extends JComponent {
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D drawable = (Graphics2D) g;
-		fenetre.fw = fenetre.frame.getWidth();
-		fenetre.fh = fenetre.frame.getHeight();
+		Fenetre.fw = fenetre.frame.getWidth();
+		Fenetre.fh = fenetre.frame.getHeight();
 		int width = this.getSize().width;
 		int height = this.getSize().height;
 		plateauW = plateau.getImage().getWidth(null);
