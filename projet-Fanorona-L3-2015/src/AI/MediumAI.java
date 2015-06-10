@@ -484,7 +484,7 @@ public class MediumAI extends Player implements Serializable {
 	
 	@Override
 	public Coup play(Case[][] laMatrice, Case[] listeCases)
-	{		
+	{	
 		this.matrice = laMatrice;
 		Game partieCourante = leMoteur.getCurrentGame();
 		ArrayList<Coup> meilleurCoups = new ArrayList<Coup>();
