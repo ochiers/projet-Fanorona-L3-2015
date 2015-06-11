@@ -76,7 +76,7 @@ public class JeuFanorona {
 		e.nouvellePartie(p1, p2, 0, new Dimension(9, 5));
 
 		SwingUtilities.invokeLater(f);
-		Thread.sleep(200);
+		Thread.sleep(2000);
 		e.begin();
 	}
 
