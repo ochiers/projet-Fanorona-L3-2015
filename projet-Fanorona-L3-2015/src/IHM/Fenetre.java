@@ -313,6 +313,8 @@ public class Fenetre implements Runnable, Affichage {
 		public void actionPerformed(ActionEvent e) {
 			engine.recommencer(true);
 			monDessin.finPartie = false;
+			monDessin.pionCliquer = false;
+			monDessin.surbrillance = false;
 		}
 
 	}
@@ -536,6 +538,9 @@ public class Fenetre implements Runnable, Affichage {
 		int res = JOptionPane.showConfirmDialog(frameVictoire, p.name + " a gagné !\nVoulez vous recommencer ?", p.name + " a gagné !", JOptionPane.YES_NO_OPTION);
 		if (res == JOptionPane.YES_OPTION) {
 			engine.recommencer(true);
+			monDessin.finPartie = false;
+			monDessin.pionCliquer = false;
+			monDessin.surbrillance = false;
 			frameVictoire.setVisible(false);
 			monDessin.finPartie = false;
 		} else
