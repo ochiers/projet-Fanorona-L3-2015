@@ -537,6 +537,7 @@ public class Fenetre implements Runnable, Affichage {
 		if (res == JOptionPane.YES_OPTION) {
 			engine.recommencer(true);
 			frameVictoire.setVisible(false);
+			monDessin.finPartie = false;
 		} else
 			engine.quitter();
 	}
